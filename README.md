@@ -1,4 +1,4 @@
-# KKPD 크크펀딩
+# KKFD 크크펀딩
 ### Installation
 <pre>
 </pre>

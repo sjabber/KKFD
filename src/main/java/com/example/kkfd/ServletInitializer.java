@@ -1,4 +1,4 @@
-package com.example.jpa;
+package com.example.kkfd;
 
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;

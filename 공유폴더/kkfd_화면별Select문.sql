@@ -101,7 +101,7 @@ FROM kk_funding f
 WHERE f.fun_proj=2  --f.fun_proj=#{no}
 ORDER BY f.fun_no;
 
---[마이페이지] 후원한 프로젝트
+--[마이페이지] 펀딩한 프로젝트
 SELECT f.fun_no, f.fun_fm, f.fun_track,
         p.proj_no, p.proj_title, p.proj_goals, p.proj_start, p.proj_end, p.proj_delivery, p.proj_status
 FROM kk_funding f
@@ -120,22 +120,24 @@ SELECT *
                     --(검색)
                     --AND (proj_title LIKE '%word%')
                     --(proj_title='%${word}%’ OR proj_summary='%${word}%’)
+ 	        --<when test="category!=0>
                     AND proj_category =1
                     --AND proj_category =2
                     --(달성률)
                     AND (proj_goals <= 75 AND proj_goals>=0)
                     --AND (proj_goals>75 AND proj_goals<100)
                    --AND proj_goals >=100
-                   --(진행상태)
+                   --(진행상태) 
                     --AND SYSDATE  < proj_start                             --진행예정
                     --AND (proj_start < SYSDATE AND SYSDATE<proj_end)   --진행중
                     --AND (proj_end < SYSDATE)                          --마감
             ORDER BY proj_bmcnt DESC --prod_no DESC  prod_end ASC
+		--<if test="standard=0">
             ) p
         LEFT OUTER JOIN kk_bookmark b 
             ON (p.proj_no=b.book_proj AND b.book_id='id1')--id=#{id}
         )
-WHERE rn BETWEEN START_ROW(1,15) AND END_ROW(1,15);
+WHERE rn BETWEEN START_ROW(1,18) AND END_ROW(1,15);
 --WHERE rn BETWEEN START_ROW(#{currentPage},#{cntPerPage}) AND END_ROW(#{currentPage},#{cntPerPage})
 
 --[조회] 페이징용 totalcnt

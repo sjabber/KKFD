@@ -87,3 +87,6 @@ CREATE TABLE kk_funding
     fun_acno VARCHAR2(20) NOT NULL,
     fun_track NUMBER(1) DEFAULT 0 NOT NULL
 );
+
+ALTER TABLE kk_funding
+ADD fun_date DATE DEFAULT SYSDATE NOT NULL;

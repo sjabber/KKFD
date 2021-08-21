@@ -1,0 +1,41 @@
+/*헤더 부분*/
+.main_header {
+    width: 100%;
+    height: 58px;
+    background-color: rgb(255, 255, 255);
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    position: relative;
+    box-shadow: rgba(10, 10, 10, 0.1) 0px 1px 2px 0px;
+    z-index: 999;
+}
+
+.main_header_warp {
+    width: 100%;
+    display: flex;
+    justify-content: center; <!-- 주축 -->
+    align-items: center; <!-- 교차축 -->
+    /*padding: 0px 16px;*/
+}
+
+.header_mainlogo {
+    padding-right: 70px;
+}
+
+.header_mainlogo_item {
+    color: black;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+/* 반응형, 1030px 이하여도 상단이 중앙에 배치되도록 */
+@media screen and (min-width: 1030px) {
+    .main_header_warp {
+        width: 1032px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: center; <!-- 주축 -->
+        align-items: center; <!-- 교차축 -->
+    }
+}

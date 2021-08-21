@@ -2,23 +2,44 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Add it | 개인 회원가입</title>
+    <title>크크펀딩 | 회원가입</title>
 </head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<script src="../public/js/signup.js"></script>
-<link href="../public/css/signup.css" rel="stylesheet">
+<script src="../../js/signup.js"></script>
+<link href="../../css/signup.css" rel="stylesheet">
+<link href="../../css/header.css" rel="stylesheet">
+<script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
 <body>
+<header class="main_header">
+    <div class="main_header_warp">
+        <div class="header_mainlogo">
+            <a style="text-decoration: none;" href="/">
+                <span class="header_mainlogo_item">크크펀딩</span>
+            </a>
+        </div>
+    </div>
+</header>
 <div class="page_container">
-    <div class="page_top">
+<!--    <div class="page_top">
         <div class="page_top_title">
             <h2>개인 회원가입</h2>
         </div>
-    </div>
+    </div>-->
     <div class="page_middle" style="padding:2em 2em 3em">
         <form action="#" method="post" accept-charset="utf-8">
             <div class="join_form">
+<!--                <div class="page_top">
+                    <div class="page_top_title">
+                        <h2>개인 회원가입</h2>
+                    </div>
+                </div>-->
                 <ul>
+                    <li class="join_form_top">
+                        <label>
+                            <h2>회원가입</h2>
+                        </label>
+                    </li>
                     <li>
                         <label>아이디</label>
                         <div class="renew_input">
@@ -85,7 +106,7 @@
                             </select>
                         </div>
                     </li>
-                    <div class="addr_div">
+<!--                    <div class="addr_div">
                         <li style="display: inline-block">
                             <label>우편번호</label>
                             <div class="renew_input">
@@ -112,14 +133,7 @@
                         <div class="renew_input">
                             <input type="date" name="mem_userBirthday" id="mem_userBirth" class="label" placeholder="년">
                         </div>
-                    </li>
-                    <li>
-                        <label>차종</label>
-                        <input type="checkbox" name="check" value="1"><span>경차</span>
-                        <input type="checkbox" name="check" value="2"><span>승용차</span>
-                        <input type="checkbox" name="check" value="3"><span>SUV</span>
-                        <input type="checkbox" name="check" value="4"><span>대형</span>
-                    </li>
+                    </li>-->
                 </ul>
             </div>
             <div class="box_line"></div>

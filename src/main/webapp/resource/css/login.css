@@ -1,0 +1,278 @@
+* {
+    font-family: 'Malgun Gothic';
+}
+.page_top {
+    margin: 0 auto;
+    display: flex;
+    justify-content: flex-start; /*주축*/
+    align-items: flex-end; /*교차축*/
+    width: 320px;
+    /*background-color: #A3D2CA;*/
+}
+
+.page_top h1 {
+    color: black;
+    font-size: 24px;
+    font-weight: 700;
+    text-align: left;
+}
+
+.page_top_title {
+    padding: 10px 0;
+    text-align: center;
+}
+a {
+    color: #333;
+    text-decoration: none;
+    font-weight: normal;
+}
+input {
+    -webkit-writing-mode: horizontal-tb !important;
+    text-rendering: auto;
+    color: initial;
+    letter-spacing: normal;
+    word-spacing: normal;
+    text-transform: none;
+    text-indent: 0px;
+    text-shadow: none;
+    display: inline-block;
+    text-align: start;
+    -webkit-appearance: textfield;
+    background-color: white;
+    -webkit-rtl-ordering: logical;
+    cursor: text;
+    margin: 0em;
+    font: 400 13.3333px Arial;
+    padding: 1px 0px;
+    border-width: 2px;
+    border-style: inset;
+    border-color: initial;
+    border-image: initial;
+}
+
+.page_entry {
+    position: relative;
+    display: block;
+    width: 100%;
+    -webkit-box-flex: 1;
+    flex-grow: 1;
+}
+
+.page_entry2 {
+    width: 400px;
+    padding: 72px 0px 0px;
+    margin: 0px auto 12px;
+}
+
+.page_container {
+    padding: 32px;
+    border-radius: 5px;
+    border: 1px solid rgb(228, 228, 228);
+/*    margin: 50px auto;
+    height: 500px;
+    width: 400px;
+    border: #e3e3ea solid 1px;*/
+}
+
+/*로그인 화면 위치 조정*/
+.inner_login {
+    position: relative;
+}
+.login_form {
+    position: relative;
+    width: 320px;
+    margin: 0 auto;
+}
+legend {
+    text-align: center;
+    font-size: x-large;
+    font-weight: bold;
+}
+/* 라벨 글자 지우기  */
+.screen_out {
+    text-indent: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    display: inline-block;
+    position: absolute;
+    width: 0;
+    height: 0;
+    line-height: 0;
+}
+body, button, input, select, td, textarea, th {
+    font-size: 13px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+}
+/*테두리 제거*/
+fieldset, img {
+    border: 0;
+}
+fieldset > div#message {
+    font-size: 15px;
+    text-align: center;
+    height: 25px;
+    line-height: 20px;
+    color: #FF0000;
+}
+.login_form .box_login {
+    margin: 15px 0 0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #fff;
+    box-sizing: border-box;
+}
+
+.login_form .input-box {
+    position: relative;
+    width: 100%;
+    margin: 0;
+    padding: 18px 19px 19px;
+    box-sizing: border-box;
+}
+
+/*로그인 박스 위아래 경계선*/
+.login_form .input-box + .input-box {
+    border-top: 1px solid #ddd;
+}
+
+/*로그인 클래스의 input 디자인*/
+.input-box input {
+    display: block;
+    width: 100%;
+    height: 100%;
+    font-size: 13px;
+    color: #000;
+    border: none;
+    outline: 0;
+    -webkit-appearance: none;
+    background-color: transparent;
+}
+
+button {
+    cursor: pointer;
+    outline: none;
+    padding: 0;
+    border: none;
+    background: none;
+}
+
+/*로그인 버튼들*/
+.btn_login, .btn_kakao_login {
+    text-decoration: none;
+    zoom: 1;
+    margin-top: 8px;
+    width: 100%;
+    height: 48px;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: 700;
+    color: white;
+}
+
+/*카카오 간편 로그인*/
+.btn_kakao_login {
+    background-color: #FEE500;
+    border-color: #FEE500;
+}
+
+/*로그인 버튼*/
+.btn_login {
+    background-color: #FF5757;
+    border-color: #FF5757;
+}
+
+.login_state {
+    overflow: hidden;
+    padding: 15px 0 0;
+}
+
+.inp_chk {
+    display: inline-block;
+    position: relative;
+    margin-bottom: -1px;
+}
+
+.login_state .inp_chk {
+    float: left;
+}
+
+.inp_chk .lg_radio {
+    position: absolute;
+    z-index: -1;
+    top: -3px;
+    left: 0;
+    width: 18px;
+    height: 18px;
+    border: 0;
+}
+
+.inp_chk .lg_lb {
+    display: inline-block;
+    margin-right: 19px;
+    color: #909090;
+    font-size: 13px;
+    line-height: 19px;
+    vertical-align: top;
+}
+
+.inp_chk .ico_check {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    margin: 1px 2px 0 0;
+    background-position: -60px 0;
+    color: #333;
+}
+
+.inp_chk .login_span {
+    font-weight: normal;
+    vertical-align: top;
+}
+
+.login_state .id_find {
+    float: right;
+    color: #777;
+}
+
+.login_signup {
+    font-size: 13px;
+    line-height: 20px;
+    letter-spacing: -0.015em;
+    margin: 40px 0px 0px;
+    display: flex;
+    -webkit-box-pack: center;
+    justify-content: center;
+    color: rgb(109, 109, 109);
+}
+
+.login_signup > span > a {
+    color: rgb(39, 163, 255);
+    text-decoration: underline;
+}
+
+.style_divider {
+    overflow: hidden;
+    text-align: center;
+    padding: 20px 0px;
+    position: relative;
+}
+
+.style_divider::before {
+    content: "";
+    position: absolute;
+    border-bottom: 1px solid rgb(228, 228, 228);
+    left: 0px;
+    top: 50%;
+    width: 5000px;
+}
+
+.login_pw {
+    display: flex;
+    justify-content: center;
+}
+
+.login_pw > a {
+    color: rgb(39, 163, 255);
+    text-decoration: underline;
+}

@@ -15,10 +15,7 @@ public class FundingDTO {
 	private String funAcno;
 	private int funTrack;	//0:운송장 미입력 1:운송장입력
 	private Date funDate;
-	public FundingDTO() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+	public FundingDTO() {}
 	@Override
 	public String toString() {
 		return "FundingDTO [funNo=" + funNo + ", member=" + member + ", project=" + project + ", funQuantity="

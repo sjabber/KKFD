@@ -8,7 +8,6 @@ public class MemberDTO {
 	private String memEmail;
 	public MemberDTO() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 	@Override
 	public String toString() {

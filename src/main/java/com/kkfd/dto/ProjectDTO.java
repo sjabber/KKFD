@@ -25,10 +25,7 @@ public class ProjectDTO {
 	private int projBmcnt;	
 	private int projStatus;		//0:취소(이미 취소 한 상태) 1:정상(취소가능 한 상태)
 	private int projBm;			//로그인 한 아이디의 해당프로젝트에 대한 북마크여부 (1:북마크 on / 0: 북마크 off)
-	public ProjectDTO() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+	public ProjectDTO() {}
 	public ProjectDTO(int projNo, CreatorDTO creator, int projCategory, String projTitle, String projSummary,
 			String projIntro, int projFm, int projTargetcnt, int projLimitcnt, int projQuantity, int projGoals,
 			Date projStart, Date projEnd, Date projDelivery, int projBmcnt, int projStatus, int projBm) {

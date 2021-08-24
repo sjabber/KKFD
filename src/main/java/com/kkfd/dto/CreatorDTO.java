@@ -8,10 +8,7 @@ public class CreatorDTO {
 	private String crBank;
 	private String crAcno;
 	//private MemberDTO member 추후
-	public CreatorDTO() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+	public CreatorDTO() {}
 	public CreatorDTO(String crId, String crNn, String crIntro, String crAcholder, String crBank, String crAcno) {
 		super();
 		this.crId = crId;

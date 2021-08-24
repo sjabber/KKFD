@@ -67,7 +67,7 @@ function clientSignUp() {
             success: function (responseObj) {
                 if (responseObj.status == 1) {
                     alert("회원가입 되었습니다.");
-                    window.location.href = 'http://localhost:8888/Add_it/';
+                    window.location.href = '../../..';
                 } else {
                     alert("login fail : " + responseObj.msg);
                 }
@@ -152,7 +152,7 @@ function companySignUp() {
             success: function (responseObj) {
                 if (responseObj.status == 1) {
                     alert("회원가입 되었습니다.");
-                    window.location.href = 'http://localhost:8888/Add_it/';
+                    window.location.href = '../../..';
                 } else {
                     alert("login fail : " + responseObj.msg);
                 }

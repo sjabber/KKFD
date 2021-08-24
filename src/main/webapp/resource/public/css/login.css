@@ -1,5 +1,6 @@
 * {
-    font-family: 'Malgun Gothic';
+    /*font-family: 'Malgun Gothic';*/
+    font-family: "Noto Sans Korean", sans-serif;
 }
 .page_top {
     margin: 0 auto;

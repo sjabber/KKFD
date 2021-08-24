@@ -47,7 +47,63 @@ table {
 	border-spacing: 0;
 }
 
+/*[ 마이페이지]-------------------------------*/
+*{
+    box-sizing: border-box;
+}
+.my{
+	width: 1032px;
+	min-height: 800px;
+	margin: 0 auto;
+
+}
+.toptitle{
+	padding: 32px 0px 18px 0px;
+}
+.topnav {
+	overflow: hidden;
+  }
+  
+  .topnav a {
+	float: left;
+	display: block;
+    color: rgb(158, 158, 158);
+	text-align: center;
+	padding: 14px 10px;
+	text-decoration: none;
+	font-size: 15px;
+	border-bottom: 3px solid transparent;
+	margin-right: 20px;
+  }
+  .topnav a:hover {
+	color: rgb(61, 61, 61);	font-weight: bold;
+  }
+  .topnav a.member_active {
+	border-bottom: 3px solid rgb(72, 120, 255);
+	color: rgb(61, 61, 61);	font-weight: bold;
+
+  }
+  .topnav a.creator_active {
+	border-bottom: 3px solid rgb(255, 87, 87);
+	color: rgb(61, 61, 61);	font-weight: bold;
+
+  }
+
+  /*[마이프로젝트]-------------------------------*/
+
+.state{
+	width: 50px;
+	padding: 3px 8px;
+	border-radius: 10px;
+
+}
+
+.pagination_container{
+	display: flex;
+	justify-content: center;
+}
 /* header */
+/*
 .main_header {
 	padding-top: 20px;
 	padding-bottom: 20px;
@@ -117,78 +173,13 @@ table {
 .header_profile_img {
 	padding-left: 20px;
 }
+*/
 
-.main_ad{
-	width: 1032px;
-	height: 400px;
-	background-color: gainsboro;
-	margin: 0 auto;
-}
 
-.main_project_focus {
-  width: 1032px;
-	margin: 0 auto;
-}
 
-.focus_title {
-	margin-top: 40px;
-	margin-bottom: 20px;
-}
 
-.focus_title_item {
-	font-size: 20px;
-	font-weight: 600;
-}
 
-.focus_item_img_item {
-	width: 250px;
-	height: 200px;
-}
 
-.focus_item_warp {
-	display: flex;
-	flex-wrap: wrap;
-	width: 1032px;
-}
-
-.focus_item {
-	margin-right: 8px;
-	padding-bottom: 48px !important;
-}
-
-.focus_item_category {
-	width: 250px;
-	display: flex;
-	justify-content: space-between;
-	margin-top: 10px;
-	font-size: 12px;
-	color: gray;
-	align-items: center;
-	margin-bottom: 10px;
-}
-
-.category_bookmark {
-	font-size: 16px;
-}
-
-.category_bookmark_btn {
-	background-color: white;
-	border: none;
-}
-
-.focus_item_title {
-	width: 220px;
-	margin-bottom: 10px;
-}
-
-.focus_item_purpose {
-	color: red;
-	font-weight: 600;
-}
-
-.sub_ad_item {
-	width: 1032px;
-}
 
 /* footer */
 .main_footer {

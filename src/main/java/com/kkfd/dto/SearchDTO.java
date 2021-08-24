@@ -1,12 +1,12 @@
 package com.kkfd.dto;
 
-public class SearchDTO {//프로젝트 목록 조회 요청시 컨트롤러에서 @RequestBody searchDTO search을 위한 DTO(MVC가 아니므로 request만)
-	private String word;	//mybatis에서 null확인
+public class SearchDTO {
+	private String word;	//
 	private int category;	// 0:전체 1:캔들 2:조향 3:비누 4:도예 5:섬유,자수
 	private int state;		//0:전체	1:진행예정 2:진행중 3:마감(성공+실패) 
 	private int goal;		//0:전체	1:75%이하 2:75%~100% 3:100%이상
 	private int standard;	//0:인기순 1:최신순 2:마감임박순
-	private int page;		//input name="page" type="hidden"
+	private int page;		//
 	private String id;		//북마크여부확인 세션에서 id담아서 mybatis로
 	private static final int CNT_PER_PAGE = 18; //3*6
 

@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.kkfd.dto.ProjectMainDTO;
 import com.kkfd.exception.FindException;
-
+//미완성
 public class ProjectMainDAOOracle implements ProjectMainDAO {
 
 	@Autowired
@@ -20,7 +20,7 @@ public class ProjectMainDAOOracle implements ProjectMainDAO {
 		SqlSession session= null;
 		try {
 			session = sessionFactory.openSession();
-			return session.selectList("com.kkfd.dto.ProjectMapper.main");
+			return session.selectList("com.kkfd.dto.ProjectMapper.selectMain");
 		}catch (Exception e) {
 			throw new FindException(e.getMessage());
 		}finally {
@@ -34,7 +34,7 @@ public class ProjectMainDAOOracle implements ProjectMainDAO {
 		SqlSession session= null;
 		try {
 			session = sessionFactory.openSession();
-			return session.selectList("com.kkfd.dto.ProjectMapper.main", id);
+			return session.selectList("com.kkfd.dto.ProjectMapper.selectMain", id);
 		}catch (Exception e) {
 			throw new FindException(e.getMessage());
 		}finally {

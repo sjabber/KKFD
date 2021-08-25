@@ -9,10 +9,13 @@
 	</settings>
   <typeAliases>
    <!--  <typeAlias type="com.kkfd.dto.Member" alias="member"/>--> 
+   <typeAlias type="com.kkfd.dto.ProjectDTO" alias="project"/>
+   <typeAlias type="com.kkfd.dto.CreatorDTO" alias="creator"/>
     
   </typeAliases>
   <mappers>
   	 <!-- <mapper resource="mybatisConfig/MemberMapper.xml"/>-->
+  	 <mapper resource="mybatisConfig/ProjectMapper.xml"/>
   	
   </mappers>
 </configuration>

@@ -3,9 +3,17 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kkfd.dto.ProjectMapper">
-  <select id="selectByNo" parameterType="HashMap" resultType="projectDTO">
+
+<resultMap id="projectResultMap" type="project" autoMapping="true">
+	<id column="proj_no" property="projNo"/>
+		<association javaType="creator" property="creator" autoMapping="true">
+		  <result column="cr_id" property="crId"/>
+		</association>
+</resultMap>
+
+  <select id="selectByNo" parameterType="HashMap" resultMap="projectResultMap">
     SELECT p.proj_no,p.proj_category, p.proj_title, p.proj_fm, p.proj_quantity, p.proj_goals, p.proj_end, p.proj_intro,
-        p.proj_targetcnt, p.proj_limitcnt, NVL2(b.book_no,1,0) AS bm, c.cr_nn, c.cr_intro
+        p.proj_targetcnt, p.proj_limitcnt, NVL2(b.book_no,1,0) AS projBm, c.cr_nn, c.cr_intro
     FROM kk_project p
         LEFT OUTER JOIN kk_bookmark b ON (p.proj_no=b.book_proj AND b.book_id=#{memId})
         JOIN kk_creator c ON(p.proj_id=c.cr_id)

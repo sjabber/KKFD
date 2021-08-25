@@ -3,7 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kkfd.dto.ProjectMainMapper">
-<select id="main" resultType="com.day.dto.Product">
+<select id="selectMain" resultType="main">
 SELECT 1 AS proj_area, r.*
 FROM (SELECT p.proj_no,p.proj_category, p.proj_title, p.proj_goals, proj_start, proj_end,
             NVL2(b.book_no,1,0) AS bm

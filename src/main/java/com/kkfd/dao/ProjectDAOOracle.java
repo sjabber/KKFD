@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kkfd.dto.PageDTO;
 import com.kkfd.dto.ProjectDTO;
+import com.kkfd.dto.ProjectMainDTO;
 import com.kkfd.dto.SearchDTO;
 import com.kkfd.exception.FindException;
 @Repository("projectDAO")
@@ -17,20 +18,37 @@ public class ProjectDAOOracle implements ProjectDAO {
 
 	@Autowired
 	private SqlSessionFactory sessionFactory;
-
+	
 	//[project]프로젝트 목록
 	@Override
 	public List<ProjectDTO> selectProjs(SearchDTO search) throws FindException {
 		SqlSession session= null;
 		try {
 			session = sessionFactory.openSession();
-			return session.selectList("com.kkfd.dto.ProjectMapper.selectProjs",search);//변경하세요~
+			return session.selectList("com.kkfd.dto.ProjectMapper.selectProjs",search);
 		}catch (Exception e) {
 			throw new FindException(e.getMessage());
 		}finally {
 			if(session!=null) session.close();
 		}
 		
+	}
+
+	//[project]프로젝트 상세
+	@Override
+	public ProjectDTO selectByNo(int proj_no, String id) throws FindException {
+		SqlSession session= null;
+		try {
+			session = sessionFactory.openSession();
+			HashMap<String, Object> map = new HashMap<>();
+			map.put("projNo", proj_no);
+			map.put("memId", id);
+			return session.selectOne("com.kkfd.dto.ProjectMapper.selectByNo", map);
+		}catch (Exception e) {
+			throw new FindException(e.getMessage());
+		}finally {
+			if(session!=null) session.close();
+		}
 	}
 
 	//[creator]마이 프로젝트
@@ -64,7 +82,6 @@ public class ProjectDAOOracle implements ProjectDAO {
 			if(session!=null) session.close();
 		}
 	}
-
 
 	
 }

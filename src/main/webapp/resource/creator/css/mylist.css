@@ -1,0 +1,263 @@
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+/*[ 마이페이지]-------------------------------*/
+*{
+    box-sizing: border-box;
+}
+.my{
+	width: 1032px;
+	min-height: 800px;
+	margin: 0 auto;
+
+}
+.toptitle{
+	padding: 32px 0px 18px 0px;
+}
+.topnav {
+	overflow: hidden;
+  }
+  
+  .topnav a {
+	float: left;
+	display: block;
+    color: rgb(158, 158, 158);
+	text-align: center;
+	padding: 14px 10px;
+	text-decoration: none;
+	font-size: 15px;
+	border-bottom: 3px solid transparent;
+	margin-right: 20px;
+  }
+  .topnav a:hover {
+	color: rgb(61, 61, 61);	font-weight: bold;
+  }
+  .topnav a.member_active {
+	border-bottom: 3px solid rgb(72, 120, 255);
+	color: rgb(61, 61, 61);	font-weight: bold;
+
+  }
+  .topnav a.creator_active {
+	border-bottom: 3px solid rgb(255, 87, 87);
+	color: rgb(61, 61, 61);	font-weight: bold;
+
+  }
+
+  /*[마이프로젝트]-------------------------------*/
+
+.state{
+	width: 50px;
+	padding: 3px 8px;
+	border-radius: 10px;
+
+}
+
+.pagination_container{
+	display: flex;
+	justify-content: center;
+}
+/* header */
+/*
+.main_header {
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
+
+.main_header_warp {
+	width: 1032px;
+	margin: 0 auto;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.header_menu_warp {
+	display: flex;
+	align-items: center;	
+}
+
+.projectsearch_item {
+	background-color: white;
+	border: none;
+}
+
+.projectsearch_name {
+	font-size: 16px;
+	font-weight: 600;
+}
+
+.projectupload_name {
+	padding-left: 10px;
+	color: black;
+	font-size: 17px;
+	font-weight: 600;
+}
+
+.header_mainlogo {
+	padding-right: 70px;
+}
+
+.header_mainlogo_item {
+	color: black;
+	font-size: 24px;
+	font-weight: 600;
+}
+
+.header_sub_warp {
+	width: 250px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.header_customer_warp {
+	display: flex;
+}
+
+.header_customer_btn {
+	display: flex;
+	background-color: white;
+	border: none;
+	align-items: center;
+	font-size: 16px;
+	font-weight: 600;
+	padding-left: 10px;
+}
+
+.header_profile_img {
+	padding-left: 20px;
+}
+*/
+
+
+
+
+
+
+
+/* footer */
+.main_footer {
+	margin-top: 20px;
+	border-top: 1px solid lightgrey;
+}
+
+.footer_first_warp {
+	width: 1032px;
+	margin: 0 auto;
+	padding-top: 30px;
+	display: flex;
+	justify-content: space-between;
+	border-bottom: 1px solid lightgray;
+	padding-bottom: 10px;
+}
+
+.footer_nav {
+	width: 550px;
+	display: flex;
+	justify-content: space-around;
+}
+
+.nav_item_li:first-child {
+	font-weight: 600;
+	color: black;
+	font-size: 20px;
+}
+
+.nav_item_li {
+	padding-bottom: 20px;
+	color: gray;
+	font-size: 16px;
+}
+
+.footer_second_warp {
+	margin: 0 auto;
+	margin-top: 20px;
+	width: 1032px;
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 20px;
+}
+
+.footer_info_warp {
+	width: 700px;
+	font-size: 12px;
+}
+
+.info_first_warp, .info_second_warp {
+	margin-bottom: 5px;
+}
+
+.info_item1 {
+	font-weight: 600;
+}
+
+.info_item2, .last_warp_item {
+	color: gray;
+}
+
+.footer_info_icon {
+	display: flex;
+	justify-content: space-around;
+	width: 200px;
+}
+
+.footer_last_info {
+	background: rgb(240, 240, 240);
+}
+
+.footer_last_info_div {
+	width: 1032px;
+	margin: 0 auto;
+	padding: 10px 0;
+}
+
+.last_info_item {
+	font-size: 11px;
+	color: gray;
+}

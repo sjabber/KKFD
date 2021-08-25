@@ -2,6 +2,8 @@ package com.kkfd.dto;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class ProjectDTO {
 	private int projNo;
 	private CreatorDTO creator;	//project has a creator
@@ -19,8 +21,11 @@ public class ProjectDTO {
 	 -SELECT proj_goals 
 	 -펀딩테이블 한 행 추가될때 UPDATE SET 수량 = 수량+신청갯수 / 달성률 = ((수량/목표갯수)*100 반올림
 	*/
+	@JsonFormat(pattern = "yy/MM/dd", timezone = "Asia/Seoul")
 	private Date projStart;
+	@JsonFormat(pattern = "yy/MM/dd", timezone = "Asia/Seoul")
 	private Date projEnd;
+	@JsonFormat(pattern = "yy/MM/dd", timezone = "Asia/Seoul")
 	private Date projDelivery;
 	private int projBmcnt;	
 	private int projStatus;		//0:취소(이미 취소 한 상태) 1:정상(취소가능 한 상태)

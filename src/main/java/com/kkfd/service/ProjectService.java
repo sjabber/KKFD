@@ -20,5 +20,13 @@ public class ProjectService {
 		return dao.selectProjs(search);
 	}
 	
+	public List<ProjectDTO> findProjsByCrId(String crId,int currentPage) throws FindException {
+		return dao.selectProjsByCrId(crId,currentPage);
+	}
+	
+	public int countMyProjs(String crId) throws FindException {
+		return dao.countMyProjs(crId);
+	}
+	
 	
 }

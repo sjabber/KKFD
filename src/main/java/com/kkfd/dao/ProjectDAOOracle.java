@@ -1,5 +1,6 @@
 package com.kkfd.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -7,6 +8,7 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kkfd.dto.PageDTO;
 import com.kkfd.dto.ProjectDTO;
 import com.kkfd.dto.SearchDTO;
 import com.kkfd.exception.FindException;
@@ -33,9 +35,34 @@ public class ProjectDAOOracle implements ProjectDAO {
 
 	//[creator]마이 프로젝트
 	@Override
-	public List<ProjectDTO> selectProjsByCrId(String crId) throws FindException {
-		// TODO Auto-generated method stub
-		return null;
+	public List<ProjectDTO> selectProjsByCrId(String crId,int currentPage) throws FindException {
+		SqlSession session= null;
+		try {
+			HashMap<String, Object>map = new HashMap<>();
+			map.put("crId", crId);
+			map.put("currentPage", currentPage);
+			map.put("cntPerPage", PageDTO.CNT_PER_PAGE);
+			session = sessionFactory.openSession();
+			return session.selectList("com.kkfd.dto.ProjectMapper2.selectProjsByCrId",map);
+		}catch (Exception e) {
+			throw new FindException(e.getMessage());
+		}finally {
+			if(session!=null) session.close();
+		}
+	}
+	
+	//[creator]마이 프로젝트 페이징 TotalCnt
+	@Override
+	public int countMyProjs(String crId) throws FindException {
+		SqlSession session= null;
+		try {
+			session = sessionFactory.openSession();
+			return session.selectOne("com.kkfd.dto.ProjectMapper2.countMyProjs",crId);
+		}catch (Exception e) {
+			throw new FindException(e.getMessage());
+		}finally {
+			if(session!=null) session.close();
+		}
 	}
 
 

@@ -17,10 +17,17 @@ public interface ProjectDAO {
 	
 	/**
 	 * 
-	 * @param creato id
+	 * @param creator id
 	 * @return 해당 creator id가 올린 프로젝트
 	 * @throws FindException
 	 */
-	public List<ProjectDTO> selectProjsByCrId(String crId) throws FindException;
+	public List<ProjectDTO> selectProjsByCrId(String crId,int currentPage) throws FindException;
 	
+	/**
+	 * 
+	 * @return 해당 creator id가 올린 프로젝트
+	 * @throws FindException
+	 */
+	public int countMyProjs(String crId) throws FindException;
+
 }

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kkfd.dto.ProjectMapper2">
+
+<select id="selectProjsByCrId" parameterType="HashMap" resultType="project">
+SELECT *
+FROM(SELECT ROWNUM AS rn, proj_no, proj_title, proj_start, proj_end, proj_goals, proj_fm, proj_quantity, proj_status
+     FROM kk_project
+     WHERE proj_id=#{crId}
+     ORDER BY proj_no)
+WHERE rn BETWEEN START_ROW(#{currentPage},#{cntPerPage}) AND END_ROW(#{currentPage},#{cntPerPage})
+</select>
+
+<select id="countMyProjs" resultType="int">
+SELECT COUNT(proj_no) FROM kk_project WHERE proj_id=#{id}
+</select>
+
+</mapper>

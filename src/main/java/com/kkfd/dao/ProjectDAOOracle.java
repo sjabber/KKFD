@@ -36,12 +36,12 @@ public class ProjectDAOOracle implements ProjectDAO {
 
 	//[project]프로젝트 상세
 	@Override
-	public ProjectDTO selectByNo(int proj_no, String id) throws FindException {
+	public ProjectDTO selectByNo(int projNo, String id) throws FindException {
 		SqlSession session= null;
 		try {
 			session = sessionFactory.openSession();
 			HashMap<String, Object> map = new HashMap<>();
-			map.put("projNo", proj_no);
+			map.put("projNo", projNo);
 			map.put("memId", id);
 			return session.selectOne("com.kkfd.dto.ProjectMapper.selectByNo", map);
 		}catch (Exception e) {

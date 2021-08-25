@@ -77,7 +77,7 @@
 
     .main-btn {
         width: 1032px;
-        height: 50px;
+        height: 75px;
         margin: 35px auto 0 auto;
     }
 
@@ -103,15 +103,19 @@
         color: white;
     }
 
+    .main_section_btn {
+        box-shadow: 0 4px 4px -4px #6D6D6D;
+    }
+
     .main_section {
-        margin: 60px auto;
+        margin: 60px auto 20px auto;
         width: 1032px;
     }
 
     .projectItem {
         display: flex;
-        padding-bottom: 48px;
-        margin-bottom: 56px;
+        padding-bottom: 25px;
+        margin-bottom: 20px;
         -webkit-box-pack: justify;
         justify-content: space-between;
         border-bottom: 1px solid rgb(240, 240, 240);
@@ -134,12 +138,19 @@
         line-height: 24px;
         height: 48px;
         text-decoration: none solid rgb(109, 109, 109);
-        color : #6D6D6D
+        color: #6D6D6D
     }
 
     .projectItem_title_form {
         display: flex;
         justify-content: space-between;
+        width: 630px;
+    }
+
+    .projectItem_bank_form {
+        display: block;
+        flex-direction: column;
+        align-content: space-between;
         width: 630px;
     }
 
@@ -158,17 +169,58 @@
 
     .projectItem_image_formInner {
         width: 100%;
-        height: 856px;
     }
 
     /*---------------- tooltip -----------------------*/
+    div.projectItem_category_tooltip {
+        display: flex;
+        justify-content: space-between;
+        width: 400px;
+    }
+
+    div.tooltip_category_label {
+        height: 98px;
+        width: 307px;
+        margin: 0 8px 0 0;
+        display: block;
+    }
+
+    p.tooltip_category_p {
+        margin-top: 0em;
+        font-weight: bold;
+        line-height: 18px;
+        margin-bottom: 8px;
+        color: black;
+        display: flex;
+    }
+
+    div.select_down {
+        display: inline-flex;
+        align-self: center;
+    }
+
+    span.category_span {
+        background: rgb(255, 255, 255);
+        color: rgb(13, 13, 13);
+        display: flex;
+        font-size: 14px;
+        line-height: 24px;
+        align-items: center;
+        max-height: 44px;
+        min-width: 100px;
+        letter-spacing: -0.015em;
+    }
+
+    span.category_span > select {
+        padding: 8px 12px;
+    }
+
     .projectItem_title_tooltip {
         margin-bottom: 10px;
     }
 
     .projectItem_image_tooltip {
         margin-bottom: 10px;
-        height: 494px;
     }
 
     .tooltip_label {
@@ -199,6 +251,17 @@
     .LabelWithArea em {
         display: flex;
         padding: 2px;
+    }
+
+    div.Icon {
+        display: inline-flex;
+        align-self: center;
+    }
+
+    div.Icon > svg {
+        color: #F86453;
+        width: 13px;
+        height: 13px;
     }
 
     .Icon_svg {
@@ -270,7 +333,6 @@
     }
 
 
-
     .close {
         display: flex;
         flex-wrap: wrap;
@@ -293,7 +355,7 @@
     }
 
     /*---------------- tooltip -----------------------*/
-    .projectItem_input {
+    .projectItem_input, .projectItem_input4, .projectItem_input5 {
         height: 45px;
         width: 630px;
         display: flex;
@@ -304,6 +366,7 @@
         border-radius: 4px;
         border: 1px solid #F0F0F0;
         padding: 0 18px;
+        margin-top: 10px;
     }
 
     .projectItem_input2, .projectItem_input3 {
@@ -337,7 +400,7 @@
         line-height: 24px !important;
     }
 
-    .inputInner {
+    .inputInner, .inputInner2, .inputInner3 {
         display: block;
         width: 100%;
         height: 100%;
@@ -404,6 +467,7 @@
 
     .ImageUploader {
         display: flex;
+        flex-wrap: wrap;
         height: 276px;
         width: 221px;
         padding: 43px 0px;
@@ -428,9 +492,9 @@
         height: 100%;
         display: block;
         position: absolute;
-        top: 0;
-        left: 0;
-        opacity:0;
+        top: 0px;
+        left: 0px;
+        opacity: 0;
         cursor: pointer;
     }
 
@@ -579,90 +643,142 @@
     }
 
     /* footer 부분 */
-    .main_footer {
-        margin-top: 20px;
-        border-top: 1px solid lightgrey;
-    }
-
-    .footer_first_warp {
+    footer.footer_save {
         width: 1032px;
-        margin: 0 auto;
-        padding-top: 30px;
+        height: 100%;
+        margin: 0px auto;
         display: flex;
-        justify-content: space-between;
-        border-bottom: 1px solid lightgray;
-        padding-bottom: 10px;
+        justify-content: flex-end;
+        position: relative;
+        margin-bottom: 65px;
     }
 
-    .footer_nav {
-        width: 550px;
+    footer.footer_save > div {
+        position: relative;
+        z-index: 1;
         display: flex;
-        justify-content: space-around;
+        align-items: end;
     }
 
-    .nav_item_li:first-child {
-        font-weight: 600;
-        color: black;
-        font-size: 20px;
+    footer.footer_save > div > button.footer_save_btn {
+        width: 102px;
+        height: 40px;
+        font-weight: 700;
+        background: rgb(248, 100, 83);
+        font-size: 12px !important;
+        color: white;
+        border-radius: 4px;
+        border: none;
+        font-family: "Malgun Gothic";
     }
 
-    .nav_item_li {
-        padding-bottom: 20px;
-        color: gray;
-        font-size: 16px;
-    }
-
-    .footer_second_warp {
-        margin: 0 auto;
-        margin-top: 20px;
-        width: 1032px;
+    /* creatorInfo.html 에 적용되는 css */
+    .projectItem_profile {
         display: flex;
-        justify-content: space-between;
-        margin-bottom: 20px;
+        align-items: center;
     }
 
-    .footer_info_warp {
-        width: 700px;
+    .projectItem_profile_circle {
+        margin-right: 32px;
+        display: flex;
+        width: 112px;
+        height: 112px;
+        flex: 0 0 auto;
+        font-size: 52px;
+        letter-spacing: -3.12px;
+        position: relative;
+    }
+
+    .profile_circle {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        overflow: hidden;
+        position: relative;
+        box-shadow:
+                rgb(208 208 208) 0px 0px 1px 0px inset,
+                rgb(208 208 208) 0px 0px 1px 0px
+    }
+
+    .profile_circle_inner {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        overflow: hidden;
+        display: flex;
+        -webkit-box-align: center;
+        align-items: center;
+        box-shadow: rgb(208 208 208) 0px 0px 1px 0px inset, rgb(208 208 208) 0px 0px 1px 0px;
+        -webkit-box-pack: center;
+        justify-content: center;
+        color: rgb(255, 255, 255);
+        background-color: rgb(208, 208, 208);
+        font-weight: bold;
+    }
+
+    .projectItem_profile_upload {
         font-size: 12px;
+        line-height: 19px;
+        letter-spacing: -0.01em;
+        color: rgb(158, 158, 158);
     }
 
-    .info_first_warp,
-    .info_second_warp {
-        margin-bottom: 5px;
+    .projectItem_profile_upload > div {
+        display: block;
+
     }
 
-    .info_item1 {
-        font-weight: 600;
+    button.profile_upload {
+        font-size: 12px;
+        line-height: 20px;
+        color: rgb(61, 61, 61);
+        margin-bottom: 14px;
+        border: 1px solid rgb(240, 240, 240);
+        cursor: pointer;
+        display: inline-flex;
+        -webkit-box-align: center;
+        align-items: center;
+        -webkit-box-pack: center;
+        justify-content: center;
+        height: 36px;
+        white-space: nowrap;
+        border-radius: 4px;
+        outline: 0px;
+        box-sizing: border-box;
+        font-weight: normal;
+        padding: 0px 16px;
+        background: rgb(255, 255, 255);
+        position: relative;
     }
 
-    .info_item2,
-    .last_warp_item {
-        color: gray;
+    button.profile_upload > input[type=file] {
+        width: 100%;
+        height: 100%;
+        display: block;
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        opacity: 0;
+        cursor: pointer;
     }
 
-    .footer_info_icon {
-        display: flex;
-        justify-content: space-around;
-        width: 200px;
+    div.profileUploadIcon {
+        display: inline-flex;
+        align-self: center;
     }
 
-    .footer_last_info {
-        background: rgb(240, 240, 240);
+    div.profileUploadIcon > svg {
+        fill: rgb(248, 100, 83);
+        margin-right: 9px;
     }
 
-    .footer_last_info_div {
-        width: 1032px;
-        margin: 0 auto;
-        padding: 10px 0;
-    }
 
-    .last_info_item {
-        font-size: 11px;
-        color: gray;
-    }
+
+
+
 
 </style>
-<script>
+<!--<script>
     // 하이라이트
     $(function () {
         var $divIpt = $('div.projectItem_input');
@@ -699,14 +815,14 @@
             var $desc = obj;
             // alert('설명을 보여준다.');
             // obj.next().show(500);
-            $desc.next().slideDown();
+            $desc.next().slideDown(400);
         }
 
         $.contentHide = function (obj) {
             var $desc = obj;
             // alert('설명 사라짐.');
             // obj.parent().hide(500);
-            $desc.parent().slideUp();
+            $desc.parent().slideUp(400);
         };
     });
 
@@ -729,14 +845,14 @@
                 case '/register/regist/basicInfo':
                 case '/register/regist/creatorInfo':
                 case '/register/regist/fundingInfo':
-                    $menuObj.css({ background:"#ffffff" , color: "#000000" })
-                    $(this).css({ background:"#FF5757" , color:"#ffffff" });
+                    $menuObj.css({background: "#ffffff", color: "#000000"})
+                    $(this).css({background: "#FF5757", color: "#ffffff"});
                     $section.load(href, function (responseTxt, statusTxt, xhr) {
                         if (statusTxt == 'error') alert('Error: ' + xhr.status + ': ' + xhr.statusText);
                     });
                     break;
             }
-            // return false를 하지 않을 경우 페이지 자체가 이동된다. 
+            // return false를 하지 않을 경우 페이지 자체가 이동된다.
             return false;
         });
 
@@ -749,7 +865,7 @@
 
         });
     });
-</script>
+</script>-->
 <body>
 <!-- header -->
 <header class="main_header">
@@ -803,12 +919,50 @@
     </div>
 </section>
 <section class="main_section" id="section">
+    <script type="text/javascript" src="/js/register.js"></script>
+    <!-- 카테고리 -->
+    <div class="projectItem">
+        <dl class="projectItem_title">
+            <dt class="projectItem_title_dt">
+                프로젝트 카테고리
+                <div class="Icon">
+                    <i class="fas fa-star-of-life iicon"></i>
+                </div>
+            </dt>
+            <dd class="projectItem_title_dd">
+                프로젝트의 성격과 가장 일치하는 카테고리를 선택해</br>
+                주세요. 적합하지 않을 경우 운영자에 의해 조정될 수</br>
+                있습니다.
+            </dd>
+        </dl>
+        <div class="projectItem_title_form">
+            <div class="projectItem_title_formInner">
+                <div class="projectItem_category_tooltip">
+                    <div class="tooltip_category_label">
+                        <p class="tooltip_category_p">카테고리</p>
+                        <div class="form-group">
+                            <span class="category_span">
+                                <select class="form-select selectBox">
+                                    <option value="1">캔들</option>
+                                    <option value="2">조향</option>
+                                    <option value="3">비누</option>
+                                    <option value="4">도예</option>
+                                    <option value="5">섬유, 자수</option>
+                                </select>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- 제목 -->
     <div class="projectItem">
         <dl class="projectItem_title">
             <dt class="projectItem_title_dt">
                 프로젝트 제목
                 <div class="Icon">
+                    <i class="fas fa-star-of-life iicon"></i>
                 </div>
             </dt>
             <dd class="projectItem_title_dd">
@@ -824,7 +978,8 @@
                             <p>제목</p>
                             <em>
                                 <div class="Icon_svg">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-question-circle" viewBox="0 0 16 16">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                         class="bi bi-question-circle" viewBox="0 0 16 16">
                                         <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
                                         <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>
                                     </svg>
@@ -843,7 +998,8 @@
                             </div>
                             <em class="close" onclick="$.contentHide($(this))">
                                 <div class="close-1">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                         class="bi bi-x" viewBox="0 0 16 16">
                                         <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
                                     </svg>
                                 </div>
@@ -869,6 +1025,7 @@
             <dt class="projectItem_title_dt">
                 프로젝트 요약
                 <div class="Icon">
+                    <i class="fas fa-star-of-life iicon"></i>
                 </div>
             </dt>
             <dd class="projectItem_title_dd">
@@ -882,7 +1039,8 @@
                         <button type="button" class="LabelWithArea" onclick="$.contentShow($(this))">
                             <em>
                                 <div class="Icon_svg">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-question-circle" viewBox="0 0 16 16">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                         class="bi bi-question-circle" viewBox="0 0 16 16">
                                         <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
                                         <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>
                                     </svg>
@@ -901,7 +1059,8 @@
                             </div>
                             <em class="close" onclick="$.contentHide($(this))">
                                 <div class="close-1">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                         class="bi bi-x" viewBox="0 0 16 16">
                                         <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
                                     </svg>
                                 </div>
@@ -927,6 +1086,7 @@
             <dt class="projectItem_title_dt">
                 프로젝트 소개
                 <div class="Icon">
+                    <i class="fas fa-star-of-life iicon"></i>
                 </div>
             </dt>
             <dd class="projectItem_title_dd">
@@ -940,7 +1100,8 @@
                         <button type="button" class="LabelWithArea" onclick="$.contentShow($(this))">
                             <em>
                                 <div class="Icon_svg">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-question-circle" viewBox="0 0 16 16">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                         class="bi bi-question-circle" viewBox="0 0 16 16">
                                         <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
                                         <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>
                                     </svg>
@@ -959,7 +1120,8 @@
                             </div>
                             <em class="close" onclick="$.contentHide($(this))">
                                 <div class="close-1">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                         class="bi bi-x" viewBox="0 0 16 16">
                                         <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
                                     </svg>
                                 </div>
@@ -985,6 +1147,7 @@
             <dt class="projectItem_title_dt">
                 프로젝트 대표 이미지
                 <div class="Icon">
+                    <i class="fas fa-star-of-life iicon"></i>
                 </div>
             </dt>
             <dd class="projectItem_title_dd">
@@ -999,7 +1162,8 @@
                         <button type="button" class="LabelWithArea" onclick="$.contentShow($(this))">
                             <em>
                                 <div class="Icon_svg">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-question-circle" viewBox="0 0 16 16">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                         fill="currentColor" class="bi bi-question-circle" viewBox="0 0 16 16">
                                         <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
                                         <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>
                                     </svg>
@@ -1017,7 +1181,8 @@
                             </div>
                             <em class="close" onclick="$.contentHide($(this))">
                                 <div class="close-1">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                         fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
                                         <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
                                     </svg>
                                 </div>
@@ -1031,7 +1196,8 @@
                             <div class="ImageUploader_Icon">
                                 <i>
                                     <div>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-card-image" viewBox="0 0 16 16">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                             fill="currentColor" class="bi bi-card-image" viewBox="0 0 16 16">
                                             <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
                                             <path d="M1.5 2A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13zm13 1a.5.5 0 0 1 .5.5v6l-3.775-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12v.54A.505.505 0 0 1 1 12.5v-9a.5.5 0 0 1 .5-.5h13z"/>
                                         </svg>
@@ -1041,13 +1207,14 @@
                             <span class="ImageUploader_span">
                                 <i>
                                     <div>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-upload" viewBox="0 0 16 16">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                             fill="currentColor" class="bi bi-upload" viewBox="0 0 16 16">
                                           <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
                                           <path d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708l3-3z"/>
                                         </svg>
                                     </div>
                                 </i>
-                                이미지 업로드
+                                &nbsp이미지 업로드
                             </span>
                             <p>
                                 파일형식은 jpg 또는 png로,
@@ -1064,8 +1231,12 @@
         </div>
     </div>
 </section>
-<footer>
-
+<footer class="footer_save">
+    <div>
+        <button class="footer_save_btn">
+            <span>저장</span>
+        </button>
+    </div>
 </footer>
 </body>
 </html>

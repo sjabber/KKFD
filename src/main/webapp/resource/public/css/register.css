@@ -1,0 +1,649 @@
+/*------------------ regist.css ------------------ */
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote,
+pre, a, abbr, acronym, address, big,
+cite, code, del, dfn, em, img, ins,
+kbd, q, s, samp, small, strike, strong,
+sub, sup, tt, var, b, u, i, center, dl,
+dt, dd, ol, ul, li, fieldset,
+form, label, legend, table, caption, tbody, tfoot,
+thead, tr, th, td, article, aside, canvas,
+details, embed, figure, figcaption, footer,
+header, hgroup, menu, nav, output, ruby, section,
+summary, time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+}
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details,
+figcaption, figure, footer,
+header, hgroup, menu,
+nav, section {
+    display: block;
+}
+
+body {
+    line-height: 1;
+}
+
+ol, ul {
+    list-style: none;
+}
+
+blockquote, q {
+    quotes: none;
+}
+
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+    content: "";
+    content: none;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+.main-btn {
+    width: 1032px;
+    height: 75px;
+    margin: 35px auto 0 auto;
+}
+
+.main-btn_inner {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.btn-head1, .btn-head2, .btn-head3 {
+    text-decoration: none;
+    background-color: white;
+    width: 120px;
+    height: 50px;
+    font-size: 13px;
+    font-weight: 700;
+    color: black;
+    border: 1px solid #DBDBDB;
+    border-radius: 2px;
+}
+
+.btn-head1 {
+    background-color: #FF5757;
+    color: white;
+}
+
+.main_section_btn {
+    box-shadow: 0 4px 4px -4px #6D6D6D;
+}
+
+.main_section {
+    margin: 60px auto 20px auto;
+    width: 1032px;
+}
+
+.projectItem {
+    display: flex;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    border-bottom: 1px solid rgb(240, 240, 240);
+}
+
+.projectItem_title {
+    display: block;
+    margin: 0px 0px 12px;
+    width: 351px;
+}
+
+.projectItem_title_dt {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+.projectItem_title_dd {
+    font-size: 14px;
+    line-height: 24px;
+    height: 48px;
+    text-decoration: none solid rgb(109, 109, 109);
+    color: #6D6D6D
+}
+
+.projectItem_title_form {
+    display: flex;
+    justify-content: space-between;
+    width: 630px;
+}
+
+.projectItem_bank_form {
+    display: block;
+    flex-direction: column;
+    align-content: space-between;
+    width: 630px;
+}
+
+.projectItem_image_form {
+    display: flex;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    width: 630px;
+}
+
+.projectItem_title_formInner {
+    font-size: 14px;
+    line-height: 24px;
+    width: 100%;
+}
+
+.projectItem_image_formInner {
+    width: 100%;
+}
+
+/*---------------- tooltip -----------------------*/
+div.projectItem_category_tooltip {
+    display: flex;
+    justify-content: space-between;
+    width: 400px;
+}
+
+div.tooltip_category_label {
+    height: 98px;
+    width: 307px;
+    margin: 0 8px 0 0;
+    display: block;
+}
+
+p.tooltip_category_p {
+    margin-top: 0em;
+    font-weight: bold;
+    line-height: 18px;
+    margin-bottom: 8px;
+    color: black;
+    display: flex;
+}
+
+div.select_down {
+    display: inline-flex;
+    align-self: center;
+}
+
+span.category_span {
+    background: rgb(255, 255, 255);
+    color: rgb(13, 13, 13);
+    display: flex;
+    font-size: 14px;
+    line-height: 24px;
+    align-items: center;
+    max-height: 44px;
+    min-width: 100px;
+    letter-spacing: -0.015em;
+}
+
+span.category_span > select {
+    padding: 8px 12px;
+}
+
+.projectItem_title_tooltip {
+    margin-bottom: 10px;
+}
+
+.projectItem_image_tooltip {
+    margin-bottom: 10px;
+}
+
+.tooltip_label {
+    display: flex;
+    flex-wrap: wrap;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: start;
+    justify-content: flex-start;
+    color: rgb(61, 61, 61);
+    margin: 0 0 10px 0;
+}
+
+.LabelWithArea {
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    border-radius: 2px;
+    font-size: 16px;
+    outline: none;
+    padding: 0px;
+    margin: 0px;
+    border: 0px;
+    background: transparent;
+    cursor: pointer;
+}
+
+.LabelWithArea em {
+    display: flex;
+    padding: 2px;
+}
+
+div.Icon {
+    display: inline-flex;
+    align-self: center;
+}
+
+div.Icon > svg {
+    color: #F86453;
+    width: 13px;
+    height: 13px;
+}
+
+.Icon_svg {
+    display: inline-flex;
+    align-self: center;
+}
+
+.LabelWithTooltip {
+    width: 100%;
+    height: 157px;
+    min-height: auto;
+    min-width: auto;
+    padding: 16px 46px 16px 26px;
+    position: relative;
+    margin: 10px 0px 0px;
+    border: 1px solid #F0F0F0;
+    box-shadow: rgba(0 0 0 0.05) 0px 2px 8px, rgba(0 0 0 0.1) 0px 1px 0px 0px;
+    border-radius: 4px;
+    opacity: 1;
+}
+
+.LabelWithTooltipImg {
+    width: 100%;
+    background: rgb(255, 255, 255);
+    box-shadow: rgba(0 0 0 0.05) 0px 2px 8px, rgba(0 0 0 0.1) 0px 1px 0px;
+    border-radius: 4px;
+    padding: 16px 46px 16px 26px;
+    position: relative;
+    margin: 10px 0px 0px;
+    border: 1px solid rgb(240, 240, 240);
+    transition: all 0.5s ease 0s;
+    height: auto;
+    transform: translateY(0px);
+    opacity: 1;
+}
+
+.LabelWithTooltip_title {
+    display: flex;
+    height: 123px;
+    width: 556px;
+    text-decoration: none solid rgb(61, 61, 61);
+    word-spacing: 0px;
+}
+
+.LabelWithTooltip_image {
+    display: flex;
+    /*text-decoration: none;
+    -webkit-tap-highlight-color: rgba(0,0,0,.1);*/
+}
+
+.title {
+    width: 212px;
+    flex-shrink: 0;
+    font-weight: 700 !important;
+    margin: 0 0 16px 0;
+}
+
+.image {
+    display: inline;
+    -webkit-box-flex: 1;
+    flex-grow: 1;
+    overflow: hidden;
+}
+
+.image > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+
+.close {
+    display: flex;
+    flex-wrap: wrap;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    top: 16px;
+    right: 16px;
+    font-size: 7px;
+    position: absolute;
+    cursor: pointer;
+}
+
+.close-1 {
+    display: inline-flex;
+    align-self: center;
+}
+
+/*---------------- tooltip -----------------------*/
+.projectItem_input, .projectItem_input4 {
+    height: 45px;
+    width: 630px;
+    display: flex;
+    -webkit-box-pack: start;
+    justify-content: flex-start;
+    -webkit-box-align: center;
+    align-items: center;
+    border-radius: 4px;
+    border: 1px solid #F0F0F0;
+    padding: 0 18px;
+}
+
+.projectItem_input2, .projectItem_input3 {
+    height: 79px;
+    width: 630px;
+    display: flex;
+    -webkit-box-pack: start;
+    justify-content: flex-start;
+    -webkit-box-align: center;
+    align-items: center;
+    border-radius: 4px;
+    border: 1px solid #F0F0F0;
+    padding: 0 18px;
+}
+
+.input_wrapper {
+    flex: 1 1 0%;
+    border: 0px;
+    text-align: left;
+    padding: 0px;
+    background: transparent;
+}
+
+.input_wrapper2, .input_wrapper3 {
+    width: 100%;
+    height: auto;
+    border: 0px;
+    padding: 11px 0px;
+    font-weight: 400;
+    font-size: 14px !important;
+    line-height: 24px !important;
+}
+
+.inputInner {
+    display: block;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    border: 0px;
+    padding: 11px 0px;
+    box-sizing: border-box;
+    outline: none;
+    margin: 0px;
+    text-align: inherit;
+    font-weight: 400;
+    appearance: none !important;
+    font-size: 14px !important;
+}
+
+.textAreaInner, .textAreaInner2 {
+    outline: none;
+    background: transparent;
+    width: 100%;
+    height: 100%;
+    border: 0px;
+    padding: 0px;
+    resize: none;
+    overflow: auto;
+    margin: 0;
+    cursor: text;
+    white-space: pre-wrap;
+    box-sizing: border-box;
+    word-wrap: break-word;
+}
+
+.blankBlock {
+    height: 20px;
+    width: 630px;
+    margin: 8px 0 0 0;
+    display: flex;
+}
+
+.InputLengthCheck {
+    margin-top: 0em;
+}
+
+.InputLengthCheck_Notice {
+    margin-left: auto;
+    color: rgb(158, 158, 158);
+}
+
+/* 이미지 업로드 */
+.projectItem_ImageUploader {
+    width: 100%;
+    min-height: 320px;
+    padding: 37px 35px;
+    background: rgb(255, 255, 255);
+    border: 1px dashed rgb(228, 228, 228);
+    box-sizing: border-box;
+    border-radius: 4px;
+    position: relative;
+    transition: border 0.4s ease 0s;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+}
+
+.ImageUploader {
+    display: flex;
+    flex-wrap: wrap;
+    height: 276px;
+    width: 221px;
+    padding: 43px 0px;
+    min-height: auto;
+    min-width: auto;
+    transform: none;
+    box-sizing: border-box;
+}
+
+.ImageUploader_inner {
+    height: 190px;
+    width: 221px;
+    min-height: auto;
+    min-width: auto;
+    display: block;
+    transform: none;
+    box-sizing: border-box;
+}
+
+.ImageUploader > input {
+    width: 100%;
+    height: 100%;
+    display: block;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.ImageUploader_Icon {
+    display: flex;
+    flex-wrap: wrap;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+    width: 54px;
+    height: 40px;
+    text-align: center;
+    font-size: 40px;
+    margin: 0px auto 20px;
+    background: rgb(252, 252, 252);
+    box-sizing: border-box;
+    box-shadow: rgba(0 0 0 0.15) 0px 0.8px 0px;
+    border-radius: 1px;
+}
+
+.ImageUploader_span {
+    display: flex;
+    flex-wrap: wrap;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+    font-size: 12px;
+    width: 130px;
+    height: 36px;
+    border: 1px solid rgb(242, 242, 242);
+    border-radius: 4px;
+    margin: 0px auto 20px;
+}
+
+.ImageUploader_inner > p {
+    width: 100%;
+    font-weight: 400;
+    color: rgb(158, 158, 158);
+    text-align: center;
+    margin: 0px 0px 10px;
+    font-size: 13px !important;
+    line-height: 22px !important;
+}
+
+
+/*------------------ public.css ------------------ */
+* {
+    font-family: 'Malgun Gothic';
+}
+
+/* header 부분 */
+.main_header {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.main_header_warp {
+    width: 1032px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.login\&signup_name > a {
+    text-decoration: none;
+    color: black;
+}
+
+nav {
+    width: 1032px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header_menu_warp {
+    display: flex;
+    align-items: center;
+}
+
+.projectsearch_item {
+    background-color: white;
+    border: none;
+}
+
+.projectsearch_name {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.projectupload_name {
+    padding-left: 10px;
+    color: black;
+    font-size: 17px;
+    font-weight: 600;
+}
+
+.header_mainlogo {
+    padding-right: 70px;
+}
+
+.header_mainlogo_item {
+    color: black;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.header_sub_warp {
+    width: 250px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header_customer_warp {
+    display: flex;
+}
+
+.header_customer_btn {
+    display: flex;
+    background-color: white;
+    border: none;
+    align-items: center;
+    font-size: 16px;
+    font-weight: 600;
+    padding-left: 10px;
+}
+
+.header_profile_img {
+    width: 38px;
+    height: 38px;
+    border-radius: 70%;
+    background: #f7f7f7;
+    overflow: hidden;
+    margin-left: 5px;
+}
+
+.profile {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* footer 부분 */
+footer.footer_save {
+    width: 1032px;
+    height: 100%;
+    margin: 0px auto;
+    display: flex;
+    justify-content: flex-end;
+    position: relative;
+    margin-bottom: 65px;
+}
+
+footer.footer_save > div {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: end;
+}
+
+footer.footer_save > div > button.footer_save_btn {
+    width: 102px;
+    height: 40px;
+    font-weight: 700;
+    background: rgb(248, 100, 83);
+    font-size: 12px !important;
+    color: white;
+    border-radius: 4px;
+    border: none;
+    font-family: "Malgun Gothic";
+}

@@ -714,7 +714,7 @@
     $(function () {
         //checkLogined();
         // 메뉴 버튼 객체들
-        var $menuObj = $('div.nav2 > ul.nav > li > a');
+        var $menuObj = $('div.main-btn > div.main-btn_inner > button');
 
         // 글쓰기 버튼
         var $writeBtn = $('button.writeBtn.btn.btn-primary');
@@ -726,8 +726,11 @@
             // 클릭된 객체 href 속성값
             var href = $(this).attr('href');
             switch (href) {
-                case './boardlist.html':
-                case './login.html':
+                case '/register/regist/basicInfo':
+                case '/register/regist/creatorInfo':
+                case '/register/regist/fundingInfo':
+                    $menuObj.css({ background:"#ffffff" , color: "#000000" })
+                    $(this).css({ background:"#FF5757" , color:"#ffffff" });
                     $section.load(href, function (responseTxt, statusTxt, xhr) {
                         if (statusTxt == 'error') alert('Error: ' + xhr.status + ': ' + xhr.statusText);
                     });
@@ -793,13 +796,13 @@
 <section class="main_section_btn">
     <div class="main-btn">
         <div class="main-btn_inner">
-            <button type="button" class="btn-head1">1.기본정보</button>
-            <button type="button" class="btn-head2">2.창작자 정보</button>
-            <button type="button" class="btn-head3">3.펀딩계획</button>
+            <button type="button" class="btn-head1" href="/register/regist/basicInfo">1.기본정보</button>
+            <button type="button" class="btn-head2" href="/register/regist/creatorInfo">2.창작자 정보</button>
+            <button type="button" class="btn-head3" href="/register/regist/fundingInfo">3.펀딩계획</button>
         </div>
     </div>
 </section>
-<section class="main_section">
+<section class="main_section" id="section">
     <!-- 제목 -->
     <div class="projectItem">
         <dl class="projectItem_title">

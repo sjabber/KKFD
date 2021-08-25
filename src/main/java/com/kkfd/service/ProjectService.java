@@ -20,6 +20,9 @@ public class ProjectService {
 		return dao.selectProjs(search);
 	}
 	
+	public ProjectDTO findByNo(int projNo, String id) throws FindException {
+		return dao.selectByNo(projNo, id);
+	}
 
 	public List<ProjectDTO> findProjsByCrId(String crId,int currentPage) throws FindException {
 		return dao.selectProjsByCrId(crId,currentPage);

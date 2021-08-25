@@ -6,9 +6,6 @@ $(function () {
     var $divIpt4 = $('div.projectItem_input4');
     var $divIpt5 = $('div.projectItem_input5');
 
-/*    var $Ipt = $('input.inputInner');
-    var $Ipt = $('textarea.textAreaInner');*/
-
     $('html').click(function (e) {
         if ($(e.target).hasClass("inputInner")) {
             $divIpt.css("border", "1px solid black");
@@ -51,16 +48,25 @@ $(function () {
         $desc.next().slideDown(400);
     }
 
+    $.contentShow2 = function (obj) {
+        var $desc = obj;
+        // alert('설명을 보여준다.');
+        // obj.next().show(500);
+        $desc.parent().parent().next().slideDown(300);
+    }
+
     $.contentHide = function (obj) {
         var $desc = obj;
         // alert('설명 사라짐.');
         // obj.parent().hide(500);
         $desc.parent().slideUp(400);
     };
+
+
 });
 
 // 섹션 교체 기능
-$(function () {
+/*$(function () {
     //checkLogined();
     // 메뉴 버튼 객체들
     var $menuObj = $('div.main-btn > div.main-btn_inner > button');
@@ -88,13 +94,4 @@ $(function () {
         // return false를 하지 않을 경우 페이지 자체가 이동된다.
         return false;
     });
-
-    $writeBtn.click(function () {
-        alert('클릭됨.');
-        // 클릭된 객체 onclick 속성값
-        $section.load('./boardwrite.html', function (responseTxt, statusTxt, xhr) {
-            if (statusTxt == 'error') alert('Error: ' + xhr.status + ': ' + xhr.statusText);
-        });
-
-    });
-});
+});*/

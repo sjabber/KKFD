@@ -75,13 +75,8 @@ table {
     border-radius: 2px;
 }
 
-.btn-head1 {
-    background-color: #FF5757;
-    color: white;
-}
-
 .main_section_btn {
-    box-shadow: 0 4px 4px -4px #6D6D6D;
+    box-shadow: 0 4px 4px -4px #c7c7c7;
 }
 
 .main_section {
@@ -91,7 +86,7 @@ table {
 
 .projectItem {
     display: flex;
-    padding-bottom: 15px;
+    padding-bottom: 25px;
     margin-bottom: 20px;
     -webkit-box-pack: justify;
     justify-content: space-between;
@@ -111,7 +106,7 @@ table {
 }
 
 .projectItem_title_dd {
-    font-size: 14px;
+    font-size: 13px;
     line-height: 24px;
     height: 48px;
     text-decoration: none solid rgb(109, 109, 109);
@@ -260,6 +255,22 @@ div.Icon > svg {
     opacity: 1;
 }
 
+div.LabelWithTooltip2 {
+    width: 100%;
+    background: rgb(255, 255, 255);
+    box-shadow: rgba(0 0 0 0.05) 0px 2px 8px, rgba(0 0 0 0.1) 0px 1px 0px 0px;
+    border-radius: 4px;
+    padding: 16px 46px 16px 26px;
+    position: relative;
+    margin: 10px 0px 0px;
+    border: 1px solid rgb(240, 240, 240);
+    transition: all 0.5s ease 0s;
+    height: auto;
+    transform: translateY(0px);
+    opacity: 1;
+    color: black;
+}
+
 .LabelWithTooltipImg {
     width: 100%;
     background: rgb(255, 255, 255);
@@ -332,7 +343,7 @@ div.Icon > svg {
 }
 
 /*---------------- tooltip -----------------------*/
-.projectItem_input, .projectItem_input4 {
+.projectItem_input, .projectItem_input4, .projectItem_input5 {
     height: 45px;
     width: 630px;
     display: flex;
@@ -343,6 +354,7 @@ div.Icon > svg {
     border-radius: 4px;
     border: 1px solid #F0F0F0;
     padding: 0 18px;
+    margin-top: 10px;
 }
 
 .projectItem_input2, .projectItem_input3 {
@@ -376,7 +388,7 @@ div.Icon > svg {
     line-height: 24px !important;
 }
 
-.inputInner {
+.inputInner, .inputInner2, .inputInner3 {
     display: block;
     width: 100%;
     height: 100%;
@@ -542,13 +554,13 @@ div.Icon > svg {
     color: black;
 }
 
-nav {
-    width: 1032px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
+/*    nav {
+        width: 1032px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }*/
 
 .header_menu_warp {
     display: flex;
@@ -646,4 +658,468 @@ footer.footer_save > div > button.footer_save_btn {
     border-radius: 4px;
     border: none;
     font-family: "Malgun Gothic";
+}
+
+/*------------ creatorInfo.html 에 적용되는 css ------------*/
+.projectItem_profile {
+    display: flex;
+    align-items: center;
+}
+
+.projectItem_profile_circle {
+    margin-right: 32px;
+    display: flex;
+    width: 112px;
+    height: 112px;
+    flex: 0 0 auto;
+    font-size: 52px;
+    letter-spacing: -3.12px;
+    position: relative;
+}
+
+.profile_circle {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    overflow: hidden;
+    position: relative;
+    box-shadow: rgb(208 208 208) 0px 0px 1px 0px inset,
+    rgb(208 208 208) 0px 0px 1px 0px
+}
+
+.profile_circle_inner {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    box-shadow: rgb(208 208 208) 0px 0px 1px 0px inset, rgb(208 208 208) 0px 0px 1px 0px;
+    -webkit-box-pack: center;
+    justify-content: center;
+    color: rgb(255, 255, 255);
+    background-color: rgb(208, 208, 208);
+    font-weight: bold;
+}
+
+.projectItem_profile_upload {
+    font-size: 12px;
+    line-height: 19px;
+    letter-spacing: -0.01em;
+    color: rgb(158, 158, 158);
+}
+
+.projectItem_profile_upload > div {
+    display: block;
+
+}
+
+button.profile_upload {
+    font-size: 12px;
+    line-height: 20px;
+    color: rgb(61, 61, 61);
+    margin-bottom: 14px;
+    border: 1px solid rgb(240, 240, 240);
+    cursor: pointer;
+    display: inline-flex;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+    height: 36px;
+    white-space: nowrap;
+    border-radius: 4px;
+    outline: 0px;
+    box-sizing: border-box;
+    font-weight: normal;
+    padding: 0px 16px;
+    background: rgb(255, 255, 255);
+    position: relative;
+}
+
+button.profile_upload > input[type=file] {
+    width: 100%;
+    height: 100%;
+    display: block;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    opacity: 0;
+    cursor: pointer;
+}
+
+div.profileUploadIcon {
+    display: inline-flex;
+    align-self: center;
+}
+
+div.profileUploadIcon > svg {
+    fill: rgb(248, 100, 83);
+    margin-right: 9px;
+}
+
+/*------------ funding.html 에 적용되는 css ------------*/
+div.projectItem_ProjectNotice {
+    margin-top: 25px;
+    background: rgb(253, 244, 243);
+    border-radius: 8px;
+    padding: 23px 24px 22px;
+    font-weight: 400;
+    color: rgb(109, 109, 109);
+    font-size: 12px !important;
+    line-height: 20px !important;
+    font-family: NotoSansKR, "SF Pro Text", "Segoe UI", "Helvetica Neue", Arial, sans-serif !important;
+}
+
+div.NoticeTitle {
+    color: rgb(248, 100, 83);
+    margin-bottom: 10px;
+    font-weight: 500;
+    font-size: 12px !important;
+    line-height: 20px !important;
+    font-family: NotoSansKR, "SF Pro Text", "Segoe UI", "Helvetica Neue", Arial, sans-serif !important;
+}
+
+div.NoticeTitle > div {
+    display: inline-flex;
+    align-self: center;
+}
+
+div.NoticeTitle > div > svg {
+    position: relative;
+    height: 12px;
+    width: 12px;
+    top: 1px;
+    margin-right: 6px;
+    fill: rgb(248, 100, 83);
+    font-size: 12px;
+}
+
+div.projectItem_ProjectNotice > div > p {
+    padding-left: 14px;
+    margin-bottom: 5px;
+    position: relative;
+}
+
+div.projectItem_ProjectNotice > div > p:before {
+    content: "*";
+    position: absolute;
+    top: 2px;
+    left: 3px;
+}
+
+div.projectGoalFunding {
+    background: rgb(255, 255, 255);
+    border: 1px solid rgb(234, 234, 234);
+    border-radius: 4px;
+    padding: 32px 24px 24px;
+    width: 100%;
+}
+
+/*    div.projectGoalFunding > div.InputWithGoal {
+        box-sizing: inherit;
+    }*/
+
+div.projectGoalFunding > p {
+    font-weight: bold;
+    font-size: 11px;
+    line-height: 18px;
+    letter-spacing: -0.005em;
+    margin-bottom: 8px;
+    color: rgb(61, 61, 61);
+    display: flex;
+}
+
+div.InputWithGoal > div.InputWithGoal_Check {
+    display: flex;
+    -webkit-box-pack: start;
+    justify-content: flex-start;
+    -webkit-box-align: center;
+    align-items: center;
+    border-radius: 4px;
+    background: rgb(255, 255, 255);
+    padding: 0px 18px;
+    border: 1px solid rgb(240, 240, 240);
+}
+
+div.InputWithGoal_Check > span.InputWithGoal_InputWrapper {
+    flex: 1 1 0%;
+    border: 0px;
+    text-align: right;
+    padding: 0px;
+    background: transparent;
+    max-height: 44px;
+    min-width: 100px;
+    display: flex;
+    align-items: center;
+    border-radius: 4px;
+}
+
+span.InputWithGoal_InputWrapper {
+    flex: 1 1 0%;
+    color: rgb(13, 13, 13);
+    border: 0px;
+    text-align: right;
+    padding: 0px;
+    background: transparent;
+    max-height: 44px;
+    min-width: 100px;
+    display: flex;
+    font-size: 14px;
+    line-height: 24px;
+    letter-spacing: -0.015em;
+    align-items: center;
+    border-radius: 4px;
+}
+
+span.InputWithGoal_InputWrapper > input {
+    text-align: inherit;
+    font-weight: 400;
+    font-size: 14px !important;
+    line-height: 24px !important;
+    font-family: NotoSansKR, "SF Pro Text", "Segoe UI", "Helvetica Neue", Arial, sans-serif !important;
+
+    width: 100%;
+    background: transparent;
+    border: 0px;
+    padding: 11px 0px;
+    box-sizing: border-box;
+    height: 100%;
+    outline: none;
+    margin: 0px;
+    appearance: none !important;
+}
+
+div.InputWithGoal > div.InputWithGoal_Notice {
+    box-sizing: inherit;
+    background: rgb(252, 252, 252);
+    border-radius: 4px;
+    padding: 25px 22px 15px;
+    margin-top: 8px;
+}
+
+div.InputWithGoal_Notice > div.totalAmount {
+    display: flex;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    text-align: initial;
+    color: rgb(61, 61, 61);
+    font-size: 12px;
+    line-height: 19px;
+    letter-spacing: -0.01em;
+    border-bottom: 1px solid rgb(234, 234, 234);
+    padding-bottom: 16px;
+    margin-bottom: 11px;
+}
+
+div.totalAmount > span {
+    padding-top: 5px;
+    font-weight: 550;
+}
+
+div.totalAmount > em {
+    font-style: normal;
+    color: rgb(248, 100, 83);
+    font-size: 18px;
+    line-height: 27px;
+    letter-spacing: -0.02em;
+    font-weight: bold;
+    display: inline;
+}
+
+
+.feewrap1 .feewrap2, .feewrap3 > em {
+    display: inline;
+    font-style: normal;
+    color: rgb(61, 61, 61);
+    box-sizing: inherit;
+}
+
+div.feewrap1, div.feewrap2, div.feewrap3 {
+    display: flex;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+}
+
+div.feewrap1 {
+    margin-bottom: 3px;
+    color: rgb(158, 158, 158);
+    font-size: 12px;
+    line-height: 19px;
+    letter-spacing: -0.01em;
+}
+
+div.feewrap2, div.feewrap3 {
+    color: rgb(158, 158, 158);
+    font-size: 11px;
+    line-height: 18px;
+    letter-spacing: -0.005em;
+    margin-bottom: 3px;
+}
+
+div.projectItem_date {
+    width: 100%;
+}
+
+div.projectItem_date > ol.projectItem_date_ol {
+    margin: 0px;
+    padding: 0px;
+    display: block;
+    list-style-type: decimal;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    padding-inline-start: 40px;
+}
+
+li.FundingPlan1 {
+    position: relative;
+    list-style: none;
+    padding: 0px 0px 38px 18px;
+    color: rgb(158, 158, 158);
+    box-sizing: inherit;
+}
+
+li.FundingPlan1::before {
+    position: absolute;
+    top: 4px;
+    left: 0px;
+    z-index: 1;
+    content: "";
+    border: 3px solid rgb(0, 0, 0);
+    display: block;
+    width: 9px;
+    height: 9px;
+    border-radius: 4px;
+    background: rgb(255, 255, 255);
+}
+
+li.FundingPlan1::after {
+    content: "";
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    height: 100%;
+    border-left: 1px solid rgb(228, 228, 228);
+}
+
+div.FundingPlan1_div {
+    display: flex;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    width: 100%;
+}
+
+div.FundingPlan1_div p {
+    margin-bottom: 4px;
+    margin-top: 0em;
+    font-weight: 500;
+    color: rgb(13, 13, 13);
+    display: flex;
+    font-size: 12px !important;
+    line-height: 20px !important;
+}
+
+div.FindPlan1_startDate {
+    margin: 0 8px 0 0;
+    width: 50%;
+}
+
+div.FindPlan1_endDate {
+    margin-right: 0px;
+    width: 50%;
+}
+
+div.FindPlan1_endDate > button {
+    display: flex;
+    align-items: center;
+    border-radius: 2px;
+    font-size: 16px;
+    outline: none;
+    padding: 0px;
+    margin: 0px;
+    border: 0px;
+    background: transparent;
+    cursor: pointer;
+    overflow: visible;
+}
+
+div.FindPlan1_endDate > button > em > div.question_line {
+    margin-bottom: 4px;
+    margin-left: 4px;
+    display: inline-flex;
+    align-self: center;
+}
+
+div.FindPlan1_endDate > button > em > div.question_line > svg {
+    fill: rgb(255, 87, 87);
+}
+
+div.Datepickers {
+    display: block;
+}
+
+div.Datepickers > div.Datepickers_inner {
+    position: relative;
+    width: 100%;
+    display: inline-block;
+    padding: 0 14px;
+    border: 1px solid rgb(240, 240, 240);
+}
+
+div.Datepickers_inner > button {
+    align-items: center;
+    width: 100%;
+    height: 40px;
+    text-align: left;
+    padding: 0;
+    box-sizing: border-box;
+    border-radius: 4px;
+    background: rgb(255, 255, 255);
+    color: rgb(61, 61, 61);
+    border: none;
+}
+
+div.Datepickers_inner > button > div.calendar-dot {
+    display: inline-flex;
+    align-self: center;
+    width: 100%;
+    height: 100%;
+}
+
+div.Datepickers_inner > button > div.calendar-dot > svg {
+    margin: 12px 9px 0 0;
+    width: 1em;
+    height: 1em;
+}
+
+div.Datepickers_inner > button > div.calendar-dot > input {
+    border: none;
+    width: 100%;
+    font-size: 14px;
+    font-weight: 450;
+}
+
+div.FundingTerm {
+    padding-top: 46px;
+    font-weight: 400;
+    font-size: 14px !important;
+    line-height: 24px !important;
+    font-family: NotoSansKR, "SF Pro Text", "Segoe UI", "Helvetica Neue", Arial, sans-serif !important;
+}
+
+div.FundingTerm > p {
+    margin-bottom: 4px;
+    font-weight: 500;
+    color: rgb(13, 13, 13);
+    display: flex;
+    font-size: 12px !important;
+    line-height: 20px !important;
+    font-family: NotoSansKR, "SF Pro Text", "Segoe UI", "Helvetica Neue", Arial, sans-serif !important;
+}
+
+div.FundingPlan_end {
+
 }

@@ -84,12 +84,13 @@ WHERE rn BETWEEN START_ROW(2,18) AND END_ROW(2,18);
 
 --[마이페이지] 마이 프로젝트
 SELECT *
-    FROM(SELECT ROWNUM AS rn, proj_no, proj_title, proj_start, proj_end, proj_goals, proj_fm, proj_quantity, proj_status
+FROM (SELECT ROWNUM AS rn,p.*
+      FROM(SELECT  proj_no, proj_title, proj_start, proj_end, proj_goals, proj_fm, proj_quantity, proj_status
             FROM kk_project
-            WHERE proj_id='id1'--id=#{id}
-            ORDER BY proj_no
-        )
-WHERE rn BETWEEN START_ROW(1,18) AND END_ROW(1,18);
+            WHERE proj_id='t'--id=#{id}
+            ORDER BY proj_no DESC
+            ) p
+) WHERE rn BETWEEN START_ROW(2,10) AND END_ROW(2,10);
 --WHERE rn BETWEEN START_ROW(#{currentPage},#{cntPerPage}) AND END_ROW(#{currentPage},#{cntPerPage})
 
 --[마이페이지] 후원자보기                                 --proj_no=#{no}

@@ -50,9 +50,9 @@ public class CreatorController {
 
 			Date now = new Date();//서버 기준시간이 한국시간?
 			//project.getProjStatus() 
-			//0:취소
-			//1:정상(10:진행예정 / 11:달성률<25 / 12: 25<=달성률<75 / 13: 75<=달성률<제한수량  19:제한수량도달)
-			//2:마감(20:실패, 21:성공)
+	          //0:취소
+	          //1:정상(10:진행예정 / 11:달성률<25 / 12: 25<=달성률<75 / 13: 75<=달성률<100 / 15:100<=달성률<제한수량 /  19:제한수량도달)
+	          //2:마감(20:실패, 21:성공)
 			int status = 0;							
 			for(ProjectDTO project : list) {
 				if(project.getProjStatus()==0) {	//0: 취소	
@@ -60,31 +60,33 @@ public class CreatorController {
 				}
 				if(now.before(project.getProjStart())) {		//10:현재가 시작일 전 - 진행예정
 					status=10;
-				 }else if(now.before(project.getProjStart())) {	//<현재가 시작일 후 & 종료일 전> - 진행중
+				 }else if(now.before(project.getProjEnd())) {	//<현재가 시작일 후 & 종료일 전> - 진행중
 					if(project.getProjQuantity()==project.getProjTargetcnt()){	//19: 조기마감
 						status = 19;
 					}else {														
 						if(project.getProjGoals()<25) {
 							status = 11;
-						}
-						else if(project.getProjGoals()>=25&&project.getProjGoals()<=75) {
+						}else if(project.getProjGoals()<75) {
 							status = 12;
-						}else {
+						}else if(project.getProjGoals()<100){
 							status = 13;
+						}else {
+							status = 15;
 						}
 					}
 				}else {											//<현재가 종료일 후> - 종료
 					if(project.getProjGoals()<100) {			//20:종료인 프로젝트중 달성률 100%미만 실패
-						status=21;	
+						status=20;	
 					}
 					else{										//21:종료인 프로젝트중 달성률 100%이상 성공
-						status=22;								
+						status=21;								
 					}								
 				}
 				project.setProjStatus(status);
 			}
-			String url = "/creator/projescts/";
+			String url = "http://localhost:9999/kkfd/creator/projects/";
 			pd = new PageDTO<ProjectDTO>(currentPage,totalPage ,list, url);
+
 			return new ResponseEntity<PageDTO<ProjectDTO>>(pd,HttpStatus.OK);//프로젝트 있는경우
 		}catch(FindException e){
 			return new ResponseEntity<PageDTO<ProjectDTO>>(HttpStatus.INTERNAL_SERVER_ERROR);//응답 변경	   

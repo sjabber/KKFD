@@ -53,6 +53,16 @@ app.get('/project/list', function (req, res) {
     fs.createReadStream("./project/list.html").pipe(res);
 });
 
+app.get('/project/info', function (req, res) {
+    res.writeHead(200, {"Content-Type": "text/html"});
+    fs.createReadStream("./project/info.html").pipe(res);
+});
+
+app.get('/project/apply', function (req, res) {
+    res.writeHead(200, {"Content-Type": "text/html"});
+    fs.createReadStream("./project/apply.html").pipe(res);
+});
+
 app.get('/project2/joinlist', function (req, res) {
     res.writeHead(200, {"Content-Type": "text/html"});
     fs.createReadStream("./project2/joinlist.html").pipe(res);

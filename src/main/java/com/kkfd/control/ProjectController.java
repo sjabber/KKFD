@@ -67,5 +67,17 @@ public class ProjectController {
 		return null;
 	}
 	
+	@GetMapping(value={"/{no}/history"})
+	public ResponseEntity<List<ProjectDTO>> prevProj(@PathVariable int no) {
+		try {
+			List<ProjectDTO> list = service.findPrevProj(no);
+			return new ResponseEntity<List<ProjectDTO>>(list, HttpStatus.OK);
+		} catch (FindException e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(HttpStatus.BAD_GATEWAY);
+		}
+		//return null;
+	}
+	
 }
 

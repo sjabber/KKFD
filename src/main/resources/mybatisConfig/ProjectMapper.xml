@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kkfd.dto.ProjectMapper">
+
+<resultMap id="projectResultMap" type="project" autoMapping="true">
+	<id column="proj_no" property="projNo"/>
+		<association javaType="creator" property="creator" autoMapping="true">
+		  <result column="proj_id" property="crId"/>
+		</association>
+</resultMap>
+
+  <select id="selectByNo" parameterType="HashMap" resultMap="projectResultMap">
+    SELECT p.proj_no,p.proj_category, p.proj_title, p.proj_fm, p.proj_quantity, p.proj_goals, p.proj_start, p.proj_end, p.proj_intro,
+        p.proj_targetcnt, p.proj_limitcnt, p.proj_delivery, NVL2(b.book_no,1,0) AS projBm, p.proj_id, c.cr_nn, c.cr_intro
+    FROM kk_project p
+        LEFT OUTER JOIN kk_bookmark b ON (p.proj_no=b.book_proj AND b.book_id=#{memId})
+        JOIN kk_creator c ON(p.proj_id=c.cr_id)
+    WHERE p.proj_no=#{projNo}
+  </select>
+  
+  <select id="selectPrevProj" resultType="project">
+    SELECT *
+    FROM(SELECT proj_no, proj_title, proj_summary
+        FROM kk_project
+        WHERE proj_id =(SELECT proj_id FROM kk_project WHERE proj_no=#{no})
+        AND(proj_no != #{no})
+        ORDER BY proj_no DESC
+        )
+    WHERE ROWNUM BETWEEN 1 AND 5
+  </select>
+</mapper>

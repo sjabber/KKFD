@@ -93,6 +93,7 @@ table {
 
 .state{
 	width: 50px;
+	height: 35px;
 	padding: 3px 8px;
 	border-radius: 10px;
 
@@ -101,6 +102,10 @@ table {
 .pagination_container{
 	display: flex;
 	justify-content: center;
+}
+
+li.page-item{
+	width: 39px;
 }
 /* header */
 /*

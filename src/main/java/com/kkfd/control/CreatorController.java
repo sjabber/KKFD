@@ -36,8 +36,6 @@ public class CreatorController {
 		if(loginId == null) {
 			return new ResponseEntity<PageDTO<ProjectDTO>>(HttpStatus.UNAUTHORIZED);//권한없음
 		}
-		List<ProjectDTO> list = null;
-		PageDTO<ProjectDTO> pd = new PageDTO<ProjectDTO>();
 		try {
 			int totalCnt = service.countMyProjs(loginId);
 			log.info(String.valueOf(totalCnt));
@@ -46,7 +44,7 @@ public class CreatorController {
 				return new ResponseEntity<PageDTO<ProjectDTO>>(HttpStatus.NO_CONTENT);//프로젝트 없음	
 			}
 			int totalPage =  (int) Math.ceil(totalCnt/(double)PageDTO.CNT_PER_PAGE);			
-			list = service.findProjsByCrId(loginId,currentPage);
+			List<ProjectDTO> list = service.findProjsByCrId(loginId,currentPage);
 
 			Date now = new Date();//서버 기준시간이 한국시간?
 			//project.getProjStatus() 
@@ -85,7 +83,7 @@ public class CreatorController {
 				project.setProjStatus(status);
 			}
 			String url = "http://localhost:9999/kkfd/creator/projects/";
-			pd = new PageDTO<ProjectDTO>(currentPage,totalPage ,list, url);
+			PageDTO<ProjectDTO> pd = new PageDTO<ProjectDTO>(currentPage,totalPage ,list, url);
 
 			return new ResponseEntity<PageDTO<ProjectDTO>>(pd,HttpStatus.OK);//프로젝트 있는경우
 		}catch(FindException e){

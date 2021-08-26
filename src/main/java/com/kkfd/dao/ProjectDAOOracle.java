@@ -53,11 +53,11 @@ public class ProjectDAOOracle implements ProjectDAO {
 
 	//[creator]마이 프로젝트
 	@Override
-	public List<ProjectDTO> selectProjsByCrId(String crId,int currentPage) throws FindException {
+	public List<ProjectDTO> selectProjsByCrId(String loginId,int currentPage) throws FindException {
 		SqlSession session= null;
 		try {
 			HashMap<String, Object>map = new HashMap<>();
-			map.put("crId", crId);
+			map.put("loginId", loginId);
 			map.put("currentPage", currentPage);
 			map.put("cntPerPage", PageDTO.CNT_PER_PAGE);
 			session = sessionFactory.openSession();

@@ -5,27 +5,24 @@
 <mapper namespace="com.kkfd.dto.ProjectMapper2">
 
 <select id="selectProjsByCrId" parameterType="HashMap" resultType="project">
-
 SELECT *
 FROM (SELECT ROWNUM AS rn,p.*
       FROM(SELECT  proj_no, proj_title, proj_start, proj_end, proj_goals, proj_fm, proj_quantity, proj_status
             FROM kk_project
-            WHERE proj_id=#{crId}
+            WHERE proj_id=#{loginId}
             ORDER BY proj_no DESC
             ) p
 ) WHERE rn BETWEEN START_ROW(#{currentPage},#{cntPerPage}) AND END_ROW(#{currentPage},#{cntPerPage})
 </select>
 
 <select id="countMyProjs" resultType="int">
-SELECT COUNT(proj_no) FROM kk_project WHERE proj_id=#{id}
+SELECT COUNT(proj_no) FROM kk_project WHERE proj_id=#{projId}
 </select>
-<select id="selectByNo" parameterType="HashMap" resultType="project">
-    SELECT p.proj_no,p.proj_category, p.proj_title, p.proj_fm, p.proj_quantity, p.proj_goals, p.proj_end, p.proj_intro,
-        p.proj_targetcnt, p.proj_limitcnt, NVL2(b.book_no,1,0) AS projBm, c.cr_nn "creator.cr_nn", c.cr_intro "creator.cr_intro"
-    FROM kk_project p
-        LEFT OUTER JOIN kk_bookmark b ON (p.proj_no=b.book_proj AND b.book_id=#{memId})
-        JOIN kk_creator c ON(p.proj_id=c.cr_id)
-    WHERE p.proj_no=#{projNo}
-</select>
+
+<update id="updateProj" parameterType="HashMap">
+UPDATE kk_project
+SET proj_status=0
+WHERE proj_no=#{projNo} AND proj_id=#{loginId}
+</update>
 
 </mapper>

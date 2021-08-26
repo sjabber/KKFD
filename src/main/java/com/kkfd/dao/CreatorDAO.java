@@ -1,5 +1,8 @@
 package com.kkfd.dao;
 
-public interface CreatorDAO {
+import com.kkfd.exception.ModifyException;
 
+public interface CreatorDAO {
+	
+	public int updateProj(int projNo, String loginId) throws ModifyException;
 }

@@ -45,21 +45,21 @@ $(function () {
         var $desc = obj;
         // alert('설명을 보여준다.');
         // obj.next().show(500);
-        $desc.next().slideDown(400);
+        $desc.next().slideDown(400, 'linear');
     }
 
     $.contentShow2 = function (obj) {
         var $desc = obj;
         // alert('설명을 보여준다.');
         // obj.next().show(500);
-        $desc.parent().parent().next().slideDown(300);
+        $desc.parent().parent().next().slideDown(400, 'swing');
     }
 
     $.contentHide = function (obj) {
         var $desc = obj;
         // alert('설명 사라짐.');
         // obj.parent().hide(500);
-        $desc.parent().slideUp(400);
+        $desc.parent().slideUp(400, 'linear');
     };
 
 

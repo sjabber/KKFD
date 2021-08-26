@@ -269,6 +269,9 @@ div.LabelWithTooltip2 {
     transform: translateY(0px);
     opacity: 1;
     color: black;
+    font-size: 14px;
+    font-weight: 500;
+    display: none;
 }
 
 .LabelWithTooltipImg {
@@ -974,7 +977,7 @@ div.projectItem_date > ol.projectItem_date_ol {
     padding-inline-start: 40px;
 }
 
-li.FundingPlan1 {
+li.FundingPlan1, li.FundingPlan2, li.FundingPlan3 {
     position: relative;
     list-style: none;
     padding: 0px 0px 38px 18px;
@@ -982,7 +985,7 @@ li.FundingPlan1 {
     box-sizing: inherit;
 }
 
-li.FundingPlan1::before {
+li.FundingPlan1::before, li.FundingPlan2::before, li.FindPlan3::before {
     position: absolute;
     top: 4px;
     left: 0px;
@@ -996,7 +999,7 @@ li.FundingPlan1::before {
     background: rgb(255, 255, 255);
 }
 
-li.FundingPlan1::after {
+li.FundingPlan1::after, li.FundingPlan2::after {
     content: "";
     position: absolute;
     top: 4px;
@@ -1120,6 +1123,65 @@ div.FundingTerm > p {
     font-family: NotoSansKR, "SF Pro Text", "Segoe UI", "Helvetica Neue", Arial, sans-serif !important;
 }
 
-div.FundingPlan_end {
 
+
+li.FundingPlan2 > div.FundingPlan_end {
+    margin-bottom: 10px;
 }
+
+div.FundingPlan_end > div.FundingPlan_end_inner {
+    display: flex;
+    flex-wrap: wrap;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: start;
+    justify-content: flex-start;
+    color: rgb(61, 61, 61);
+    margin: 0px 0px 10px;
+}
+
+div.FundingPlan_end > div.FundingPlan_end_inner > button.FundingPlan_end_btn {
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    border-radius: 2px;
+    font-size: 16px;
+    outline: none;
+    padding: 0px;
+    margin: 0px;
+    border: 0px;
+    background: transparent;
+    cursor: pointer;
+}
+
+button.FundingPlan_end_btn > p {
+    font-weight: 500;
+    margin: 0px;
+    font-size: 12px !important;
+    line-height: 20px !important;
+    font-family: NotoSansKR, "SF Pro Text", "Segoe UI", "Helvetica Neue", Arial, sans-serif !important;
+}
+
+button.FundingPlan_end_btn > em {
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    margin: 0 0 0 2px;
+    padding: 2px;
+    border: 0;
+    background: transparent;
+    border-radius: 2px;
+    outline: none;
+    font-size: 16px;
+}
+
+button.FundingPlan_end_btn > em > div {
+    display: inline-flex;
+    align-self: center;
+}
+
+button.FundingPlan_end_btn > em > div > svg {
+    fill: rgb(255, 87, 87);
+}
+
+

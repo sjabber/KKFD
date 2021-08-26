@@ -6,6 +6,7 @@ import com.kkfd.dto.ProjectDTO;
 import com.kkfd.dto.ProjectMainDTO;
 import com.kkfd.dto.SearchDTO;
 import com.kkfd.exception.FindException;
+import com.kkfd.exception.ModifyException;
 
 public interface ProjectDAO {
 	/**
@@ -23,6 +24,25 @@ public interface ProjectDAO {
 	 * @throws FindException 프로젝트가 없을 경우 또는 프로젝트찾기를 실패한 경우 발생
 	 */
 	public ProjectDTO selectByNo(int proj_no, String id) throws FindException;
+	
+	/**
+	 * 크리에이터의 이전 프로젝트 검색
+	 * @param proj_no
+	 * @return
+	 * @throws FindException
+	 */
+	public List<ProjectDTO> selectPrevProj(int proj_no) throws FindException;
+	
+	//-----------------------------------------------------------------------------//
+	
+	/**
+	 * 
+	 * @param projNo
+	 * @param loginId
+	 * @return
+	 * @throws ModifyException
+	 */
+	public int updateProj(int projNo, String loginId) throws ModifyException;
 	
 	/**
 	 * 

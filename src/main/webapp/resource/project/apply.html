@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" type="text/css" href="./css/apply.css" />
+    <link rel="stylesheet" type="text/css" href="/css/apply.css" />
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -18,7 +18,96 @@
     <title>펀딩 신청</title>
     <script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
     <!-- <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script> -->
-    <script src="./js/apply.js"></script>
+    <script src="/js/apply.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+      function searchParam(key) {
+        return new URLSearchParams(location.search).get(key);
+      }
+
+      function numberWithCommas(x) {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      }
+    </script>
+    <script>
+      var projFm = 0;
+      var dt = new Date();
+            $(function () {
+              const URLSearch = new URLSearchParams(location.search);
+        var no = searchParam("no");
+        console.log(no);
+        var backurl = "http://localhost:9999/kkfd/project/" + no;
+        $.ajax({
+          method: "GET",
+          transformRequest: [null],
+          transformResponse: [null],
+          jsonpCallbackParam: "callback",
+          url: backurl,
+          headers: {
+            Accept: "application/json, text/plain, */*",
+          },
+          timeout: {},
+          success: function (responseData) {
+            $(responseData).each(function (i, e) {
+              var projNo = e.projNo;
+              var projCategory = e.projCategory;
+              var projTitle = e.projTitle;
+              var crId = e.creator.crId;
+              var crNn = e.creator.crNn;
+              var crIntro = e.creator.crIntro;
+              var projIntro = e.projIntro;
+              projFm = e.projFm;
+              var projTargetcnt = e.projTargetcnt;
+              var projLimitcnt = e.projLimitcnt;
+              var projQuantity = e.projQuantity;
+              var projGoals = e.projGoals;
+              var projStart = e.projStart;
+              var projEnd = e.projEnd;
+              var projDelivery = e.projDelivery;
+              var projBm = e.projBm;
+              var sum = projFm * projQuantity;
+              // var funding_quantity = $("#funding_quantity").val();
+              console.log(funding_quantity);
+              $('div.category_nickname>span.category').html(projCategory);
+              $('div.category_nickname>span.cr_nn').html(crNn);
+              $('div.proj_title').html(projTitle);
+              $('div.represent_img>img.thumbnail_img').attr("src", "/img/" + no + "_0.png");
+              $('span.fm').html(numberWithCommas(sum) + "원");
+              $('span.goal_pct').html(numberWithCommas(projGoals) + "%");
+              $('div.box_row>span.fm').html(numberWithCommas(projFm) + "원");
+              $('div.box_row>span.delivery').html(projDelivery);
+              $('div.box_row>span.final_fm').html(numberWithCommas(projFm * 1) + "원");
+              $('div.pay_info>span.funding_paydate').html(projEnd);
+              console.log(dt);
+              //alert("test");
+
+              // $("#apply_btn").click(function () {
+              //   if(dt > projEnd) {
+              //     alert("test");
+              //   }
+              // });
+              
+            });
+          },
+        });
+        $("#funding_quantity").change(function () {
+          console.log(($(this).val()));
+          console.log(projFm);
+          var totalfm = $(this).val() * projFm;
+          $('div.box_row>span.final_fm').html(numberWithCommas(totalfm) + "원");
+        });
+
+        $("#apply_btn").click(function(e) {
+    		  e.preventDefault();
+          // alert("test");
+          // return false;
+          // if(dt > projEnd) {
+          //   alert("test");
+          // }
+        });
+        
+      });
+    </script>
   </head>
   <body>
     <!-- header -->
@@ -63,19 +152,19 @@
       <div class="top_area_wrap">
         <div class="proj_wrap">
           <div class="represent_img">
-            <img class="thumbnail_img" src="./img/1_0.PNG" />
+            <img class="thumbnail_img" src="" />
           </div>
           <div class="prev_proj_info_wrap">
             <div class="category_nickname">
-              <span class="category">캔들</span><span> | </span
-              ><span>클래시아트</span>
+              <span class="category"><!-- 카테고리 --></span><span> | </span
+              ><span class="cr_nn"><!-- 크리에이터 닉네임 --></span>
             </div>
             <div class="proj_title">
-              [클래시아트] 취미로의 첫 여행 : 투톤 젤캔들만들기 키트
+              <!-- 프로젝트 타이틀 -->
             </div>
             <div class="pct">
-              <span class="fm">1,000,000</span><span class="fm">원</span>
-              <span class="goal_pct">1000</span><span class="goal_pct">%</span>
+              <span class="fm"><!-- 모인 금액 --></span>
+              <span class="goal_pct"><!-- 달성률 --></span>
             </div>
           </div>
         </div>
@@ -87,29 +176,30 @@
         <div class="apply_area_left">
           <div class="apply_title">펀딩 정보</div>
           <div class="apply_box">
-            <div class="box_row"><span>금액</span> <span>10,000원</span></div>
+            <div class="box_row"><span>금액</span> <span class="fm"></span></div>
             <div class="box_row">
               <span>개수</span>
               <span
                 ><input
                   type="number"
                   class="form-control"
+                  id="funding_quantity"
                   value="1"
                   max="19"
                   min="1"
               /></span>
             </div>
             <div class="box_row">
-              <span>배송 예상일</span> <span>2021/09/20</span>
+              <span>배송 예상일</span> <span class="delivery"><!-- 배송 예상일 --></span>
             </div>
           </div>
           <div class="apply_title">회원 정보</div>
           <div class="apply_box">
             <div class="box_row">
-              <span>연락처</span> <span>010-0823-9999</span>
+              <span>연락처</span> <span><!-- 펀딩신청회원 연락처 --></span>
             </div>
             <div class="box_row">
-              <span>이메일</span> <span>abc0823@gmail.com</span>
+              <span>이메일</span> <span><!-- 펀딩신청회원 이메일 --></span>
             </div>
             <div class="apply_box">
               <div>* 위 연락처와 이메일로 후원 관련 소식이 전달됩니다.</div>
@@ -185,12 +275,12 @@
             <div class="apply_box">
               <div class="box_row">
                 <span class="final_funding">최종 펀딩 금액</span
-                ><span>10,000<span>원</span></span>
+                ><span class="final_fm"><!-- 펀딩금액x주문수량 --></span>
               </div>
             </div>
             <div class="pay_info">
               프로젝트 성공 시, 결제는
-              <span class="funding_paydate">2021/09/01</span>에 진행됩니다.
+              <span class="funding_paydate"><!-- 종료일 --></span>에 진행됩니다.
             </div>
             <div class="pay_info">
               프로젝트가 무산되거나 중단된 경우, 예약된 결제는
@@ -210,7 +300,7 @@
           </div>
           <div class="funding_button">
             <span> </span>
-            <button class="btn btn-danger btn-lg btn-block">펀딩 신청</button>
+            <button class="btn btn-danger btn-lg btn-block" id="apply_btn">펀딩 신청</button>
           </div>
         </div>
       </div>

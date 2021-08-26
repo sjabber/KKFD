@@ -13,6 +13,7 @@ import com.kkfd.dto.ProjectDTO;
 import com.kkfd.dto.ProjectMainDTO;
 import com.kkfd.dto.SearchDTO;
 import com.kkfd.exception.FindException;
+import com.kkfd.exception.ModifyException;
 @Repository("projectDAO")
 public class ProjectDAOOracle implements ProjectDAO {
 
@@ -50,6 +51,42 @@ public class ProjectDAOOracle implements ProjectDAO {
 			if(session!=null) session.close();
 		}
 	}
+	
+	
+	@Override
+	public List<ProjectDTO> selectPrevProj(int proj_no) throws FindException {
+		SqlSession session= null;
+		try {
+			session = sessionFactory.openSession();
+			return session.selectList("com.kkfd.dto.ProjectMapper.selectPrevProj", proj_no);
+		}catch (Exception e) {
+			throw new FindException(e.getMessage());
+		}finally {
+			if(session!=null) session.close();
+		}
+	}
+	
+	
+	//----------------------------------------------------//
+	
+	
+	@Override
+	public int updateProj(int projNo, String loginId) throws ModifyException{
+			SqlSession session= null;
+			try {
+				session = sessionFactory.openSession();
+				HashMap<String, Object> map = new HashMap<>();
+				map.put("projNo", projNo);
+				map.put("loginId", loginId);
+				return session.update("com.kkfd.dto.ProjectMapper2.updateProj",map);
+			}catch (Exception e) {
+				throw new ModifyException(e.getMessage());
+			}finally {
+				if(session!=null) session.close();
+			}		
+		}
+
+	
 
 	//[creator]마이 프로젝트
 	@Override
@@ -68,7 +105,7 @@ public class ProjectDAOOracle implements ProjectDAO {
 			if(session!=null) session.close();
 		}
 	}
-	
+
 	//[creator]마이 프로젝트 페이징 TotalCnt
 	@Override
 	public int countMyProjs(String crId) throws FindException {

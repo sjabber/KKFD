@@ -985,7 +985,7 @@ li.FundingPlan1, li.FundingPlan2, li.FundingPlan3 {
     box-sizing: inherit;
 }
 
-li.FundingPlan1::before, li.FundingPlan2::before, li.FindPlan3::before {
+li.FundingPlan1::before, li.FundingPlan2::before, li.FundingPlan3::before {
     position: absolute;
     top: 4px;
     left: 0px;

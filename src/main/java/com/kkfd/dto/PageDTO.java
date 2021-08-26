@@ -21,6 +21,7 @@ public class PageDTO<T> {// 마이프로젝트, 펀딩한프로젝트
 		if(endPage > totalPage) endPage = totalPage;
 		this.startPage=startPage;
 		this.endPage=endPage;
+		this.url = url;
 		//int endPage = (int)(Math.ceil(currentPage/(double)CNT_PER_PAGE_GROUP))*CNT_PER_PAGE_GROUP;	
 		//this.startPage = endPage-CNT_PER_PAGE_GROUP+1;
 		//this.endPage = (totalPage-startPage<CNT_PER_PAGE_GROUP)? totalPage : endPage; 

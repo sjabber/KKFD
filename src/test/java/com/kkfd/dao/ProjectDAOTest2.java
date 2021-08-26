@@ -2,10 +2,13 @@ package com.kkfd.dao;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -15,9 +18,13 @@ import com.kkfd.exception.FindException;
 
 @SpringBootTest
 class ProjectDAOTest2 {
+	
+	private Logger log = LoggerFactory.getLogger(this.getClass());
 
 	@Autowired
 	ProjectDAO dao;
+	
+	Date now = new Date();
 	@Test
 	void myprojectTest() throws FindException {
 		HashMap<String, Object>map = new HashMap<>();
@@ -28,10 +35,10 @@ class ProjectDAOTest2 {
 	
 	@Test
 	void totalTest() throws FindException {
-		HashMap<String, Object>map = new HashMap<>();
 		int total = dao.countMyProjs("id1");
 		int expected= 7;
 		assertEquals(7, total);
 	}
 
+	
 }

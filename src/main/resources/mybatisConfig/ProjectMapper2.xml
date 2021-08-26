@@ -6,15 +6,23 @@
 
 <select id="selectProjsByCrId" parameterType="HashMap" resultType="project">
 SELECT *
-FROM(SELECT ROWNUM AS rn, proj_no, proj_title, proj_start, proj_end, proj_goals, proj_fm, proj_quantity, proj_status
-     FROM kk_project
-     WHERE proj_id=#{crId}
-     ORDER BY proj_no)
-WHERE rn BETWEEN START_ROW(#{currentPage},#{cntPerPage}) AND END_ROW(#{currentPage},#{cntPerPage})
+FROM (SELECT ROWNUM AS rn,p.*
+      FROM(SELECT  proj_no, proj_title, proj_start, proj_end, proj_goals, proj_fm, proj_quantity, proj_status
+            FROM kk_project
+            WHERE proj_id=#{loginId}
+            ORDER BY proj_no DESC
+            ) p
+) WHERE rn BETWEEN START_ROW(#{currentPage},#{cntPerPage}) AND END_ROW(#{currentPage},#{cntPerPage})
 </select>
 
 <select id="countMyProjs" resultType="int">
-SELECT COUNT(proj_no) FROM kk_project WHERE proj_id=#{id}
+SELECT COUNT(proj_no) FROM kk_project WHERE proj_id=#{projId}
 </select>
+
+<update id="updateProj" parameterType="HashMap">
+UPDATE kk_project
+SET proj_status=0
+WHERE proj_no=#{projNo} AND proj_id=#{loginId}
+</update>
 
 </mapper>

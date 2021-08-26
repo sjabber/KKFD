@@ -26,17 +26,17 @@ public interface ProjectDAO {
 	
 	/**
 	 * 
-	 * @param creator id
-	 * @return 해당 creator id가 올린 프로젝트
+	 * @param loginId
+	 * @return 로그인아이디가 올린 프로젝트리스트
 	 * @throws FindException
 	 */
 
-	public List<ProjectDTO> selectProjsByCrId(String crId,int currentPage) throws FindException;
+	public List<ProjectDTO> selectProjsByCrId(String loginId,int currentPage) throws FindException;
   
 	/**
-	 * 
-	 * @return 해당 creator id가 올린 프로젝트
+	 * @param loginId
+	 * @return 로그인아이디가 올린 프로젝트전체 수
 	 * @throws FindException
 	 */
-	public int countMyProjs(String crId) throws FindException;
+	public int countMyProjs(String loginId) throws FindException;
 }

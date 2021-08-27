@@ -72,6 +72,29 @@ table {
 	display: block;
 	}
 
+	.proj_wrap {
+		display: flex;
+		justify-content: right;
+		height: 100px;
+		margin-top: 30px;
+		margin-bottom: 10px;
+	  }
+	  
+	  .represent_img {
+		margin: 0px 10px;
+	  }
+	  
+	  .thumbnail_img {
+		width: 150px;
+		height: 100px;
+		margin: 0px 10px;
+	  }
+	  .proj_title {
+  font-weight: bold;
+  font-size: 25px;
+  padding: 5px 0px;
+}
+
 	
 /* header */
 /*.main_header {

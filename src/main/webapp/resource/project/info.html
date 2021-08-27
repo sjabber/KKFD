@@ -26,10 +26,15 @@
       function numberWithCommas(x) {
         return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
       }
+
+      function dayBetween(startDay, endDay) {
+        var termMiliSec = endDay.getTime() - startDay.getTime();
+        var term = termMiliSec / (60 * 1000 * 60 * 24);
+        return Math.ceil(term);
+      }
     </script>
 
     <script>
-      var dt = new Date();
       $(function () {
         const URLSearch = new URLSearchParams(location.search);
         var no = searchParam("no");
@@ -106,31 +111,39 @@
               $("div.mid_creator_info span").html(crNn);
               $("div.mid_creator_intro").html(crIntro);
 
-              // alert(dt < projEnd);
-              console.log(dt);
-              console.log(projEnd);
-              console.log(dt > projEnd);
-              console.log(dt < projEnd);
-
-              if (projQuantity >= projLimitcnt) {
-                $("div.funding_btn").html(
-                  // '<button class="btn btn-danger btn-lg" onclick="location.href="http://localhost/project/apply?no=""' +
-                  //   no +
-                  //   ">펀딩 신청</button>"
-                  '<button class="btn btn-danger btn-lg" disabled id="go_to_apply_btn"><a class="link" href="http://localhost/project/apply?no=' +
-                    no +
-                    '">펀딩 신청</a></button>'
-                );
+              var now = new Date();
+              var start = new Date(projStart);
+              var end = new Date(projEnd);
+              if (
+                end.getTime() > now.getTime() &&
+                now.getTime() > start.getTime() &&
+                projQuantity < projLimitcnt
+              ) {
+                $("#go_to_apply_btn")
+                  .html("펀딩 신청")
+                  .attr(
+                    "onclick",
+                    "location.href='/project/apply?no=" + no + "'"
+                  );
+                $("#go_to_apply_btn").attr("disabled", false).show();
               } else {
-                $("div.funding_btn").html(
-                  // '<button class="btn btn-danger btn-lg" onclick="location.href="http://localhost/project/apply?no=""' +
-                  //   no +
-                  //   ">펀딩 신청</button>"
-                  '<button class="btn btn-danger btn-lg" id="go_to_apply_btn"><a class="link" href="http://localhost/project/apply?no=' +
-                    no +
-                    '">펀딩 신청</a></button>'
-                );
+                $("#go_to_apply_btn")
+                  .html("신청 불가")
+                  .attr("disabled", true)
+                  .show();
               }
+              // else {
+              //   if (projQuantity < projLimitcnt) {
+              //     $("#go_to_apply_btn").attr(
+              //       "onclick",
+              //       "location.href='/project/apply?no=" + no + "'"
+              //     );
+              //   } else {
+              //     $("#go_to_apply_btn")
+              //       .attr("disabled", true)
+              //       .html("신청 불가");
+              //   }
+              // }
 
               // if(projBm==0) {
               //   $('#bm_btn').removeClass("btn btn-outline-primary btn-lg");
@@ -255,6 +268,7 @@
         </div>
       </div>
     </header>
+    <!-- section -->
     <section class="main_section">
       <div class="proj_title_wrap">
         <div class="proj_title">
@@ -321,7 +335,13 @@
               </div>
             </div>
             <div class="button_area">
-              <div class="funding_btn"></div>
+              <div class="funding_btn">
+                <button
+                  class="btn btn-danger btn-lg"
+                  id="go_to_apply_btn"
+                  style="display: none"
+                ></button>
+              </div>
               <div class="bookmark_btn">
                 <button class="btn btn-outline-primary btn-lg" id="bm_btn">
                   <i class="far fa-bookmark" id="bm_icon"></i>

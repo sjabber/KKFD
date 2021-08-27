@@ -309,6 +309,20 @@ nav {
   width: 1032px;
 }
 
+.info_btn {
+  color: black;
+  text-decoration: none;
+}
+
+.info_btn :hover {
+  color: black;
+  font-weight: bold;
+}
+
+/* .focus_item_title_value :hover {
+  color: black;
+} */
+
 /* footer */
 /*
 .main_footer {

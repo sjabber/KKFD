@@ -1,7 +1,7 @@
 function DaumPostcode() {
   new daum.Postcode({
     oncomplete: function (data) {
-      $("#addr_search").val(data.zonecode);
+      $("#input_zipcode").val(data.zonecode);
 
       var extraAddr = "";
 
@@ -22,13 +22,14 @@ function DaumPostcode() {
           extraAddr = " (" + extraAddr + ")";
         }
 
-        $("#road_addr").val(data.roadAddress + extraAddr);
+        $("#input_addr").val(data.roadAddress + extraAddr);
       } else {
-        // 사용자가 지번 주소를 선택했을 경우(J)
-        $("#road_addr").val(data.jibunAddress);
+        //사용자가 지번 주소를 선택했을 경우(J)
+        $("#input_addr").val(data.roadAddress + extraAddr);
+        //$("#input_addr").val(data.jibunAddress);
       }
 
-      $("#detail_addr").focus();
+      $("#input_detail").focus();
     },
   }).open();
 }

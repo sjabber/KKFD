@@ -12,8 +12,6 @@ public class CreatorService {
 	@Autowired
 	private CreatorDAO dao;
 	
-	public int cancleProj(int projNo, String loginId) throws ModifyException{
-		return dao.updateProj(projNo, loginId) ;
-	}
+
 
 }

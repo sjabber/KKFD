@@ -41,7 +41,7 @@
         var totalFm = p.projFm * p.projQuantity;
         $trCopyObj.show();
         $trCopyObj.find('th.projNo').html(p.projNo);
-        $trCopyObj.find('a.projTitle').html(p.projTitle).prop('href', '/kkfd/project/info.html?no=' + p.projNo);
+        $trCopyObj.find('a.projTitle').html(p.projTitle).attr('href', '/project/info?no=' + p.projNo);
         $trCopyObj.find('td.term').html(p.projStart + '~' + p.projEnd);
 
         switch (p.projStatus) {
@@ -60,7 +60,7 @@
             $trCopyObj.find('div.state').addClass('bg-success').addClass('text-white').html('성공');
             $trCopyObj.find('td.totalFm').html(numberWithCommas(totalFm + '원'));
             var btnCopyObj = $btnObj.clone();
-            btnCopyObj.show().val(p.projNo);
+            btnCopyObj.show().val(p.projNo).attr('onClick', "location.href='/project2/joinlist?no=" + p.projNo + "'");
             $trCopyObj.find('td.view').append(btnCopyObj);
             break;
           default:  //진행예정,진행 : 파랑 모집금액 표시
@@ -85,21 +85,21 @@
         $prevLi.find('a.page-link').attr('aria-disabled', true);
       } else {
         $prevLi.removeClass('disabled');
-        $prevLi.find('a.page-link').attr('aria-disabled', false).prop('href', url + (cPage - 1));
+        $prevLi.find('a.page-link').attr('aria-disabled', false).attr('href', url + (cPage - 1));
       }
       if (cPage == tPage) {
         $nextLi.addClass('disabled');
         $nextLi.find('a.page-link').attr('aria-disabled', true);
       } else {
         $nextLi.removeClass('disabled');
-        $nextLi.find('a.page-link').attr('aria-disabled', false).prop('href', url + (cPage + 1));
+        $nextLi.find('a.page-link').attr('aria-disabled', false).attr('href', url + (cPage + 1));
       }
       var $liObj = $pageLi.eq(1);
       $pageLi.parent().find('li.num').not(':first').remove();//안보이는 원본li객체는 남기고 삭제
       for (let k = sPage; k <= ePage; k++) {
         $liCopyObj = $liObj.clone();
         $liCopyObj.show();
-        $liCopyObj.find('a.page-link').html(k).prop('href', url + k);
+        $liCopyObj.find('a.page-link').html(k).attr('href', url + k);
         if (k == cPage) {
           $liCopyObj.addClass('active').attr('aria-current', "page");
         }
@@ -133,7 +133,7 @@
               var $trCopyObj = $trObj.clone(); //tr 복제본객체
               $trCopyObj.show();
               $trCopyObj.find('th.projNo').html(p.projNo);
-              $trCopyObj.find('a.projTitle').html(p.projTitle).prop('href', '/kkfd/project/info?no=' + p.projNo);
+              $trCopyObj.find('a.projTitle').html(p.projTitle).attr('href', '/project/info?no=' + p.projNo);
               $trCopyObj.find('td.totalFm').html(numberWithCommas(totalFm) + '원');
               $trCopyObj.find('td.restDay').html(restDay + '일');
               var pst = p.projGoals;

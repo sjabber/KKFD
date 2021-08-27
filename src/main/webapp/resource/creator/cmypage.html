@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 
 <head>
-  <meta charset="UTF-8"/>
-  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <link rel="stylesheet" type="text/css" href="/css/cmypage.css"/>
-  <link rel="stylesheet" type="text/css" href="/css/public.css"/>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" type="text/css" href="/css/cmypage.css" />
+  <link rel="stylesheet" type="text/css" href="/css/public.css" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous" />
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
@@ -30,10 +30,8 @@
           $after.hide();
         }
       });
-
       $('input[type=file]').change(function () {
         if (this.files && this.files[0]) {
-          console.log('여기');
           var reader = new FileReader();
           reader.onload = function (e) {
             $('img.cmypage_profile_img').attr("src", e.target.result);
@@ -76,9 +74,9 @@
         <div class="header_customer_warp">
           <button class="header_customer_btn">
             <div class="header_login&signup">
-                        <span class="login&signup_name">
-                          <a href="/member/login">로그인 / 회원가입</a>
-                        </span>
+              <span class="login&signup_name">
+                <a href="/member/login">로그인 / 회원가입</a>
+              </span>
             </div>
             <div class="header_profile_img">
               <img class="profile" src="/img/blank.png">
@@ -95,15 +93,12 @@
         <h3>마이페이지</h3>
       </div>
       <div class="topnav">
-        <a class="member" href="./mypage.html">회원정보수정</a>
-        <a class="member" href="./bmlist.html">북마크한 프로젝트</a>
-        <a class="member" href="./fundlist.html">펀딩한 프로젝트</a>
-        <a class="creator_active" href="./cmypage.html">크리에이터프로필수정</a>
-        <a class="creator" href="./mylist.html">마이 프로젝트</a>
+        <a class="member" href="/mypage/mypage.html">회원정보수정</a>
+        <a class="member" href="/mypage/bmlist.html">북마크한 프로젝트</a>
+        <a class="member" href="/mypage/fundlist.html">펀딩한 프로젝트</a>
+        <a class="creator_active" href="/creator/cmypage">크리에이터프로필수정</a>
+        <a class="creator" href="/creator/mylist">마이 프로젝트</a>
       </div>
-
-
-
       <!--[크리에이터정보수정]-->
       <div class="cmypage">
         <div class="cmypage_left">

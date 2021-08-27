@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kkfd.dto.FundingMapper">
+<resultMap id="fundingResultMap" type="funding" autoMapping="true">
+	<id column="fun_no" property="funNo"/>
+		<association javaType="member" property="member" autoMapping="true">
+		  <result column="mem_id" property="memId"/> 
+		</association>
+		<association javaType="project" property="project" autoMapping="true">
+		   <result column="fun_proj" property="projNo"/>
+		  </association>
+</resultMap>
+  <insert id="insert" parameterType="funding">
+    INSERT INTO kk_funding VALUES (FUNDING_SEQ,NEXTVAL,
+    #{member.fun_id}, #{project.fun_proj}, #{fun_quantity}, #{fun_fm},
+    #{fun_name}, #{fun_address}, #{fun_detali},
+    #fun{fun_bank}, #{fun_acno}, 0, SYSDATE)
+  </insert>
+  
+<select id="selectFunsByProjNo" parameterType="HashMap" resultMap="fundingResultMap">
+SELECT f.fun_proj, p.proj_title, p.proj_fm, p.proj_quantity, p.proj_goals, p.proj_delivery,
+	f.fun_no, f.fun_quantity, f.fun_fm, f.fun_track, f.fun_date,
+	m.mem_name, m.mem_phone,m.mem_email
+FROM (SELECT * FROM kk_funding WHERE fun_proj=#{projNo} ORDER BY fun_track ASC, fun_no ASC) f
+JOIN kk_project p ON(f.fun_proj = p.proj_no AND p.proj_id=#{loginId})
+JOIN kk_member m ON(f.fun_id=m.mem_id)
+</select>
+</mapper>

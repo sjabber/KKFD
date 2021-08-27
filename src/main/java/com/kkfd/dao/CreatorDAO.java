@@ -1,5 +1,7 @@
 package com.kkfd.dao;
 
-public interface CreatorDAO {
+import com.kkfd.exception.ModifyException;
 
+public interface CreatorDAO {
+	
 }

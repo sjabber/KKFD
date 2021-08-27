@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kkfd.dto.ProjectMapper">
+
+<resultMap id="projectResultMap" type="project" autoMapping="true">
+	<id column="proj_no" property="projNo"/>
+		<association javaType="creator" property="creator" autoMapping="true">
+		  <result column="proj_id" property="crId"/>
+		</association>
+</resultMap>
+
+	<select id="selectProjs" parameterType="search" resultType="project">   
+		SELECT *
+		FROM (SELECT ROWNUM AS rn, p.*, NVL2(b.book_no,1,0) AS proj_bm
+	      FROM (SELECT proj_no, proj_category, proj_title, proj_summary,
+	         proj_start, proj_end, proj_goals, proj_targetcnt, proj_fm, proj_quantity
+	            FROM kk_project
+	            WHERE proj_no>0    
+	<!-- 검색 -->         
+	<if test="word!=null">
+	AND proj_title LIKE'%${word}%'
+	</if>
+	<!-- 카테고리 -->         
+	<if test="category!=0">
+	AND proj_category=#{category}
+	</if>
+	<!-- 달성률-->         
+	<choose> 
+	<when test="goal==1">
+	AND (proj_goals<![CDATA[ <= ]]>75 AND proj_goals<![CDATA[ >= ]]>0)
+	</when>
+	<when test="goal==2">
+	AND (proj_goals<![CDATA[ > ]]>75 AND proj_goals<![CDATA[ < ]]>100)
+	</when>
+	<when test="goal==3">
+	AND proj_goals<![CDATA[ >= ]]>100
+	</when>
+	</choose>
+	<!-- 진행상태-->         
+	<choose>
+	<when test="state==1">
+	AND SYSDATE<![CDATA[ > ]]>proj_start
+	</when>
+	<when test="state==2">
+	AND (proj_start<![CDATA[ < ]]>SYSDATE AND SYSDATE<![CDATA[ < ]]>proj_end)   
+	</when>
+	<when test="state==3">
+	AND proj_end<![CDATA[ < ]]>SYSDATE   
+	</when>             
+	</choose>
+	<trim prefix="ORDER BY"><if test="standard==0">proj_bmcnt DESC</if><if test="standard==1">proj_no DESC</if>
+	<if test="standard==2">proj_end ASC</if>
+	</trim>) p LEFT OUTER JOIN kk_bookmark b ON (p.proj_no=b.book_proj AND b.book_id=#{id}))
+	WHERE rn BETWEEN START_ROW(#{page},#{cntPerPage}) AND END_ROW(#{page},#{cntPerPage})
+	</select>
+
+  <select id="selectByNo" parameterType="HashMap" resultMap="projectResultMap">
+    SELECT p.proj_no,p.proj_category, p.proj_title, p.proj_fm, p.proj_quantity, p.proj_goals, p.proj_start, p.proj_end, p.proj_intro,
+        p.proj_targetcnt, p.proj_limitcnt, p.proj_delivery, NVL2(b.book_no,1,0) AS projBm, p.proj_id, c.cr_nn, c.cr_intro
+    FROM kk_project p
+        LEFT OUTER JOIN kk_bookmark b ON (p.proj_no=b.book_proj AND b.book_id=#{memId})
+        JOIN kk_creator c ON(p.proj_id=c.cr_id)
+    WHERE p.proj_no=#{projNo}
+  </select>
+  
+  <select id="selectPrevProj" resultType="project">
+    SELECT *
+    FROM(SELECT proj_no, proj_title, proj_summary
+        FROM kk_project
+        WHERE proj_id =(SELECT proj_id FROM kk_project WHERE proj_no=#{no})
+        AND(proj_no != #{no})
+        ORDER BY proj_no DESC
+        )
+    WHERE ROWNUM BETWEEN 1 AND 5
+  </select>
+</mapper>

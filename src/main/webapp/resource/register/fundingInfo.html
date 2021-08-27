@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <!--    <link rel="stylesheet" type="text/css" href="/css/index.css"/>
+        <link rel="stylesheet" type="text/css" href="/css/public.css"/>-->
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We"
+            crossorigin="anonymous"
+    />
+    <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
+            crossorigin="anonymous"
+    ></script>
+    <title>크크펀딩 | 등록</title>
+    <link rel="stylesheet" href="/css/datepicker.min.css">
+    <link rel="stylesheet" href="/css/register.css">
+    <script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript" src="/js/register.js"></script>
+    <script src="/js/datepicker.js"></script>
+    <script src="/js/datepicker.ko.js"></script>
+</head>
+<style>
+    .btn-head3 {
+        background-color: #FF5757;
+        color: white;
+    }
+</style>
+<body>
+<!-- header -->
+<header class="main_header">
+    <div class="main_header_warp">
+        <div class="header_menu_warp">
+            <div class="header_projectsearch">
+                <button class="projectsearch_item">
+                    <a style="text-decoration: none; color: black" href="/project/list/">
+                        <i class="fas fa-align-justify fa-lg"></i>
+                        <span class="projectsearch_name">프로젝트 둘러보기</span>
+                    </a>
+                </button>
+            </div>
+            <div class="header_projectupload">
+                <a style="text-decoration: none;" href="/register/registerAgree/">
+                    <span class="projectupload_name">프로젝트 올리기</span>
+                </a>
+            </div>
+        </div>
+        <div class="header_mainlogo">
+            <a style="text-decoration: none;" href="/">
+                <span class="header_mainlogo_item">크크펀딩</span>
+            </a>
+        </div>
+        <div class="header_sub_warp">
+            <div class="header_searchicon">
+                <!-- <i class="fas fa-search fa-lg"></i> -->
+            </div>
+            <div class="header_customer_warp">
+                <button class="header_customer_btn">
+                    <div class="header_login&signup">
+                        <span class="login&signup_name">
+                          <a href="/member/login">로그인 / 회원가입</a>
+                        </span>
+                    </div>
+                    <div class="header_profile_img">
+                        <img class="profile" src="/img/blank.png">
+                    </div>
+                </button>
+            </div>
+        </div>
+    </div>
+</header>
+<section class="main_section_btn">
+    <div class="main-btn">
+        <div class="main-btn_inner">
+            <button type="button" class="btn-head1" onclick="location.href='/register/regist/'">1.기본정보</button>
+            <button type="button" class="btn-head2" onclick="location.href='/register/regist/creatorInfo/'">2.창작자 정보
+            </button>
+            <button type="button" class="btn-head3" onclick="location.href='/register/regist/fundingInfo/'">3.펀딩계획
+            </button>
+        </div>
+    </div>
+</section>
+<section class="main_section" id="section">
+    <!-- 제목 -->
+    <div class="projectItem">
+        <dl class="projectItem_title">
+            <dt class="projectItem_title_dt">
+                목표 금액
+                <div class="Icon">
+                    <i class="fas fa-star-of-life iicon"></i>
+                </div>
+            </dt>
+            <dd class="projectItem_title_dd">
+                프로젝트를 완수하기 위해 필요한 금액을 설정해 주세요.
+            </dd>
+            <div class="projectItem_ProjectNotice">
+                <div class="NoticeTitle">
+                    <div>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                             class="bi bi-exclamation-circle" viewBox="0 0 16 16">
+                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                            <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
+                        </svg>
+                    </div>
+                    목표 금액 설정 시 꼭 알아두세요!!
+                </div>
+                <div>
+                    <p>종료일까지 목표금액을 달성하지 못하면 후원자 결제가 진행되지 않습니다.</p>
+                    <p>종료 전 후원 취소를 대비해 10% 이상 초과 달성을 목표해 주세요.</p>
+                    <p>제작비, 선물 배송비, 인건비, 예비 비용 등을 함께 고려해주세요.</p>
+                </div>
+            </div>
+        </dl>
+        <div class="projectItem_title_form">
+            <div class="projectItem_title_formInner">
+                <div class="projectGoalFunding">
+                    <p>목표금액</p>
+                    <div class="InputWithGoal">
+                        <div class="InputWithGoal_Check">
+                        <span class="InputWithGoal_InputWrapper">
+                            <input type="text" inputmode="numeric" placeholder="50만원 이상의 금액을 입력해 주세요."
+                                   autocomplete="off" autocapitalize="off">
+                            &nbsp;원
+                        </span>
+                        </div>
+                        <div class="InputWithGoal_Notice">
+                            <div class="totalAmount">
+                                <span>목표금액 달성 시 예상 수령액</span>
+                                <em>
+                                    0
+                                    원
+                                </em>
+                            </div>
+                            <div class="feewrap1">
+                                총 수수료
+                                <em>
+                                    0
+                                    원
+                                </em>
+                            </div>
+                            <div class="feewrap2">
+                                결제대행 수수료 (총 결제액의 3% + VAT)
+                                <em>
+                                    0
+                                    원
+                                </em>
+                            </div>
+                            <div class="feewrap3">
+                                플랫폼 수수료(총 모금액의 5% + VAT)
+                                <em>
+                                    0
+                                    원
+                                </em>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 요약 -->
+    <div class="projectItem">
+        <dl class="projectItem_title">
+            <dt class="projectItem_title_dt">
+                펀딩 일정
+                <div class="Icon">
+                </div>
+            </dt>
+            <dd class="projectItem_title_dd">
+                설정한 일시가 되면 펀딩이 자동 시작됩니다. 펀딩 시작<br>
+                전까지 날짜를 변경할 수 있고, 즉시 펀딩을 시작할 수도<br>
+                있습니다.
+            </dd>
+        </dl>
+        <div class="projectItem_title_form">
+            <div class="projectItem_date">
+                <ol class="projectItem_date_ol">
+                    <li class="FundingPlan1">
+                        <div class="FundingPlan1_div">
+                            <div class="FindPlan1_startDate">
+                                <p>시작일</p>
+                                <div class="Datepickers">
+                                    <div class="Datepickers_inner">
+                                        <button>
+                                            <div class="calendar-dot">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                     fill="currentColor" class="bi bi-calendar3" viewBox="0 0 16 16">
+                                                    <path d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857V3.857z"/>
+                                                    <path d="M6.5 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
+                                                </svg>
+                                                <input type="text" id="start_dates" name="start_dates" readonly
+                                                       size="12"/>
+                                            </div>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="FindPlan1_endDate">
+                                <button type="button" onclick="$.contentShow2($(this))">
+                                    <p>종료일</p>
+                                    <em>
+                                        <div class="question_line">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                 fill="currentColor" class="bi bi-question-circle" viewBox="0 0 16 16">
+                                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                                <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>
+                                            </svg>
+                                        </div>
+                                    </em>
+                                </button>
+
+                                <div class="Datepickers">
+                                    <div class="Datepickers_inner">
+                                        <button>
+                                            <div class="calendar-dot">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                     fill="currentColor" class="bi bi-calendar3" viewBox="0 0 16 16">
+                                                    <path d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857V3.857z"/>
+                                                    <path d="M6.5 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
+                                                </svg>
+                                                <input type="text" id="end_dates" name="end_dates" readonly size="12"/>
+                                            </div>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="LabelWithTooltip2">
+                            선택하신 종료일 다음날 0시에 펀딩이 종료됩니다.
+                            <em class="close" onclick="$.contentHide($(this))">
+                                <div class="close-1">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                         class="bi bi-x" viewBox="0 0 16 16">
+                                        <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                                    </svg>
+                                </div>
+                            </em>
+                        </div>
+                        <div class="FundingTerm">
+                            <p>펀딩기간</p>
+                            최대 60일
+                        </div>
+                    </li>
+                    <li class="FundingPlan2">
+                        <div class="FundingPlan_end">
+                            <div class="FundingPlan_end_inner">
+                                <button class="FundingPlan_end_btn" type="button" onclick="$.contentShow($(this))">
+                                    <p>후원자 결제 종료</p>
+                                    <em>
+                                        <div class="question_line">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                 fill="currentColor" class="bi bi-question-circle" viewBox="0 0 16 16">
+                                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                                <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>
+                                            </svg>
+                                        </div>
+                                    </em>
+                                </button>
+                                <div class="LabelWithTooltip2">
+                                    프로젝트가 성공하면 펀딩 종료 다음 날 후원금이 결제됩니다. 결제가 이루어지지 않은 경우 24시간 간격으로 7일 동안 결제를 시도합니다.
+                                    <em class="close" onclick="$.contentHide($(this))">
+                                        <div class="close-1">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                                 class="bi bi-x" viewBox="0 0 16 16">
+                                                <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                                            </svg>
+                                        </div>
+                                    </em>
+                                </div>
+                            </div>
+                        </div>
+                        종료일 다음 날부터 7일
+                    </li>
+                    <li class="FundingPlan3">
+                        <div class="FundingPlan_end">
+                            <div class="FundingPlan_end_inner">
+                                <button class="FundingPlan_end_btn" type="button" onclick="$.contentShow($(this))">
+                                    <p>정산일</p>
+                                    <em>
+                                        <div class="question_line">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                 fill="currentColor" class="bi bi-question-circle" viewBox="0 0 16 16">
+                                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                                <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>
+                                            </svg>
+                                        </div>
+                                    </em>
+                                </button>
+                                <div class="LabelWithTooltip2">
+                                    모금액은 후원자 결제 종료 다음 날부터 영업일 기준(주말 및 공휴일 제외) 7일째 되는 날 입금 됩니다.
+                                    <em class="close" onclick="$.contentHide($(this))">
+                                        <div class="close-1" >
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                                 class="bi bi-x" viewBox="0 0 16 16">
+                                                <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                                            </svg>
+                                        </div>
+                                    </em>
+                                </div>
+                            </div>
+                        </div>
+                        후원자 결제 종료 다음 날부터 7영업일
+                    </li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</section>
+<footer class="footer_save">
+    <div>
+        <button class="footer_save_btn">
+            <span>저장</span>
+        </button>
+    </div>
+</footer>
+<script>
+    // 날짜 계산 로직
+    $('#end_dates').datepicker({
+        minDate: new Date(),
+    });
+
+    datePickerSet($("#start_dates"), $("#end_dates"), true);
+
+    function datePickerSet(sDate, eDate, flag) {
+
+        //시작 ~ 종료 2개 짜리 달력 datepicker
+        if (!isValidStr(sDate) && !isValidStr(eDate) && sDate.length > 0 && eDate.length > 0) {
+            var sDay = sDate.val();
+            var eDay = eDate.val();
+
+            if (flag && !isValidStr(sDay) && !isValidStr(eDay)) { //처음 입력 날짜 설정, update...
+                var sdp = sDate.datepicker().data("datepicker");
+                sdp.selectDate(new Date(sDay.replace(/-/g, "/")));  //익스에서는 그냥 new Date하면 -을 인식못함 replace필요
+
+                var edp = eDate.datepicker().data("datepicker");
+                edp.selectDate(new Date(eDay.replace(/-/g, "/")));  //익스에서는 그냥 new Date하면 -을 인식못함 replace필요
+            }
+
+            if (!isValidStr(eDay)) {
+                //isValidStr -> true, 값이 없는것 -> false 처리됨
+                //isValidStr -> false, 값이 있음 -> true 처리됨
+
+                eDay = new Date(eDay);
+
+                // 종료일을 먼저 고른경우 시작일은 종료일 하루 전까지만 가능하도록
+                eDay.setDate(eDay.getDate() - 1);
+                let dd = eDay.getDate();
+
+                let mm = eDay.getMonth();
+                mm += 1;
+
+                let yy = eDay.getFullYear();
+
+
+                const FormattedDate = yy + '-' + mm + '-' + dd;
+                // console.log(FormattedDate);
+
+                sDate.datepicker({
+                    maxDate: new Date(FormattedDate)
+                    //maxDate: new Date(eDay.replace(/-/g, "/")),
+                });
+            }
+            //시작일자 세팅하기 날짜가 없는경우엔 제한을 걸지 않음
+            sDate.datepicker({
+                language: 'ko',
+                autoClose: true,
+                minDate: new Date(),
+                onSelect: function () {
+                    datePickerSet(sDate, eDate);
+                }
+            });
+
+
+            if (!isValidStr(sDay)) {
+                //isValidStr -> true, 값이 없는것 -> false 처리됨
+                //isValidStr -> false, 값이 있음 -> true 처리됨
+
+                sDay = new Date(sDay);
+
+                // 시작일을 먼저 고른경우 종료일은 시작일 하루 뒤뒤부터 가능하도록
+                sDay.setDate(sDay.getDate() + 1);
+                let dd = sDay.getDate();
+
+                let mm = sDay.getMonth();
+                mm += 1;
+
+                let yy = sDay.getFullYear();
+
+
+                const FormattedDate2 = yy + '-' + mm + '-' + dd;
+                // console.log(FormattedDate2);
+
+                eDate.datepicker({
+                    minDate: new Date(FormattedDate2)
+                    // minDate: new Date(sDay.replace(/-/g, "/"))
+                });
+            }
+            //종료일자 세팅하기 날짜가 없는경우엔 제한을 걸지 않음
+            eDate.datepicker({
+                language: 'ko',
+                autoClose: true,
+                onSelect: function () {
+                    datePickerSet(sDate, eDate);
+                }
+            });
+        }
+
+        function isValidStr(str) {
+            if (str === null || str === undefined || str === "")
+                return true;
+            else
+                return false;
+        }
+    }
+</script>
+</body>
+</html>

@@ -84,22 +84,22 @@ WHERE rn BETWEEN START_ROW(2,18) AND END_ROW(2,18);
 
 --[마이페이지] 마이 프로젝트
 SELECT *
-    FROM(SELECT ROWNUM AS rn, proj_no, proj_title, proj_start, proj_end, proj_goals, proj_fm, proj_quantity, proj_status
+FROM (SELECT ROWNUM AS rn,p.*
+      FROM(SELECT  proj_no, proj_title, proj_start, proj_end, proj_goals, proj_fm, proj_quantity, proj_status
             FROM kk_project
-            WHERE proj_id='id1'--id=#{id}
-            ORDER BY proj_no
-        )
-WHERE rn BETWEEN START_ROW(1,18) AND END_ROW(1,18);
+            WHERE proj_id='t'--id=#{id}
+            ORDER BY proj_no DESC
+            ) p
+) WHERE rn BETWEEN START_ROW(2,10) AND END_ROW(2,10);
 --WHERE rn BETWEEN START_ROW(#{currentPage},#{cntPerPage}) AND END_ROW(#{currentPage},#{cntPerPage})
 
---[마이페이지] 후원자보기                                 --proj_no=#{no}
-SELECT (SELECT proj_delivery FROM kk_project WHERE proj_no=1),
-        f.fun_no, f.fun_quantity, f.fun_fm, f.fun_track,
-        m.mem_name,m.mem_phone
-FROM kk_funding f
-    JOIN kk_member m ON(f.fun_id=m.mem_id)
-WHERE f.fun_proj=2  --f.fun_proj=#{no}
-ORDER BY f.fun_no;
+--[마이페이지] 후원자보기                                 
+SELECT p.proj_no, p.proj_title, p.proj_fm, p.proj_quantity, p.proj_goals,p.proj_delivery,
+       f.fun_no, f.fun_quantity, f.fun_fm, f.fun_track,
+       m.mem_name,m.mem_phone
+FROM (SELECT * FROM kk_funding WHERE fun_proj=357 ORDER BY  fun_track ASC, fun_no ASC) f
+    JOIN kk_project p ON(f.fun_proj = p.proj_no AND p.proj_id='t')
+    JOIN kk_member m ON(f.fun_id=m.mem_id);
 
 --[마이페이지] 펀딩한 프로젝트
 SELECT f.fun_no, f.fun_fm, f.fun_track,

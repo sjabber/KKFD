@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" type="text/css" href="./css/apply.css" />
+    <link rel="stylesheet" type="text/css" href="/css/apply.css" />
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -17,8 +17,102 @@
     ></script>
     <title>펀딩 신청</title>
     <script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
-    <!-- <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script> -->
-    <script src="./js/apply.js"></script>
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script src="/js/apply.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+      function searchParam(key) {
+        return new URLSearchParams(location.search).get(key);
+      }
+
+      function numberWithCommas(x) {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      }
+    </script>
+    <script>
+      var projFm = 0;
+      var dt = new Date();
+            $(function () {
+              const URLSearch = new URLSearchParams(location.search);
+        var no = searchParam("no");
+        console.log(no);
+        var backurl = "http://localhost:9999/kkfd/project/" + no;
+        $.ajax({
+          method: "GET",
+          transformRequest: [null],
+          transformResponse: [null],
+          jsonpCallbackParam: "callback",
+          url: backurl,
+          headers: {
+            Accept: "application/json, text/plain, */*",
+          },
+          timeout: {},
+          success: function (responseData) {
+            $(responseData).each(function (i, e) {
+              var projNo = e.projNo;
+              var projCategory = e.projCategory;
+              var projTitle = e.projTitle;
+              var crId = e.creator.crId;
+              var crNn = e.creator.crNn;
+              var crIntro = e.creator.crIntro;
+              var projIntro = e.projIntro;
+              projFm = e.projFm;
+              var projTargetcnt = e.projTargetcnt;
+              var projLimitcnt = e.projLimitcnt;
+              var projQuantity = e.projQuantity;
+              var projGoals = e.projGoals;
+              var projStart = e.projStart;
+              var projEnd = e.projEnd;
+              var projDelivery = e.projDelivery;
+              var projBm = e.projBm;
+              var sum = projFm * projQuantity;
+              // var funding_quantity = $("#funding_quantity").val();
+              console.log(funding_quantity);
+              $('div.category_nickname>span.category').html(projCategory);
+              $('div.category_nickname>span.cr_nn').html(crNn);
+              $('div.proj_title').html(projTitle);
+              $('div.represent_img>img.thumbnail_img').attr("src", "/img/" + no + "_0.png");
+              $('span.fm').html(numberWithCommas(sum) + "원");
+              $('span.goal_pct').html(numberWithCommas(projGoals) + "%");
+              $('div.box_row>span.fm').html(numberWithCommas(projFm) + "원");
+              $('div.box_row>span.delivery').html(projDelivery);
+              $('div.box_row>span.final_fm').html(numberWithCommas(projFm * 1) + "원");
+              $('div.pay_info>span.funding_paydate').html(projEnd);
+              console.log(dt);
+              //alert("test");
+
+              // $("#apply_btn").click(function () {
+              //   if(dt > projEnd) {
+              //     alert("test");
+              //   }
+              // });
+              
+            });
+          },
+        });
+        $("#funding_quantity").change(function () {
+          console.log(($(this).val()));
+          console.log(projFm);
+          var totalfm = $(this).val() * projFm;
+          $('div.box_row>span.final_fm').html(numberWithCommas(totalfm) + "원");
+        });
+        
+
+        $("input.ckbox").click(function(e) {
+          if($("#ckbox1").is(':checked') && $("#ckbox2").is(':checked')) {
+            $("#apply_btn").attr("disabled", false);
+          }else {
+            $("#apply_btn").attr("disabled", true);
+          }
+        });
+
+        $("#apply_btn").click(function(e) {
+          alert("test");
+          e.preventDefault();
+        });
+        
+      });
+    </script>
   </head>
   <body>
     <!-- header -->
@@ -63,19 +157,19 @@
       <div class="top_area_wrap">
         <div class="proj_wrap">
           <div class="represent_img">
-            <img class="thumbnail_img" src="./img/1_0.PNG" />
+            <img class="thumbnail_img" src="" />
           </div>
           <div class="prev_proj_info_wrap">
             <div class="category_nickname">
-              <span class="category">캔들</span><span> | </span
-              ><span>클래시아트</span>
+              <span class="category"><!-- 카테고리 --></span><span> | </span
+              ><span class="cr_nn"><!-- 크리에이터 닉네임 --></span>
             </div>
             <div class="proj_title">
-              [클래시아트] 취미로의 첫 여행 : 투톤 젤캔들만들기 키트
+              <!-- 프로젝트 타이틀 -->
             </div>
             <div class="pct">
-              <span class="fm">1,000,000</span><span class="fm">원</span>
-              <span class="goal_pct">1000</span><span class="goal_pct">%</span>
+              <span class="fm"><!-- 모인 금액 --></span>
+              <span class="goal_pct"><!-- 달성률 --></span>
             </div>
           </div>
         </div>
@@ -87,29 +181,31 @@
         <div class="apply_area_left">
           <div class="apply_title">펀딩 정보</div>
           <div class="apply_box">
-            <div class="box_row"><span>금액</span> <span>10,000원</span></div>
+            <div class="box_row"><span>금액</span> <span class="fm"></span></div>
             <div class="box_row">
-              <span>개수</span>
+              <label for="funding_quantity">
+              <span>개수</span></label>
               <span
                 ><input
                   type="number"
                   class="form-control"
+                  id="funding_quantity"
                   value="1"
                   max="19"
                   min="1"
               /></span>
             </div>
             <div class="box_row">
-              <span>배송 예상일</span> <span>2021/09/20</span>
+              <span>배송 예상일</span> <span class="delivery"><!-- 배송 예상일 --></span>
             </div>
           </div>
           <div class="apply_title">회원 정보</div>
           <div class="apply_box">
             <div class="box_row">
-              <span>연락처</span> <span>010-0823-9999</span>
+              <span>연락처</span> <span><!-- 펀딩신청회원 연락처 --></span>
             </div>
             <div class="box_row">
-              <span>이메일</span> <span>abc0823@gmail.com</span>
+              <span>이메일</span> <span><!-- 펀딩신청회원 이메일 --></span>
             </div>
             <div class="apply_box">
               <div>* 위 연락처와 이메일로 후원 관련 소식이 전달됩니다.</div>
@@ -119,24 +215,46 @@
           <div class="apply_title">배송 정보</div>
           <div class="apply_box">
             <div class="box_row">
-              <span>받는사람</span>
+              <label for="input_receiver">
+              <span>받는사람</span></label>
               <span class="receiver"
                 ><input
+                  id="input_receiver"
                   type="text"
                   class="form-control"
                   placeholder="받는 분 성함을 입력해주세요"
               /></span>
             </div>
             <div class="box_row">
-              <span>주소</span
-              ><span
-                ><button
+              <span>우편번호</span>
+              <!-- <span> -->
+                <div class="input-group w-50">
+                <form>
+                  <input
+                    type="text"
+                    id="input_zipcode"
+                    class="form-control"
+                    placeholder="조회를 클릭하세요"
+                    readonly />
+                  </form>
+                  <button
+                  type="button"
                   class="btn btn-outline-primary"
                   id="addr_search"
-                  onclick="DaumPostcode()"
-                >
+                  onclick="DaumPostcode()">
                   조회
-                </button></span
+                </button>
+              </div>
+                <!-- </span> -->
+              
+            </div>
+            <!-- <div class="box_row"> -->
+              <!-- <span class="address"> -->
+                
+                <!-- </span> -->
+            <!-- </div> -->
+            <div class="box_row">
+              <span>주소</span
               >
             </div>
             <div class="box_row">
@@ -144,38 +262,67 @@
                 ><form>
                   <input
                     type="text"
-                    id="road_addr"
+                    id="input_addr"
                     class="form-control"
-                    placeholder="조회를 클릭하세요."
+                    placeholder="조회를 클릭하세요"
                     readonly
                   /></form
               ></span>
             </div>
             <div class="box_row">
-              <span>상세주소</span>
+              <label for="input_detail">
+              <span>상세주소</span></label>
             </div>
             <div class="box_row">
               <span class="address"
                 ><input
                   type="text"
-                  id="detail_addr"
+                  id="input_detail"
                   class="form-control"
-                  placeholder="상세주소를 입력하세요."
+                  placeholder="상세주소를 입력하세요"
               /></span>
             </div>
           </div>
           <div class="apply_title">결제 정보</div>
           <div class="apply_box">
             <div class="box_row">
-              <span>은행입력</span>
-              <span class="bank"
-                ><input type="text" class="form-control"
-              /></span>
+              <label for="cmpypage_bankname">
+              <span>은행입력</span></label>
+              <span class="bank">
+                <!-- <input type="text" class="form-control"/> -->
+                <select id="cmpypage_bankname" class="form-control" name="cr_bank">
+                  <option value="0">은행명을 선택하세요</option>
+                  <option value="경남은행">경남은행</option>
+                  <option value="광주은행">광주은행</option>
+                  <option value="국민은행">국민은행</option>
+                  <option value="기업은행">기업은행</option>
+                  <option value="농협중앙회">농협중앙회</option>
+                  <option value="농협회원조합">농협회원조합</option>
+                  <option value="대구은행">대구은행</option>
+                  <option value="부산은행">부산은행</option>
+                  <option value="산업은행">산업은행</option>
+                  <option value="새마을금">새마을금고</option>
+                  <option value="수협중앙회">수협중앙회</option>
+                  <option value="신한은행">신한은행</option>
+                  <option value="신협중앙회">신협중앙회</option>
+                  <option value="외환은행">외환은행</option>
+                  <option value="우리은행">우리은행</option>
+                  <option value="우체국">우체국</option>
+                  <option value="전북은행">전북은행</option>
+                  <option value="제주은행">제주은행</option>
+                  <option value="카카오뱅크">카카오뱅크</option>
+                  <option value="케이뱅크">케이뱅크</option>
+                  <option value="하나은행">하나은행</option>
+                  <option value="한국씨티은행">한국씨티은행</option>
+                  <option value="SC제일">SC제일은행</option>
+                </select>
+              </span>
             </div>
             <div class="box_row">
-              <span>계좌번호</span>
+              <label for="input_acno">
+              <span>계좌번호</span></label>
               <span class="bank"
-                ><input type="text" class="form-control"
+                ><input id="input_acno" type="text" class="form-control" placeholder="계좌번호를 입력해주세요"
               /></span>
             </div>
           </div>
@@ -185,32 +332,36 @@
             <div class="apply_box">
               <div class="box_row">
                 <span class="final_funding">최종 펀딩 금액</span
-                ><span>10,000<span>원</span></span>
+                ><span class="final_fm"><!-- 펀딩금액x주문수량 --></span>
               </div>
             </div>
             <div class="pay_info">
               프로젝트 성공 시, 결제는
-              <span class="funding_paydate">2021/09/01</span>에 진행됩니다.
+              <span class="funding_paydate"><!-- 종료일 --></span>에 진행됩니다.
             </div>
             <div class="pay_info">
               프로젝트가 무산되거나 중단된 경우, 예약된 결제는
             </div>
             <div class="pay_info">자동으로 취소됩니다.</div>
             <div class="box_row">
-              <input type="checkbox" class="ckbox" /><span
+              <input type="checkbox" id="ckbox1" class="ckbox" />
+              <label for="ckbox1">
+              <span
                 >개인정보 제 3자 제공 동의</span
-              >
+              ></label>
             </div>
             <div class="box_row">
-              <input type="checkbox" class="ckbox" /><span
+              <input type="checkbox" id="ckbox2" class="ckbox" />
+              <label for="ckbox2">
+              <span
                 >펀딩 유의사항 확인</span
-              >
+              ></label>
             </div>
             </form>
           </div>
           <div class="funding_button">
             <span> </span>
-            <button class="btn btn-danger btn-lg btn-block">펀딩 신청</button>
+            <button class="btn btn-danger btn-lg btn-block" id="apply_btn" disabled>펀딩 신청</button>
           </div>
         </div>
       </div>

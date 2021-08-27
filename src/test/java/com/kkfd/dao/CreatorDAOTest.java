@@ -18,12 +18,7 @@ class CreatorDAOTest {
 	@Autowired
 	CreatorDAO dao;
 	
-	@Test
-	void test() throws ModifyException {
-		int rowCnt = dao.updateProj(340, "t");
-		int expectedValue = 1;
-		assertEquals(expectedValue, rowCnt);
-	}
+
 	
 	
 

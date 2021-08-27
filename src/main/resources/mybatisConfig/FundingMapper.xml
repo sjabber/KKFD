@@ -21,8 +21,8 @@
   
 <select id="selectFunsByProjNo" parameterType="HashMap" resultMap="fundingResultMap">
 SELECT f.fun_proj, p.proj_title, p.proj_fm, p.proj_quantity, p.proj_goals, p.proj_delivery,
-	f.fun_no, f.fun_quantity, f.fun_fm, f.fun_track,
-	m.mem_name, m.mem_phone
+	f.fun_no, f.fun_quantity, f.fun_fm, f.fun_track, f.fun_date,
+	m.mem_name, m.mem_phone,m.mem_email
 FROM (SELECT * FROM kk_funding WHERE fun_proj=#{projNo} ORDER BY fun_track ASC, fun_no ASC) f
 JOIN kk_project p ON(f.fun_proj = p.proj_no AND p.proj_id=#{loginId})
 JOIN kk_member m ON(f.fun_id=m.mem_id)

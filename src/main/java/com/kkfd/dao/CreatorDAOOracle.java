@@ -15,19 +15,6 @@ public class CreatorDAOOracle implements CreatorDAO{
 	@Autowired
 	private SqlSessionFactory sessionFactory;
 	
-	public int updateProj(int projNo, String loginId) throws ModifyException{
-		SqlSession session= null;
-		try {
-			session = sessionFactory.openSession();
-			HashMap<String, Object> map = new HashMap<>();
-			map.put("projNo", projNo);
-			map.put("loginId", loginId);
-			return session.update("com.kkfd.dto.ProjectMapper2.updateProj",map);
-		}catch (Exception e) {
-			throw new ModifyException(e.getMessage());
-		}finally {
-			if(session!=null) session.close();
-		}		
-	}
+
 
 }

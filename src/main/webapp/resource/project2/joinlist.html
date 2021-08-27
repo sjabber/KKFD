@@ -19,50 +19,182 @@
     function searchParam(key) {
       return new URLSearchParams(location.search).get(key);
     }
+
+    var optionHtml = '<option value="">--선택--</option>' + '<option value="1">대한통운</option>' + '<option value="2">우체국</option>' + '<option value="3">한진택배</option>' + '<option value="4">현대택배</option>';
+
+    $('button.track').click(function () {
+      var jsonArr = new Array();
+      var del = new Object();
+      console.log(eee);
+
+      $('input[name=funNo]:checked').each(function () {
+        var $trObj = $(this).parent().parent();
+        $selectObj = $trObj.children().eq(7).find('select.trackIn');
+        $inputObj = $trObj.children().eq(8).find('input.trackIn');
+        del.put("funNo", $(this).val());
+        del.put("courier", $selectObj.val());
+        del.put("trackNo", $inputObj.val());
+        //map controller 배열 안에 맵
+        jsonArr.push(del);
+        console.log(del);
+      });
+      console.log(jsonArr);
+      var data = JSON.stringify(aJsonArray);
+      console.log(data);
+      return false;
+
+    });
+
+    /*
+             // 리스트 생성
+             var testList = new Array() ;
+             
+     
+             for(var i=1; i<=2; i++){
+                  
+                 // 객체 생성
+                 var data = new Object() ;
+                  
+                 data.number = i ;
+                 data.name = "Tester #" + i ;
+                  
+                  
+                 // 리스트에 생성된 객체 삽입
+                 testList.push(data) ;
+             }
+              
+             // String 형태로 변환
+             var jsonData = JSON.stringify(testList) ;
+              
+             alert(jsonData) ;
+     
+     
+     출처: https://fruitdev.tistory.com/190 [과일가게 개발자]
+    
+     */
+
     $(function () {
       const URLSearch = new URLSearchParams(location.search);
-      var projNo = searchParam("projNo");
+      var projNo = searchParam("no");
+      var trHtml = '';
       var backurl = "http://localhost:9999/kkfd/project/" + projNo + "/fundings";
       $.ajax({
         "method": "GET",
+        "url": backurl,
         "transformRequest": [null],
         "transformResponse": [null],
         "jsonpCallbackParam": "callback",
-        "url": "http://localhost:9999/kkfd/project/357/fundings",
         "headers": {
           "Accept": "application/json, text/plain, */*"
         },
-        "data": "",
         "timeout": {},
         success: function (responseObj) {
+
+          /* f.fun_proj, p.proj_title, p.proj_fm, p.proj_quantity, p.proj_delivery      */
+          responseObj.fun_proj;
+
+
           $(responseObj).each(function (i, f) {
-
-            /* f.fun_proj, p.proj_title, p.proj_fm, p.proj_quantity, p.proj_goals, p.proj_delivery,
-               f.fun_no, f.fun_quantity, f.fun_fm, f.fun_track,
-               m.mem_name, m.mem_phone*/
-
-            var trHtml = '';
-            var prod_no = e.prod_no;
-            var prod_name = e.prod_name;
-            trHtml += '<td class="' + prod_no + '"><ul>';
-            trHtml += '<li>';
-            trHtml += '<img src="images/' + prod_no + '.jpg" />';
-            trHtml += '</li>';
-            trHtml += '<li>';
-            trHtml += prod_name;
-            trHtml += '</li>';
-            trHtml += '</ul>';
+            var track = f.funTrack;
+            trHtml += '<tr>'
+            trHtml += ' <th scope="row">';
+            //if(trackNo==null){ //운송장 입력 기능 활성화되면 교체
+            if (track == 0) {
+              trHtml += '<input type="checkbox" name="funNo" class="funNo form-check-input"  value="';
+              trHtml += f.funNo;
+              trHtml += '">'
+            }
+            trHtml += '</th>';
+            trHtml += '<td class="text-center">';
+            trHtml += f.funNo;
             trHtml += '</td>';
+            trHtml += '<td>';
+            trHtml += f.funDate;
+            trHtml += '</td>';
+            trHtml += '<td class="text-center">';
+            trHtml += f.member.memName;
+            trHtml += '</td>';
+            trHtml += '<td>';
+            trHtml += f.member.memPhone;
+            trHtml += '</td>';
+            trHtml += '<td>';
+            trHtml += f.member.memEmail;
+            trHtml += '</td>';
+            trHtml += '<td class="text-center">';
+            trHtml += f.funQuantity;
+            trHtml += '</td>';
+            trHtml += '<td class="text-center">'
+            if (track == 0) {
+              trHtml += '<select class="trackIn form-control form-control-sm" name ="courier" disabled required>';
+              trHtml += optionHtml;
+              trHtml += '</select>';
+            } else {
+              trHtml += "택배사";
+            }
+            trHtml += '</td>';
+            trHtml += '<td class="text-center">';
+            if (track == 0) {
+              trHtml += '<input class="trackIn form-control form-control-sm" type="text" name=trackNum" disabled required/>';
+            } else {
+              trHtml += "운송번호";
+            }
+            trHtml += '</td>';
+            trHtml += '</tr>';
+          });//end of each
+          $('table.joinerlist>tbody').html(trHtml);
+        },//end of success
+        error: function (jqXHR, textStatus) {
 
-          }
+
+        }//end of error
+      });//end of Ajax
+
+      //검색
+      $("#mykeyword").on("keyup", function () {
+        var value = $(this).val().toLowerCase();
+        $("#tableBody tr").filter(function () {
+          $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
         });
-      trHtml += '</tr>';
-      $tableObj.html(trHtml);
-    },
       });
 
-    var $tableObj = $('table.productlist');
+
+
+
+      //체크박스 클릭시 tr테두리
+      $('table.joinerlist>tbody').on('change', 'input.funNo', function () {
+        var $trObj = $(this).parent().parent();
+        $selectObj = $trObj.children().eq(7).find('select.trackIn');
+        $inputObj = $trObj.children().eq(8).find('input.trackIn');
+
+        $trObj.toggleClass("border").toggleClass("border-danger");
+        if ($(this).is(":checked") == true) {
+          $selectObj.attr("disabled", false);
+          $inputObj.attr("disabled", false);
+        } else {
+          $selectObj.attr("disabled", true);
+          $inputObj.attr("disabled", true);
+        }
+      });
+
+      //택배사 선택시 운송장번호로 포커스, 테두리 하늘색으로 변경
+      $('table.joinerlist>tbody').on('change', 'select.trackIn', function () {
+        var $trObj = $(this).parent().parent();
+        $inputObj = $trObj.children().eq(8).find('input.trackIn');
+        if ($(this).val() != "") {
+          $trObj.removeClass("border-danger");
+          $trObj.addClass("border-info");
+          $inputObj.focus();
+        } else {
+          $trObj.addClass("border-danger");
+          $trObj.removeClass("border-info");
+        }
+      });
+
+
+
     });
+
+
   </script>
 </head>
 
@@ -112,47 +244,49 @@
   <!-- 메인섹션 -->
   <section class="main_section">
     <div class="my">
-      <div>
-
+      <div class="proj_wrap">
+        <div class="represent_img">
+          <img class="thumbnail_img" src="/img/1_0.png" />
+        </div>
+        <div class="prev_proj_info_wrap">
+          <div class="proj_title">
+            프로젝트 타이틀
+          </div>
+        </div>
       </div>
       <div class="container">
         <div class="d-flex justify-content-between align-items-baseline m-3">
-          <form class="search">
-            <input name="mem_name" type="search" placeholder="이름으로 검색">
-            <button type="submit" class="btn btn-outline-primary btn-sm"> 검색</button>
-          </form>
+          <input id="mykeyword" type="text" placeholder="검색">
+          <label for="allCourier"> <span>택배사 한번에 바꾸기</span> </label>
+          <select id="allCourier" class="trackInAll form-control" name="courier">
+            <option value="">--선택--</option>
+            <option value="1">대한통운</option>
+            <option value="2">우체국</option>
+            <option value="3">한진택배</option>
+            <option value="4">현대택배</option>
 
-          <button type="submit" form="track" class="btn btn-danger">운송장 입력</button>
+          </select>
+          <button type="submit" class="btn btn-danger">운송장 입력</button>
         </div>
-
+        <form id="track"> </form>
         <div class="table-wrapper-scroll-y my-custom-scrollbar">
-          <table class="table table-borderless table-striped">
+          <table class="joinerlist table table-borderless table-striped">
             <thead>
               <tr class="bg-light">
-                <th scope="col" width="6%"><input class="form-check-input" type="checkbox"></th>
-                <th scope="col" width="9%">번호</th>
-                <th scope="col" width="15%">일시</th>
-                <th scope="col" width="12%">이름</th>
-                <th scope="col" width="15%">연락처</th>
-                <th scope="col" width="8%" class="text-center">수량</th>
-                <th scope="col" width="20%" class="text-center">금액</th>
-                <th scope="col" width="15%" class="text-center">운송장</th>
+                <th scope="col" width="3%"></th>
+                <th scope="col" width="9%" class="text-center fw-bold">펀딩번호</th>
+                <th scope="col" width="10%" class="text-center fw-bold">신청일시</th>
+                <th scope="col" width="10%" class="text-center fw-bold">이 름</th>
+                <th scope="col" width="15%" class="text-center fw-bold">연락처</th>
+                <th scope="col" width="21%" class="text-center fw-bold">Email</th>
+                <th scope="col" width="6%" class="text-center fw-bold">수량</th>
+                <th scope="col" width="9%" class="text-center fw-bold ">택배사</th>
+                <th scope="col" width="13%" class="text-center fw-bold ">운송장입력</th>
               </tr>
             </thead>
-            <tbody>
-              <form id="track">
-                <tr>
-                  <th scope="row"><input class="form-check-input" type="checkbox"></th>
-                  <td>0001</td>
-                  <td>2021/10/10</td>
-                  <td>홍길동</td>
-                  <td>010-0000-0000</td>
-                  <td class="text-end">2</td>
-                  <td class="text-end">30,000원</td>
-                  <td class="text-center">O</td>
-                </tr>
 
-              </form>
+            <tbody id="tableBody">
+
 
             </tbody>
           </table>
@@ -161,7 +295,7 @@
 
       </div>
       <div class="d-flex justify-content-end m-3">
-        <button type="submit" form="track" class="btn btn-danger">운송장 입력</button>
+        <button type="submit" class="btn btn-danger track">운송장 입력</button>
       </div>
     </div>
 

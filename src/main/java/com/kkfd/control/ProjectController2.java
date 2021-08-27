@@ -22,12 +22,13 @@ import com.kkfd.exception.FindException;
 import com.kkfd.exception.ModifyException;
 import com.kkfd.service.CreatorService;
 import com.kkfd.service.FundingService;
+import com.kkfd.service.ProjectService;
 
 @RestController
 @RequestMapping("/project/*")
 public class ProjectController2 {
 	@Autowired
-	private CreatorService projService;//ProjService으로 변경 Project Table에 project취소
+	private ProjectService projService;//ProjService으로 변경 Project Table에 project취소
 
 	@Autowired
 	private FundingService funService;//Funding Table에 접근 funding DTO로 목록가져오기
@@ -71,6 +72,8 @@ public class ProjectController2 {
 		}
 	}
 
+	
+	//
 
 
 }

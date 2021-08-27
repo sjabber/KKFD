@@ -2,6 +2,8 @@ package com.kkfd.dto;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class FundingDTO {
 	private int funNo;
 	private MemberDTO member;	//창작자가 후원자이름,이메일,연락처조회 시
@@ -14,6 +16,7 @@ public class FundingDTO {
 	private String funBank;
 	private String funAcno;
 	private int funTrack;	//0:운송장 미입력 1:운송장입력
+	@JsonFormat(pattern = "yyyy/MM/dd", timezone = "Asia/Seoul")
 	private Date funDate;
 	public FundingDTO() {}
 	@Override

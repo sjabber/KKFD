@@ -6,6 +6,8 @@ public class MemberDTO {
 	private String memName;
 	private String memPhone;
 	private String memEmail;
+	//private int enabled;
+
 	public MemberDTO() {
 		super();
 	}

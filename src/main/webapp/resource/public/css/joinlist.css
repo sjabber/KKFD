@@ -53,7 +53,7 @@ table {
     box-sizing: border-box;
 }
 .my{
-	width: 1032px;
+	width: 1100px;
 	min-height: 800px;
 	margin: 0 auto;
 
@@ -65,7 +65,7 @@ table {
 
   .my-custom-scrollbar {
 	position: relative;
-	height: 1000px;
+	height: 1300px;
 	overflow: auto;
 	}
 	.table-wrapper-scroll-y {
@@ -95,6 +95,11 @@ table {
   padding: 5px 0px;
 }
 
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
 	
 /* header */
 /*.main_header {

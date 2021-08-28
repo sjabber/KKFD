@@ -17,7 +17,131 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
   <script>
+    function imgPath(id) {
+      var file = new Image;
+      var path = '/img/creator/' + id + '.jpg';
+      file.src = path;
+      if (file.complete) {
+        return path;
+      } else {
+        path = '/img/creator/' + id + '.png';
+        if (file.complete) {
+          return path;
+        } else {
+          return '/img/blank.png';
+        }
+      }
+    };
+
     $(function () {
+      var backurl = "http://localhost:9999/kkfd/creator/";
+      $.ajax({
+        "method": "GET",
+        "url": backurl,
+        "transformRequest": [null],
+        "transformResponse": [null],
+        "jsonpCallbackParam": "callback",
+        "headers": {
+          "Accept": "application/json, text/plain, */*"
+        },
+        "timeout": {},
+        success: function (responseObj) {
+          var id = responseObj.crId;
+          var nn = responseObj.crNn;
+          var intro = responseObj.crIntro;
+          var bank = responseObj.crBank;
+          var acno = responseObj.crAcno;
+          var acholder = responseObj.crAcholder;
+          var imgpath = responseObj.crImgPath;
+          if (id != null) {
+            $('img.cmypage_profile_img').attr('src', imgPath(id));
+            $('img#prevImg').attr('src', imgPath(id));
+            $('form.creatorIn input.crId').val(id);
+          }
+          if (nn !== null) {
+            $('div.cmypage_nickname').text(nn);
+            $('form#nickname > input[name=crNn]').val(nn);
+            $('span#prevNn').text(nn);
+          }
+          if (intro !== null) {
+            $('div.cmypage_intro').text(intro);
+            $('form#intro > textarea').val(intro);
+            $('div#prevIntro').text(intro);
+          }
+          if (bank !== null) {
+            $('div.cmypage_bank').text(bank + "  /  " + acno + "  /  " + acholder);
+            $('form#bank select[name=crBank]').val(bank);
+            $('form#bank input[name=crAcno]').val(acno);
+            $('form#bank input[name=crAcholder]').val(acholder);
+          }
+        },//end of success
+        error: function (jqXHR, textStatus) {
+
+        }//end of error
+      });//end of Ajax
+
+      $('form.creatorIn').submit(function () {
+        var backurl = "http://localhost:9999/kkfd/creator/";
+        var formSerializeArray = $(this).serializeArray();
+        var object = {};
+        for (let i = 0; i < formSerializeArray.length; i++) {
+          object[formSerializeArray[i]['name']] = formSerializeArray[i]['value'];
+        }
+        var data = JSON.stringify(object);
+
+        //크리에이터 : 크리에이터 닉네임,소개,은행계좌를 수정한 적 있거나 프로젝트를 한번이라도 등록한 경우(id!=null)
+        var id = $(this).find('input[name=crId]').val();
+        //DB에 등록한 정보로 kk_creator로 insert
+        if (id == null || id == '') {
+          console.log('insert');
+          $.ajax({
+            "method": "POST",
+            "url": backurl,
+            "data": data,
+            "transformRequest": [null],
+            "transformResponse": [null],
+            "jsonpCallbackParam": "callback",
+            "headers": {
+              "Accept": "application/json, text/plain, */*",
+              "Content-Type": "application/json;charset=utf-8"
+            },
+            success: function (responseObj) {
+              alert("성공");
+              location.reload();
+
+            },
+            error: function (jqXHR) {
+              alert("에러:" + jqXHR.status);
+            }
+          });
+        } else {//update
+          console.log('update');
+          $.ajax({
+            "method": "PUT",
+            "url": backurl,
+            "data": data,
+            "transformRequest": [null],
+            "transformResponse": [null],
+            "jsonpCallbackParam": "callback",
+            "headers": {
+              "Accept": "application/json, text/plain, */*",
+              "Content-Type": "application/json;charset=utf-8"
+            },
+            success: function (responseObj) {
+              alert("성공");
+              location.reload();
+
+            },
+            error: function (jqXHR) {
+              alert("에러:" + jqXHR.status);
+
+            }
+          });
+
+        }
+        return false;
+      });
+
       var $changeBtn = $('div.cmypage_modify > div.cmypage_title_container > button.cmypage_change_btn');
       $changeBtn.click(function () {
         var $before = $(this).parent().next();//이전 정보
@@ -30,6 +154,8 @@
           $after.hide();
         }
       });
+
+      //미리보기
       $('input[type=file]').change(function () {
         if (this.files && this.files[0]) {
           var reader = new FileReader();
@@ -110,16 +236,18 @@
               <img src="/img/blank.png" class="cmypage_profile_img" />
             </div>
             <div class="cmypage_input_box">
-              <div class="cmypage_profile_container">
-                <div>
-                  <img src="/img/blank.png" class="cmypage_profile_img" />
+              <form id="profile" class="imgIn">
+                <div class="cmypage_profile_container">
+                  <div>
+                    <img src="/img/blank.png" class="cmypage_profile_img" />
+                  </div>
+                  <div>
+                    <input type="file" accept="*.jpg, *.png">
+                    <p class="cmypage_desc">250 x 250 픽셀에 최적화되어 있으며, 10Mb 이하의 JPG, PNG 파일을 지원합니다.</p>
+                  </div>
                 </div>
-                <div>
-                  <input type="file" accept="*.jpg, *.png">
-                  <p class="cmypage_desc">250 x 250 픽셀에 최적화되어 있으며, 10Mb 이하의 JPG, PNG 파일을 지원합니다.</p>
-                </div>
-              </div>
-              <button id="#" class="cmypage_save_btn">저 장</button>
+                <button id="#" class="cmypage_save_btn">저 장</button>
+              </form>
             </div>
 
           </div>
@@ -131,9 +259,12 @@
               등록된 닉네임이 없습니다.
             </div>
             <div class="cmypage_input_box">
-              <input type="text" name="cr_nn" placeholder="닉네임을 입력해주세요" class="cmypage_input">
-              <p class="cmypage_desc">창작자 개인이나 팀을 대표할 수 있는 이름을 써주세요.</p>
-              <button id="#" class="cmypage_save_btn">저 장</button>
+              <form id="nickname" class="creatorIn">
+                <input type="hidden" name="crId" class="crId" />
+                <input type="text" name="crNn" placeholder="닉네임을 입력해주세요" class="cmypage_input" required />
+                <p class="cmypage_desc">창작자 개인이나 팀을 대표할 수 있는 이름을 써주세요.</p>
+                <button type="submit" class="cmypage_save_btn">저 장</button>
+              </form>
             </div>
           </div>
 
@@ -141,13 +272,16 @@
             <div class="cmypage_title_container">
               <span class="cmypage_title">소개</span><button class="cmypage_change_btn">변경</button>
             </div>
-            <div>
+            <div class="cmypage_intro">
               등록된 소개가 없습니다.
             </div>
             <div class="cmypage_input_box">
-              <textarea name="cr_intro" placeholder="소개를 입력해주세요"></textarea>
-              <p class="cmypage_desc">2~3문장으로 크리에이터님의 이력과 간단한 소개를 써주세요.</p>
-              <button id="#" class="cmypage_save_btn">저 장</button>
+              <form id="intro" class="creatorIn">
+                <input type="hidden" name="crId" class="crId" />
+                <textarea name="crIntro" placeholder="소개를 입력해주세요" required></textarea>
+                <p class="cmypage_desc">2~3문장으로 크리에이터님의 이력과 간단한 소개를 써주세요.</p>
+                <button type="submit" class="cmypage_save_btn">저 장</button>
+              </form>
             </div>
 
           </div>
@@ -156,60 +290,62 @@
             <div class="cmypage_title_container">
               <span class="cmypage_title">입금 계좌</span><button class="cmypage_change_btn">변경</button>
             </div>
-            <div>
+            <div class="cmypage_bank">
               등록된 입금계좌가 없습니다.
             </div>
             <div class="cmypage_input_box">
-              <div class="cmypage_bank_row">
-                <label>
-                  <div class="cmypage_bank_left">은 행 명</div>
-                </label>
+              <form id="bank" class="creatorIn">
+                <input type="hidden" name="crId" class="crId" />
+                <div class="cmypage_bank_row">
+                  <label>
+                    <div class="cmypage_bank_left">은 행 명</div>
+                  </label>
 
-                <select id="cmpypage_bankname" name="cr_bank">
-                  <option value="0">은행명을 선택하세요</option>
-                  <option value="경남은행">경남은행</option>
-                  <option value="광주은행">광주은행</option>
-                  <option value="국민은행">국민은행</option>
-                  <option value="기업은행">기업은행</option>
-                  <option value="농협중앙회">농협중앙회</option>
-                  <option value="농협회원조합">농협회원조합</option>
-                  <option value="대구은행">대구은행</option>
-                  <option value="부산은행">부산은행</option>
-                  <option value="산업은행">산업은행</option>
-                  <option value="새마을금">새마을금고</option>
-                  <option value="수협중앙회">수협중앙회</option>
-                  <option value="신한은행">신한은행</option>
-                  <option value="신협중앙회">신협중앙회</option>
-                  <option value="외환은행">외환은행</option>
-                  <option value="우리은행">우리은행</option>
-                  <option value="우체국">우체국</option>
-                  <option value="전북은행">전북은행</option>
-                  <option value="제주은행">제주은행</option>
-                  <option value="카카오뱅크">카카오뱅크</option>
-                  <option value="케이뱅크">케이뱅크</option>
-                  <option value="하나은행">하나은행</option>
-                  <option value="한국씨티은행">한국씨티은행</option>
-                  <option value="SC제일">SC제일은행</option>
-                </select>
-              </div>
-              <div class="cmypage_bank_row">
-                <label for="cmypage_acno">
-                  <div class="cmypage_bank_left">계좌번호</div>
-                </label>
-                <input type="text" id="cmypage_acno" name="cr_acno" class="cmypage_input">
-              </div>
+                  <select name="crBank" required>
+                    <option value="0">은행명을 선택하세요</option>
+                    <option value="경남은행">경남은행</option>
+                    <option value="광주은행">광주은행</option>
+                    <option value="국민은행">국민은행</option>
+                    <option value="기업은행">기업은행</option>
+                    <option value="농협중앙회">농협중앙회</option>
+                    <option value="농협회원조합">농협회원조합</option>
+                    <option value="대구은행">대구은행</option>
+                    <option value="부산은행">부산은행</option>
+                    <option value="산업은행">산업은행</option>
+                    <option value="새마을금">새마을금고</option>
+                    <option value="수협중앙회">수협중앙회</option>
+                    <option value="신한은행">신한은행</option>
+                    <option value="신협중앙회">신협중앙회</option>
+                    <option value="외환은행">외환은행</option>
+                    <option value="우리은행">우리은행</option>
+                    <option value="우체국">우체국</option>
+                    <option value="전북은행">전북은행</option>
+                    <option value="제주은행">제주은행</option>
+                    <option value="카카오뱅크">카카오뱅크</option>
+                    <option value="케이뱅크">케이뱅크</option>
+                    <option value="하나은행">하나은행</option>
+                    <option value="한국씨티은행">한국씨티은행</option>
+                    <option value="SC제일">SC제일은행</option>
+                  </select>
+                </div>
+                <div class="cmypage_bank_row">
+                  <label for="cmypage_acno">
+                    <div class="cmypage_bank_left">계좌번호</div>
+                  </label>
+                  <input type="text" id="cmypage_acno" name="crAcno" class="cmypage_input" required>
+                </div>
 
-              <div class="cmypage_bank_row">
+                <div class="cmypage_bank_row">
 
-                <label for="cmypage_acholder">
-                  <div class="cmypage_bank_left">예 금 주</div>
-                </label>
-                <input type="text" id="cmypage_acholder" name="cr_acholder" class="cmypage_input">
-                <p class=" cmypage_desc">펀딩금을 전달받을 계좌를 등록해주세요.</p>
-                <button id="" class="cmypage_save_btn">저 장</button>
-              </div>
+                  <label for="cmypage_acholder">
+                    <div class="cmypage_bank_left">예 금 주</div>
+                  </label>
+                  <input type="text" id="cmypage_acholder" name="crAcholder" class="cmypage_input" required>
+                  <p class=" cmypage_desc">펀딩금을 전달받을 계좌를 등록해주세요.</p>
+                  <button type="submit" class="cmypage_save_btn">저 장</button>
+                </div>
+              </form>
             </div>
-
           </div>
         </div>
         <div class="cmypage_right">
@@ -217,13 +353,14 @@
             <div class="cmypage_creator_top">∴ 크리에이터 소개 미리보기</div>
             <div class="cmypage_creator_info">
               <div class="cmypage_creator_profile_img">
-                <img src="/img/blank.png" />
-                <span>클래시아트</span>
+                <img src="/img/blank.png" id="prevImg" class="profile" />
+                <span id="prevNn">
+                  <!--닉네임-->
+                </span>
               </div>
             </div>
-            <div class="cmypage_creator_intro">
-              무미건조한 일상에 건강한 취미 한끼를 제공하는 클래시아트.
-              여러분에게 잘 맞는 취미를 찾아드립니다.
+            <div id="prevIntro" class="cmypage_creator_intro">
+              <!--소개-->
             </div>
           </div>
         </div>

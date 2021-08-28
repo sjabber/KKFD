@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kkfd.dto.CreatorMapper">
+<select id="selectCrById" parameterType="String" resultType="creator">
+SELECT * FROM kk_creator WHERE cr_id=#{id}
+</select>
+
+<insert id="insertCr" parameterType="creator">
+INSERT INTO kk_creator (cr_id, cr_nn, cr_intro, cr_bank, cr_acno, cr_acholder)
+VALUES (#{crId}, #{crNn}, #{crIntro}, #{crBank}, #{crAcno}, #{crAcholder})
+</insert>
+  
+<update id="updateCr" parameterType="creator">
+  UPDATE kk_creator
+    <set>
+      <if test="crNn != null">cr_nn=#{crNn},</if>
+      <if test="crIntro != null">cr_intro=#{crIntro},</if>
+      <if test="crBank != null">cr_bank=#{crBank},</if>
+      <if test="crAcno != null">cr_acno=#{crAcno},</if>
+      <if test="crAcholder != null">cr_acholder=#{crAcholder}</if>
+    </set>
+  where cr_id=#{crId}
+</update>
+</mapper>

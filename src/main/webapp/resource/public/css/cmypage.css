@@ -141,6 +141,7 @@ table {
 .cmypage_profile_img {
     border-radius: 50%;
     width: 90px;
+    height: 90px;
     margin: 0px 5px 5px 0px;
 }
 
@@ -181,12 +182,12 @@ table {
     color: gray;
 }
 
-.cmypage_input, select[name='cr_bank'] {
+.cmypage_input, select[name='crBank'] {
     width: 60%;
     height: 35px;
 }
 
-textarea[name='cr_intro'] {
+textarea[name='crIntro'] {
     width: 100%;
     height: 200px;
 }
@@ -231,15 +232,13 @@ textarea[name='cr_intro'] {
 }
 
 .cmypage_creator_profile_img {
-	width: 250px;
-	height: 250px;
-	overflow: hidden;
 	margin-left: 5px;
 }
 
 .cmypage_creator_profile_img > img {
-	width: 100%;
-	height: 100%;
+	width: 40px;
+	height: 40px;
+    border-radius: 50%;
 	object-fit: cover;
 }
 

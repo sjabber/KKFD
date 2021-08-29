@@ -1,3 +1,4 @@
+/*
 package com.kkfd;
 
 import java.util.Arrays;
@@ -13,7 +14,8 @@ public class DummyCreatorTest {
 		}
 		
 		
-		/*
+		*/
+/*
 		// 아이디 
 		for (int i = 0; i < max; i++) { 
 			System.out.println(nId()+nNo2());
@@ -38,7 +40,8 @@ public class DummyCreatorTest {
 			System.out.println("010-"+nNo()+"-"+ nNo());
 		}
 		//출처: https://taetae0079.tistory.com/22 [TH블로그]
-		 */
+		 *//*
+
 	}
 
 
@@ -88,3 +91,4 @@ public class DummyCreatorTest {
 }
 
 
+*/

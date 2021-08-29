@@ -5,19 +5,23 @@ import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kkfd.dto.FundingDTO;
 import com.kkfd.exception.AddException;
 import com.kkfd.exception.FindException;
+import com.kkfd.exception.ModifyException;
 
 @Repository("fundingDAO")
 public class FundingDAOOracle implements FundingDAO {
 
 	@Autowired
 	private SqlSessionFactory sessionFactory;
-	
+	Logger log = LoggerFactory.getLogger(this.getClass());
+
 	@Override
 	public void insert(FundingDTO funding) throws AddException {
 		SqlSession session= null;
@@ -46,6 +50,25 @@ public class FundingDAOOracle implements FundingDAO {
 			if(session!=null) session.close();
 		}
 		
+	}
+	
+	@Override
+	public int updateFuns(List<FundingDTO> list) throws ModifyException {
+		SqlSession session= null;
+		int rowCnt = 0;
+		try {
+			session = sessionFactory.openSession();
+			for(FundingDTO funding : list) {
+			int i = session.update("com.kkfd.dto.FundingMapper.updateFun",funding);
+			rowCnt+=i;
+			log.error(funding.toString());
+			}
+			return rowCnt;
+		}catch (Exception e) {
+			throw new ModifyException(e.getMessage());
+		}finally {
+			if(session!=null) session.close();
+		}
 	}
 
 }

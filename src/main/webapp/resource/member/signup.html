@@ -21,19 +21,9 @@
     </div>
 </header>
 <div class="page_container">
-<!--    <div class="page_top">
-        <div class="page_top_title">
-            <h2>개인 회원가입</h2>
-        </div>
-    </div>-->
     <div class="page_middle" style="padding:2em 2em 3em">
         <form action="#" method="post" accept-charset="utf-8">
             <div class="join_form">
-<!--                <div class="page_top">
-                    <div class="page_top_title">
-                        <h2>개인 회원가입</h2>
-                    </div>
-                </div>-->
                 <ul>
                     <li class="join_form_top">
                         <label>
@@ -106,34 +96,6 @@
                             </select>
                         </div>
                     </li>
-<!--                    <div class="addr_div">
-                        <li style="display: inline-block">
-                            <label>우편번호</label>
-                            <div class="renew_input">
-                                <input type="text" id="zipNo" name="mem_userZipcode" class="mem_userAddr" maxlength="5"
-                                       placeholder="우편번호를 입력해 주세요.">
-                            </div>
-                        </li>
-                        <button type="button" class="zip_search" onclick="DaumPostcode()">주소 검색</button>
-                        <li>
-                            <div class="renew_input">
-                                <input type="text" id="roadAddrPart" class="mem_userAddr" placeholder="주소를 입력해 주세요."
-                                       style="display: block">
-                            </div>
-                        </li>
-                        <li>
-                            <div class="renew_input">
-                                <input type="text" id="addrDetail" name="mem_userAddr" class="mem_userAddr"
-                                       placeholder="상세주소를 입력해 주세요.">
-                            </div>
-                        </li>
-                    </div>
-                    <li>
-                        <label>생년월일</label>
-                        <div class="renew_input">
-                            <input type="date" name="mem_userBirthday" id="mem_userBirth" class="label" placeholder="년">
-                        </div>
-                    </li>-->
                 </ul>
             </div>
             <div class="box_line"></div>
@@ -150,11 +112,4 @@
     </div>
 </div>
 </body>
-<script>
-    // 선택박스 하나만 체크되도록
-    $("input[name=check]").bind('click', function () {
-        $("input[name=check]").not(this).prop("checked", false);
-    })
-    $('#message1').hide();
-</script>
 </html>

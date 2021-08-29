@@ -14,7 +14,7 @@ public interface MemberDAO {
     void insert(MemberDTO m) throws AddException;
 
     /**
-     * 로그인
+     * 로그인 & 아이디 중복확인
      * @param id
      * @return
      * @throws FindException

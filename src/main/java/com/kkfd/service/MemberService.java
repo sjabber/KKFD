@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class MemberService {
     @Autowired
-    @Qualifier("memberDAO")
+//    @Qualifier("memberDAO")
     private MemberDAO dao;
 
     /**
@@ -59,8 +59,22 @@ public class MemberService {
         dao.update(m);
     }
 
+    /**
+     * 고객정보 조회
+     * @param id
+     * @return
+     * @throws FindException
+     */
     public MemberDTO findById(String id) throws FindException {
         return dao.selectById(id);
+    }
+
+    public boolean duplicateCheck(String id) throws FindException {
+        if (dao.selectById(id) == null) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 }

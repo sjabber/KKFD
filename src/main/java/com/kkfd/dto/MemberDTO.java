@@ -1,10 +1,17 @@
 package com.kkfd.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class MemberDTO {
+	@JsonProperty("id")
 	private String memId;
+	@JsonProperty("pwd")
 	private String memPwd;
+	@JsonProperty("name")
 	private String memName;
+	@JsonProperty("phone")
 	private String memPhone;
+	@JsonProperty("email")
 	private String memEmail;
 	//private int enabled;
 

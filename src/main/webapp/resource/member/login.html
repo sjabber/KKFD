@@ -98,35 +98,41 @@
     function Login() {
         var id = $('form#authForm > fieldset > .box_login > .input-box > #loginId').val();
         var pwd = $('form#authForm > fieldset > .box_login > .input-box > #loginPw').val();
+
         if (id === "") {
             alert("아이디를 입력하세요.");
         } else if (pwd === "") {
             alert("패스워드를 입력하세요.");
         } else {
-            var backurl = '/Add_it/login';
+            var backurl = 'http://localhost:9999/kkfd/member/login';
             $.ajax({
                 url: backurl,
                 method: 'post',
                 accept: 'application/json',
+                xhrFields: {
+                    // Note 중요!!
+                    //백과 프론트가 분리된 경우 withCredentials를 true로 해주어야 cookie값을 받아올 수 있다.
+                    withCredentials: true
+                },
                 data: JSON.stringify({
                     'id': id,
                     'pwd': pwd
                 }),
-                dataType: "json",
+                // dataType을 지운 이유 => 서버로부터 HttpStatus 만 반환되기 때문. dataType이 json이면 json도 같이 반환되어야함.
+                //dataType: "json",
                 contentType: 'application/json; charset=utf-8',
-                /*{
-                    id: $('form#authForm > fieldset > .box_login > .input-box > #loginId').val(),
-                    pwd: $('form#authForm > fieldset > .box_login > .input-box > #loginPw').val(),
-                },*/
-                success: function (responseObj) {
-                    if (responseObj.status == 1) {
-                        location.href = '../main.html';
-                    } else {
-                        alert("로그인 실패, " + responseObj.msg);
+                statusCode: {
+                    401:function () {
+                        alert('아이디나 패스워드가 틀렸습니다.');
+                    },
+                    500:function () {
+                        alert('서버에러, 관리자에게 문의해 주세요.');
                     }
                 },
-                error: function (xhr) {
-                    alert(xhr.status);
+                success: function (result) {
+                    //메인 페이지로 이동
+                    alert("로그인 되었습니다.");
+                    document.location.href = '/';
                 },
             });
         }

@@ -1,12 +1,8 @@
 var idCheck = null;
 var pwdRegexCheck;
 var pwdEqualCheck;
-<<<<<<< HEAD
  
 /*
-=======
-
->>>>>>> eaaebd05ee9ae58af51e6addb4986bc49d2035d8
 function DaumPostcode() {
     new daum.Postcode({
         oncomplete: function (data) {
@@ -38,6 +34,8 @@ function DaumPostcode() {
         }
     }).open();
 }
+
+ */
 
 function clientSignUp() {
     var backurl = '/Add_it/signUp';

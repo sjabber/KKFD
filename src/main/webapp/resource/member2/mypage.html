@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" type="text/css" href="/css/public.css" />
   <link rel="stylesheet" type="text/css" href="/css/my.css" />
-  <link rel="stylesheet" type="text/css" href="/css/cmypage.css" />
+  <link rel="stylesheet" type="text/css" href="/css/mypage.css" />
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous" />
@@ -145,14 +145,14 @@
       });
       $('button#upload').click(function () {
         var formData = new FormData($('form.imgIn')[0]);
+        conlose.log(formData);
         var backurl = "http://localhost:9999/kkfd/creator/profile";
         $.ajax({
           url: backurl,
           method: "POST",
           processData: false,
           contentType: false,
-          data: formData, //요청전달데이터
-          enctype: 'multipart/form-data',
+          data: formData, //요청전달데이터 
           success: function (responseData) {
             alert("성공");
           }, error: function (jqXHR) {
@@ -266,7 +266,7 @@
                     <p class="cmypage_desc">250 x 250 픽셀에 최적화되어 있으며, 10Mb 이하의 JPG, PNG 파일을 지원합니다.</p>
                   </div>
                 </div>
-                <button type="button" class="cmypage_save_btn" id="upload">저 장</button>
+                <button type="submit" class="cmypage_save_btn" id="upload">저 장</button>
               </form>
             </div>
 

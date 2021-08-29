@@ -28,7 +28,7 @@ import com.kkfd.service.ProjectService;
 @RequestMapping("/project/*")
 public class ProjectController2 {
 	@Autowired
-	private ProjectService projService;//ProjService으로 변경 Project Table에 project취소
+	private ProjectService projService;//Project Table에 접근 project취소
 
 	@Autowired
 	private FundingService funService;//Funding Table에 접근 funding DTO로 목록가져오기
@@ -39,17 +39,17 @@ public class ProjectController2 {
 		//String loginId = (String)session.getAttribute("loginId");
 		String loginId="t";
 		if(loginId == null) {
-			return new ResponseEntity<String>("로그인 하세요",HttpStatus.UNAUTHORIZED);//권한없음
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);//권한없음
 		} 
 		try {
 			int rowCnt = projService.cancleProj(projNo, loginId);
 			if(rowCnt==0) {//취소할 프로젝트 없음(크리에이터 아이디가 틀리거나 프로젝트번호가 이미 없거나)
-				return new ResponseEntity<String>(HttpStatus.NO_CONTENT);//프로젝트 없음	
+				return new ResponseEntity<>(HttpStatus.NO_CONTENT);//프로젝트 없음	
 			}
-			return new ResponseEntity<String>(HttpStatus.OK);//취소 성공	
+			return new ResponseEntity<>(HttpStatus.OK);//취소 성공	
 
 		} catch (ModifyException e) {
-			return new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
 	}
@@ -58,17 +58,17 @@ public class ProjectController2 {
 		//String loginId = (String)session.getAttribute("loginId");
 		String loginId="t";
 		if(loginId == null) {
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);//권한없음
 		} 
 		try {
 			List<FundingDTO> list = funService.findFunsByProjNo(projNo,loginId);
 
 			if(list.size()==0) {//로그인한 아이디가 펀딩참여자 볼 권한이 없을 때 WHERE p.proj_id=#{loginId}
-				return new ResponseEntity<List<FundingDTO>>(HttpStatus.UNAUTHORIZED);
+				return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 			}
-
 			return new ResponseEntity<List<FundingDTO>>(list,HttpStatus.OK);//참여자 정상정으로 불러오는경우
 		}catch(FindException e){
-			return new ResponseEntity<List<FundingDTO>>(HttpStatus.INTERNAL_SERVER_ERROR);//SQL   
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);//SQL   
 		}
 	}
 

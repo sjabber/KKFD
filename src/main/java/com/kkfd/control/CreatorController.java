@@ -46,7 +46,12 @@ public class CreatorController {
 		if(loginId == null) {
 		} 
 		try {
-			CreatorDTO creator = creatorService.findCrById(loginId);			
+
+			CreatorDTO creator = creatorService.findCrById(loginId);
+			if(creator==null) {
+				return new ResponseEntity<>(HttpStatus.NO_CONTENT);//프로젝트 없음	
+
+			}
 			return new ResponseEntity<CreatorDTO>(creator,HttpStatus.OK);//참여자 정상정으로 불러오는경우
 		}catch(FindException e){
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);//SQL   
@@ -55,7 +60,6 @@ public class CreatorController {
 
 	@PostMapping
 	public ResponseEntity<Integer> registerCr(@RequestBody CreatorDTO creator) {
-		log.error(creator.toString());
 		//String loginId = (String)session.getAttribute("loginId");
 		String loginId="id12";
 		if(loginId == null) {
@@ -64,7 +68,7 @@ public class CreatorController {
 		try {
 			int rowCnt = creatorService.addCr(creator);
 			if(rowCnt==0) {
-
+				
 			}
 			return new ResponseEntity<>(rowCnt,HttpStatus.OK);
 		} catch (AddException e) {

@@ -10,4 +10,4 @@ COPY ./resource .
 
 RUN npm install
 
-CMD ["node", "server.js"]
+CMD ["node", "server_test.js"]

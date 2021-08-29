@@ -74,7 +74,7 @@
 <section class="main_section_btn">
     <div class="main-btn">
         <div class="main-btn_inner">
-            <button type="button" class="btn-head1" onclick="location.href='/register/regist/'">1.기본정보</button>
+            <button type="button" class="btn-head1" onclick="location.href='/register/regist/basicInfo/'">1.기본정보</button>
             <button type="button" class="btn-head2" onclick="location.href='/register/regist/creatorInfo/'">2.창작자 정보</button>
             <button type="button" class="btn-head3" onclick="location.href='/register/regist/fundingInfo/'">3.펀딩계획</button>
         </div>
@@ -99,12 +99,12 @@
             <div class="projectItem_title_formInner">
                 <div class="projectItem_input">
                     <span class="input_wrapper">
-                        <input class="inputInner" type="text" inputmode="text" placeholder="이름을 입력해주세요.">
+                        <input class="inputInner" type="text" id="text4" inputmode="text" placeholder="이름을 입력해주세요.">
                     </span>
                 </div>
                 <div class="blankBlock">
                     <p class="InputLengthCheck"></p>
-                    <span class="InputLengthCheck_Notice">0/32</span>
+                    <span class="InputLengthCheck_Notice" id="text_cnt4">0/32</span>
                 </div>
             </div>
         </div>
@@ -127,14 +127,16 @@
                 <div class="projectItem_profile">
                     <div class="projectItem_profile_circle">
                         <div class="profile_circle">
+                            <img src="/img/blank.png" class="profile_circle_img" />
+                            <!--<img src="/img/blank.png" class="profile_circle_img" style="display: none"/>
                             <div class="profile_circle_inner">
                                 프
-                            </div>
+                            </div>-->
                         </div>
                     </div>
                     <div class="projectItem_profile_upload">
                         <div>
-                            <button class="profile_upload">
+                            <div class="profile_upload">
                                 <input type="file" accept=".jpg, .png, .jpeg">
                                 <div class="profileUploadIcon">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
@@ -144,7 +146,7 @@
                                     </svg>
                                 </div>
                                 이미지 파일 업로드
-                            </button>
+                            </div>
                         </div>
                         <p>
                             파일 형식은 jpg 또는 png 로,
@@ -174,12 +176,12 @@
             <div class="projectItem_title_formInner">
                 <div class="projectItem_input3">
                     <div class="input_wrapper3">
-                        <textarea class="textAreaInner2" placeholder="창작자 소개를 입력해주세요."></textarea>
+                        <textarea class="textAreaInner2" id="text5" placeholder="창작자 소개를 입력해주세요."></textarea>
                     </div>
                 </div>
                 <div class="blankBlock">
                     <p class="InputLengthCheck"></p>
-                    <span class="InputLengthCheck_Notice">0/32</span>
+                    <span class="InputLengthCheck_Notice" id="text_cnt5">0/32</span>
                 </div>
             </div>
         </div>

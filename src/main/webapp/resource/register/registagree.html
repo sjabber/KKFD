@@ -116,7 +116,12 @@
 </style>
 <script>
     function startRegister() {
-        location.href = "/register/regist";
+        var checked_All = $('input.chkid');
+        if ($('input.chkid').is(':checked')) {
+            location.href = "/register/regist/basicInfo";
+        } else {
+            alert("프로젝트 약관에 동의해 주세요.");
+        }
     }
 
     function allCheck() {
@@ -158,6 +163,10 @@
             });
         });
     });
+
+
+
+
 </script>
 <body>
 <!-- header -->
@@ -214,7 +223,7 @@
                 </li>
             </ul>
 
-            <textarea>창작자의 의무와 책임, 프로젝트 생성 및 이용에 관한 약관 내용 기입.</textarea>
+            <textarea readonly>창작자의 의무와 책임, 프로젝트 생성 및 이용에 관한 약관 내용 기입.</textarea>
         </li>
         <li class="checkBox check03">
             <ul class="clearfix">
@@ -225,29 +234,29 @@
                 </li>
             </ul>
 
-            <textarea>프로젝트 배송에 대한 이용약관 내용 기입.</textarea>
+            <textarea readonly>프로젝트 배송에 대한 이용약관 내용 기입.</textarea>
         </li>
         <li class="checkBox check04">
             <ul class="clearfix">
                 <li>프로젝트 이용수수료와 세금, 환불에 대한 이용약관을 확인하였습니다.</li>
                 <li class="checkBtn">
-                    <input type="checkbox" name="check2" class="chekALL chk5ll chkAll">
+                    <input type="checkbox" name="check2" class="chekALL chk4All chkAll">
 
                 </li>
             </ul>
 
-            <textarea>프로젝트 이용수수료와 세금, 환불에 대한 이용약관 내용 기입.</textarea>
+            <textarea readonly>프로젝트 이용수수료와 세금, 환불에 대한 이용약관 내용 기입.</textarea>
         </li>
 
         <li class="checkBox check05">
             <ul class="clearfix">
                 <li>프로젝트 취소에 대한 이용약관을 확인하였습니다.</li>
                 <li class="checkBtn">
-                    <input type="checkbox" name="check2" class="chekALL chk5ll chkAll">
+                    <input type="checkbox" name="check2" class="chekALL chk5All chkAll">
 
                 </li>
             </ul>
-            <textarea>프로젝트 취소에 대한 이용약관 내용 기입.</textarea>
+            <textarea readonly>프로젝트 취소에 대한 이용약관 내용 기입.</textarea>
         </li>
         <li class="checkBox check01">
             <ul class="clearfix">

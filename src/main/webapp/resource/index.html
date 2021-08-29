@@ -24,7 +24,6 @@
   <link rel="stylesheet" href="/css/bpHS.min.css">
 
 </head>
-
 <body>
 <!-- header -->
 <header class="main_header">
@@ -33,8 +32,8 @@
       <div class="header_projectsearch">
         <button class="projectsearch_item">
           <a style="text-decoration: none; color: black" href="/project/list/">
-          <i class="fas fa-align-justify fa-lg"></i>
-          <span class="projectsearch_name">프로젝트 둘러보기</span>
+            <i class="fas fa-align-justify fa-lg"></i>
+            <span class="projectsearch_name">프로젝트 둘러보기</span>
           </a>
         </button>
       </div>
@@ -56,8 +55,9 @@
       <div class="header_customer_warp">
         <button class="header_customer_btn">
           <div class="header_login&signup">
-                        <span class="login&signup_name">
-                          <a href="/member/login">로그인 / 회원가입</a>
+                        <span class="login_signup_name">
+                          <a class="admin-no" href="/member/login">로그인 / 회원가입</a>
+                          <a class="admin-yes" href="javascript:Logout()">로그아웃</a>
                         </span>
           </div>
           <div class="header_profile_img">
@@ -1038,7 +1038,80 @@
 
 <!-- [ Demo Script ] -->
 <script src="/js/custom.js"></script>
+<script>
+  //전역변수로 선언, 페이지 콘솔 로그 사용을 막는다.
+  /*  console = {};
+    console.log = function(){};
+    console.warn = function(){};
+    console.error = function(){};
+    console.warn = console.error = () => {};
+    (() => { console.warn = console.error = () => {}} )();*/
 
+  function logined() {
+    $('span.login_signup_name > a.admin-no').hide();
+    $('span.login_signup_name > a.admin-yes').show();
+  }
+
+  function logouted() {
+    $('span.login_signup_name > a.admin-no').show();
+    $('span.login_signup_name > a.admin-yes').hide();
+  }
+
+  function Logout() {
+    var backurl = 'http://localhost:9999/kkfd/member/logout';
+    $.ajax({
+      url: backurl,
+      method: 'get',
+      xhrFields: {
+        withCredentials: true
+      },
+      success: function () {
+        alert("로그아웃 되었습니다.");
+        logouted();
+        document.location.reload();
+      },
+      error: function (xhr) {
+        alert("로그아웃 에러");
+      },
+    });
+  }
+
+  function checkLogined() {
+    var backurl = 'http://localhost:9999/kkfd/member/logincheck';
+    $.ajax({
+      url: backurl,
+      method: 'get',
+      dataType: "json",
+      xhrFields: {
+        withCredentials: true
+      },
+      success: function (result) {
+        logined();
+      },
+      error: function (result) {
+        logouted();
+      }
+    });
+  }
+
+  // 카카오 간편 로그인 실패시
+  /*  $.urlParam = function (name) {
+      var results = new RegExp('[\?&]' + name + '=([^&#]*)')
+              .exec(window.location.href);
+      if (results == null) {
+        return 0;
+      }
+      return results[1] || 0;
+    }
+    $(function () {
+      if ($.urlParam('login') === "fail") {
+        alert("카카오 간편로그인 실패.");
+      }
+    });*/
+
+  logouted();
+  checkLogined();
+</script>
 </body>
 
 </html>

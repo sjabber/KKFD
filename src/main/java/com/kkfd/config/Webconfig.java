@@ -19,7 +19,7 @@ public class Webconfig implements WebMvcConfigurer {
                 .allowedOrigins("http://localhost")
                 .allowedMethods("*") //"GET", "POST","PUT", "DELETE"
                 .allowCredentials(true)
-                .allowedHeaders("Access-Control-Allow-Origin", "Access-Control-Allow-Methods","Content-Access-Control-Allow-Headers","Content-Type", "Access-Control-Allow-Credentials");
-//                .exposedHeaders("Access-Control-Allow-Origin", "Access-Control-Allow-Methods","Content-Access-Control-Allow-Headers","Content-Type", "Access-Control-Allow-Credentials");
+                .allowedHeaders("Access-Control-Allow-Origin", "Access-Control-Allow-Methods",
+                        "Content-Access-Control-Allow-Headers","Content-Type", "Access-Control-Allow-Credentials");
     }
 }

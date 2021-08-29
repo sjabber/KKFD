@@ -2,10 +2,10 @@
   "name": "kkfd",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "main": "server_test.js",
   "scripts": {
     "test": "test",
-    "start": "node server.js",
+    "start": "node server_test.js",
     "build": "babel .. -d dist"
   },
   "pkg": {
@@ -31,6 +31,9 @@
     "pkg": "^4.4.9"
   },
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "express-session": "^1.17.2",
+    "http": "0.0.1-security",
+    "memorystore": "^1.6.6"
   }
 }

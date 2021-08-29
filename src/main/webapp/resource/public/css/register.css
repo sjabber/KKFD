@@ -552,7 +552,7 @@ div.LabelWithTooltip2 {
     align-items: center;
 }
 
-.login\&signup_name > a {
+.login_signup_name > a {
     text-decoration: none;
     color: black;
 }

@@ -110,7 +110,7 @@
     };//end of function
 
     $(function () {
-      var backurl = 'http://localhost:9999/kkfd/creator/projects/1';
+      var backurl = 'http://kkfd.eastus.cloudapp.azure.com:9999/kkfd/creator/projects/1';
       $.ajax({
         "url": backurl,
         "method": "GET",
@@ -218,7 +218,7 @@
       $('table.ongoing').on('click', 'button.cancle', function () {
         var result = confirm('취소~ 위약금10%~!!!그래도 취소?');
         if (result) {
-          var backurl = "http://localhost:9999/kkfd/project/" + $(this).val();
+          var backurl = "http://kkfd.eastus.cloudapp.azure.com:9999/kkfd/project/" + $(this).val();
           $.ajax({
             "method": "PUT",
             "url": backurl,

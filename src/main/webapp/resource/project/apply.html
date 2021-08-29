@@ -36,7 +36,7 @@
       const URLSearch = new URLSearchParams(location.search);
       var no = searchParam("no");
       console.log(no);
-      var backurl = "http://localhost:9999/kkfd/project/" + no;
+      var backurl = "http://kkfd.eastus.cloudapp.azure.com:9999/kkfd/project/" + no;
       $.ajax({
         method: "GET",
         transformRequest: [null],

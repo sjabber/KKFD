@@ -37,7 +37,7 @@ function DaumPostcode() {
 */
 
 function clientSignUp() {
-    var backurl = 'http://localhost:9999/kkfd/member/signup';
+    var backurl = 'http://kkfd.eastus.cloudapp.azure.com:9999/kkfd/member/signup';
     var name = $('div.join_form > ul > li > div.renew_input > input[name=mem_userName]').val();
     var phone = $('div.join_form > ul > li > div.renew_input > input[name=mem_userPhone]').val();
     var email1 = $('div.join_form > ul > li > div.input_box_m > input[name=mem_userEmail]').val();
@@ -107,7 +107,7 @@ function duplicateCheck() {
     if (id == "") {
         alert("아이디를 입력하세요.");
     } else {
-        var backurl = 'http://localhost:9999/kkfd/member/' + id;
+        var backurl = 'http://kkfd.eastus.cloudapp.azure.com:9999/kkfd/member/' + id;
         $.ajax({
             url: backurl,
             method: 'get',

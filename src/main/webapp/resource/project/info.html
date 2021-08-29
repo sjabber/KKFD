@@ -39,7 +39,7 @@
         const URLSearch = new URLSearchParams(location.search);
         var no = searchParam("no");
         console.log(no);
-        var backurl = "http://localhost:9999/kkfd/project/" + no;
+        var backurl = "http://kkfd.eastus.cloudapp.azure.com:9999/kkfd/project/" + no;
         $.ajax({
           method: "GET",
           transformRequest: [null],
@@ -189,7 +189,7 @@
           transformRequest: [null],
           transformResponse: [null],
           jsonpCallbackParam: "callback",
-          url: "http://localhost:9999/kkfd/project/" + no + "/history",
+          url: "http://kkfd.eastus.cloudapp.azure.com:9999/kkfd/project/" + no + "/history",
           headers: {
             Accept: "application/json, text/plain, */*",
           },
@@ -202,7 +202,7 @@
               var prevProjSummary = e.projSummary;
               divHtml += '<div class="prev_proj">';
               divHtml +=
-                '<a class="prev_proj_btn" href="http://localhost/project/info?no=' +
+                '<a class="prev_proj_btn" href="http://kkfd.eastus.cloudapp.azure.com/project/info?no=' +
                 prevProjNo +
                 '">';
               divHtml += '<div class="prev_proj_img">';

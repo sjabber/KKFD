@@ -148,7 +148,7 @@ public class CreatorController {
 				}
 				project.setProjStatus(status);
 			}
-			String url = "http://localhost:9999/kkfd/creator/projects/";
+			String url = "http://kkfd.eastus.cloudapp.azure.com:9999/kkfd/creator/projects/";
 			PageDTO<ProjectDTO> pd = new PageDTO<ProjectDTO>(currentPage,totalPage ,list, url);
 
 			return new ResponseEntity<PageDTO<ProjectDTO>>(pd,HttpStatus.OK);//프로젝트 있는경우

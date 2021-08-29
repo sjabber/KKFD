@@ -29,7 +29,7 @@
         $form.submit(function() {
 
           var data = $form.serialize();
-          var url = 'http://localhost:9999/kkfd/project/list/' + page;
+          var url = 'http://kkfd.eastus.cloudapp.azure.com:9999/kkfd/project/list/' + page;
         	var method = 'GET';
         	alert(data);
         	$.ajax({
@@ -65,7 +65,7 @@
           ) {
             page++;
             var data = $form.serialize();
-          var url = 'http://localhost:9999/kkfd/project/list/' + page;
+          var url = 'http://kkfd.eastus.cloudapp.azure.com:9999/kkfd/project/list/' + page;
         	var method = 'GET';
         	alert(data);
         	$.ajax({

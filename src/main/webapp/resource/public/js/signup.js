@@ -1,8 +1,12 @@
 var idCheck = null;
 var pwdRegexCheck;
 var pwdEqualCheck;
+<<<<<<< HEAD
  
 /*
+=======
+
+>>>>>>> eaaebd05ee9ae58af51e6addb4986bc49d2035d8
 function DaumPostcode() {
     new daum.Postcode({
         oncomplete: function (data) {
@@ -34,16 +38,19 @@ function DaumPostcode() {
         }
     }).open();
 }
-*/
 
 function clientSignUp() {
-    var backurl = 'http://localhost:9999/kkfd/member/signup';
+    var backurl = '/Add_it/signUp';
     var name = $('div.join_form > ul > li > div.renew_input > input[name=mem_userName]').val();
     var phone = $('div.join_form > ul > li > div.renew_input > input[name=mem_userPhone]').val();
     var email1 = $('div.join_form > ul > li > div.input_box_m > input[name=mem_userEmail]').val();
     var email2 = $('div.join_form > ul > li >  div.input_box_m > input[name=mem_userEmail2]').val();
+    var zipcode = $('div.join_form > ul > div.addr_div > li > div.renew_input > input[name=mem_userZipcode]').val();
+    var address = $('div.join_form > ul > div.addr_div > li > div.renew_input > input[name=mem_userAddr]').val();
+    var birthday = $('div.join_form > ul > li > div.renew_input > input[name=mem_userBirthday]').val();
+    var car_type = $('div.join_form > ul > li > input[name=check]:checked').val();
     if (idCheck === true && pwdEqualCheck === true && pwdRegexCheck === true && name !== "" && phone !== ""
-        && email1 !== "" && email2 !== "") {
+        && email1 !== "" && email2 !== "" && zipcode !== "" && birthday !== "" && car_type !== "") {
         $.ajax({
             url: backurl,
             method: 'post',
@@ -51,28 +58,117 @@ function clientSignUp() {
             data: JSON.stringify({
                 'id': $('div.join_form > ul > li > div.renew_input > input[name=mem_userid]').val(),
                 'pwd': $('div.join_form > ul > li > div.renew_input > input[name=mem_userPw]').val(),
+                'user_type': "1",
                 'name': name,
                 'phone': phone,
-                'email': email1 + "@" + email2
+                'email': email1 + "@" + email2,
+                'zipcode': zipcode,
+                'address': address,
+                'birthday': birthday,
+                'car_type': car_type
             }),
+            dataType: "json",
             contentType: 'application/json; charset=utf-8',
-            statusCode: {
-                400:function () {
-                    alert('사용할 수 없는 아이디 입니다.');
-                },
-                500:function () {
-                    alert('서버에러, 관리자에게 문의해 주세요.');
+            success: function (responseObj) {
+                if (responseObj.status == 1) {
+                    alert("회원가입 되었습니다.");
+                    window.location.href = '../../..';
+                } else {
+                    alert("login fail : " + responseObj.msg);
                 }
             },
-            success: function (result) {
-                alert("회원가입 되었습니다.");
-                document.location.href = '/member/login';
+            error: function (xhr) {
+                alert(xhr.status);
             },
         });
     } else if (idCheck === null) {
-        // $('button.id_search').focus();
-        $('input[name=mem_userid]').focus();
-        alert("아이디 중복확인을 해주세요.");
+        $('button.id_search').focus();
+        alert("아이디 중복확인을 해주세요.")
+    } else if (idCheck === false) {
+        $('div.join_form > ul > li > div.renew_input > input[name=mem_userid]').focus();
+        alert("사용할 수 없는 아이디 입니다.");
+    } else if (pwdRegexCheck == null) {
+        $('div.join_form > ul > li > div.renew_input > input[name=mem_userPw]').focus();
+        alert("비밀번호를 입력해 주세요.");
+    } else if (pwdEqualCheck === false) {
+        $('div.join_form > ul > li > div.renew_input > input[name=mem_userPw2]').focus();
+        alert("비밀번호가 일치하지 않습니다.");
+    } else if (pwdRegexCheck === false) {
+        $('div.join_form > ul > li > div.renew_input > input[name=mem_userPw1]').focus();
+        alert("비밀번호 형식이 올바르지 않습니다.");
+    } else if (name === "") {
+        alert("이름을 입력해 주세요.");
+        $('div.join_form > ul > li > div.renew_input > input[name=mem_userName]').focus();
+    } else if (phone === "") {
+        $('div.join_form > ul > li > div.renew_input > input[name=mem_userPhone]').focus();
+        alert("휴대전화 번호를 입력해 주세요.");
+    } else if (email1 === "") {
+        $('div.join_form > ul > li > div.input_box_m > input[name=mem_userEmail]').focus();
+        alert("이메일을 입력해 주세요");
+    } else if (email2 === "") {
+        $('div.join_form > ul > li >  div.input_box_m > input[name=mem_userEmail2]').focus();
+        alert("이메일을 입력해 주세요");
+    } else if (zipcode === "") {
+        $('div.join_form > ul > div.addr_div > li > div.renew_input > input[name=mem_userZipcode]').focus();
+        alert("우편번호를 입력해 주세요.");
+    } else if (address === "") {
+        $('div.join_form > ul > div.addr_div > li > div.renew_input > input[name=mem_userAddr]').focus();
+        alert("상세주소를 입력해 주세요.");
+    } else if (car_type === undefined || car_type == null) {
+        alert("차종을 선택해 주세요.");
+    } else if (birthday === "") {
+        $('div.join_form > ul > li > div.renew_input > input[name=mem_userBirthday]').focus();
+        alert("생일을 입력해 주세요.");
+    } else {
+        alert("에러발생");
+    }
+}
+
+function companySignUp() {
+    var backurl = '/Add_it/signUp';
+    var name = $('div.join_form > ul > li > div.renew_input > input[name=mem_userName]').val();
+    var phone = $('div.join_form > ul > li > div.renew_input > input[name=mem_userPhone]').val();
+    var email1 = $('div.join_form > ul > li > div.input_box_m > input[name=mem_userEmail]').val();
+    var email2 = $('div.join_form > ul > li >  div.input_box_m > input[name=mem_userEmail2]').val();
+    var zipcode = $('div.join_form > ul > div.addr_div > li > div.renew_input > input[name=mem_userZipcode]').val();
+    var address = $('div.join_form > ul > div.addr_div > li > div.renew_input > input[name=mem_userAddr]').val();
+    var com_rn = $('div.join_form > ul > li > div.renew_input > input[name=mem_rn]').val();
+    var com_bt = $('#select_sector').val();
+    if (idCheck === true && pwdEqualCheck === true && pwdRegexCheck === true && name !== "" && phone !== ""
+        && email1 !== "" && email2 !== "" && zipcode !== "" && com_rn !== "" && com_bt !== "0") {
+        $.ajax({
+            url: backurl,
+            method: 'post',
+            accept: 'application/json',
+            data: JSON.stringify({
+                'id': $('div.join_form > ul > li > div.renew_input > input[name=mem_userid]').val(),
+                'pwd': $('div.join_form > ul > li > div.renew_input > input[name=mem_userPw]').val(),
+                'user_type': "2",
+                'name': name,
+                'phone': phone,
+                'email': email1 + "@" + email2,
+                'zipcode': zipcode,
+                'address': address,
+                'com_rn': com_bt,
+                'com_bt': $('#select_sector').val()
+            }),
+            dataType: "json",
+            contentType: 'application/json; charset=utf-8',
+            success: function (responseObj) {
+                if (responseObj.status == 1) {
+                    alert("회원가입 되었습니다.");
+                    window.location.href = '../../..';
+                } else {
+                    alert("login fail : " + responseObj.msg);
+                }
+            },
+            error: function (xhr) {
+                alert(xhr.status);
+            },
+        });
+    } else if (idCheck === null) {
+        $('button.id_search').focus();
+        alert("아이디 중복확인을 해주세요.")
     } else if (idCheck === false) {
         $('div.join_form > ul > li > div.renew_input > input[name=mem_userid]').focus();
         alert("사용할 수 없는 아이디 입니다.");
@@ -97,6 +193,18 @@ function clientSignUp() {
     } else if (email2 === "") {
         $('div.join_form > ul > li >  div.input_box_m > input[name=mem_userEmail2]').focus();
         alert("이메일을 입력해 주세요");
+    } else if (zipcode === "") {
+        $('div.join_form > ul > div.addr_div > li > div.renew_input > input[name=mem_userZipcode]').focus();
+        alert("우편번호를 입력해 주세요.");
+    } else if (address === "") {
+        $('div.join_form > ul > div.addr_div > li > div.renew_input > input[name=mem_userAddr]').focus();
+        alert("상세주소를 입력해 주세요.");
+    } else if (com_rn === "") {
+        $('div.join_form > ul > li > div.renew_input > input[name=mem_rn]').focus();
+        alert("사업자 번호를 입력해 주세요.");
+    } else if (com_bt === "0") {
+        $('#select_sector').focus();
+        alert("업종을 선택해 주세요.");
     } else {
         alert("에러발생");
     }
@@ -107,46 +215,33 @@ function duplicateCheck() {
     if (id == "") {
         alert("아이디를 입력하세요.");
     } else {
-        var backurl = 'http://localhost:9999/kkfd/member/' + id;
+        var backurl = '/Add_it/duplicatecheck';
         $.ajax({
             url: backurl,
-            method: 'get',
-            statusCode: {
-                400:function () {
+            method: 'post',
+            data: {
+                id: $('div.join_form > ul > li > div.renew_input > input[name=mem_userid]').val(),
+            },
+            success: function (responseObj) {
+                if (responseObj.status == 1) { //중복 아이디 없는 경우
+                    alert('사용가능한 아이디 입니다.');
+                    $('#message1').show();
+                    $('#message1').css("color", "green");
+                    $('#message1').text('사용가능한 아이디 입니다.');
+                    idCheck = true;
+                } else if (responseObj.status == 0) { // 중복 아이디 있는 경우
                     alert('사용할 수 없는 아이디 입니다.');
                     $('#message1').show();
                     $('#message1').css("color", "red");
                     $('#message1').text('사용할 수 없는 아이디 입니다.');
                     idCheck = false;
-                },
-                500:function () {
-                    alert('서버에러, 관리자에게 문의해 주세요.');
-                    $('#message1').show();
-                    $('#message1').css("color", "red");
-                    $('#message1').text('서버에러 발생!');
-                    idCheck = false;
+                } else { // 에러가 발생한 경우
+                    alert(responseObj.msg);
                 }
             },
-            success: function (result) {
-                //중복 아이디 없는 경우
-                alert('사용가능한 아이디 입니다.');
-                $('#message1').show();
-                $('#message1').css("color", "green");
-                $('#message1').text('사용가능한 아이디 입니다.');
-                idCheck = true;
-            },
-/*            error: function (xhr) {
-                var data = $.trim(xhr);
-                alert(data.status);
-                alert(data);
-                console.log(data);
-                if (data.status === 400) { // 중복 아이디 있는 경우
-                    alert('사용할 수 없는 아이디 입니다.');
-
-                } else if (data.status === 500) {
-                    alert('서버에러');
-                }
-            }*/
+            error: function (xhr) {
+                alert(xhr.status);
+            }
         });
     }
 }

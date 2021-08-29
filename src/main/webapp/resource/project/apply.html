@@ -1,294 +1,294 @@
 <!DOCTYPE html>
 <html lang="ko">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" type="text/css" href="/css/apply.css" />
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We"
-      crossorigin="anonymous"
-    />
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
-      crossorigin="anonymous"
-    ></script>
-    <title>펀딩 신청</title>
-    <script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
-    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-    <script src="/js/apply.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script>
-      function searchParam(key) {
-        return new URLSearchParams(location.search).get(key);
-      }
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" type="text/css" href="/css/apply.css" />
+  <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We"
+          crossorigin="anonymous"
+  />
+  <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
+          crossorigin="anonymous"
+  ></script>
+  <title>펀딩 신청</title>
+  <script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
+  <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+  <script src="/js/apply.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script>
+    function searchParam(key) {
+      return new URLSearchParams(location.search).get(key);
+    }
 
-      function numberWithCommas(x) {
-        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-      }
-    </script>
-    <script>
-      var projFm = 0;
-      var dt = new Date();
-            $(function () {
-              const URLSearch = new URLSearchParams(location.search);
-        var no = searchParam("no");
-        console.log(no);
-        var backurl = "http://localhost:9999/kkfd/project/" + no;
-        $.ajax({
-          method: "GET",
-          transformRequest: [null],
-          transformResponse: [null],
-          jsonpCallbackParam: "callback",
-          url: backurl,
-          headers: {
-            Accept: "application/json, text/plain, */*",
-          },
-          timeout: {},
-          success: function (responseData) {
-            $(responseData).each(function (i, e) {
-              var projNo = e.projNo;
-              var projCategory = e.projCategory;
-              var projTitle = e.projTitle;
-              var crId = e.creator.crId;
-              var crNn = e.creator.crNn;
-              var crIntro = e.creator.crIntro;
-              var projIntro = e.projIntro;
-              projFm = e.projFm;
-              var projTargetcnt = e.projTargetcnt;
-              var projLimitcnt = e.projLimitcnt;
-              var projQuantity = e.projQuantity;
-              var projGoals = e.projGoals;
-              var projStart = e.projStart;
-              var projEnd = e.projEnd;
-              var projDelivery = e.projDelivery;
-              var projBm = e.projBm;
-              var sum = projFm * projQuantity;
-              // var funding_quantity = $("#funding_quantity").val();
-              console.log(funding_quantity);
-              $('div.category_nickname>span.category').html(projCategory);
-              $('div.category_nickname>span.cr_nn').html(crNn);
-              $('div.proj_title').html(projTitle);
-              $('div.represent_img>img.thumbnail_img').attr("src", "/img/" + no + "_0.png");
-              $('span.fm').html(numberWithCommas(sum) + "원");
-              $('span.goal_pct').html(numberWithCommas(projGoals) + "%");
-              $('div.box_row>span.fm').html(numberWithCommas(projFm) + "원");
-              $('div.box_row>span.delivery').html(projDelivery);
-              $('div.box_row>span.final_fm').html(numberWithCommas(projFm * 1) + "원");
-              $('div.pay_info>span.funding_paydate').html(projEnd);
-              console.log(dt);
-              //alert("test");
+    function numberWithCommas(x) {
+      return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+  </script>
+  <script>
+    var projFm = 0;
+    var dt = new Date();
+    $(function () {
+      const URLSearch = new URLSearchParams(location.search);
+      var no = searchParam("no");
+      console.log(no);
+      var backurl = "http://localhost:9999/kkfd/project/" + no;
+      $.ajax({
+        method: "GET",
+        transformRequest: [null],
+        transformResponse: [null],
+        jsonpCallbackParam: "callback",
+        url: backurl,
+        headers: {
+          Accept: "application/json, text/plain, */*",
+        },
+        timeout: {},
+        success: function (responseData) {
+          $(responseData).each(function (i, e) {
+            var projNo = e.projNo;
+            var projCategory = e.projCategory;
+            var projTitle = e.projTitle;
+            var crId = e.creator.crId;
+            var crNn = e.creator.crNn;
+            var crIntro = e.creator.crIntro;
+            var projIntro = e.projIntro;
+            projFm = e.projFm;
+            var projTargetcnt = e.projTargetcnt;
+            var projLimitcnt = e.projLimitcnt;
+            var projQuantity = e.projQuantity;
+            var projGoals = e.projGoals;
+            var projStart = e.projStart;
+            var projEnd = e.projEnd;
+            var projDelivery = e.projDelivery;
+            var projBm = e.projBm;
+            var sum = projFm * projQuantity;
+            // var funding_quantity = $("#funding_quantity").val();
+            console.log(funding_quantity);
+            $('div.category_nickname>span.category').html(projCategory);
+            $('div.category_nickname>span.cr_nn').html(crNn);
+            $('div.proj_title').html(projTitle);
+            $('div.represent_img>img.thumbnail_img').attr("src", "/img/" + no + "_0.png");
+            $('span.fm').html(numberWithCommas(sum) + "원");
+            $('span.goal_pct').html(numberWithCommas(projGoals) + "%");
+            $('div.box_row>span.fm').html(numberWithCommas(projFm) + "원");
+            $('div.box_row>span.delivery').html(projDelivery);
+            $('div.box_row>span.final_fm').html(numberWithCommas(projFm * 1) + "원");
+            $('div.pay_info>span.funding_paydate').html(projEnd);
+            console.log(dt);
+            //alert("test");
 
-              // $("#apply_btn").click(function () {
-              //   if(dt > projEnd) {
-              //     alert("test");
-              //   }
-              // });
-              
-            });
-          },
-        });
-        $("#funding_quantity").change(function () {
-          console.log(($(this).val()));
-          console.log(projFm);
-          var totalfm = $(this).val() * projFm;
-          $('div.box_row>span.final_fm').html(numberWithCommas(totalfm) + "원");
-        });
-        
+            // $("#apply_btn").click(function () {
+            //   if(dt > projEnd) {
+            //     alert("test");
+            //   }
+            // });
 
-        $("input.ckbox").click(function(e) {
-          if($("#ckbox1").is(':checked') && $("#ckbox2").is(':checked')) {
-            $("#apply_btn").attr("disabled", false);
-          }else {
-            $("#apply_btn").attr("disabled", true);
-          }
-        });
-
-        $("#apply_btn").click(function(e) {
-          alert("test");
-          e.preventDefault();
-        });
-        
+          });
+        },
       });
-    </script>
-  </head>
-  <body>
-    <!-- header -->
-    <header class="main_header">
-      <div class="main_header_warp">
-        <div class="header_menu_warp">
-          <div class="header_projectsearch">
-            <button class="projectsearch_item">
-              <i class="fas fa-align-justify fa-lg"></i>
-              <span class="projectsearch_name">프로젝트 둘러보기</span>
-            </button>
+      $("#funding_quantity").change(function () {
+        console.log(($(this).val()));
+        console.log(projFm);
+        var totalfm = $(this).val() * projFm;
+        $('div.box_row>span.final_fm').html(numberWithCommas(totalfm) + "원");
+      });
+
+
+      $("input.ckbox").click(function(e) {
+        if($("#ckbox1").is(':checked') && $("#ckbox2").is(':checked')) {
+          $("#apply_btn").attr("disabled", false);
+        }else {
+          $("#apply_btn").attr("disabled", true);
+        }
+      });
+
+      $("#apply_btn").click(function(e) {
+        alert("test");
+        e.preventDefault();
+      });
+
+    });
+  </script>
+</head>
+<body>
+<!-- header -->
+<header class="main_header">
+  <div class="main_header_warp">
+    <div class="header_menu_warp">
+      <div class="header_projectsearch">
+        <button class="projectsearch_item">
+          <i class="fas fa-align-justify fa-lg"></i>
+          <span class="projectsearch_name">프로젝트 둘러보기</span>
+        </button>
+      </div>
+      <div class="header_projectupload">
+        <a style="text-decoration: none" href="#">
+          <span class="projectupload_name">프로젝트 올리기</span>
+        </a>
+      </div>
+    </div>
+    <div class="header_mainlogo">
+      <a style="text-decoration: none" href="#">
+        <span class="header_mainlogo_item">크크펀딩</span>
+      </a>
+    </div>
+    <div class="header_sub_warp">
+      <div class="header_searchicon">
+        <!-- <i class="fas fa-search fa-lg"></i> -->
+      </div>
+      <div class="header_customer_warp">
+        <button class="header_customer_btn">
+          <div class="header_login&signup">
+            <span class="login_signup_name">로그인 / 회원가입</span>
           </div>
-          <div class="header_projectupload">
-            <a style="text-decoration: none" href="#">
-              <span class="projectupload_name">프로젝트 올리기</span>
-            </a>
+          <div class="header_profile_img">
+            <img src="./img/blank.png" />
           </div>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+<section class="main_section">
+  <div class="top_area_wrap">
+    <div class="proj_wrap">
+      <div class="represent_img">
+        <img class="thumbnail_img" src="" />
+      </div>
+      <div class="prev_proj_info_wrap">
+        <div class="category_nickname">
+          <span class="category"><!-- 카테고리 --></span><span> | </span
+        ><span class="cr_nn"><!-- 크리에이터 닉네임 --></span>
         </div>
-        <div class="header_mainlogo">
-          <a style="text-decoration: none" href="#">
-            <span class="header_mainlogo_item">크크펀딩</span>
-          </a>
+        <div class="proj_title">
+          <!-- 프로젝트 타이틀 -->
         </div>
-        <div class="header_sub_warp">
-          <div class="header_searchicon">
-            <!-- <i class="fas fa-search fa-lg"></i> -->
-          </div>
-          <div class="header_customer_warp">
-            <button class="header_customer_btn">
-              <div class="header_login&signup">
-                <span class="login&signup_name">로그인 / 회원가입</span>
-              </div>
-              <div class="header_profile_img">
-                <img src="./img/blank.png" />
-              </div>
-            </button>
-          </div>
+        <div class="pct">
+          <span class="fm"><!-- 모인 금액 --></span>
+          <span class="goal_pct"><!-- 달성률 --></span>
         </div>
       </div>
-    </header>
-    <section class="main_section">
-      <div class="top_area_wrap">
-        <div class="proj_wrap">
-          <div class="represent_img">
-            <img class="thumbnail_img" src="" />
-          </div>
-          <div class="prev_proj_info_wrap">
-            <div class="category_nickname">
-              <span class="category"><!-- 카테고리 --></span><span> | </span
-              ><span class="cr_nn"><!-- 크리에이터 닉네임 --></span>
-            </div>
-            <div class="proj_title">
-              <!-- 프로젝트 타이틀 -->
-            </div>
-            <div class="pct">
-              <span class="fm"><!-- 모인 금액 --></span>
-              <span class="goal_pct"><!-- 달성률 --></span>
-            </div>
-          </div>
-        </div>
-        <hr />
-      </div>
-      <form action="#" method="post" accept-charset="utf-8">
-      <div class="apply_area_wrap">
-        
-        <div class="apply_area_left">
-          <div class="apply_title">펀딩 정보</div>
-          <div class="apply_box">
-            <div class="box_row"><span>금액</span> <span class="fm"></span></div>
-            <div class="box_row">
-              <label for="funding_quantity">
+    </div>
+    <hr />
+  </div>
+  <form action="#" method="post" accept-charset="utf-8">
+    <div class="apply_area_wrap">
+
+      <div class="apply_area_left">
+        <div class="apply_title">펀딩 정보</div>
+        <div class="apply_box">
+          <div class="box_row"><span>금액</span> <span class="fm"></span></div>
+          <div class="box_row">
+            <label for="funding_quantity">
               <span>개수</span></label>
-              <span
-                ><input
-                  type="number"
-                  class="form-control"
-                  id="funding_quantity"
-                  value="1"
-                  max="19"
-                  min="1"
-              /></span>
-            </div>
-            <div class="box_row">
-              <span>배송 예상일</span> <span class="delivery"><!-- 배송 예상일 --></span>
-            </div>
-          </div>
-          <div class="apply_title">회원 정보</div>
-          <div class="apply_box">
-            <div class="box_row">
-              <span>연락처</span> <span><!-- 펀딩신청회원 연락처 --></span>
-            </div>
-            <div class="box_row">
-              <span>이메일</span> <span><!-- 펀딩신청회원 이메일 --></span>
-            </div>
-            <div class="apply_box">
-              <div>* 위 연락처와 이메일로 후원 관련 소식이 전달됩니다.</div>
-              <div>* 연락처 및 이메일 변경은 마이페이지에서 가능합니다.</div>
-            </div>
-          </div>
-          <div class="apply_title">배송 정보</div>
-          <div class="apply_box">
-            <div class="box_row">
-              <label for="input_receiver">
-              <span>받는사람</span></label>
-              <span class="receiver"
-                ><input
-                  id="input_receiver"
-                  type="text"
-                  class="form-control"
-                  placeholder="받는 분 성함을 입력해주세요"
-              /></span>
-            </div>
-            <div class="box_row">
-              <span>우편번호</span>
-              <!-- <span> -->
-                <div class="input-group w-50">
-                <form>
-                  <input
-                    type="text"
-                    id="input_zipcode"
+            <span
+            ><input
+                    type="number"
                     class="form-control"
-                    placeholder="조회를 클릭하세요"
-                    readonly />
-                  </form>
-                  <button
-                  type="button"
-                  class="btn btn-outline-primary"
-                  id="addr_search"
-                  onclick="DaumPostcode()">
-                  조회
-                </button>
-              </div>
-                <!-- </span> -->
-              
+                    id="funding_quantity"
+                    value="1"
+                    max="19"
+                    min="1"
+            /></span>
+          </div>
+          <div class="box_row">
+            <span>배송 예상일</span> <span class="delivery"><!-- 배송 예상일 --></span>
+          </div>
+        </div>
+        <div class="apply_title">회원 정보</div>
+        <div class="apply_box">
+          <div class="box_row">
+            <span>연락처</span> <span><!-- 펀딩신청회원 연락처 --></span>
+          </div>
+          <div class="box_row">
+            <span>이메일</span> <span><!-- 펀딩신청회원 이메일 --></span>
+          </div>
+          <div class="apply_box">
+            <div>* 위 연락처와 이메일로 후원 관련 소식이 전달됩니다.</div>
+            <div>* 연락처 및 이메일 변경은 마이페이지에서 가능합니다.</div>
+          </div>
+        </div>
+        <div class="apply_title">배송 정보</div>
+        <div class="apply_box">
+          <div class="box_row">
+            <label for="input_receiver">
+              <span>받는사람</span></label>
+            <span class="receiver"
+            ><input
+                    id="input_receiver"
+                    type="text"
+                    class="form-control"
+                    placeholder="받는 분 성함을 입력해주세요"
+            /></span>
+          </div>
+          <div class="box_row">
+            <span>우편번호</span>
+            <!-- <span> -->
+            <div class="input-group w-50">
+              <form>
+                <input
+                        type="text"
+                        id="input_zipcode"
+                        class="form-control"
+                        placeholder="조회를 클릭하세요"
+                        readonly />
+              </form>
+              <button
+                      type="button"
+                      class="btn btn-outline-primary"
+                      id="addr_search"
+                      onclick="DaumPostcode()">
+                조회
+              </button>
             </div>
-            <!-- <div class="box_row"> -->
-              <!-- <span class="address"> -->
-                
-                <!-- </span> -->
-            <!-- </div> -->
-            <div class="box_row">
+            <!-- </span> -->
+
+          </div>
+          <!-- <div class="box_row"> -->
+          <!-- <span class="address"> -->
+
+          <!-- </span> -->
+          <!-- </div> -->
+          <div class="box_row">
               <span>주소</span
               >
-            </div>
-            <div class="box_row">
+          </div>
+          <div class="box_row">
               <span class="address"
-                ><form>
+              ><form>
                   <input
-                    type="text"
-                    id="input_addr"
-                    class="form-control"
-                    placeholder="조회를 클릭하세요"
-                    readonly
+                          type="text"
+                          id="input_addr"
+                          class="form-control"
+                          placeholder="조회를 클릭하세요"
+                          readonly
                   /></form
               ></span>
-            </div>
-            <div class="box_row">
-              <label for="input_detail">
-              <span>상세주소</span></label>
-            </div>
-            <div class="box_row">
-              <span class="address"
-                ><input
-                  type="text"
-                  id="input_detail"
-                  class="form-control"
-                  placeholder="상세주소를 입력하세요"
-              /></span>
-            </div>
           </div>
-          <div class="apply_title">결제 정보</div>
-          <div class="apply_box">
-            <div class="box_row">
-              <label for="cmpypage_bankname">
+          <div class="box_row">
+            <label for="input_detail">
+              <span>상세주소</span></label>
+          </div>
+          <div class="box_row">
+              <span class="address"
+              ><input
+                      type="text"
+                      id="input_detail"
+                      class="form-control"
+                      placeholder="상세주소를 입력하세요"
+              /></span>
+          </div>
+        </div>
+        <div class="apply_title">결제 정보</div>
+        <div class="apply_box">
+          <div class="box_row">
+            <label for="cmpypage_bankname">
               <span>은행입력</span></label>
-              <span class="bank">
+            <span class="bank">
                 <!-- <input type="text" class="form-control"/> -->
                 <select id="cmpypage_bankname" class="form-control" name="cr_bank">
                   <option value="0">은행명을 선택하세요</option>
@@ -317,100 +317,100 @@
                   <option value="SC제일">SC제일은행</option>
                 </select>
               </span>
-            </div>
-            <div class="box_row">
-              <label for="input_acno">
+          </div>
+          <div class="box_row">
+            <label for="input_acno">
               <span>계좌번호</span></label>
-              <span class="bank"
-                ><input id="input_acno" type="text" class="form-control" placeholder="계좌번호를 입력해주세요"
-              /></span>
-            </div>
+            <span class="bank"
+            ><input id="input_acno" type="text" class="form-control" placeholder="계좌번호를 입력해주세요"
+            /></span>
           </div>
         </div>
-        <div class="apply_area_right">
+      </div>
+      <div class="apply_area_right">
+        <div class="apply_box">
           <div class="apply_box">
-            <div class="apply_box">
-              <div class="box_row">
+            <div class="box_row">
                 <span class="final_funding">최종 펀딩 금액</span
                 ><span class="final_fm"><!-- 펀딩금액x주문수량 --></span>
-              </div>
             </div>
-            <div class="pay_info">
-              프로젝트 성공 시, 결제는
-              <span class="funding_paydate"><!-- 종료일 --></span>에 진행됩니다.
-            </div>
-            <div class="pay_info">
-              프로젝트가 무산되거나 중단된 경우, 예약된 결제는
-            </div>
-            <div class="pay_info">자동으로 취소됩니다.</div>
-            <div class="box_row">
-              <input type="checkbox" id="ckbox1" class="ckbox" />
-              <label for="ckbox1">
-              <span
-                >개인정보 제 3자 제공 동의</span
-              ></label>
-            </div>
-            <div class="box_row">
-              <input type="checkbox" id="ckbox2" class="ckbox" />
-              <label for="ckbox2">
-              <span
-                >펀딩 유의사항 확인</span
-              ></label>
-            </div>
-            </form>
           </div>
-          <div class="funding_button">
-            <span> </span>
-            <button class="btn btn-danger btn-lg btn-block" id="apply_btn" disabled>펀딩 신청</button>
+          <div class="pay_info">
+            프로젝트 성공 시, 결제는
+            <span class="funding_paydate"><!-- 종료일 --></span>에 진행됩니다.
           </div>
-        </div>
-      </div>
-    </section>
+          <div class="pay_info">
+            프로젝트가 무산되거나 중단된 경우, 예약된 결제는
+          </div>
+          <div class="pay_info">자동으로 취소됩니다.</div>
+          <div class="box_row">
+            <input type="checkbox" id="ckbox1" class="ckbox" />
+            <label for="ckbox1">
+              <span
+              >개인정보 제 3자 제공 동의</span
+              ></label>
+          </div>
+          <div class="box_row">
+            <input type="checkbox" id="ckbox2" class="ckbox" />
+            <label for="ckbox2">
+              <span
+              >펀딩 유의사항 확인</span
+              ></label>
+          </div>
+  </form>
+  </div>
+  <div class="funding_button">
+    <span> </span>
+    <button class="btn btn-danger btn-lg btn-block" id="apply_btn" disabled>펀딩 신청</button>
+  </div>
+  </div>
+  </div>
+</section>
 
-    <footer class="main_footer">
-      <div class="footer_second_warp">
-        <div class="footer_info_warp">
-          <div class="info_first_warp">
-            <span class="info_item1">회사명</span>
-            <span class="info_item2">크크펀딩</span>
-            <span class="info_item1">주소</span>
-            <span class="info_item2"
-              >경기도 성남시 분당구 성남대로 34 6층(구미동 하나프라자빌딩)</span
-            >
-            <span class="info_item1">대표</span>
-            <span class="info_item2">오문정</span>
-            <span class="info_item1">사업자등록번호</span>
-            <span class="info_item2">105-87-52823</span>
-          </div>
-          <div class="info_second_warp">
-            <span class="info_item1">통신판매업 신고번호</span>
-            <span class="info_item2">2019-3010165-30-2-02129</span>
-            <span class="info_item1">대표번호</span>
-            <span class="info_item2">031-606-9319</span>
-          </div>
-          <div class="info_last_warp">
-            <span class="last_warp_item">© 2021 KKPD Inc.</span>
-          </div>
-        </div>
-        <div class="footer_info_icon">
-          <i class="fab fa-java fa-lg"></i>
-          <i class="fab fa-js fa-lg"></i>
-          <i class="fab fa-html5 fa-lg"></i>
-          <i class="fab fa-css3 fa-lg"></i>
-          <i class="fas fa-user-md fa-lg"></i>
-          <i class="fas fa-head-side-mask fa-lg"></i>
-        </div>
+<footer class="main_footer">
+  <div class="footer_second_warp">
+    <div class="footer_info_warp">
+      <div class="info_first_warp">
+        <span class="info_item1">회사명</span>
+        <span class="info_item2">크크펀딩</span>
+        <span class="info_item1">주소</span>
+        <span class="info_item2"
+        >경기도 성남시 분당구 성남대로 34 6층(구미동 하나프라자빌딩)</span
+        >
+        <span class="info_item1">대표</span>
+        <span class="info_item2">오문정</span>
+        <span class="info_item1">사업자등록번호</span>
+        <span class="info_item2">105-87-52823</span>
       </div>
-      <div class="footer_last_info">
-        <div class="footer_last_info_div">
+      <div class="info_second_warp">
+        <span class="info_item1">통신판매업 신고번호</span>
+        <span class="info_item2">2019-3010165-30-2-02129</span>
+        <span class="info_item1">대표번호</span>
+        <span class="info_item2">031-606-9319</span>
+      </div>
+      <div class="info_last_warp">
+        <span class="last_warp_item">© 2021 KKPD Inc.</span>
+      </div>
+    </div>
+    <div class="footer_info_icon">
+      <i class="fab fa-java fa-lg"></i>
+      <i class="fab fa-js fa-lg"></i>
+      <i class="fab fa-html5 fa-lg"></i>
+      <i class="fab fa-css3 fa-lg"></i>
+      <i class="fas fa-user-md fa-lg"></i>
+      <i class="fas fa-head-side-mask fa-lg"></i>
+    </div>
+  </div>
+  <div class="footer_last_info">
+    <div class="footer_last_info_div">
           <span class="last_info_item">
             크크펀딩은 플랫폼 제공자로서 프로젝트의 당사자가 아니며, 직접적인
             통신판매를 진행하지 않습니다. 프로젝트의 완수 및 선물제공의 책임은
             해당 프로젝트의 창작자에게 있으며, 프로젝트와 관련하여 후원자와
             발생하는 법적 분쟁에 대한 책임은 해당 창작자가 부담합니다.
           </span>
-        </div>
-      </div>
-    </footer>
-  </body>
+    </div>
+  </div>
+</footer>
+</body>
 </html>

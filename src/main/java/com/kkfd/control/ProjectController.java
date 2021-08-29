@@ -20,8 +20,6 @@ import com.kkfd.dto.SearchDTO;
 import com.kkfd.exception.FindException;
 import com.kkfd.service.ProjectService;
 
-import jdk.internal.org.jline.utils.Log;
-
 @RestController
 @RequestMapping("/project/*")
 public class ProjectController {

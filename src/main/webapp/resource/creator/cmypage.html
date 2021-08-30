@@ -36,7 +36,7 @@
     };
 
     $(function () {
-      var backurl = "http://localhost:9999/kkfd/creator/";
+      var backurl = "http://localhost:9999/kkfd/creator";
       $.ajax({
         "method": "GET",
         "url": backurl,
@@ -60,17 +60,17 @@
             $('img#prevImg').attr('src', imgPath(id));
             $('form.creatorIn input.crId').val(id);
           }
-          if (nn !== null) {
+          if (nn != null) {
             $('div.cmypage_nickname').text(nn);
             $('form#nickname > input[name=crNn]').val(nn);
             $('span#prevNn').text(nn);
           }
-          if (intro !== null) {
+          if (intro != null) {
             $('div.cmypage_intro').text(intro);
             $('form#intro > textarea').val(intro);
             $('div#prevIntro').text(intro);
           }
-          if (bank !== null) {
+          if (bank != null) {
             $('div.cmypage_bank').text(bank + "  /  " + acno + "  /  " + acholder);
             $('form#bank select[name=crBank]').val(bank);
             $('form#bank input[name=crAcno]').val(acno);
@@ -83,7 +83,7 @@
       });//end of Ajax
 
       $('form.creatorIn').submit(function () {
-        var backurl = "http://localhost:9999/kkfd/creator/";
+        var backurl = "http://localhost:9999/kkfd/creator";
         var formSerializeArray = $(this).serializeArray();
         var object = {};
         for (let i = 0; i < formSerializeArray.length; i++) {
@@ -93,6 +93,7 @@
 
         //크리에이터 : 크리에이터 닉네임,소개,은행계좌를 수정한 적 있거나 프로젝트를 한번이라도 등록한 경우(id!=null)
         var id = $(this).find('input[name=crId]').val();
+        console.log(id);
         //DB에 등록한 정보로 kk_creator로 insert
         if (id == null || id == '') {
           console.log('insert');
@@ -149,6 +150,12 @@
         $.ajax({
           url: backurl,
           method: "POST",
+          async: false,
+          cache: false,
+          timeout: 600000,
+          xhrFields: {
+            withCredentials: true
+          },
           processData: false,
           contentType: false,
           data: formData, //요청전달데이터

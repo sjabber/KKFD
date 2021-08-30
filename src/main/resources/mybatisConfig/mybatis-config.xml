@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE configuration
-  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
-  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
-	<settings>
-		<setting name="jdbcTypeForNull" value="NULL"/>
-		<setting name="mapUnderscoreToCamelCase" value="true"/>		
-	</settings>
-  <typeAliases>
-     <typeAlias type="com.kkfd.dto.MemberDTO" alias="member"/>
-     <typeAlias type="com.kkfd.dto.CreatorDTO" alias="creator"/>
-     <typeAlias type="com.kkfd.dto.ProjectDTO" alias="project"/>
-     <typeAlias type="com.kkfd.dto.ProjectMainDTO" alias="main"/>
-     <typeAlias type="com.kkfd.dto.SearchDTO" alias="search"/>    
-     <typeAlias type="com.kkfd.dto.FundingDTO" alias="funding"/>    
-  </typeAliases>
-  <mappers>
-  	<!--  <mapper resource="mybatisConfig/MemberMapper.xml"/>
-  	 <mapper resource="mybatisConfig/ProjectMainMapper.xml"/> -->
-  	 <mapper resource="mybatisConfig/ProjectMapper.xml"/>
-  	 <mapper resource="mybatisConfig/ProjectMapper2.xml"/>
-  	 <mapper resource="mybatisConfig/FundingMapper.xml"/>
-  </mappers>
+    <settings>
+        <setting name="jdbcTypeForNull" value="NULL"/>
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+    </settings>
+    <typeAliases>
+        <typeAlias type="com.kkfd.dto.MemberDTO" alias="member"/>
+        <typeAlias type="com.kkfd.dto.CreatorDTO" alias="creator"/>
+        <typeAlias type="com.kkfd.dto.ProjectDTO" alias="project"/>
+        <typeAlias type="com.kkfd.dto.ProjectMainDTO" alias="main"/>
+        <typeAlias type="com.kkfd.dto.SearchDTO" alias="search"/>
+        <typeAlias type="com.kkfd.dto.FundingDTO" alias="funding"/>
+    </typeAliases>
+    <mappers>
+        <!--  	 <mapper resource="mybatisConfig/ProjectMainMapper.xml"/> -->
+        <mapper resource="mybatisConfig/MemberMapper.xml"/>
+        <mapper resource="mybatisConfig/ProjectMapper.xml"/>
+        <mapper resource="mybatisConfig/ProjectMapper2.xml"/>
+        <mapper resource="mybatisConfig/FundingMapper.xml"/>
+    </mappers>
 </configuration>

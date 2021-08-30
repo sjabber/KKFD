@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" type="text/css" href="/css/public.css" />
+  <link rel="stylesheet" type="text/css" href="/css/my.css" />
+  <link rel="stylesheet" type="text/css" href="/css/mypage.css" />
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous" />
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
+    crossorigin="anonymous"></script>
+  <title>크크펀딩</title>
+  <script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+  <script>
+    function imgPath(id) {
+      var file = new Image;
+      var path = '/img/creator/s_' + id + '.jpg';
+      file.src = path;
+      if (file.complete) {
+        return path;
+      } else {
+        path = '/img/creator/s_' + id + '.png';
+        if (file.complete) {
+          return path;
+        } else {
+          return '/img/blank.png';
+        }
+      }
+    };
+
+    $(function () {
+      var backurl = "http://localhost:9999/kkfd/creator/";
+      $.ajax({
+        "method": "GET",
+        "url": backurl,
+        "transformRequest": [null],
+        "transformResponse": [null],
+        "jsonpCallbackParam": "callback",
+        "headers": {
+          "Accept": "application/json, text/plain, */*"
+        },
+        "timeout": {},
+        success: function (responseObj) {
+          var id = responseObj.crId;
+          var nn = responseObj.crNn;
+          var intro = responseObj.crIntro;
+          var bank = responseObj.crBank;
+          var acno = responseObj.crAcno;
+          var acholder = responseObj.crAcholder;
+          var imgpath = responseObj.crImgPath;
+          if (id != null) {
+            $('img.cmypage_profile_img').attr('src', imgPath(id));
+            $('img#prevImg').attr('src', imgPath(id));
+            $('form.creatorIn input.crId').val(id);
+          }
+          if (nn !== null) {
+            $('div.cmypage_nickname').text(nn);
+            $('form#nickname > input[name=crNn]').val(nn);
+            $('span#prevNn').text(nn);
+          }
+          if (intro !== null) {
+            $('div.cmypage_intro').text(intro);
+            $('form#intro > textarea').val(intro);
+            $('div#prevIntro').text(intro);
+          }
+          if (bank !== null) {
+            $('div.cmypage_bank').text(bank + "  /  " + acno + "  /  " + acholder);
+            $('form#bank select[name=crBank]').val(bank);
+            $('form#bank input[name=crAcno]').val(acno);
+            $('form#bank input[name=crAcholder]').val(acholder);
+          }
+        },//end of success
+        error: function (jqXHR, textStatus) {
+
+        }//end of error
+      });//end of Ajax
+
+      $('form.creatorIn').submit(function () {
+        var backurl = "http://localhost:9999/kkfd/creator/";
+        var formSerializeArray = $(this).serializeArray();
+        var object = {};
+        for (let i = 0; i < formSerializeArray.length; i++) {
+          object[formSerializeArray[i]['name']] = formSerializeArray[i]['value'];
+        }
+        var data = JSON.stringify(object);
+
+        //크리에이터 : 크리에이터 닉네임,소개,은행계좌를 수정한 적 있거나 프로젝트를 한번이라도 등록한 경우(id!=null)
+        var id = $(this).find('input[name=crId]').val();
+        //DB에 등록한 정보로 kk_creator로 insert
+        if (id == null || id == '') {
+          console.log('insert');
+          $.ajax({
+            "method": "POST",
+            "url": backurl,
+            "data": data,
+            "transformRequest": [null],
+            "transformResponse": [null],
+            "jsonpCallbackParam": "callback",
+            "headers": {
+              "Accept": "application/json, text/plain, */*",
+              "Content-Type": "application/json;charset=utf-8"
+            },
+            success: function (responseObj) {
+              alert("성공");
+              location.reload();
+
+            },
+            error: function (jqXHR) {
+              alert("에러:" + jqXHR.status);
+            }
+          });
+        } else {//update
+          console.log('update');
+          $.ajax({
+            "method": "PUT",
+            "url": backurl,
+            "data": data,
+            "transformRequest": [null],
+            "transformResponse": [null],
+            "jsonpCallbackParam": "callback",
+            "headers": {
+              "Accept": "application/json, text/plain, */*",
+              "Content-Type": "application/json;charset=utf-8"
+            },
+            success: function (responseObj) {
+              alert("성공");
+              location.reload();
+
+            },
+            error: function (jqXHR) {
+              alert("에러:" + jqXHR.status);
+
+            }
+          });
+
+        }
+        return false;
+      });
+      $('button#upload').click(function () {
+        var formData = new FormData($('form.imgIn')[0]);
+        conlose.log(formData);
+        var backurl = "http://localhost:9999/kkfd/creator/profile";
+        $.ajax({
+          url: backurl,
+          method: "POST",
+          processData: false,
+          contentType: false,
+          data: formData, //요청전달데이터 
+          success: function (responseData) {
+            alert("성공");
+          }, error: function (jqXHR) {
+            alert("에러:" + jqXHR.status);
+          }
+        });
+        return false;
+      });
+
+      var $changeBtn = $('div.cmypage_modify > div.cmypage_title_container > button.cmypage_change_btn');
+      $changeBtn.click(function () {
+        var $before = $(this).parent().next();//이전 정보
+        var $after = $(this).parent().next().next();//input_box
+        if ($before.css("display") == "block") {
+          $before.hide();
+          $after.show();
+        } else {
+          $before.show();
+          $after.hide();
+        }
+      });
+
+      //미리보기
+      $('input[type=file]').change(function () {
+        if (this.files && this.files[0]) {
+          var reader = new FileReader();
+          reader.onload = function (e) {
+            $('img.cmypage_profile_img').attr("src", e.target.result);
+          }
+          reader.readAsDataURL(this.files[0]);
+        }
+      });
+    });
+  </script>
+</head>
+
+<body>
+  <!-- header -->
+  <header class="main_header">
+    <div class="main_header_warp">
+      <div class="header_menu_warp">
+        <div class="header_projectsearch">
+          <button class="projectsearch_item">
+            <a style="text-decoration: none; color: black" href="/project/list/">
+              <i class="fas fa-align-justify fa-lg"></i>
+              <span class="projectsearch_name">프로젝트 둘러보기</span>
+            </a>
+          </button>
+        </div>
+        <div class="header_projectupload">
+          <a style="text-decoration: none;" href="/register/registerAgree/">
+            <span class="projectupload_name">프로젝트 올리기</span>
+          </a>
+        </div>
+      </div>
+      <div class="header_mainlogo">
+        <a style="text-decoration: none;" href="/">
+          <span class="header_mainlogo_item">크크펀딩</span>
+        </a>
+      </div>
+      <div class="header_sub_warp">
+        <div class="header_searchicon">
+          <!-- <i class="fas fa-search fa-lg"></i> -->
+        </div>
+        <div class="header_customer_warp">
+          <button class="header_customer_btn">
+            <div class="header_login&signup">
+              <span class="login&signup_name">
+                <a href="/member/login">로그인 / 회원가입</a>
+              </span>
+            </div>
+            <div class="header_profile_img">
+              <img class="profile" src="/img/blank.png">
+            </div>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!-- 메인섹션 -->
+  <section class="main_section">
+    <div class="my">
+      <div class="toptitle">
+        <h3>마이페이지</h3>
+      </div>
+      <div class="topnav">
+        <a class="member" href="/mypage/mypage.html">회원정보수정</a>
+        <a class="member" href="/mypage/bmlist.html">북마크한 프로젝트</a>
+        <a class="member" href="/mypage/fundlist.html">펀딩한 프로젝트</a>
+        <a class="creator_active" href="/creator/cmypage">크리에이터프로필수정</a>
+        <a class="creator" href="/creator/mylist">마이 프로젝트</a>
+      </div>
+      <!--[크리에이터정보수정]-->
+      <div class="cmypage">
+        <div class="cmypage_left">
+          <div class="cmypage_modify">
+            <div class="cmypage_title_container">
+              <span class="cmypage_title">프로필사진</span><button class="cmypage_change_btn">변경</button>
+            </div>
+            <div>
+              <img src="/img/blank.png" class="cmypage_profile_img" />
+            </div>
+            <div class="cmypage_input_box">
+              <form class="imgIn" method="post" enctype="multipart/form-data">
+                <div class="cmypage_profile_container">
+                  <div>
+                    <img src="/img/blank.png" class="cmypage_profile_img" />
+                  </div>
+                  <div>
+                    <input type="file" accept="*.jpg, *.png">
+                    <p class="cmypage_desc">250 x 250 픽셀에 최적화되어 있으며, 10Mb 이하의 JPG, PNG 파일을 지원합니다.</p>
+                  </div>
+                </div>
+                <button type="submit" class="cmypage_save_btn" id="upload">저 장</button>
+              </form>
+            </div>
+
+          </div>
+          <div class="cmypage_modify">
+            <div class="cmypage_title_container">
+              <span class="cmypage_title">닉네임</span><button class="cmypage_change_btn">변경</button>
+            </div>
+            <div class="cmypage_nickname">
+              등록된 닉네임이 없습니다.
+            </div>
+            <div class="cmypage_input_box">
+              <form class="creatorIn">
+                <input type="hidden" name="crId" class="crId" />
+                <input type="text" name="crNn" placeholder="닉네임을 입력해주세요" class="cmypage_input" required />
+                <p class="cmypage_desc">크리에이터 개인이나 팀을 대표할 수 있는 이름을 써주세요.</p>
+                <button type="submit" class="cmypage_save_btn">저 장</button>
+              </form>
+            </div>
+          </div>
+
+          <div class="cmypage_modify">
+            <div class="cmypage_title_container">
+              <span class="cmypage_title">소개</span><button class="cmypage_change_btn">변경</button>
+            </div>
+            <div class="cmypage_intro">
+              등록된 소개가 없습니다.
+            </div>
+            <div class="cmypage_input_box">
+              <form class="creatorIn">
+                <input type="hidden" name="crId" class="crId" />
+                <textarea name="crIntro" placeholder="소개를 입력해주세요" required></textarea>
+                <p class="cmypage_desc">2~3문장으로 크리에이터님의 이력과 간단한 소개를 써주세요.</p>
+                <button type="submit" class="cmypage_save_btn">저 장</button>
+              </form>
+            </div>
+
+          </div>
+
+          <div class="cmypage_modify">
+            <div class="cmypage_title_container">
+              <span class="cmypage_title">입금 계좌</span><button class="cmypage_change_btn">변경</button>
+            </div>
+            <div class="cmypage_bank">
+              등록된 입금계좌가 없습니다.
+            </div>
+            <div class="cmypage_input_box">
+              <form class="creatorIn">
+                <input type="hidden" name="crId" class="crId" />
+                <div class="cmypage_bank_row">
+                  <label>
+                    <div class="cmypage_bank_left">은 행 명</div>
+                  </label>
+
+                  <select name="crBank" required>
+                    <option value="0">은행명을 선택하세요</option>
+                    <option value="경남은행">경남은행</option>
+                    <option value="광주은행">광주은행</option>
+                    <option value="국민은행">국민은행</option>
+                    <option value="기업은행">기업은행</option>
+                    <option value="농협중앙회">농협중앙회</option>
+                    <option value="농협회원조합">농협회원조합</option>
+                    <option value="대구은행">대구은행</option>
+                    <option value="부산은행">부산은행</option>
+                    <option value="산업은행">산업은행</option>
+                    <option value="새마을금">새마을금고</option>
+                    <option value="수협중앙회">수협중앙회</option>
+                    <option value="신한은행">신한은행</option>
+                    <option value="신협중앙회">신협중앙회</option>
+                    <option value="외환은행">외환은행</option>
+                    <option value="우리은행">우리은행</option>
+                    <option value="우체국">우체국</option>
+                    <option value="전북은행">전북은행</option>
+                    <option value="제주은행">제주은행</option>
+                    <option value="카카오뱅크">카카오뱅크</option>
+                    <option value="케이뱅크">케이뱅크</option>
+                    <option value="하나은행">하나은행</option>
+                    <option value="한국씨티은행">한국씨티은행</option>
+                    <option value="SC제일">SC제일은행</option>
+                  </select>
+                </div>
+                <div class="cmypage_bank_row">
+                  <label for="cmypage_acno">
+                    <div class="cmypage_bank_left">계좌번호</div>
+                  </label>
+                  <input type="text" id="cmypage_acno" name="crAcno" class="cmypage_input" required>
+                </div>
+
+                <div class="cmypage_bank_row">
+
+                  <label for="cmypage_acholder">
+                    <div class="cmypage_bank_left">예 금 주</div>
+                  </label>
+                  <input type="text" id="cmypage_acholder" name="crAcholder" class="cmypage_input" required>
+                  <p class=" cmypage_desc">펀딩금을 전달받을 계좌를 등록해주세요.</p>
+                  <button type="submit" class="cmypage_save_btn">저 장</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="cmypage_right">
+          <div class="cmypage_creator_profile">
+            <div class="cmypage_creator_top">∴ 크리에이터 소개 미리보기</div>
+            <div class="cmypage_creator_info">
+              <div class="cmypage_creator_profile_img">
+                <img src="/img/blank.png" id="prevImg" class="profile" />
+                <span id="prevNn">
+                  <!--닉네임-->
+                </span>
+              </div>
+            </div>
+            <div id="prevIntro" class="cmypage_creator_intro">
+              <!--소개-->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </section>
+  <footer class="main_footer">
+
+    <div class="footer_second_warp">
+      <div class="footer_info_warp">
+        <div class="info_first_warp">
+          <span class="info_item1">회사명</span>
+          <span class="info_item2">크크펀딩</span>
+          <span class="info_item1">주소</span>
+          <span class="info_item2">경기도 성남시 분당구 성남대로 34 6층(구미동 하나프라자빌딩)</span>
+          <span class="info_item1">대표</span>
+          <span class="info_item2">오문정</span>
+          <span class="info_item1">사업자등록번호</span>
+          <span class="info_item2">105-87-52823</span>
+        </div>
+        <div class="info_second_warp">
+          <span class="info_item1">통신판매업 신고번호</span>
+          <span class="info_item2">2019-3010165-30-2-02129</span>
+          <span class="info_item1">대표번호</span>
+          <span class="info_item2">031-606-9319</span>
+        </div>
+        <div class="info_last_warp">
+          <span class="last_warp_item">© 2021 KKPD Inc.</span>
+        </div>
+      </div>
+      <div class="footer_info_icon">
+        <i class="fab fa-java fa-lg"></i>
+        <i class="fab fa-js fa-lg"></i>
+        <i class="fab fa-html5 fa-lg"></i>
+        <i class="fab fa-css3 fa-lg"></i>
+        <i class="fas fa-user-md fa-lg"></i>
+        <i class="fas fa-head-side-mask fa-lg"></i>
+      </div>
+    </div>
+    <div class="footer_last_info">
+      <div class="footer_last_info_div">
+        <span class="last_info_item">
+          크크펀딩은 플랫폼 제공자로서 프로젝트의 당사자가 아니며, 직접적인 통신판매를 진행하지 않습니다. 프로젝트의 완수 및 선물제공의 책임은 해당 프로젝트의 창작자에게 있으며, 프로젝트와 관련하여 후원자와
+          발생하는 법적 분쟁에 대한 책임은 해당 창작자가 부담합니다.
+        </span>
+      </div>
+    </div>
+  </footer>
+
+</body>
+
+</html>

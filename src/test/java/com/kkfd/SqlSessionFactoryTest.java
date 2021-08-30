@@ -1,3 +1,4 @@
+/*
 package com.kkfd;
 
 
@@ -23,3 +24,4 @@ class SqlSessionFactoryTest {
 		}
 
 }
+*/

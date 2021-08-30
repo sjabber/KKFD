@@ -18,7 +18,8 @@
     align-items: center;
 }
 
-.login\&signup_name > a {
+.login_signup_name > a {
+    margin-left: 15px;
     text-decoration: none;
     color: black;
 }
@@ -90,7 +91,7 @@ nav {
     border-radius: 70%;
     background: #f7f7f7;
     overflow: hidden;
-    margin-left: 5px;
+    margin-left: 10px;
 }
 
 .profile {

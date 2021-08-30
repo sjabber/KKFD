@@ -552,7 +552,7 @@ div.LabelWithTooltip2 {
     align-items: center;
 }
 
-.login\&signup_name > a {
+.login_signup_name > a {
     text-decoration: none;
     color: black;
 }
@@ -690,7 +690,7 @@ footer.footer_save > div > button.footer_save_btn {
     rgb(208 208 208) 0px 0px 1px 0px
 }
 
-.profile_circle_inner {
+.profile_circle_inner, .profile_circle_img {
     width: 100%;
     height: 100%;
     border-radius: 50%;
@@ -718,7 +718,7 @@ footer.footer_save > div > button.footer_save_btn {
 
 }
 
-button.profile_upload {
+div.profile_upload {
     font-size: 12px;
     line-height: 20px;
     color: rgb(61, 61, 61);
@@ -741,7 +741,7 @@ button.profile_upload {
     position: relative;
 }
 
-button.profile_upload > input[type=file] {
+div.profile_upload > input[type=file] {
     width: 100%;
     height: 100%;
     display: block;

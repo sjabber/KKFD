@@ -9,6 +9,7 @@ import com.kkfd.dao.FundingDAO;
 import com.kkfd.dto.FundingDTO;
 import com.kkfd.exception.AddException;
 import com.kkfd.exception.FindException;
+import com.kkfd.exception.ModifyException;
 
 @Service
 public class FundingService {
@@ -21,5 +22,9 @@ public class FundingService {
 
 	public List<FundingDTO> findFunsByProjNo(int projNo, String loginId) throws FindException {
 		return dao.selectFunsByProjNo(projNo, loginId);
+	}
+	
+	public int modifyFuns(List<FundingDTO> list) throws ModifyException {
+		return dao.updateFuns(list);
 	}
 }

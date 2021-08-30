@@ -1,0 +1,128 @@
+/*[크리에이터 정보수정] cmypage_나중에 없애기?*/
+.cmypage {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: center;
+    width: 1032px;
+    margin: 0px 32px 0px 0px;
+    padding: 24px;
+}
+
+.cmypage_left {
+    width: 600px;
+    margin: 0px 20px 0px 0px;
+}
+
+.cmypage_modify {
+    border-bottom: 1px solid rgb(230, 230, 230);
+    margin: 0px 0px 20px 0px;
+}
+
+.cmypage_title_container {
+    display: flex;
+    justify-content: space-between;
+    margin: 0px 0px 16px 0px;
+}
+
+.cmypage_title {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.cmypage_profile_img {
+    border-radius: 50%;
+    width: 90px;
+    height: 90px;
+    margin: 0px 5px 5px 0px;
+}
+
+.cmypage_profile_container {
+    display: flex;
+    align-items: center;
+}
+
+.cmypage_desc {
+    margin: 8px 0px 0px;
+    color: rgb(109, 109, 109);
+    font-size: 12px;
+}
+
+.cmypage_change_btn {
+    background: transparent;
+    border: 0px;
+    cursor: pointer;
+    color: rgb(39, 163, 255);
+}
+
+.cmypage_change_btn:hover {
+    text-decoration: underline;
+}
+
+.cmypage_save_btn {
+    border: 0px;
+    cursor: pointer;
+    background-color: rgb(61, 61, 61);
+    color: rgb(255, 255, 255);
+    margin: 15px 0px 15px;
+    padding: 10px 30px;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.cmypage_save_btn:hover {
+    color: gray;
+}
+
+.cmypage_input, select[name='crBank'] {
+    width: 60%;
+    height: 35px;
+}
+
+textarea[name='crIntro'] {
+    width: 100%;
+    height: 200px;
+}
+
+.cmypage_bank_row {
+    width: 100%;
+    margin: 5px 0px 5px;
+}
+
+.cmypage_bank_left {
+    width: 100px;
+    text-align: justify;
+
+}
+
+.cmypage_input_box {
+    display: none;
+}
+
+.cmypage_right {
+    width: 315px;
+    margin: 0px;
+    padding: 20px 24px;
+    border: 1px solid rgb(230, 230, 230);
+}
+.cmypage_creator_top {
+    font-weight: bold;
+    padding: 5px 0px;
+}
+.cmypage_creator_info {
+    display: flex;
+    padding: 5px 0px;
+}
+.cmypage_creator_intro {
+    padding: 5px 0px;
+    font-size: 13px;
+}
+.cmypage_creator_profile_img {
+	margin-left: 5px;
+}
+.cmypage_creator_profile_img > img {
+	width: 40px;
+	height: 40px;
+    border-radius: 50%;
+	object-fit: cover;
+}

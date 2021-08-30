@@ -59,7 +59,7 @@
             <div class="header_customer_warp">
                 <button class="header_customer_btn">
                     <div class="header_login&signup">
-                        <span class="login&signup_name">
+                        <span class="login_signup_name">
                           <a href="/member/login">로그인 / 회원가입</a>
                         </span>
                     </div>
@@ -74,10 +74,10 @@
 <section class="main_section_btn">
     <div class="main-btn">
         <div class="main-btn_inner">
-<!--            <button type="button" class="btn-head1" href="/register/regist/basicInfo">1.기본정보</button>
-            <button type="button" class="btn-head2" href="/register/regist/creatorInfo">2.창작자 정보</button>
-            <button type="button" class="btn-head3" href="/register/regist/fundingInfo">3.펀딩계획</button>-->
-            <button type="button" class="btn-head1" onclick="location.href='/register/regist/'">1.기본정보</button>
+            <!--            <button type="button" class="btn-head1" href="/register/regist/basicInfo">1.기본정보</button>
+                        <button type="button" class="btn-head2" href="/register/regist/creatorInfo">2.창작자 정보</button>
+                        <button type="button" class="btn-head3" href="/register/regist/fundingInfo">3.펀딩계획</button>-->
+            <button type="button" class="btn-head1" onclick="location.href='/register/regist/basicInfo/'">1.기본정보</button>
             <button type="button" class="btn-head2" onclick="location.href='/register/regist/creatorInfo/'">2.창작자 정보</button>
             <button type="button" class="btn-head3" onclick="location.href='/register/regist/fundingInfo/'">3.펀딩계획</button>
         </div>
@@ -174,12 +174,12 @@
                 </div>
                 <div class="projectItem_input">
                     <span class="input_wrapper">
-                        <input class="inputInner" type="text" inputmode="text" placeholder="제목을 입력해주세요.">
+                        <input class="inputInner" id="text1" type="text" inputmode="text" placeholder="제목을 입력해주세요.">
                     </span>
                 </div>
                 <div class="blankBlock">
                     <p class="InputLengthCheck"></p>
-                    <span class="InputLengthCheck_Notice">0/32</span>
+                    <span class="InputLengthCheck_Notice" id="text_cnt1">0/32</span>
                 </div>
             </div>
         </div>
@@ -236,12 +236,12 @@
                 </div>
                 <div class="projectItem_input2">
                     <div class="input_wrapper2">
-                        <textarea class="textAreaInner" placeholder="프로젝트 요약을 입력해주세요."></textarea>
+                        <textarea class="textAreaInner" id="text2" placeholder="프로젝트 요약을 입력해주세요."></textarea>
                     </div>
                 </div>
                 <div class="blankBlock">
                     <p class="InputLengthCheck"></p>
-                    <span class="InputLengthCheck_Notice">0/32</span>
+                    <span class="InputLengthCheck_Notice" id="text_cnt2">0/32</span>
                 </div>
             </div>
         </div>
@@ -297,12 +297,12 @@
                 </div>
                 <div class="projectItem_input3">
                     <div class="input_wrapper3">
-                        <textarea class="textAreaInner2" placeholder="프로젝트 소개를 입력해주세요."></textarea>
+                        <textarea class="textAreaInner2" id="text3" placeholder="프로젝트 소개를 입력해주세요."></textarea>
                     </div>
                 </div>
                 <div class="blankBlock">
                     <p class="InputLengthCheck"></p>
-                    <span class="InputLengthCheck_Notice">0/32</span>
+                    <span class="InputLengthCheck_Notice" id="text_cnt3">0/32</span>
                 </div>
             </div>
         </div>

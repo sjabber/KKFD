@@ -85,23 +85,23 @@
               );
               $("div.represent_img>img.represent_img").attr(
                 "src",
-                "/img/" + no + "_0.png"
+                "/img/project/" + no + "/" + no + "_t.png"
               );
               $("div.mid_img_1>img.mid_imgss_1").attr(
                 "src",
-                "/img/" + no + "_1.png"
+                "/img/project/" + no + "/" + no + "_1.png"
               );
               $("div.mid_img_2>img.mid_imgss_2").attr(
                 "src",
-                "/img/" + no + "_2.png"
+                "/img/project/" + no + "/" + no + "_2.png"
               );
               $("div.mid_img_3>img.mid_imgss_3").attr(
                 "src",
-                "/img/" + no + "_3.png"
+                "/img/project/" + no + "/" + no + "_3.png"
               );
               $("div.mid_img_4>img.mid_imgss_4").attr(
                 "src",
-                "/img/" + no + "_4.png"
+                "/img/project/" + no + "/" + no + "_4.png"
               );
               $("textarea.content").html(projIntro);
               $("div.mid_creator_profile_img>img.mid_creator_profile_img").attr(
@@ -207,9 +207,11 @@
                 '">';
               divHtml += '<div class="prev_proj_img">';
               divHtml +=
-                '<img class="thumbnail_img" src="/img/' +
+                '<img class="thumbnail_img" src="/img/project/' +
                 prevProjNo +
-                '_0.PNG" />';
+                "/" +
+                prevProjNo +
+                '_t.PNG" />';
               divHtml += "</div>";
               divHtml += '<div class="prev_proj_info_wrap">';
               divHtml += '<div class="prev_proj_title">';

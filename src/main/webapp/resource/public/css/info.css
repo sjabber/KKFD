@@ -447,7 +447,9 @@ img.mid_creator_profile_img {
   justify-content: space-between;
   margin-top: 30px;
   margin-bottom: 10px;
-  height: 1200px;
+  height: 600px;
+  /* height: 1200px; */
+  /* height: auto; */
 }
 
 textarea.content {
@@ -457,6 +459,7 @@ textarea.content {
   padding: 30px;
   margin: 0px 50px 0px;
   width: 960px;
+  height: auto;
   overflow: visible;
   font-size: 15px;
 }

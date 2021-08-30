@@ -41,7 +41,7 @@
 	<!-- 진행상태-->         
 	<choose>
 	<when test="state==1">
-	AND SYSDATE<![CDATA[ > ]]>proj_start
+	AND SYSDATE<![CDATA[ < ]]>proj_start
 	</when>
 	<when test="state==2">
 	AND (proj_start<![CDATA[ < ]]>SYSDATE AND SYSDATE<![CDATA[ < ]]>proj_end)   

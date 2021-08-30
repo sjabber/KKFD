@@ -60,7 +60,7 @@ public class ProjectController {
 	@GetMapping(value={"/{no}"})
 	public ResponseEntity<ProjectDTO> proj(HttpSession session, @PathVariable int no) {
 		//String loginId = (String)session.getAttribute("loginId");
-		String loginId="id3";
+		String loginId="id1";
 		try {
 			ProjectDTO project = service.findByNo(no, loginId);
 			return new ResponseEntity<ProjectDTO>(project, HttpStatus.OK);

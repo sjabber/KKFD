@@ -1,13 +1,24 @@
 package com.kkfd.control;
 
+
+import javax.servlet.http.HttpSession;
+
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.kkfd.dto.FundingDTO;
+import com.kkfd.dto.MemberDTO;
+import com.kkfd.exception.AddException;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,13 +31,28 @@ import com.kkfd.exception.ModifyException;
 import com.kkfd.service.FundingService;
 
 @RestController
-public class FundingController {
-	Logger log = LoggerFactory.getLogger(this.getClass());
-
+public class FundingController {	
 	@Autowired
 	private FundingService service;
+  
+  Logger log = LoggerFactory.getLogger(this.getClass());
 	
-	@PutMapping(value={"/fundings"})	//성열님~여기 복수형쓰고 싶어서 클래스 위에 @RequestMapping 뺐어요 메서드마다 지정해줍시다.
+	@PostMapping(value= {"/funding"})
+	public ResponseEntity<String> insertFunding (HttpSession session, @RequestBody FundingDTO funding) {
+		String loginId="id3";
+		MemberDTO m = new MemberDTO();
+		m.setMemId(loginId);
+		try {
+			service.addApply(funding);
+			return new ResponseEntity<String>(HttpStatus.OK);
+		} catch (AddException e) {
+			e.printStackTrace();
+		}
+		return null;
+		
+	}
+	
+	@PutMapping(value={"/fundings"})
 	public ResponseEntity<Integer> modifyFuns(@RequestBody List<FundingDTO> list) {
 		//String loginId = (String)session.getAttribute("loginId");
 		String loginId="t";

@@ -13,10 +13,10 @@
 		  </association>
 </resultMap>
   <insert id="insert" parameterType="funding">
-    INSERT INTO kk_funding VALUES (FUNDING_SEQ,NEXTVAL,
-    #{member.fun_id}, #{project.fun_proj}, #{fun_quantity}, #{fun_fm},
-    #{fun_name}, #{fun_address}, #{fun_detali},
-    #fun{fun_bank}, #{fun_acno}, 0, SYSDATE)
+    INSERT INTO kk_funding VALUES (FUNDING_SEQ.NEXTVAL,
+    #{member.memId}, #{project.projNo}, #{funQuantity}, #{funFm},
+    #{funName}, #{funAdress}, #{funDetail},
+    #fun{funBank}, #{funAcno}, 0, SYSDATE)
   </insert>
   
 <select id="selectFunsByProjNo" parameterType="HashMap" resultMap="fundingResultMap">

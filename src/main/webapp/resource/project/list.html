@@ -21,27 +21,123 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
       $(function () {
-
-        
-
         var page = 1;
         var $form = $("#search_form");
-        $form.submit(function() {
+        var data = $form.serialize();
+        var url = 'http://localhost:9999/kkfd/project/list/' + page;
+        
+        var $divObj = $('div.focus_item_warp');
+        var divHtml = "";
 
-          var data = $form.serialize();
-          var url = 'http://localhost:9999/kkfd/project/list/' + page;
-        	var method = 'GET';
-        	alert(data);
+        $.ajax({
+          url: url,
+        	method: "GET",
+        	data : data,
+        	success: function(responseData){
+        		$(responseData).each(function (i, e) {
+              var projNo = e.projNo;
+              //console.log("위" + projNo);
+              var projCategory = e.projCategory;
+              // var crNn = e.creator.crNn;
+              var projBm = e.projBm;
+              var projTitle = e.projTitle;
+              var projGoals = e.projGoals;
+              var projStart = e.projStart;
+              var projEnd = e.projEnd;
+
+              divHtml += '<div class="focus_item">';
+              divHtml += '<a class="info_btn" href="/project/info?no=' + projNo + '">';
+              divHtml += '<div class="focus_item_img">';
+              divHtml += '<img class="focus_item_img_item" src="/img/project/' + projNo + '/' + projNo + '_t.png" alt="" />';
+              divHtml += '</div>';
+              divHtml += '</a>';
+              divHtml += '<div class="focus_item_category">';
+              divHtml += '<div class="category_warp">';
+              divHtml += '<span class="category_item1">' + projCategory + '</span>';
+              divHtml += '<span class="category_between">|</span>';
+              divHtml += '<span class="category_item2">닉네임</span>';
+              divHtml += '</div>';
+              divHtml += '<div class="category_bookmark">';
+              divHtml += '<button class="category_bookmark_btn">';
+                if(projBm == 1){divHtml += '<i class="fas fa-bookmark"></i>';} else {divHtml += '<i class="far fa-bookmark"></i>';}
+              divHtml += '</button>';
+              divHtml += '</div>';
+              divHtml += '</div>';
+              divHtml += '<a class="info_btn" href="#">';
+              divHtml += '<div class="focus_item_title">';
+              divHtml += '<span class="focus_item_title_value">' + projTitle + '</span>';
+              divHtml += '</div>';
+              divHtml += '</a>';
+              divHtml += '<div class="focus_item_purpose">';
+              divHtml += '<span class="purpose_value">' + projGoals + '% 달성</span>';
+              divHtml += '</div>';
+              divHtml += '<div class="focus_item_term">';
+              divHtml += '<span class="term">' + projStart + ' ~ ' + projEnd + '</span>';
+              divHtml += '</div>';
+              divHtml += '</div>';
+            });
+            //$divObj.empty();
+            $divObj.html(divHtml);
+          }
+        });
+
+        //필터링
+        $form.submit(function() {
+          data = $form.serialize();
+        	//alert(data);
+          //$divObj.empty();
         	$.ajax({
-        		url: url,
-        		method: method,
+        		//url: 'http://localhost:9999/kkfd/project/list/' + page + '?' + data,
+            url: 'http://localhost:9999/kkfd/project/list/' + page,
+        		method: "GET",
         		data : data,
         		success: function(responseData){
+              console.log("ajax안 : " + data);
         			$(responseData).each(function (i, e) {
+              //empty하고 추가
               var projNo = e.projNo;
               console.log(projNo);
-              //empty하고 추가
+              var projCategory = e.projCategory;
+              // var crNn = e.creator.crNn;
+              var projBm = e.projBm;
+              var projTitle = e.projTitle;
+              var projGoals = e.projGoals;
+              var projStart = e.projStart;
+              var projEnd = e.projEnd;
+
+              divHtml += '<div class="focus_item">';
+              divHtml += '<a class="info_btn" href="/project/info?no=' + projNo + '">';
+              divHtml += '<div class="focus_item_img">';
+              divHtml += '<img class="focus_item_img_item" src="/img/project/' + projNo + '/' + projNo + '_t.png" alt="" />';
+              divHtml += '</div>';
+              divHtml += '</a>';
+              divHtml += '<div class="focus_item_category">';
+              divHtml += '<div class="category_warp">';
+              divHtml += '<span class="category_item1">' + projCategory + '</span>';
+              divHtml += '<span class="category_between">|</span>';
+              divHtml += '<span class="category_item2">닉네임</span>';
+              divHtml += '</div>';
+              divHtml += '<div class="category_bookmark">';
+              divHtml += '<button class="category_bookmark_btn">';
+                if(projBm == 1){divHtml += '<i class="fas fa-bookmark"></i>';} else {divHtml += '<i class="far fa-bookmark"></i>';}
+              divHtml += '</button>';
+              divHtml += '</div>';
+              divHtml += '</div>';
+              divHtml += '<a class="info_btn" href="#">';
+              divHtml += '<div class="focus_item_title">';
+              divHtml += '<span class="focus_item_title_value">' + projTitle + '</span>';
+              divHtml += '</div>';
+              divHtml += '</a>';
+              divHtml += '<div class="focus_item_purpose">';
+              divHtml += '<span class="purpose_value">' + projGoals + '% 달성</span>';
+              divHtml += '</div>';
+              divHtml += '<div class="focus_item_term">';
+              divHtml += '<span class="term">' + projStart + ' ~ ' + projEnd + '</span>';
+              divHtml += '</div>';
+              divHtml += '</div>';
             });
+            //$divObj.empty();
+            $divObj.html(divHtml);
         		},
         		error: function(jqXHR){
         			alert(jqXHR.status); //404, 403, 500
@@ -52,33 +148,86 @@
         });
 
         $form.find('select.form-select').change(function() {
+          $divObj.empty();
+          page = 1;
+          divHtml = "";
           console.log($(this).val());
-          console.log($form.serialize());
+          console.log("ajax밖 : " + $form.serialize());
           $form.submit();
         });
+        
+        console.log($(document).height());
+            console.log($(window).height());
+            console.log($(document).height() - $(window).height()
+            );
 
+        //무한 스크롤
         $(window).scroll(function () {
+          var scrolltop = parseInt ( $(window).scrollTop() );
           if (
-            $(window).scrollTop() ==
-            $(document).height() - $(window).height()
-            
+            // $(window).scrollTop() ==
+            // $(document).height() - $(window).height()
+            // scrolltop >= $(document).height() - $(window).height() - 5
+            $(window).scrollTop() == $(document).height() - $(window).height()
           ) {
+            console.log($(document).height());
+            console.log($(window).height());
+            console.log($(document).height() - $(window).height()
+            );
             page++;
             var data = $form.serialize();
           var url = 'http://localhost:9999/kkfd/project/list/' + page;
         	var method = 'GET';
-        	alert(data);
+        	//alert(data);
         	$.ajax({
         		url: url,
         		method: method,
         		data : data,
         		success: function(responseData){
         			$(responseData).each(function (i, e) {
+              //추가
               var projNo = e.projNo;
               console.log(projNo);
+              var projCategory = e.projCategory;
+              // var crNn = e.creator.crNn;
+              var projBm = e.projBm;
+              var projTitle = e.projTitle;
+              var projGoals = e.projGoals;
+              var projStart = e.projStart;
+              var projEnd = e.projEnd;
 
-              //추가
+              divHtml += '<div class="focus_item">';
+              divHtml += '<a class="info_btn" href="/project/info?no=' + projNo + '">';
+              divHtml += '<div class="focus_item_img">';
+              divHtml += '<img class="focus_item_img_item" src="/img/project/' + projNo + '/' + projNo + '_t.png" alt="" />';
+              divHtml += '</div>';
+              divHtml += '</a>';
+              divHtml += '<div class="focus_item_category">';
+              divHtml += '<div class="category_warp">';
+              divHtml += '<span class="category_item1">' + projCategory + '</span>';
+              divHtml += '<span class="category_between">|</span>';
+              divHtml += '<span class="category_item2">닉네임</span>';
+              divHtml += '</div>';
+              divHtml += '<div class="category_bookmark">';
+              divHtml += '<button class="category_bookmark_btn">';
+                if(projBm == 1){divHtml += '<i class="fas fa-bookmark"></i>';} else {divHtml += '<i class="far fa-bookmark"></i>';}
+              divHtml += '</button>';
+              divHtml += '</div>';
+              divHtml += '</div>';
+              divHtml += '<a class="info_btn" href="#">';
+              divHtml += '<div class="focus_item_title">';
+              divHtml += '<span class="focus_item_title_value">' + projTitle + '</span>';
+              divHtml += '</div>';
+              divHtml += '</a>';
+              divHtml += '<div class="focus_item_purpose">';
+              divHtml += '<span class="purpose_value">' + projGoals + '% 달성</span>';
+              divHtml += '</div>';
+              divHtml += '<div class="focus_item_term">';
+              divHtml += '<span class="term">' + projStart + ' ~ ' + projEnd + '</span>';
+              divHtml += '</div>';
+              divHtml += '</div>';
             });
+            $divObj.html(divHtml);
         		},
         		error: function(jqXHR){
         			alert(jqXHR.status); //404, 403, 500
@@ -87,6 +236,15 @@
             
             }
           });
+
+          //검색 버튼
+          $('#search_btn').click(function() {
+            $divObj.empty();
+            page = 1;
+            divHtml = "";
+            //$form.submit();
+          });
+
         });
         
     </script>
@@ -210,7 +368,7 @@
                   />
                   <label for="floatingSelectGrid">제목으로 검색하세요</label>
                 </div>
-                <button class="btn btn-outline-success" type="submit">
+                <button class="btn btn-outline-success" id="search_btn" type="submit">
                   Search
                 </button>
               </div>
@@ -219,7 +377,7 @@
         </div>
       <div class="main_project_focus">
         <div class="focus_item_warp">
-          <div class="focus_item">
+          <!-- <div class="focus_item">
             <a class="info_btn" href="#">
             <div class="focus_item_img">
               <img class="focus_item_img_item" src="./img/sample.jpg" alt="" />
@@ -248,467 +406,7 @@
             <div class="focus_item_term">
               <span class="term">2021/08/01 ~ 2021/09/01</span>
             </div>
-          
-          </div>
-
-          <div class="focus_item">
-            <div class="focus_item_img">
-              <img class="focus_item_img_item" src="./img/sample.jpg" alt="" />
-            </div>
-            <div class="focus_item_category">
-              <div class="category_warp">
-                <span class="category_item1">캔들</span>
-                <span class="category_between">|</span>
-                <span class="category_item2">닉네임</span>
-              </div>
-              <div class="category_bookmark">
-                <button class="category_bookmark_btn">
-                  <i class="fas fa-bookmark"></i>
-                </button>
-              </div>
-            </div>
-            <div class="focus_item_title">
-              <span class="focus_item_title_value">프로젝트 타이틀</span>
-            </div>
-            <div class="focus_item_purpose">
-              <span class="purpose_value">달성률% 달성</span>
-            </div>
-            <div class="focus_item_term">
-              <span class="term">2021/08/01 ~ 2021/09/01</span>
-            </div>
-          </div>
-
-          <div class="focus_item">
-            <div class="focus_item_img">
-              <img class="focus_item_img_item" src="./img/sample.jpg" alt="" />
-            </div>
-            <div class="focus_item_category">
-              <div class="category_warp">
-                <span class="category_item1">캔들</span>
-                <span class="category_between">|</span>
-                <span class="category_item2">닉네임</span>
-              </div>
-              <div class="category_bookmark">
-                <button class="category_bookmark_btn">
-                  <i class="far fa-bookmark"></i>
-                </button>
-              </div>
-            </div>
-            <div class="focus_item_title">
-              <span class="focus_item_title_value">프로젝트 타이틀</span>
-            </div>
-            <div class="focus_item_purpose">
-              <span class="purpose_value">달성률% 달성</span>
-            </div>
-            <div class="focus_item_term">
-              <span class="term">2021/08/01 ~ 2021/09/01</span>
-            </div>
-          </div>
-
-          <div class="focus_item">
-            <div class="focus_item_img">
-              <img class="focus_item_img_item" src="./img/sample.jpg" alt="" />
-            </div>
-            <div class="focus_item_category">
-              <div class="category_warp">
-                <span class="category_item1">캔들</span>
-                <span class="category_between">|</span>
-                <span class="category_item2">닉네임</span>
-              </div>
-              <div class="category_bookmark">
-                <button class="category_bookmark_btn">
-                  <i class="fas fa-bookmark"></i>
-                </button>
-              </div>
-            </div>
-            <div class="focus_item_title">
-              <span class="focus_item_title_value">프로젝트 타이틀</span>
-            </div>
-            <div class="focus_item_purpose">
-              <span class="purpose_value">달성률% 달성</span>
-            </div>
-            <div class="focus_item_term">
-              <span class="term">2021/08/01 ~ 2021/09/01</span>
-            </div>
-          </div>
-
-          <div class="focus_item">
-            <div class="focus_item_img">
-              <img class="focus_item_img_item" src="./img/sample.jpg" alt="" />
-            </div>
-            <div class="focus_item_category">
-              <div class="category_warp">
-                <span class="category_item1">캔들</span>
-                <span class="category_between">|</span>
-                <span class="category_item2">닉네임</span>
-              </div>
-              <div class="category_bookmark">
-                <button class="category_bookmark_btn">
-                  <i class="far fa-bookmark"></i>
-                </button>
-              </div>
-            </div>
-            <div class="focus_item_title">
-              <span class="focus_item_title_value">프로젝트 타이틀</span>
-            </div>
-            <div class="focus_item_purpose">
-              <span class="purpose_value">달성률% 달성</span>
-            </div>
-            <div class="focus_item_term">
-              <span class="term">2021/08/01 ~ 2021/09/01</span>
-            </div>
-          </div>
-
-          <div class="focus_item">
-            <div class="focus_item_img">
-              <img class="focus_item_img_item" src="./img/sample.jpg" alt="" />
-            </div>
-            <div class="focus_item_category">
-              <div class="category_warp">
-                <span class="category_item1">캔들</span>
-                <span class="category_between">|</span>
-                <span class="category_item2">닉네임</span>
-              </div>
-              <div class="category_bookmark">
-                <button class="category_bookmark_btn">
-                  <i class="far fa-bookmark"></i>
-                </button>
-              </div>
-            </div>
-            <div class="focus_item_title">
-              <span class="focus_item_title_value">프로젝트 타이틀</span>
-            </div>
-            <div class="focus_item_purpose">
-              <span class="purpose_value">달성률% 달성</span>
-            </div>
-            <div class="focus_item_term">
-              <span class="term">2021/08/01 ~ 2021/09/01</span>
-            </div>
-          </div>
-
-          <div class="focus_item">
-            <div class="focus_item_img">
-              <img class="focus_item_img_item" src="./img/sample.jpg" alt="" />
-            </div>
-            <div class="focus_item_category">
-              <div class="category_warp">
-                <span class="category_item1">캔들</span>
-                <span class="category_between">|</span>
-                <span class="category_item2">닉네임</span>
-              </div>
-              <div class="category_bookmark">
-                <button class="category_bookmark_btn">
-                  <i class="far fa-bookmark"></i>
-                </button>
-              </div>
-            </div>
-            <div class="focus_item_title">
-              <span class="focus_item_title_value">프로젝트 타이틀</span>
-            </div>
-            <div class="focus_item_purpose">
-              <span class="purpose_value">달성률% 달성</span>
-            </div>
-            <div class="focus_item_term">
-              <span class="term">2021/08/01 ~ 2021/09/01</span>
-            </div>
-          </div>
-
-          <div class="focus_item">
-            <div class="focus_item_img">
-              <img class="focus_item_img_item" src="./img/sample.jpg" alt="" />
-            </div>
-            <div class="focus_item_category">
-              <div class="category_warp">
-                <span class="category_item1">캔들</span>
-                <span class="category_between">|</span>
-                <span class="category_item2">닉네임</span>
-              </div>
-              <div class="category_bookmark">
-                <button class="category_bookmark_btn">
-                  <i class="far fa-bookmark"></i>
-                </button>
-              </div>
-            </div>
-            <div class="focus_item_title">
-              <span class="focus_item_title_value">프로젝트 타이틀</span>
-            </div>
-            <div class="focus_item_purpose">
-              <span class="purpose_value">달성률% 달성</span>
-            </div>
-            <div class="focus_item_term">
-              <span class="term">2021/08/01 ~ 2021/09/01</span>
-            </div>
-          </div>
-
-          <div class="focus_item">
-            <div class="focus_item_img">
-              <img class="focus_item_img_item" src="./img/sample.jpg" alt="" />
-            </div>
-            <div class="focus_item_category">
-              <div class="category_warp">
-                <span class="category_item1">캔들</span>
-                <span class="category_between">|</span>
-                <span class="category_item2">닉네임</span>
-              </div>
-              <div class="category_bookmark">
-                <button class="category_bookmark_btn">
-                  <i class="far fa-bookmark"></i>
-                </button>
-              </div>
-            </div>
-            <div class="focus_item_title">
-              <span class="focus_item_title_value">프로젝트 타이틀</span>
-            </div>
-            <div class="focus_item_purpose">
-              <span class="purpose_value">달성률% 달성</span>
-            </div>
-            <div class="focus_item_term">
-              <span class="term">2021/08/01 ~ 2021/09/01</span>
-            </div>
-          </div>
-
-          <div class="focus_item">
-            <div class="focus_item_img">
-              <img class="focus_item_img_item" src="./img/sample.jpg" alt="" />
-            </div>
-            <div class="focus_item_category">
-              <div class="category_warp">
-                <span class="category_item1">캔들</span>
-                <span class="category_between">|</span>
-                <span class="category_item2">닉네임</span>
-              </div>
-              <div class="category_bookmark">
-                <button class="category_bookmark_btn">
-                  <i class="far fa-bookmark"></i>
-                </button>
-              </div>
-            </div>
-            <div class="focus_item_title">
-              <span class="focus_item_title_value">프로젝트 타이틀</span>
-            </div>
-            <div class="focus_item_purpose">
-              <span class="purpose_value">달성률% 달성</span>
-            </div>
-            <div class="focus_item_term">
-              <span class="term">2021/08/01 ~ 2021/09/01</span>
-            </div>
-          </div>
-
-          <div class="focus_item">
-            <div class="focus_item_img">
-              <img class="focus_item_img_item" src="./img/sample.jpg" alt="" />
-            </div>
-            <div class="focus_item_category">
-              <div class="category_warp">
-                <span class="category_item1">캔들</span>
-                <span class="category_between">|</span>
-                <span class="category_item2">닉네임</span>
-              </div>
-              <div class="category_bookmark">
-                <button class="category_bookmark_btn">
-                  <i class="far fa-bookmark"></i>
-                </button>
-              </div>
-            </div>
-            <div class="focus_item_title">
-              <span class="focus_item_title_value">프로젝트 타이틀</span>
-            </div>
-            <div class="focus_item_purpose">
-              <span class="purpose_value">달성률% 달성</span>
-            </div>
-            <div class="focus_item_term">
-              <span class="term">2021/08/01 ~ 2021/09/01</span>
-            </div>
-          </div>
-
-          <div class="focus_item">
-            <div class="focus_item_img">
-              <img class="focus_item_img_item" src="./img/sample.jpg" alt="" />
-            </div>
-            <div class="focus_item_category">
-              <div class="category_warp">
-                <span class="category_item1">캔들</span>
-                <span class="category_between">|</span>
-                <span class="category_item2">닉네임</span>
-              </div>
-              <div class="category_bookmark">
-                <button class="category_bookmark_btn">
-                  <i class="far fa-bookmark"></i>
-                </button>
-              </div>
-            </div>
-            <div class="focus_item_title">
-              <span class="focus_item_title_value">프로젝트 타이틀</span>
-            </div>
-            <div class="focus_item_purpose">
-              <span class="purpose_value">달성률% 달성</span>
-            </div>
-            <div class="focus_item_term">
-              <span class="term">2021/08/01 ~ 2021/09/01</span>
-            </div>
-          </div>
-
-          <div class="focus_item">
-            <div class="focus_item_img">
-              <img class="focus_item_img_item" src="./img/sample.jpg" alt="" />
-            </div>
-            <div class="focus_item_category">
-              <div class="category_warp">
-                <span class="category_item1">캔들</span>
-                <span class="category_between">|</span>
-                <span class="category_item2">닉네임</span>
-              </div>
-              <div class="category_bookmark">
-                <button class="category_bookmark_btn">
-                  <i class="far fa-bookmark"></i>
-                </button>
-              </div>
-            </div>
-            <div class="focus_item_title">
-              <span class="focus_item_title_value">프로젝트 타이틀</span>
-            </div>
-            <div class="focus_item_purpose">
-              <span class="purpose_value">달성률% 달성</span>
-            </div>
-            <div class="focus_item_term">
-              <span class="term">2021/08/01 ~ 2021/09/01</span>
-            </div>
-          </div>
-
-          <div class="focus_item">
-            <div class="focus_item_img">
-              <img class="focus_item_img_item" src="./img/sample.jpg" alt="" />
-            </div>
-            <div class="focus_item_category">
-              <div class="category_warp">
-                <span class="category_item1">캔들</span>
-                <span class="category_between">|</span>
-                <span class="category_item2">닉네임</span>
-              </div>
-              <div class="category_bookmark">
-                <button class="category_bookmark_btn">
-                  <i class="far fa-bookmark"></i>
-                </button>
-              </div>
-            </div>
-            <div class="focus_item_title">
-              <span class="focus_item_title_value">프로젝트 타이틀</span>
-            </div>
-            <div class="focus_item_purpose">
-              <span class="purpose_value">달성률% 달성</span>
-            </div>
-            <div class="focus_item_term">
-              <span class="term">2021/08/01 ~ 2021/09/01</span>
-            </div>
-          </div>
-
-          <div class="focus_item">
-            <div class="focus_item_img">
-              <img class="focus_item_img_item" src="./img/sample.jpg" alt="" />
-            </div>
-            <div class="focus_item_category">
-              <div class="category_warp">
-                <span class="category_item1">캔들</span>
-                <span class="category_between">|</span>
-                <span class="category_item2">닉네임</span>
-              </div>
-              <div class="category_bookmark">
-                <button class="category_bookmark_btn">
-                  <i class="far fa-bookmark"></i>
-                </button>
-              </div>
-            </div>
-            <div class="focus_item_title">
-              <span class="focus_item_title_value">프로젝트 타이틀</span>
-            </div>
-            <div class="focus_item_purpose">
-              <span class="purpose_value">달성률% 달성</span>
-            </div>
-            <div class="focus_item_term">
-              <span class="term">2021/08/01 ~ 2021/09/01</span>
-            </div>
-          </div>
-
-          <div class="focus_item">
-            <div class="focus_item_img">
-              <img class="focus_item_img_item" src="./img/sample.jpg" alt="" />
-            </div>
-            <div class="focus_item_category">
-              <div class="category_warp">
-                <span class="category_item1">캔들</span>
-                <span class="category_between">|</span>
-                <span class="category_item2">닉네임</span>
-              </div>
-              <div class="category_bookmark">
-                <button class="category_bookmark_btn">
-                  <i class="far fa-bookmark"></i>
-                </button>
-              </div>
-            </div>
-            <div class="focus_item_title">
-              <span class="focus_item_title_value">프로젝트 타이틀</span>
-            </div>
-            <div class="focus_item_purpose">
-              <span class="purpose_value">달성률% 달성</span>
-            </div>
-            <div class="focus_item_term">
-              <span class="term">2021/08/01 ~ 2021/09/01</span>
-            </div>
-          </div>
-
-          <div class="focus_item">
-            <div class="focus_item_img">
-              <img class="focus_item_img_item" src="./img/sample.jpg" alt="" />
-            </div>
-            <div class="focus_item_category">
-              <div class="category_warp">
-                <span class="category_item1">캔들</span>
-                <span class="category_between">|</span>
-                <span class="category_item2">닉네임</span>
-              </div>
-              <div class="category_bookmark">
-                <button class="category_bookmark_btn">
-                  <i class="far fa-bookmark"></i>
-                </button>
-              </div>
-            </div>
-            <div class="focus_item_title">
-              <span class="focus_item_title_value">프로젝트 타이틀</span>
-            </div>
-            <div class="focus_item_purpose">
-              <span class="purpose_value">달성률% 달성</span>
-            </div>
-            <div class="focus_item_term">
-              <span class="term">2021/08/01 ~ 2021/09/01</span>
-            </div>
-          </div>
-
-          <div class="focus_item">
-            <div class="focus_item_img">
-              <img class="focus_item_img_item" src="./img/sample.jpg" alt="" />
-            </div>
-            <div class="focus_item_category">
-              <div class="category_warp">
-                <span class="category_item1">캔들</span>
-                <span class="category_between">|</span>
-                <span class="category_item2">닉네임</span>
-              </div>
-              <div class="category_bookmark">
-                <button class="category_bookmark_btn">
-                  <i class="far fa-bookmark"></i>
-                </button>
-              </div>
-            </div>
-            <div class="focus_item_title">
-              <span class="focus_item_title_value">프로젝트 타이틀</span>
-            </div>
-            <div class="focus_item_purpose">
-              <span class="purpose_value">달성률% 달성</span>
-            </div>
-            <div class="focus_item_term">
-              <span class="term">2021/08/01 ~ 2021/09/01</span>
-            </div>
-          </div>
+          </div> -->
         </div>
       </div>
     </section>

@@ -2,9 +2,12 @@ package com.kkfd.control;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,46 +30,56 @@ import com.kkfd.service.ProjectService;
 @RestController
 @RequestMapping("/project/*")
 public class ProjectController2 {
-	@Autowired
-	private ProjectService projService;//Project Table에 접근 project취소
+	private Logger log = LoggerFactory.getLogger(this.getClass());
 
 	@Autowired
-	private FundingService funService;//Funding Table에 접근 funding DTO로 목록가져오기
+	private ProjectService service;
 
 	@PutMapping(value={"/{projNo}"})
-	public ResponseEntity<String> cancleProj(HttpSession session
+	public ResponseEntity cancleProj(HttpSession session
 			,@PathVariable int projNo){
-		//String loginId = (String)session.getAttribute("loginId");
-		String loginId="t";
-		if(loginId == null) {
-			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);//권한없음
-		} 
+		MemberDTO m = (MemberDTO)session.getAttribute("loginInfo");
+		String loginId = "t";
+//		if(m == null) {
+//			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);//401 : 권한없음
+//		} 
+//		String loginId= m.getMemId();
 		try {
-			int rowCnt = projService.cancleProj(projNo, loginId);
+			int rowCnt = service.cancleProj(projNo, loginId);
 			if(rowCnt==0) {//취소할 프로젝트 없음(크리에이터 아이디가 틀리거나 프로젝트번호가 이미 없거나)
-				return new ResponseEntity<>(HttpStatus.NO_CONTENT);//프로젝트 없음	
+				return new ResponseEntity(HttpStatus.NO_CONTENT);//프로젝트 없음	
 			}
-			return new ResponseEntity<>(HttpStatus.OK);//취소 성공	
+			return new ResponseEntity(HttpStatus.OK);//취소 성공	
 
 		} catch (ModifyException e) {
-			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
 	}
 	@GetMapping(value={"/{projNo}/fundings"})
-	public ResponseEntity<List<FundingDTO>> joinerList(@PathVariable int projNo){
-		//String loginId = (String)session.getAttribute("loginId");
-		String loginId="t";
-		if(loginId == null) {
-			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);//권한없음
-		} 
+	public ResponseEntity<Map<String,Object>> joinList(HttpSession session,@PathVariable int projNo){
+		MemberDTO m = (MemberDTO)session.getAttribute("loginInfo");
+		String loginId = "t";
+//		if(m == null) {
+//			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);//401 : 권한없음
+//		} 
+//		String loginId= m.getMemId();
 		try {
-			List<FundingDTO> list = funService.findFunsByProjNo(projNo,loginId);
-
-			if(list.size()==0) {//로그인한 아이디가 펀딩참여자 볼 권한이 없을 때 WHERE p.proj_id=#{loginId}
+			Map<String,Object> result = service.findFunsByProjNo(projNo,loginId);
+			log.error(result.get("project").getClass().toString()); 	//Map
+			log.error(result.get("fundingList").getClass().toString());	//List
+			//List<FundingDTO> fundingList = (List)(result.get("fundingList"));
+			//ProjectDTO project = (ProjectDTO)(result.get("project"));
+			//List<FundingDTO> fundingList = (List)(result.get("fundingList"));
+			//log.error("project " + project.toString());
+			//log.error("fundingList" + fundingList.toString());
+			//log.error("result " + result.toString());
+			
+			if(result.size()==0) {//로그인한 아이디가 펀딩참여자 볼 권한이 없을 때 WHERE p.proj_id=#{loginId}
 				return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 			}
-			return new ResponseEntity<List<FundingDTO>>(list,HttpStatus.OK);//참여자 정상정으로 불러오는경우
+			//return null;
+			return new ResponseEntity<Map<String,Object>>(result,HttpStatus.OK);//참여자 정상정으로 불러오는경우
 		}catch(FindException e){
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);//SQL   
 		}

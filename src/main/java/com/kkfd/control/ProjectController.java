@@ -2,15 +2,19 @@ package com.kkfd.control;
 
 import com.kkfd.dto.ProjectDTO;
 import com.kkfd.dto.SearchDTO;
+import com.kkfd.exception.AddException;
 import com.kkfd.exception.FindException;
+import com.kkfd.exception.RemoveException;
 import com.kkfd.service.ProjectService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -80,6 +84,46 @@ public class ProjectController {
 			return new ResponseEntity<>(HttpStatus.BAD_GATEWAY);
 		}
 		//return null;
+	}
+	
+	@PostMapping(value={"/{no}/bookmark"})
+	public ResponseEntity<?> addbookmark(HttpSession session, @PathVariable int no) {
+		//String loginId = (String)session.getAttribute("loginId");
+		String loginId="id1";
+		try {
+			service.addBookmark(no, loginId);
+			return new ResponseEntity(HttpStatus.OK);
+		} catch (AddException e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(HttpStatus.BAD_GATEWAY);
+		}
+	}
+	
+	@DeleteMapping(value={"/{no}/bookmark"})
+	public ResponseEntity<?> removebookmark(HttpSession session, @PathVariable int no) {
+		//String loginId = (String)session.getAttribute("loginId");
+		String loginId="id1";
+		try {
+			service.removeBookmark(no, loginId);
+			return new ResponseEntity(HttpStatus.OK);
+		} catch (RemoveException e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(HttpStatus.BAD_GATEWAY);
+		}
+	}
+	
+	@GetMapping(value={"/mypage/bookmark/{page}"})
+	public ResponseEntity<List<ProjectDTO>> projList(HttpSession session, String id, @PathVariable int page)
+			throws FindException {
+		//String loginId = (String)session.getAttribute("loginId");
+		String loginId="id1";
+		try {
+			List<ProjectDTO> list = new ArrayList<ProjectDTO>();
+			list = service.findMyBookmark(loginId, page);
+			return new ResponseEntity(list,null,HttpStatus.OK);
+		}catch(FindException e){
+			return new ResponseEntity(HttpStatus.BAD_GATEWAY);  
+		}
 	}
 
 }

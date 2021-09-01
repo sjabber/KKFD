@@ -16,11 +16,12 @@
         <typeAlias type="com.kkfd.dto.FundingDTO" alias="funding"/>
     </typeAliases>
     <mappers>
-        <!--  	 <mapper resource="mybatisConfig/ProjectMainMapper.xml"/> -->
+        <mapper resource="mybatisConfig/ProjectMainMapper.xml"/>
         <mapper resource="mybatisConfig/MemberMapper.xml"/>
         <mapper resource="mybatisConfig/ProjectMapper.xml"/>
         <mapper resource="mybatisConfig/ProjectMapper2.xml"/>
         <mapper resource="mybatisConfig/FundingMapper.xml"/>
+        <mapper resource="mybatisConfig/FundingMapper2.xml"/>
         <mapper resource="mybatisConfig/CreatorMapper.xml"/>
     </mappers>
 </configuration>

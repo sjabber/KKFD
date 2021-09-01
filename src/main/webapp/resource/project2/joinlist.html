@@ -48,7 +48,18 @@
         },
         "timeout": {},
         success: function (responseObj) {
-          $(responseObj).each(function (i, f) {
+          //프로젝트 정보 제목, 모집금액, 달성률, 종료일, 배송예정일
+          var p = responseObj.project;
+          var totalFm = p.projFm * p.projQuantity;
+          var end = p.projEnd;
+          var delivery = p.projDelivery; //2021-09-22T15:00:00.000+00:00
+          $('div.proj_title').html(p.projTitle);
+          $('div.pct > span.fm').html(numberWithCommas(totalFm) + '원');
+          $('div.pct > span.goal_pct').html(p.projGoals + '%');
+          $('div.day > span.end').html(end.substring(0, 10));
+          $('div.day > span.delivery').html(delivery.substring(0, 10));
+
+          $(responseObj.fundingList).each(function (i, f) {
             var track = f.funTrack;
             trHtml += '<tr>'
             trHtml += '<th scope="row">';
@@ -99,15 +110,6 @@
             trHtml += '</tr>';
           });//end of each
           $('#tableBody').html(trHtml);
-
-          //프로젝트 정보 제목, 모집금액, 달성률, 종료일, 배송예정일
-          var p = responseObj[0].project;
-          var totalFm = p.projFm * p.projQuantity;
-          $('div.proj_title').html(p.projTitle);
-          $('div.pct > span.fm').html(numberWithCommas(totalFm) + '원');
-          $('div.pct > span.goal_pct').html(p.projGoals + '%');
-          $('div.day > span.end').html(p.projEnd);
-          $('div.day > span.delivery').html(p.projDelivery);
 
         },//end of success
         error: function (jqXHR, textStatus) {

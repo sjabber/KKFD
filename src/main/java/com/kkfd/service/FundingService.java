@@ -16,15 +16,22 @@ public class FundingService {
 	@Autowired
 	private FundingDAO dao;
 	
-	public void addApply(FundingDTO funding) throws AddException {
-		dao.insert(funding);
+	public int addFunding(FundingDTO funding) throws AddException {
+		return dao.insertFunding(funding);
 	}
 
-	public List<FundingDTO> findFunsByProjNo(int projNo, String loginId) throws FindException {
-		return dao.selectFunsByProjNo(projNo, loginId);
-	}
-	
 	public int modifyFuns(List<FundingDTO> list) throws ModifyException {
 		return dao.updateFuns(list);
 	}
+	
+	public List<FundingDTO> findFunsById(String loginId, int term, int state, int page) throws FindException{
+		return dao.selectFunsById(loginId, term, state, page);
+	
+	}
+	
+	public int countMyFunList(String loginId, int term, int state) throws FindException{
+		return dao.countMyFunList(loginId, term,state);
+	}
+	
+	
 }

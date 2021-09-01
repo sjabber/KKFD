@@ -54,12 +54,8 @@ public class RegisterController {
                     creator.setCrId(m.getMemId());
 
                     //KK_CREATOR 테이블에 창작자 정보 추가
-                    int rowCnt = creatorService.addCr(creator);
-                    if (rowCnt == 0) {
-                        //추후 예외처리
-                        responseEntity = new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
-                        return responseEntity;
-                    }
+                    creatorService.addCr(creator);
+
 
                 } else { // todo 창작자 정보가 등록되어 있는 경우
                     // 수정된 정보를 반영한다.
@@ -71,12 +67,9 @@ public class RegisterController {
                     creator.setCrAcholder(updatedCr.getCrAcholder());
                     project.setCreator(creator);
 
-                    int rowCnt = creatorService.modifyCr(creator);
-                    if (rowCnt == 0) {
-                        //추후 예외처리
-                        responseEntity = new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
-                        return responseEntity;
-                    }
+                    // KK_CREATOR 테이블 창작자 정보 수정
+                    creatorService.modifyCr(creator);
+
                 }
 
                 // 공통사항 (프로젝트 등록)

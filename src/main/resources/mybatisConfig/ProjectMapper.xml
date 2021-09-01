@@ -1,3 +1,4 @@
+
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
@@ -11,13 +12,14 @@
         </association>
     </resultMap>
 
-    <select id="selectProjs" parameterType="search" resultType="project">
-        SELECT *
-        FROM (SELECT ROWNUM AS rn, p.*, NVL2(b.book_no,1,0) AS proj_bm
+    <select id="selectProjs" parameterType="search" resultMap="projectResultMap">
+        SELECT * FROM (
+        SELECT ROWNUM AS rn, r.* FROM (
+        SELECT p.*, NVL2(b.book_no,1,0) AS proj_bm
         FROM (SELECT proj_no, proj_category, proj_title, proj_summary,
-        proj_start, proj_end, proj_goals, proj_targetcnt, proj_fm, proj_quantity
-        FROM kk_project
-        WHERE proj_no>0
+        proj_start, proj_end, proj_goals, proj_targetcnt, proj_fm, proj_quantity, proj_bmcnt, proj_id, c.cr_nn
+        FROM kk_project p JOIN kk_creator c ON(p.proj_id=c.cr_id)
+        WHERE proj_status = 1
         <!-- 검색 -->
         <if test="word!=null">
             AND proj_title LIKE'%${word}%'
@@ -50,47 +52,52 @@
                 AND proj_end<![CDATA[ < ]]>SYSDATE
             </when>
         </choose>
-        <trim prefix="ORDER BY">
-            <if test="standard==0">proj_bmcnt DESC</if>
-            <if test="standard==1">proj_no DESC</if>
+        <if test="standard==2"> AND proj_end <![CDATA[ > ]]>SYSDATE </if>
+        ) p LEFT OUTER JOIN kk_bookmark b ON (p.proj_no=b.book_proj AND b.book_id=#{id})
+        <trim prefix="ORDER BY"><if test="standard==0">proj_bmcnt DESC</if><if test="standard==1">proj_no DESC</if>
             <if test="standard==2">proj_end ASC</if>
-        </trim>
-        ) p LEFT OUTER JOIN kk_bookmark b ON (p.proj_no=b.book_proj AND b.book_id=#{id}))
+        </trim>)r)
         WHERE rn BETWEEN START_ROW(#{page},#{cntPerPage}) AND END_ROW(#{page},#{cntPerPage})
     </select>
 
     <select id="selectByNo" parameterType="HashMap" resultMap="projectResultMap">
-        SELECT p.proj_no,
-               p.proj_category,
-               p.proj_title,
-               p.proj_fm,
-               p.proj_quantity,
-               p.proj_goals,
-               p.proj_start,
-               p.proj_end,
-               p.proj_intro,
-               p.proj_targetcnt,
-               p.proj_limitcnt,
-               p.proj_delivery,
-               NVL2(b.book_no, 1, 0) AS projBm,
-               p.proj_id,
-               c.cr_nn,
-               c.cr_intro
+        SELECT p.proj_no,p.proj_category, p.proj_title, p.proj_fm, p.proj_quantity, p.proj_goals, p.proj_start, p.proj_end, p.proj_intro,
+               p.proj_targetcnt, p.proj_limitcnt, p.proj_delivery, NVL2(b.book_no,1,0) AS projBm, p.proj_id, c.cr_nn, c.cr_intro
         FROM kk_project p
-                 LEFT OUTER JOIN kk_bookmark b ON (p.proj_no = b.book_proj AND b.book_id = #{memId})
-                 JOIN kk_creator c ON (p.proj_id = c.cr_id)
-        WHERE p.proj_no = #{projNo}
+                 LEFT OUTER JOIN kk_bookmark b ON (p.proj_no=b.book_proj AND b.book_id=#{memId})
+                 JOIN kk_creator c ON(p.proj_id=c.cr_id)
+        WHERE p.proj_no=#{projNo}
     </select>
 
     <select id="selectPrevProj" resultType="project">
         SELECT *
-        FROM (SELECT proj_no, proj_title, proj_summary
-              FROM kk_project
-              WHERE proj_id = (SELECT proj_id FROM kk_project WHERE proj_no = #{no})
-                AND (proj_no != #{no})
-              ORDER BY proj_no DESC
-             )
+        FROM(SELECT proj_no, proj_title, proj_summary
+             FROM kk_project
+             WHERE proj_id =(SELECT proj_id FROM kk_project WHERE proj_no=#{no})
+               AND(proj_no != #{no})
+             ORDER BY proj_no DESC
+            )
         WHERE ROWNUM BETWEEN 1 AND 5
+    </select>
+
+    <insert id="insertBookmark" parameterType="java.util.HashMap">
+        INSERT INTO kk_bookmark VALUES(bookmark.NEXTVAL, #{id}, #{projNo})
+    </insert>
+
+    <delete id="deleteBookmark" parameterType="java.util.HashMap">
+        DELETE FROM kk_bookmark WHERE book_id = #{id} AND book_proj = #{projNo}
+    </delete>
+
+    <select id="myBookmark" parameterType="java.util.HashMap" resultMap="projectResultMap">
+        SELECT * FROM ( SELECT ROWNUM AS rn, r.* FROM (
+                                                          SELECT p.*, NVL2(b.book_no,1,0) AS proj_bm FROM
+                                                              (SELECT proj_no, proj_category, proj_title, proj_summary, proj_start, proj_end, proj_goals,
+                                                                      proj_targetcnt, proj_fm, proj_quantity, proj_bmcnt, c.cr_nn FROM
+                                                                   kk_project p JOIN kk_bookmark b ON (p.proj_no=b.book_proj AND b.book_id=#{id})
+                                                                                JOIN kk_creator c ON(p.proj_id=c.cr_id)
+                                                               WHERE proj_status = 1
+                                                               ORDER BY book_no DESC) p LEFT OUTER JOIN kk_bookmark b ON (p.proj_no=b.book_proj
+                                                                  AND b.book_id='id1'))r) WHERE rn BETWEEN START_ROW(#{page},18) AND END_ROW(#{page},18)
     </select>
 
     <insert id="insertProj" parameterType="project">

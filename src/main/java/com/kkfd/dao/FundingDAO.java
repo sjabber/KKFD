@@ -13,17 +13,9 @@ public interface FundingDAO {
 	 * @param funding
 	 * @throws AddException
 	 */
-	public void insert(FundingDTO funding) throws AddException;
+	public int insertFunding(FundingDTO funding) throws AddException;
+	//public void insertFunding(FundingDTO funding) throws AddException;
 
-	/**
-	 * 해당 프로젝트의 참여자 보기
-	 * @param projNo : 프로젝트 번호
-	 * @param loginId : 세션의 loginId (로그인 아이디와 프로젝트 크리에이터가 일치할때만 목록반환)
-	 * @return List<FundingDTO> : 펀딩리스트(funding has a project and a member) 
-	 * @throws FindException
-	 */
-	public List<FundingDTO> selectFunsByProjNo(int projNo, String loginId) throws FindException;
-	
 	/**
 	 * 
 	 * @param 펀딩번호,운송장번호가 담긴 펀딩 리스트
@@ -31,4 +23,11 @@ public interface FundingDAO {
 	 * @throws ModifyException
 	 */
 	public int updateFuns(List<FundingDTO> list) throws ModifyException;
+	
+	public List<FundingDTO> selectFunsById(String loginId, int term, int state, int page) throws FindException;
+	
+	public int countMyFunList(String loginId, int term, int state) throws FindException;
+	
+	
+	
 }

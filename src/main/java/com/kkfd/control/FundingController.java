@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,11 +40,15 @@ public class FundingController {
 	
 	@PostMapping(value= {"/funding"})
 	public ResponseEntity<String> insertFunding (HttpSession session, @RequestBody FundingDTO funding) {
+//		String loginId = (String)session.getAttribute("loginId");
 		String loginId="id3";
 		MemberDTO m = new MemberDTO();
 		m.setMemId(loginId);
+		//log.info("test");
 		try {
-			service.addApply(funding);
+			funding.setMember(m);
+			service.addFunding(funding);
+			//log.info("test2");
 			return new ResponseEntity<String>(HttpStatus.OK);
 		} catch (AddException e) {
 			e.printStackTrace();

@@ -3,14 +3,15 @@ package com.kkfd.dao;
 import java.util.List;
 
 import com.kkfd.dto.ProjectDTO;
-import com.kkfd.dto.ProjectMainDTO;
 import com.kkfd.dto.SearchDTO;
+import com.kkfd.exception.AddException;
 import com.kkfd.exception.FindException;
 import com.kkfd.exception.ModifyException;
+import com.kkfd.exception.RemoveException;
 
 public interface ProjectDAO {
 	/**
-	 * 
+	 * 프로젝트 목록
 	 * @param search
 	 * @return
 	 * @throws FindException
@@ -32,6 +33,30 @@ public interface ProjectDAO {
 	 * @throws FindException
 	 */
 	public List<ProjectDTO> selectPrevProj(int proj_no) throws FindException;
+	
+	/**
+	 * 북마크 추가
+	 * @param projNo
+	 * @param id
+	 * @throws AddException
+	 */
+	public void insertBookmark(int projNo, String id) throws AddException;
+	
+	/**
+	 * 북마크 삭제
+	 * @param projNo
+	 * @param id
+	 * @throws RemoveException
+	 */
+	public void deleteBookmark(int projNo, String id) throws RemoveException;
+	
+	/**
+	 * 북마크한 프로젝트 목록
+	 * @param id
+	 * @return
+	 * @throws FindException
+	 */
+	public List<ProjectDTO> myBookmark(String id, int page) throws FindException;
 	
 	//-----------------------------------------------------------------------------//
 	

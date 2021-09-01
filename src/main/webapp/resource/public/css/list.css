@@ -235,6 +235,7 @@ nav {
 
 .main_project_focus {
   width: 1032px;
+  min-height: 1200px;
   margin: 0 auto;
 }
 

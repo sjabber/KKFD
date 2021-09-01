@@ -12,8 +12,10 @@ import com.kkfd.dto.PageDTO;
 import com.kkfd.dto.ProjectDTO;
 import com.kkfd.dto.ProjectMainDTO;
 import com.kkfd.dto.SearchDTO;
+import com.kkfd.exception.AddException;
 import com.kkfd.exception.FindException;
 import com.kkfd.exception.ModifyException;
+import com.kkfd.exception.RemoveException;
 @Repository("projectDAO")
 public class ProjectDAOOracle implements ProjectDAO {
 
@@ -66,10 +68,59 @@ public class ProjectDAOOracle implements ProjectDAO {
 		}
 	}
 	
+	@Override
+	public void insertBookmark(int projNo, String id) throws AddException {
+		SqlSession session= null;
+		try {
+		session = sessionFactory.openSession();
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("projNo", projNo);
+		map.put("id", id);
+		session.insert("com.kkfd.dto.ProjectMapper.insertBookmark", map);
+		}catch (Exception e) {
+			throw new AddException(e.getMessage());
+		}finally {
+			if(session!=null) session.close();
+		}
+	}
+
+	@Override
+	public void deleteBookmark(int projNo, String id) throws RemoveException {
+		SqlSession session= null;
+		try {
+		session = sessionFactory.openSession();
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("projNo", projNo);
+		map.put("id", id);
+		session.insert("com.kkfd.dto.ProjectMapper.deleteBookmark", map);
+		}catch (Exception e) {
+			throw new RemoveException(e.getMessage());
+		}finally {
+			if(session!=null) session.close();
+		}
+	}
+	
+	@Override
+	public List<ProjectDTO> myBookmark(String id, int page) throws FindException {
+		SqlSession session= null;
+		try {
+			session = sessionFactory.openSession();
+			HashMap<String, Object> map = new HashMap<>();
+			map.put("page", page);
+			map.put("id", id);
+			return session.selectList("com.kkfd.dto.ProjectMapper.myBookmark", map);
+		}catch (Exception e) {
+			throw new FindException(e.getMessage());
+		}finally {
+			if(session!=null) session.close();
+		}
+	}
+	
 	
 	//----------------------------------------------------//
 	
 	
+
 	@Override
 	public int updateProj(int projNo, String loginId) throws ModifyException{
 			SqlSession session= null;

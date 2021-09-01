@@ -1,7 +1,5 @@
 package com.kkfd.dao;
 
-import java.util.HashMap;
-
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.slf4j.Logger;
@@ -10,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kkfd.dto.CreatorDTO;
-import com.kkfd.dto.FundingDTO;
 import com.kkfd.exception.AddException;
 import com.kkfd.exception.FindException;
 import com.kkfd.exception.ModifyException;
@@ -23,11 +20,14 @@ public class CreatorDAOOracle implements CreatorDAO{
 	private SqlSessionFactory sessionFactory;
 	
 	@Override
-	public int insertCr(CreatorDTO creator) throws AddException {
+	public void insertCr(CreatorDTO creator) throws AddException {
 		SqlSession session= null;
 		try {
 			session = sessionFactory.openSession();
-			return session.insert("com.kkfd.dto.CreatorMapper.insertCr", creator);
+			int rowCnt = session.insert("com.kkfd.dto.CreatorMapper.insertCr", creator);
+			if(rowCnt==0) {
+				throw new ModifyException("0");
+			}
 		}catch (Exception e) {
 			throw new AddException(e.getMessage());
 		}finally {
@@ -40,29 +40,29 @@ public class CreatorDAOOracle implements CreatorDAO{
 		SqlSession session= null;
 		try {
 			session = sessionFactory.openSession();
-			return session.selectOne("com.kkfd.dto.CreatorMapper.selectCrById", loginId);
+			CreatorDTO creator= session.selectOne("com.kkfd.dto.CreatorMapper.selectCrById", loginId);
+			return creator;
 		}catch (Exception e) {
+
 			throw new FindException(e.getMessage());
 		}finally {
 			if(session!=null) session.close();
 		}
 	}
-
+	
 	@Override
-	public int updateCr(CreatorDTO creator) throws ModifyException {
+	public void updateCr(CreatorDTO creator) throws ModifyException {
 		SqlSession session= null;
 		try {
 			session = sessionFactory.openSession();
-			return session.update("com.kkfd.dto.CreatorMapper.updateCr", creator);
+			int rowCnt = session.update("com.kkfd.dto.CreatorMapper.updateCr", creator);
+			if(rowCnt==0) {
+				throw new ModifyException("0");
+			}
 		}catch (Exception e) {
 			throw new ModifyException(e.getMessage());
 		}finally {
 			if(session!=null) session.close();
 		}
 	}
-
-
-
-
-
 }

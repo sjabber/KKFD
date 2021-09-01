@@ -9,7 +9,7 @@ public interface CreatorDAO {
 	
 	public CreatorDTO selectCrById(String loginId) throws FindException;
 	
-	public int updateCr(CreatorDTO creator) throws ModifyException;
+	public void updateCr(CreatorDTO creator) throws ModifyException;
 	
-	public int insertCr(CreatorDTO creator) throws AddException;
+	public void insertCr(CreatorDTO creator) throws AddException;
 }

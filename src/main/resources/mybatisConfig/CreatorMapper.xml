@@ -3,8 +3,8 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kkfd.dto.CreatorMapper">
-<select id="selectCrById" parameterType="String" resultType="creator">
-SELECT * FROM kk_creator WHERE cr_id=#{id}
+<select id="selectCrById" resultType="creator">
+SELECT * FROM kk_creator WHERE cr_id=#{loginId}
 </select>
 
 <insert id="insertCr" parameterType="creator">

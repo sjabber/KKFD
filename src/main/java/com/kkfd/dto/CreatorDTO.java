@@ -7,9 +7,12 @@ public class CreatorDTO {
 	private String crAcholder;
 	private String crBank;
 	private String crAcno;
+	private String imgPath;
 	//private MemberDTO member 추후
 	public CreatorDTO() {}
-	public CreatorDTO(String crId, String crNn, String crIntro, String crAcholder, String crBank, String crAcno) {
+
+	public CreatorDTO(String crId, String crNn, String crIntro, String crAcholder, String crBank, String crAcno,
+			String imgPath) {
 		super();
 		this.crId = crId;
 		this.crNn = crNn;
@@ -17,11 +20,13 @@ public class CreatorDTO {
 		this.crAcholder = crAcholder;
 		this.crBank = crBank;
 		this.crAcno = crAcno;
+		imgPath = imgPath;
 	}
+
 	@Override
 	public String toString() {
 		return "CreatorDTO [crId=" + crId + ", crNn=" + crNn + ", crIntro=" + crIntro + ", crAcholder=" + crAcholder
-				+ ", crBank=" + crBank + ", crAcno=" + crAcno + "]";
+				+ ", crBank=" + crBank + ", crAcno=" + crAcno + ", ImgPath=" + imgPath + "]";
 	}
 	public String getCrId() {
 		return crId;
@@ -59,6 +64,15 @@ public class CreatorDTO {
 	public void setCrAcno(String crAcno) {
 		this.crAcno = crAcno;
 	}
+
+	public String getImgPath() {
+		return imgPath;
+	}
+
+	public void setImgPath(String imgPath) {
+		this.imgPath = imgPath;
+	}
+
 	
 	
 }

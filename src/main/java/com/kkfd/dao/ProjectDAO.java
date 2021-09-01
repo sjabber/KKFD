@@ -1,7 +1,9 @@
 package com.kkfd.dao;
 
 import java.util.List;
+import java.util.Map;
 
+import com.kkfd.dto.FundingDTO;
 import com.kkfd.dto.ProjectDTO;
 import com.kkfd.dto.SearchDTO;
 import com.kkfd.exception.AddException;
@@ -84,4 +86,15 @@ public interface ProjectDAO {
 	 * @throws FindException
 	 */
 	public int countMyProjs(String loginId) throws FindException;
+	
+
+	/**
+	 * 해당 프로젝트의 참여자 보기
+	 * @param projNo : 프로젝트 번호
+	 * @param loginId : 세션의 loginId (로그인 아이디와 프로젝트 크리에이터가 일치할때만 목록반환)
+	 * @return project : projectDto, fundingList : List<fundingsDTO>  
+	 * @throws FindException
+	 */
+	public Map<String,Object> selectFunsByProjNo(int projNo, String loginId) throws FindException;
+	
 }

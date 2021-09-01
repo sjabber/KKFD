@@ -15,28 +15,13 @@
     integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
     crossorigin="anonymous"></script>
   <title>크크펀딩</title>
+  <script src="/js/basic.js"></script>
   <script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
   <script>
-    function imgPath(id) {
-      var file = new Image;
-      var path = '/img/creator/s_' + id + '.jpg';
-      file.src = path;
-      if (file.complete) {
-        return path;
-      } else {
-        path = '/img/creator/s_' + id + '.png';
-        if (file.complete) {
-          return path;
-        } else {
-          return '/img/blank.png';
-        }
-      }
-    };
-
     $(function () {
-      var backurl = "http://localhost:9999/kkfd/creator";
+      var backurl = "http://localhost:9999/kkfd/creator/";
       $.ajax({
         "method": "GET",
         "url": backurl,
@@ -54,10 +39,13 @@
           var bank = responseObj.crBank;
           var acno = responseObj.crAcno;
           var acholder = responseObj.crAcholder;
-          var imgpath = responseObj.crImgPath;
+          var path = responseObj.imgPath;
+          console.log(id);
+          console.log(path);
+
           if (id != null) {
-            $('img.cmypage_profile_img').attr('src', imgPath(id));
-            $('img#prevImg').attr('src', imgPath(id));
+            $('img.cmypage_profile_img').attr('src', path);
+            $('img#prevImg').attr('src', path);
             $('form.creatorIn input.crId').val(id);
           }
           if (nn != null) {
@@ -83,7 +71,7 @@
       });//end of Ajax
 
       $('form.creatorIn').submit(function () {
-        var backurl = "http://localhost:9999/kkfd/creator";
+        var backurl = "http://localhost:9999/kkfd/creator/";
         var formSerializeArray = $(this).serializeArray();
         var object = {};
         for (let i = 0; i < formSerializeArray.length; i++) {
@@ -114,7 +102,6 @@
 
             },
             error: function (jqXHR) {
-              alert("에러:" + jqXHR.status);
             }
           });
         } else {//update
@@ -136,7 +123,6 @@
 
             },
             error: function (jqXHR) {
-              alert("에러:" + jqXHR.status);
 
             }
           });
@@ -150,9 +136,7 @@
         $.ajax({
           url: backurl,
           method: "POST",
-          async: false,
           cache: false,
-          timeout: 600000,
           xhrFields: {
             withCredentials: true
           },
@@ -162,6 +146,7 @@
           enctype: 'multipart/form-data',
           success: function (responseData) {
             alert("성공");
+            location.reload();
           }, error: function (jqXHR) {
             alert("에러:" + jqXHR.status);
           }
@@ -246,10 +231,10 @@
         <h3>마이페이지</h3>
       </div>
       <div class="topnav">
-        <a class="member" href="/mypage/mypage.html">회원정보수정</a>
-        <a class="member" href="/mypage/bmlist.html">북마크한 프로젝트</a>
-        <a class="member" href="/mypage/fundlist.html">펀딩한 프로젝트</a>
-        <a class="creator_active" href="/creator/cmypage">크리에이터프로필수정</a>
+        <a class="member" href="/member/mypage">회원정보수정</a>
+        <a class="member" href="/member/funlist">펀딩한 프로젝트</a>
+        <a class="member" href="/project/bmlist">북마크한 프로젝트</a>
+        <a class="creator_active" href="/creator/cmypage">크리에이터 프로필수정</a>
         <a class="creator" href="/creator/mylist">마이 프로젝트</a>
       </div>
       <!--[크리에이터정보수정]-->
@@ -263,13 +248,13 @@
               <img src="/img/blank.png" class="cmypage_profile_img" />
             </div>
             <div class="cmypage_input_box">
-              <form class="imgIn" method="post" enctype="multipart/form-data">
+              <form class="imgIn" method="post">
                 <div class="cmypage_profile_container">
                   <div>
                     <img src="/img/blank.png" class="cmypage_profile_img" />
                   </div>
                   <div>
-                    <input type="file" accept="*.jpg, *.png">
+                    <input type="file" accept="*.jpg, *.png" name="imgFile">
                     <p class="cmypage_desc">250 x 250 픽셀에 최적화되어 있으며, 10Mb 이하의 JPG, PNG 파일을 지원합니다.</p>
                   </div>
                 </div>
@@ -286,7 +271,7 @@
               등록된 닉네임이 없습니다.
             </div>
             <div class="cmypage_input_box">
-              <form class="creatorIn">
+              <form class="creatorIn" id="nickname">
                 <input type="hidden" name="crId" class="crId" />
                 <input type="text" name="crNn" placeholder="닉네임을 입력해주세요" class="cmypage_input" required />
                 <p class="cmypage_desc">크리에이터 개인이나 팀을 대표할 수 있는 이름을 써주세요.</p>
@@ -303,7 +288,7 @@
               등록된 소개가 없습니다.
             </div>
             <div class="cmypage_input_box">
-              <form class="creatorIn">
+              <form class="creatorIn" id="intro">
                 <input type="hidden" name="crId" class="crId" />
                 <textarea name="crIntro" placeholder="소개를 입력해주세요" required></textarea>
                 <p class="cmypage_desc">2~3문장으로 크리에이터님의 이력과 간단한 소개를 써주세요.</p>
@@ -321,7 +306,7 @@
               등록된 입금계좌가 없습니다.
             </div>
             <div class="cmypage_input_box">
-              <form class="creatorIn">
+              <form class="creatorIn" id="bank">
                 <input type="hidden" name="crId" class="crId" />
                 <div class="cmypage_bank_row">
                   <label>

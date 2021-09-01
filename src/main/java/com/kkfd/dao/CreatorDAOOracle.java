@@ -28,7 +28,7 @@ public class CreatorDAOOracle implements CreatorDAO{
 			session = sessionFactory.openSession();
 			int rowCnt = session.insert("com.kkfd.dto.CreatorMapper.insertCr", creator);
 			if(rowCnt==0) {
-				throw new ModifyException("0");
+				throw new AddException("0");
 			}
 		}catch (Exception e) {
 			throw new AddException(e.getMessage());

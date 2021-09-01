@@ -2,12 +2,16 @@ package com.kkfd.dao;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kkfd.dto.FundingDTO;
 import com.kkfd.dto.PageDTO;
 import com.kkfd.dto.ProjectDTO;
 import com.kkfd.dto.ProjectMainDTO;
@@ -16,7 +20,7 @@ import com.kkfd.exception.FindException;
 import com.kkfd.exception.ModifyException;
 @Repository("projectDAO")
 public class ProjectDAOOracle implements ProjectDAO {
-
+	Logger log = LoggerFactory.getLogger(this.getClass());
 	@Autowired
 	private SqlSessionFactory sessionFactory;
 	
@@ -69,7 +73,7 @@ public class ProjectDAOOracle implements ProjectDAO {
 	
 	//----------------------------------------------------//
 	
-	
+	//[creator]마이 프로젝트 취소
 	@Override
 	public int updateProj(int projNo, String loginId) throws ModifyException{
 			SqlSession session= null;
@@ -120,5 +124,23 @@ public class ProjectDAOOracle implements ProjectDAO {
 		}
 	}
 
-	
+	@Override
+	public Map<String,Object> selectFunsByProjNo(int projNo, String loginId) throws FindException {
+		SqlSession session= null;
+		try {
+			session = sessionFactory.openSession();
+			HashMap<String, Object>map = new HashMap<>();
+			map.put("projNo", projNo);
+			map.put("loginId", loginId);
+			 Map<String,Object> result = session.selectOne("com.kkfd.dto.ProjectMapper2.selectFunsByProjNo", map);
+			log.info(result.toString());
+			return result;
+		
+		}catch (Exception e) {
+			throw new FindException(e.getMessage());
+		}finally {
+			if(session!=null) session.close();
+		}
+		
+	}
 }

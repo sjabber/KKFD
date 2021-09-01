@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kkfd.dto.FundingDTO;
+import com.kkfd.dto.PageDTO;
 import com.kkfd.exception.AddException;
 import com.kkfd.exception.FindException;
 import com.kkfd.exception.ModifyException;
@@ -35,22 +36,7 @@ public class FundingDAOOracle implements FundingDAO {
 		}
 		
 	}
-	@Override
-	public List<FundingDTO> selectFunsByProjNo(int projNo, String loginId) throws FindException {
-		SqlSession session= null;
-		try {
-			session = sessionFactory.openSession();
-			HashMap<String, Object>map = new HashMap<>();
-			map.put("projNo", projNo);
-			map.put("loginId", loginId);
-			return session.selectList("com.kkfd.dto.FundingMapper.selectFunsByProjNo", map);
-		}catch (Exception e) {
-			throw new FindException(e.getMessage());
-		}finally {
-			if(session!=null) session.close();
-		}
-		
-	}
+
 	
 	@Override
 	public int updateFuns(List<FundingDTO> list) throws ModifyException {
@@ -66,6 +52,42 @@ public class FundingDAOOracle implements FundingDAO {
 			return rowCnt;
 		}catch (Exception e) {
 			throw new ModifyException(e.getMessage());
+		}finally {
+			if(session!=null) session.close();
+		}
+	}
+	@Override
+	public List<FundingDTO> selectFunsById(String loginId, int term, int state, int page) throws FindException {
+		SqlSession session= null;
+		try {
+			session = sessionFactory.openSession();
+			
+			HashMap<String, Object>map = new HashMap<>();
+			map.put("loginId", loginId);
+			map.put("term", term);
+			map.put("state", state);
+			map.put("currentPage", page);
+			map.put("cntPerPage", PageDTO.CNT_PER_PAGE);
+			return session.selectList("com.kkfd.dto.FundingMapper2.selectFunsById", map);
+		}catch (Exception e) {
+			throw new FindException(e.getMessage());
+		}finally {
+			if(session!=null) session.close();
+		}
+		
+	}
+	@Override
+	public int countMyFunList(String loginId, int term, int state) throws FindException {
+		SqlSession session= null;
+		try {
+			session = sessionFactory.openSession();
+			HashMap<String, Object>map = new HashMap<>();
+			map.put("loginId", loginId);
+			map.put("term", term);
+			map.put("state", state);
+			return session.selectOne("com.kkfd.dto.FundingMapper2.countMyFunList", map);
+		}catch (Exception e) {
+			throw new FindException(e.getMessage());
 		}finally {
 			if(session!=null) session.close();
 		}

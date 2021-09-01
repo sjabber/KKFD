@@ -2,7 +2,45 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.kkfd.dto.ProjectMapper2">
+<mapper namespace="com.kkfd.dto.ProjectMapper2"><!--  project : , fundingList: {} -->
+<resultMap id="fundingResultMap" type="Hashmap" > 
+    <id column="proj_no" property="project.projNo"/>
+    <result column="proj_title" property="project.projTitle"/>
+    <result column="proj_fm" property="project.projFm"/>
+    <result column="proj_quantity" property="project.projQuantity"/>
+    <result column="proj_goals" property="project.projGoals"/>
+    <result column="proj_delivery" property="project.projDelivery"/>
+    <result column="proj_end" property="project.projEnd"/>
+    <collection javaType="List" ofType="funding" property="fundingList" autoMapping="true">
+       <id column="fun_no" property="funNo"/>
+       <association javaType="member" property="member" autoMapping="true">
+		  <id column="mem_id" property="memId"/> 
+		</association>
+    </collection>
+</resultMap>
+
+<!--  project : , fundingList: {} -->
+<!-- 
+<resultMap id="fundingResultMap2" type="Hashmap"> 
+<id column="proj_no" property="project.projNo"/>
+<association javaType="project" property="project">
+	<id column="proj_no" property="project.projNo"/>
+ 	<result column="proj_title" property="project.projTitle"/>
+    <result column="proj_fm" property="project.projFm"/>
+    <result column="proj_quantity" property="project.projQuantity"/>
+    <result column="proj_goals" property="project.projGoals"/>
+    <result column="proj_delivery" property="project.projDelivery"/>
+    <result column="proj_end" property="project.projEnd"/> 
+</association>
+  <collection javaType="List" ofType="funding" property="fundingList">
+     <id column="fun_no" property="funNo"/>
+     <association javaType="member" property="member" autoMapping="true">
+  <result column="mem_id" property="memId"/> 
+</association>
+  </collection> 
+</resultMap>
+ -->
+
 
 <select id="selectProjsByCrId" parameterType="HashMap" resultType="project">
 SELECT *
@@ -25,4 +63,13 @@ SET proj_status=0
 WHERE proj_no=#{projNo} AND proj_id=#{loginId}
 </update>
 
+ 
+ <select id="selectFunsByProjNo" parameterType="HashMap" resultMap="fundingResultMap">
+	SELECT p.proj_no, p.proj_title, p.proj_fm, p.proj_quantity, p.proj_goals, p.proj_delivery, p.proj_end,
+		f.fun_no, f.fun_quantity, f.fun_fm, f.fun_track, f.fun_date, f.fun_address, f.fun_detail, 
+		m.mem_name, m.mem_phone
+	FROM (SELECT * FROM kk_funding WHERE fun_proj=#{projNo} ORDER BY fun_track ASC, fun_no ASC) f
+	JOIN kk_project p ON(f.fun_proj = p.proj_no AND p.proj_id=#{loginId})
+	JOIN kk_member m ON(f.fun_id=m.mem_id)
+</select>
 </mapper>

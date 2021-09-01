@@ -1,12 +1,14 @@
 package com.kkfd.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.kkfd.dao.ProjectDAO;
+import com.kkfd.dto.FundingDTO;
 import com.kkfd.dto.ProjectDTO;
 import com.kkfd.dto.SearchDTO;
 import com.kkfd.exception.FindException;
@@ -44,6 +46,10 @@ public class ProjectService {
 	
 	public int countMyProjs(String crId) throws FindException {
 		return dao.countMyProjs(crId);
+	}
+	
+	public Map<String,Object> findFunsByProjNo(int projNo, String loginId) throws FindException {
+		return dao.selectFunsByProjNo(projNo, loginId);
 	}
 	
 }

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" type="text/css" href="/css/public.css" />
+  <link rel="stylesheet" type="text/css" href="/js/basic.js" />
+  <link rel="stylesheet" type="text/css" href="/css/my.css" />
+  <link rel="stylesheet" type="text/css" href="/css/bmlist.css" />
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous" />
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
+    crossorigin="anonymous"></script>
+  <title>크크펀딩</title>
+  <script src="/js/basic.js"></script>
+  <script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+  <script>
+
+    $(function () {
+      var backurl = "http://localhost:9999/project/list/1";
+
+
+    });
+  </script>
+</head>
+
+<body>
+  <!-- header -->
+  <header class="main_header">
+    <div class="main_header_warp">
+      <div class="header_menu_warp">
+        <div class="header_projectsearch">
+          <button class="projectsearch_item">
+            <a style="text-decoration: none; color: black" href="/project/list/">
+              <i class="fas fa-align-justify fa-lg"></i>
+              <span class="projectsearch_name">프로젝트 둘러보기</span>
+            </a>
+          </button>
+        </div>
+        <div class="header_projectupload">
+          <a style="text-decoration: none;" href="/register/registerAgree/">
+            <span class="projectupload_name">프로젝트 올리기</span>
+          </a>
+        </div>
+      </div>
+      <div class="header_mainlogo">
+        <a style="text-decoration: none;" href="/">
+          <span class="header_mainlogo_item">크크펀딩</span>
+        </a>
+      </div>
+      <div class="header_sub_warp">
+        <div class="header_searchicon">
+          <!-- <i class="fas fa-search fa-lg"></i> -->
+        </div>
+        <!--메인확정되면 재수정-->
+        <div class="header_customer_warp">
+          <button class="header_customer_btn">
+            <div class="header_login&signup">
+              <span class="login_signup_name">
+                <a class="admin-no" href="/member/login">로그인 / 회원가입</a>
+                <a class="admin-yes" href="/creator/cmypage">마이페이지</a>
+                <a class="admin-yes" href="javascript:Logout()">로그아웃</a>
+              </span>
+            </div>
+        </div>
+      </div>
+  </header>
+  <!-- 메인섹션 -->
+  <section class="main_section">
+    <div class="my">
+      <div class="toptitle">
+        <h3>마이페이지</h3>
+      </div>
+      <div class="topnav">
+        <a class="member" href="/member/mypage">회원정보수정</a>
+        <a class="member" href="/member/funlist">펀딩한 프로젝트</a>
+        <a class="member_active" href="/project/bmlist">북마크한 프로젝트</a>
+        <a class="creator" href="/creator/cmypage">크리에이터 프로필수정</a>
+        <a class="creator" href="/creator/mylist">마이 프로젝트</a>
+      </div>
+      <!--[북마크한 프로젝트]-->
+
+
+
+    </div>
+
+  </section>
+  <footer class="main_footer">
+
+    <div class="footer_second_warp">
+      <div class="footer_info_warp">
+        <div class="info_first_warp">
+          <span class="info_item1">회사명</span>
+          <span class="info_item2">크크펀딩</span>
+          <span class="info_item1">주소</span>
+          <span class="info_item2">경기도 성남시 분당구 성남대로 34 6층(구미동 하나프라자빌딩)</span>
+          <span class="info_item1">대표</span>
+          <span class="info_item2">오문정</span>
+          <span class="info_item1">사업자등록번호</span>
+          <span class="info_item2">105-87-52823</span>
+        </div>
+        <div class="info_second_warp">
+          <span class="info_item1">통신판매업 신고번호</span>
+          <span class="info_item2">2019-3010165-30-2-02129</span>
+          <span class="info_item1">대표번호</span>
+          <span class="info_item2">031-606-9319</span>
+        </div>
+        <div class="info_last_warp">
+          <span class="last_warp_item">© 2021 KKPD Inc.</span>
+        </div>
+      </div>
+      <div class="footer_info_icon">
+        <i class="fab fa-java fa-lg"></i>
+        <i class="fab fa-js fa-lg"></i>
+        <i class="fab fa-html5 fa-lg"></i>
+        <i class="fab fa-css3 fa-lg"></i>
+        <i class="fas fa-user-md fa-lg"></i>
+        <i class="fas fa-head-side-mask fa-lg"></i>
+      </div>
+    </div>
+    <div class="footer_last_info">
+      <div class="footer_last_info_div">
+        <span class="last_info_item">
+          크크펀딩은 플랫폼 제공자로서 프로젝트의 당사자가 아니며, 직접적인 통신판매를 진행하지 않습니다. 프로젝트의 완수 및 선물제공의 책임은 해당 프로젝트의 창작자에게 있으며, 프로젝트와 관련하여 후원자와
+          발생하는 법적 분쟁에 대한 책임은 해당 창작자가 부담합니다.
+        </span>
+      </div>
+    </div>
+  </footer>
+
+</body>
+
+</html>

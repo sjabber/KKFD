@@ -24,11 +24,11 @@ public class FundingDAOOracle implements FundingDAO {
 	Logger log = LoggerFactory.getLogger(this.getClass());
 
 	@Override
-	public void insert(FundingDTO funding) throws AddException {
+	public int insertFunding(FundingDTO funding) throws AddException {
 		SqlSession session= null;
 		try {
 			session = sessionFactory.openSession();
-			session.insert("com.kkfd.dto.FundingMapper.insert", funding);
+			return session.selectOne("com.kkfd.dto.FundingMapper.insertFunding", funding);
 		}catch (Exception e) {
 			throw new AddException(e.getMessage());
 		}finally {

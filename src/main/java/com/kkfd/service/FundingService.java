@@ -16,8 +16,8 @@ public class FundingService {
 	@Autowired
 	private FundingDAO dao;
 	
-	public void addApply(FundingDTO funding) throws AddException {
-		dao.insert(funding);
+	public int addFunding(FundingDTO funding) throws AddException {
+		return dao.insertFunding(funding);
 	}
 
 	public int modifyFuns(List<FundingDTO> list) throws ModifyException {

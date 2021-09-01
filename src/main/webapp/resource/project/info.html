@@ -151,20 +151,61 @@
               // }
 
               if (projBm == 1) {
+                $("#bm_btn").removeClass("off");
                 $("#bm_icon").removeClass("far fa-bookmark");
                 $("#bm_icon").addClass("fas fa-bookmark");
               }
 
               $("#bm_btn").click(function () {
                 //ajax 북마크 추가/삭제
-                if (projBm == 0) {
+                if ($(this).hasClass("off")) {
+                  console.log("if");
                   $("#bm_icon").removeClass("far fa-bookmark");
                   $("#bm_icon").addClass("fas fa-bookmark");
-                }
-                if (projBm == 1) {
+                  $.ajax({
+                    url:
+                      "http://localhost:9999/kkfd/project/" +
+                      projNo +
+                      "/bookmark",
+                    method: "POST",
+                    transformRequest: [null],
+                    transformResponse: [null],
+                    jsonpCallbackParam: "callback",
+                    headers: {
+                      Accept: "application/json, text/plain, */*",
+                      "Content-Type": "application/json;charset=utf-8",
+                    },
+                    data: '{ "projNo":"' + projNo + '" }',
+                    timeout: {},
+                    success: function (responseData) {
+                      alert("추가성공");
+                    },
+                  });
+                } else {
+                  console.log("else");
                   $("#bm_icon").removeClass("fas fa-bookmark");
                   $("#bm_icon").addClass("far fa-bookmark");
+                  $.ajax({
+                    url:
+                      "http://localhost:9999/kkfd/project/" +
+                      projNo +
+                      "/bookmark",
+                    method: "DELETE",
+                    transformRequest: [null],
+                    transformResponse: [null],
+                    jsonpCallbackParam: "callback",
+                    headers: {
+                      Accept: "application/json, text/plain, */*",
+                      "Content-Type": "application/json;charset=utf-8",
+                    },
+                    data: '{ "projNo":"' + projNo + '" }',
+                    timeout: {},
+                    success: function (responseData) {
+                      alert("삭제성공");
+                    },
+                  });
                 }
+                $(this).toggleClass("off");
               });
             });
           },
@@ -182,6 +223,7 @@
         });
 
         var $divObj = $("div.prev_proj_wrap");
+        var $divObj2 = $("div.test");
         var divHtml = "";
         var backurl2 = "";
         $.ajax({
@@ -196,36 +238,44 @@
           data: "",
           timeout: {},
           success: function (responseData) {
-            $(responseData).each(function (i, e) {
-              var prevProjNo = e.projNo;
-              var prevProjTitle = e.projTitle;
-              var prevProjSummary = e.projSummary;
-              divHtml += '<div class="prev_proj">';
+            if (responseData != "") {
               divHtml +=
-                '<a class="prev_proj_btn" href="http://localhost/project/info?no=' +
-                prevProjNo +
-                '">';
-              divHtml += '<div class="prev_proj_img">';
-              divHtml +=
-                '<img class="thumbnail_img" src="/img/project/' +
-                prevProjNo +
-                "/" +
-                prevProjNo +
-                '_t.PNG" />';
+                '<div class="mid_creator_top">∴ 크리에이터의 다른 프로젝트</div>';
+              divHtml += '<div class="prev_proj_wrap">';
+              $(responseData).each(function (i, e) {
+                var prevProjNo = e.projNo;
+                //alert(prevProjNo);
+                var prevProjTitle = e.projTitle;
+                var prevProjSummary = e.projSummary;
+
+                divHtml += '<div class="prev_proj">';
+                divHtml +=
+                  '<a class="prev_proj_btn" href="http://localhost/project/info?no=' +
+                  prevProjNo +
+                  '">';
+                divHtml += '<div class="prev_proj_img">';
+                divHtml +=
+                  '<img class="thumbnail_img" src="/img/project/' +
+                  prevProjNo +
+                  "/" +
+                  prevProjNo +
+                  '_t.PNG" />';
+                divHtml += "</div>";
+                divHtml += '<div class="prev_proj_info_wrap">';
+                divHtml += '<div class="prev_proj_title">';
+                divHtml += prevProjTitle;
+                divHtml += "</div>";
+                divHtml += '<div class="prev_proj_summary">';
+                divHtml += prevProjSummary;
+                divHtml += "</div>";
+                divHtml += "</div>";
+                divHtml += "</a>";
+                divHtml += "</div>";
+              });
               divHtml += "</div>";
-              divHtml += '<div class="prev_proj_info_wrap">';
-              divHtml += '<div class="prev_proj_title">';
-              divHtml += prevProjTitle;
-              divHtml += "</div>";
-              divHtml += '<div class="prev_proj_summary">';
-              divHtml += prevProjSummary;
-              divHtml += "</div>";
-              divHtml += "</div>";
-              divHtml += "</a>";
-              divHtml += "</div>";
-            });
-            $divObj.empty();
-            $divObj.html(divHtml);
+              //$divObj.empty();
+              $divObj2.html(divHtml);
+            }
           },
         });
       });
@@ -238,18 +288,20 @@
         <div class="header_menu_warp">
           <div class="header_projectsearch">
             <button class="projectsearch_item">
+              <a style="text-decoration: none; color: black" href="/project/list/">
               <i class="fas fa-align-justify fa-lg"></i>
               <span class="projectsearch_name">프로젝트 둘러보기</span>
+            </a>
             </button>
           </div>
           <div class="header_projectupload">
-            <a style="text-decoration: none" href="#">
+            <a style="text-decoration: none" href="/register/registerAgree/">
               <span class="projectupload_name">프로젝트 올리기</span>
             </a>
           </div>
         </div>
         <div class="header_mainlogo">
-          <a style="text-decoration: none" href="#">
+          <a style="text-decoration: none" href="/">
             <span class="header_mainlogo_item">크크펀딩</span>
           </a>
         </div>
@@ -345,7 +397,7 @@
                 ></button>
               </div>
               <div class="bookmark_btn">
-                <button class="btn btn-outline-primary btn-lg" id="bm_btn">
+                <button class="btn btn-outline-primary btn-lg off" id="bm_btn">
                   <i class="far fa-bookmark" id="bm_icon"></i>
                 </button>
               </div>
@@ -385,8 +437,9 @@
                 <!-- 크리에이터 소개 -->
               </div>
             </div>
-            <div class="mid_creator_top">∴ 크리에이터의 다른 프로젝트</div>
-            <div class="prev_proj_wrap">
+            <div class="test">
+              <!-- <div class="mid_creator_top">∴ 크리에이터의 다른 프로젝트</div>
+              <div class="prev_proj_wrap"></div> -->
               <!-- <div class="mid_creator_top">∴ 크리에이터의 다른 프로젝트</div> -->
             </div>
           </div>

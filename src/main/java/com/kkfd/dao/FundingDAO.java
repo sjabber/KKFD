@@ -13,7 +13,8 @@ public interface FundingDAO {
 	 * @param funding
 	 * @throws AddException
 	 */
-	public void insert(FundingDTO funding) throws AddException;
+	public int insertFunding(FundingDTO funding) throws AddException;
+	//public void insertFunding(FundingDTO funding) throws AddException;
 
 	/**
 	 * 

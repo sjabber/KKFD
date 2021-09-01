@@ -13,12 +13,53 @@
 		  </association>
 </resultMap>
 
-  <insert id="insert" parameterType="funding">
+
+<!--<insert id="insert" parameterType="funding">
     INSERT INTO kk_funding VALUES (FUNDING_SEQ.NEXTVAL,
     #{member.memId}, #{project.projNo}, #{funQuantity}, #{funFm},
     #{funName}, #{funAdress}, #{funDetail},
     #fun{funBank}, #{funAcno}, 0, SYSDATE)
-  </insert>
+  </insert> -->
+  
+<select id="insertFunding" parameterType="funding" resultType="int">
+<!-- { CALL procedure명 (#{a}, #{b}, #{c}, #{d}) }  -->
+
+<!-- { CALL p_kk_funding_insert (funding.NEXTVAL, #{member.memId}, #{project.projNo}, #{funQuantity}, #{funFm},
+    #{funName}, #{funAddress}, #{funDetail},
+    #fun{funBank}, #{funAcno}, 0, SYSDATE) } -->
+    
+<!-- { CALL p_kk_funding_insert (#{member.memId}, #{project.projNo}, #{funQuantity}, #{funFm},
+#{funName}, #{funAddress}, #{funDetail}, #{funBank}, #{funAcno}) } -->
+
+<!-- v_fun_id        in VARCHAR2,
+v_fun_proj      in NUMBER,
+v_fun_quantity  in NUMBER,
+v_fun_fm        in NUMBER,
+v_fun_name      in VARCHAR2,
+v_fun_address   in VARCHAR2,
+v_fun_detail    in VARCHAR2,
+v_fun_bank      in VARCHAR2,
+v_fun_acno      in VARCHAR2,
+v_errorcode     out NUMBER -->
+
+<!-- { CALL p_kk_funding_insert (v_fun_id => #{member.memId, mode=IN, jdbcType=VARCHAR},
+v_fun_proj => #{project.projNo, mode=IN, jdbcType=INTEGER},
+v_fun_quantity => #{funQuantity, mode=IN, jdbcType=INTEGER},
+v_fun_fm => #{funFm, mode=IN, jdbcType=INTEGER},
+v_fun_name => #{funName, mode=IN, jdbcType=VARCHAR},
+v_fun_address => #{funAddress, mode=IN, jdbcType=VARCHAR},
+v_fun_detail => #{funDetail, mode=IN, jdbcType=VARCHAR},
+v_fun_bank => #{funBank, mode=IN, jdbcType=VARCHAR},
+v_fun_acno => #{funAcno, mode=IN, jdbcType=VARCHAR},
+v_errorcode => #{errCode, mode=OUT, jdbcType=INTEGER}
+) } -->
+
+<!-- SELECT p_kk_funding_insert(~~~) FROM dual; -->
+
+SELECT f_kk_funding_insert(#{member.memId}, #{project.projNo},
+	#{funQuantity}, #{funFm}, #{funName}, #{funAddress}, #{funDetail}, #{funBank}, #{funAcno}) FROM dual
+
+</select>
   
 
  

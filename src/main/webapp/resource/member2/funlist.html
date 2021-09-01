@@ -15,15 +15,13 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
     crossorigin="anonymous"></script>
+  <script src="/js/basic.js"></script>
   <title>크크펀딩</title>
   <script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
   <script>
-    //천단위 쉼표
-    function numberWithCommas(x) {
-      return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-    };
+
     function getUrlParams() {
       var params = {};
 
@@ -32,97 +30,107 @@
           params[key] = value;
         }
       );
-
       return params;
     }
-    function funlist(no) {
-      var $form = $('form#criteria');
-      $form.find('input[name=page]').val(no);
-      var backurl = 'http://localhost:9999/kkfd/fundings/';
-      var data = $form.serialize();
-      $.ajax({
-        url: backurl,
-        method: "GET",
-        data: data,
-        success: function (responseObj) {
-          var $trObj = $('body > section > div.my > table.allFun tr.data');//tr class가 data인 객체들
-          $(responseObj.list).each(function (i, f) {
-            var $trCopyObj = $trObj.clone(); //tr 복제본객체
-            $trCopyObj.show();
-            $trCopyObj.find('th.projNo').html(f.projNo);
-            $trCopyObj.find('a.projTitle').html(p.projTitle).attr('href', '/project/info?no=' + p.projNo);
-            $trCopyObj.find('td.term').html(p.projStart + '~' + p.projEnd);
-
-            switch (p.projStatus) {
-              case 0:   //취소 : 빨강 기간에 취소선
-                $trCopyObj.find('div.state').addClass('bg-danger').addClass('text-white').html('취소');
-                $trCopyObj.find('td.term').addClass('text-decoration-line-through');
-                break;
-              case 10:  //예정 : 회색
-                $trCopyObj.find('div.state').addClass('bg-secondary').addClass('text-white').html('예정');
-                break;
-              case 20:  //실패 : 노랑 모집금액에 취소선
-                $trCopyObj.find('div.state').addClass('bg-warning').addClass('text dark').html('실패');
-                $trCopyObj.find('td.totalFm').addClass('text-decoration-line-through').html(numberWithCommas(totalFm + '원'));
-                break;
-              case 21:  //성공 : 초록 모집금액 표시, 참여자 보기 버튼
-                $trCopyObj.find('div.state').addClass('bg-success').addClass('text-white').html('성공');
-                $trCopyObj.find('td.totalFm').html(numberWithCommas(totalFm + '원'));
-                var btnCopyObj = $btnObj.clone();
-                btnCopyObj.show().val(p.projNo).attr('onClick', "location.href='/project2/joinlist?no=" + p.projNo + "'");
-                $trCopyObj.find('td.view').append(btnCopyObj);
-                break;
-              default:  //진행예정,진행 : 파랑 모집금액 표시
-                $trCopyObj.find('div.state').addClass('bg-primary').addClass('text-white').html('진행');
-                $trCopyObj.find('td.totalFm').html(numberWithCommas(totalFm + '원'));
-                break;
-            }
-            $trObj.parent().append($trCopyObj);
-          });//end of each
-
-          var cPage = responseObj.currentPage;
-          var tPage = responseObj.totalPage;
-          var sPage = responseObj.startPage;
-          var ePage = responseObj.endPage;
-          var url = responseObj.url;
-
-          var $pageLi = $('div.pagination_container>ul.pagination').children();//a태그 포함한 li
-          var $prevLi = $pageLi.first();
-          var $nextLi = $pageLi.last();
-          if (cPage == 1) {
-            $prevLi.addClass('disabled');
-            $prevLi.find('a.page-link').attr('aria-disabled', true);
-          } else {
-            $prevLi.removeClass('disabled');
-            $prevLi.find('a.page-link').attr('aria-disabled', false).attr('href', url + (cPage - 1));
-          }
-          if (cPage == tPage) {
-            $nextLi.addClass('disabled');
-            $nextLi.find('a.page-link').attr('aria-disabled', true);
-          } else {
-            $nextLi.removeClass('disabled');
-            $nextLi.find('a.page-link').attr('aria-disabled', false).attr('href', url + (cPage + 1));
-          }
-          var $liObj = $pageLi.eq(1);
-          $pageLi.parent().find('li.num').not(':first').remove();//안보이는 원본li객체는 남기고 삭제
-          for (let k = sPage; k <= ePage; k++) {
-            $liCopyObj = $liObj.clone();
-            $liCopyObj.show();
-            $liCopyObj.find('a.page-link').html(k).attr('href', url + k);
-            if (k == cPage) {
-              $liCopyObj.addClass('active').attr('aria-current', "page");
-            }
-            $nextLi.before($liCopyObj);
-          }//end of for
-        },//end of success
-        error: function (jqXHR, textStatus) {
-
-        }//end of error
-      });//end of Ajax
-
-    };
-
     $(function () {
+      var params = getUrlParams();
+      var currentTerm = params[term];
+      var currentState = params[state];
+      var $form = $('form#criteria');
+      $form.$('input[name=term]').val(currentTerm);
+      $form.$('input[name=state]').val(currentState);
+
+      function funlist(no) {
+        $form.find('input[name=page]').val(no);
+        var backurl = 'http://localhost:9999/kkfd/fundings/';
+        var data = $form.serialize();
+        $.ajax({
+          url: backurl,
+          method: "GET",
+          data: data,
+          success: function (responseObj) {
+            var $trObj = $('body > section > div.my > table.allFun tr.data');//tr class가 data인 객체들
+            $(responseObj.list).each(function (i, f) {
+              var $trCopyObj = $trObj.clone(); //tr 복제본객체
+              $trCopyObj.show();
+              $trCopyObj.find('th.funNo').html(f.funNo);
+              $trCopyObj.find('a.projTitle').html(f.project.projTitle).attr('href', '/project/info?no=' + f.project.projNo);
+              $trCopyObj.find('td.funDate').html(f.funDate);
+              $trCopyObj.find('td.funFm').html(f.funFm);
+              $trCopyObj.find('td.projEnd').html(f.project.prodEnd);
+              $trCopyObj.find('td.funDelivery').html(f.fundDelivery);
+              $trCopyObj.find('td.funTrack').html(f.funTrack);
+
+
+              switch (f.project.projStatus) {
+                case 0:   //취소 : 빨강 기간에 취소선
+                  $trCopyObj.find('div.state').addClass('bg-danger').addClass('text-white').html('취소');
+                  $trCopyObj.find('td.term').addClass('text-decoration-line-through');
+                  break;
+                case 10:  //예정 : 회색
+                  $trCopyObj.find('div.state').addClass('bg-secondary').addClass('text-white').html('예정');
+                  break;
+                case 20:  //실패 : 노랑 모집금액에 취소선
+                  $trCopyObj.find('div.state').addClass('bg-warning').addClass('text dark').html('실패');
+                  $trCopyObj.find('td.totalFm').addClass('text-decoration-line-through').html(numberWithCommas(totalFm + '원'));
+                  break;
+                case 21:  //성공 : 초록 모집금액 표시, 참여자 보기 버튼
+                  $trCopyObj.find('div.state').addClass('bg-success').addClass('text-white').html('성공');
+                  $trCopyObj.find('td.totalFm').html(numberWithCommas(totalFm + '원'));
+                  var btnCopyObj = $btnObj.clone();
+                  btnCopyObj.show().val(p.projNo).attr('onClick', "location.href='/project2/joinlist?no=" + p.projNo + "'");
+                  $trCopyObj.find('td.view').append(btnCopyObj);
+                  break;
+                default:  //진행예정,진행 : 파랑 모집금액 표시
+                  $trCopyObj.find('div.state').addClass('bg-primary').addClass('text-white').html('진행');
+                  $trCopyObj.find('td.totalFm').html(numberWithCommas(totalFm + '원'));
+                  break;
+              }
+              $trObj.parent().append($trCopyObj);
+            });//end of each
+
+            var cPage = responseObj.currentPage;
+            var tPage = responseObj.totalPage;
+            var sPage = responseObj.startPage;
+            var ePage = responseObj.endPage;
+            var url = responseObj.url;
+
+            var $pageLi = $('div.pagination_container>ul.pagination').children();//a태그 포함한 li
+            var $prevLi = $pageLi.first();
+            var $nextLi = $pageLi.last();
+            if (cPage == 1) {
+              $prevLi.addClass('disabled');
+              $prevLi.find('a.page-link').attr('aria-disabled', true);
+            } else {
+              $prevLi.removeClass('disabled');
+              $prevLi.find('a.page-link').attr('aria-disabled', false).attr('href', url + (cPage - 1));
+            }
+            if (cPage == tPage) {
+              $nextLi.addClass('disabled');
+              $nextLi.find('a.page-link').attr('aria-disabled', true);
+            } else {
+              $nextLi.removeClass('disabled');
+              $nextLi.find('a.page-link').attr('aria-disabled', false).attr('href', url + (cPage + 1));
+            }
+            var $liObj = $pageLi.eq(1);
+            $pageLi.parent().find('li.num').not(':first').remove();//안보이는 원본li객체는 남기고 삭제
+            for (let k = sPage; k <= ePage; k++) {
+              $liCopyObj = $liObj.clone();
+              $liCopyObj.show();
+              $liCopyObj.find('a.page-link').html(k).attr('href', url + k);
+              if (k == cPage) {
+                $liCopyObj.addClass('active').attr('aria-current', "page");
+              }
+              $nextLi.before($liCopyObj);
+            }//end of for
+          },//end of success
+          error: function (jqXHR, textStatus) {
+
+          }//end of error
+        });//end of Ajax
+
+      };
+
 
       $('div.pagination_container>ul.pagination').on('click', 'li.page-item > a.page-link', function () {
         var page = $(this).attr('href');
@@ -206,20 +214,31 @@
         <a class="creator" href="/creator/cmypage">크리에이터 프로필수정</a>
         <a class="creator" href="/creator/mylist">마이 프로젝트</a>
       </div>
-      <div class="d-flex justify-content-around"> <input type="radio" class="btn-check" name="options" id="option1"
-          autocomplete="off" checked>
-        <span>기간선택</span>
-        <label class="btn btn-secondary" for="month1">1개월</label>
-        <input type="radio" class="btn-check" name="term" id="option2" autocomplete="off">
-        <label class="btn btn-primary" for="month3">3개월</label>
-        <input type="radio" class="btn-check" name="term" id="option3" autocomplete="off">
-        <label class="btn btn-secondary" for="month6">6개월</label>
-        <input type="radio" class="btn-check" name="term" id="option4" autocomplete="off">
-        <label class="btn btn-secondary" for="option4">12개월</label>
-        <span>상태선택</span>
+      <div class="d-flex justify-content-between align-items-center my-3">
+        <div class="d-flex  justify-content-between align-items-center">
+          <div class="me-4 fs-5">기간</div>
+          <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+            <input type="radio" class="btn-check" name="term" id="month1" autocomplete="off" checked>
+            <label class="btn btn-outline-secondary" for="month1">1개월</label>
+            <input type="radio" class="btn-check" name="term" id="month3" autocomplete="off">
+            <label class="btn btn-outline-secondary" for="month3">3개월</label>
+            <input type="radio" class="btn-check" name="term" id="month6" autocomplete="off">
+            <label class="btn btn-outline-secondary" for="month6">6개월</label>
+            <input type="radio" class="btn-check" name="term" id="month12" autocomplete="off">
+            <label class="btn btn-outline-secondary" for="month12">12개월</label>
+          </div>
 
+        </div>
+        <div class="d-flex justify-content-between align-items-center">
+          <div class="me-4 fs-5 w-50">상태</div>
+          <select class="form-select" aria-label="Default select example">
+            <option value="3" selected>전체</option>
+            <option value="0">무산</option>
+            <option value="1">진행중</option>
+            <option value="2">결제완료</option>
+          </select>
+        </div>
       </div>
-
       <table class="table allFun">
         <thead class="table-light">
           <tr>

@@ -101,9 +101,9 @@ public class FundingController {
 			List<FundingDTO> list = service.findFunsById(loginId, term, state, page);
 			Date now = new Date();
 			//project.getProjStatus()
-			//0:펀딩무산(프로젝트 취소+프로젝트 실패)
+			//0:무산(프로젝트 취소+프로젝트 실패)
 			//1:진행중(10:진행중 / 11:임박 / 12:결제예정(달성:마감전 100%))
-			//2:펀딩성사(프로젝트 성공)-결제
+			//2:결제완료(프로젝트 성공)-결제
 			//3:전체
 			int status = 0;							
 			for(FundingDTO funding : list) {

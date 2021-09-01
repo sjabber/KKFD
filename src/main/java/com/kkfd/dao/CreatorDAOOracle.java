@@ -14,6 +14,7 @@ import com.kkfd.dto.FundingDTO;
 import com.kkfd.exception.AddException;
 import com.kkfd.exception.FindException;
 import com.kkfd.exception.ModifyException;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository("creatorDAO")
 public class CreatorDAOOracle implements CreatorDAO{
@@ -23,6 +24,7 @@ public class CreatorDAOOracle implements CreatorDAO{
 	private SqlSessionFactory sessionFactory;
 	
 	@Override
+	@Transactional(rollbackFor = AddException.class)
 	public int insertCr(CreatorDTO creator) throws AddException {
 		SqlSession session= null;
 		try {

@@ -115,10 +115,44 @@
 
 </style>
 <script>
+    function checkLogin() {
+        var check;
+        var backurl = 'http://localhost:9999/kkfd/member/logincheck';
+        $.ajax({
+            url: backurl,
+            method: 'get',
+            dataType: "json",
+            async: false,
+            xhrFields: {
+                withCredentials: true
+            },
+            statusCode: {
+                200:function () {
+                    check = true;
+                },
+                204:function () {
+                    check = false;
+                },
+            },
+            success: function (result) {
+                check = true;
+            },
+            error: function (result) {
+                check = false;
+            }
+        });
+        return check;
+    }
+
     function startRegister() {
         var checked_All = $('input.chkid');
         if ($('input.chkid').is(':checked')) {
-            location.href = "/register/regist/basicInfo";
+            if (checkLogin() === true) {
+                location.href = "/register/regist/basicInfo";
+            } else {
+                alert('로그인해 주세요');
+                location.href = "/member/login";
+            }
         } else {
             alert("프로젝트 약관에 동의해 주세요.");
         }

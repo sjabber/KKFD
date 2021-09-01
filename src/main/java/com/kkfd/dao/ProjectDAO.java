@@ -5,6 +5,7 @@ import java.util.List;
 import com.kkfd.dto.ProjectDTO;
 import com.kkfd.dto.ProjectMainDTO;
 import com.kkfd.dto.SearchDTO;
+import com.kkfd.exception.AddException;
 import com.kkfd.exception.FindException;
 import com.kkfd.exception.ModifyException;
 
@@ -59,4 +60,13 @@ public interface ProjectDAO {
 	 * @throws FindException
 	 */
 	public int countMyProjs(String loginId) throws FindException;
+
+
+	/**
+	 * 프로젝트 등록
+	 * @param project
+	 * @return
+	 * @throws AddException
+	 */
+	public int insertProj(ProjectDTO project) throws AddException;
 }

@@ -2,6 +2,7 @@ package com.kkfd.service;
 
 import java.util.List;
 
+import com.kkfd.exception.AddException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -45,5 +46,11 @@ public class ProjectService {
 	public int countMyProjs(String crId) throws FindException {
 		return dao.countMyProjs(crId);
 	}
-	
+
+	//----------------------------프로젝트 등록---------------------------//
+	public int addProj(ProjectDTO project) throws AddException {
+		return dao.insertProj(project);
+	}
+
+
 }

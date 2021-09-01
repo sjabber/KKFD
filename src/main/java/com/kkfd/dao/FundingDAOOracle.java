@@ -49,7 +49,6 @@ public class FundingDAOOracle implements FundingDAO {
 		}finally {
 			if(session!=null) session.close();
 		}
-		
 	}
 	
 	@Override

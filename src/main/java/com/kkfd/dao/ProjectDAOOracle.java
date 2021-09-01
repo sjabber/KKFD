@@ -3,6 +3,7 @@ package com.kkfd.dao;
 import java.util.HashMap;
 import java.util.List;
 
+import com.kkfd.exception.AddException;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,8 @@ import com.kkfd.dto.ProjectMainDTO;
 import com.kkfd.dto.SearchDTO;
 import com.kkfd.exception.FindException;
 import com.kkfd.exception.ModifyException;
+import org.springframework.transaction.annotation.Transactional;
+
 @Repository("projectDAO")
 public class ProjectDAOOracle implements ProjectDAO {
 
@@ -120,5 +123,21 @@ public class ProjectDAOOracle implements ProjectDAO {
 		}
 	}
 
-	
+	// 프로젝트 등록
+	@Override
+	@Transactional(rollbackFor = AddException.class)
+	public int insertProj(ProjectDTO project) throws AddException {
+		SqlSession session = null;
+		try {
+			session = sessionFactory.openSession();
+			return session.insert("com.kkfd.dto.ProjectMapper.insertProj", project);
+		} catch (Exception e) {
+			throw new AddException(e.getMessage());
+		} finally {
+			if (session != null) {
+				session.close();
+			}
+		}
+	}
+
 }

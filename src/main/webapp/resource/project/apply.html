@@ -21,6 +21,15 @@
     <script src="/js/apply.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
+
+      const categoryNoChange = {
+         1: '캔들',
+         2: '조향',
+         3: '비누',
+         4: '도예',
+         5: '섬유·자수'
+      }
+
       function searchParam(key) {
         return new URLSearchParams(location.search).get(key);
       }
@@ -68,7 +77,7 @@
               var sum = projFm * projQuantity;
               // var funding_quantity = $("#funding_quantity").val();
               console.log(funding_quantity);
-              $('div.category_nickname>span.category').html(projCategory);
+              $('div.category_nickname>span.category').html(categoryNoChange[projCategory]);
               $('div.category_nickname>span.cr_nn').html(crNn);
               $('div.proj_title').html(projTitle);
               $('div.represent_img>img.thumbnail_img').attr("src", "/img/project/" + no + '/' + no + "_t.png");
@@ -81,15 +90,36 @@
               console.log(dt);
               //alert("test");
 
-              // $("#apply_btn").click(function () {
-              //   if(dt > projEnd) {
-              //     alert("test");
-              //   }
-              // });
+              $("#apply_btn").click(function () {
+                
+                  //alert("test");
+                  $.ajax({
+                    method: "POST",
+                    transformRequest: [
+                      null
+                    ],
+                    transformResponse: [
+                      null
+                    ],
+                    jsonpCallbackParam: "callback",
+                    url: "http://localhost:9999/kkfd/funding",
+                    headers: {
+                      "Accept": "application/json, text/plain, */*",
+                      "Content-Type": "application/json;charset=utf-8"
+                    },
+                    data: "{\"project\":{\"projNo\":\"" + projNo + "\"},\"funQuantity\":" + $("input#funding_quantity").val() + ",\"funFm\":" + (projFm * $("input#funding_quantity").val()) + ",\"funName\":\"" + $("input#input_receiver").val() + "\",\"funAddress\":\"" + $("input#input_addr").val() + "\",\"funDetail\":\"" + $("input#input_detail").val() + "\",\"funBank\":\"" + $("select#cmpypage_bankname option:selected").val() + "\",\"funAcno\":\"" + $("input#input_acno").val() + "\"}",
+                    timeout: {},
+                    success: function (responseObj) {
+                      alert("신청 완료");
+                    }
+                  });
+                
+              });
               
             });
           },
         });
+
         $("#funding_quantity").change(function () {
           console.log(($(this).val()));
           console.log(projFm);
@@ -106,10 +136,10 @@
           }
         });
 
-        $("#apply_btn").click(function(e) {
-          alert("test");
-          e.preventDefault();
-        });
+        // $("#apply_btn").click(function(e) {
+        //   alert("test");
+        //   e.preventDefault();
+        // });
         
       });
     </script>
@@ -121,18 +151,20 @@
         <div class="header_menu_warp">
           <div class="header_projectsearch">
             <button class="projectsearch_item">
+              <a style="text-decoration: none; color: black" href="/project/list/">
               <i class="fas fa-align-justify fa-lg"></i>
               <span class="projectsearch_name">프로젝트 둘러보기</span>
+            </a>
             </button>
           </div>
           <div class="header_projectupload">
-            <a style="text-decoration: none" href="#">
+            <a style="text-decoration: none" href="/register/registerAgree/">
               <span class="projectupload_name">프로젝트 올리기</span>
             </a>
           </div>
         </div>
         <div class="header_mainlogo">
-          <a style="text-decoration: none" href="#">
+          <a style="text-decoration: none" href="/">
             <span class="header_mainlogo_item">크크펀딩</span>
           </a>
         </div>
@@ -361,7 +393,7 @@
           </div>
           <div class="funding_button">
             <span> </span>
-            <button class="btn btn-danger btn-lg btn-block" id="apply_btn" disabled>펀딩 신청</button>
+            <button type="button" class="btn btn-danger btn-lg btn-block" id="apply_btn" disabled>펀딩 신청</button>
           </div>
         </div>
       </div>

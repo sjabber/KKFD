@@ -1,4 +1,4 @@
-/*
+
 package com.kkfd.dao;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -10,7 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.kkfd.dto.ProjectDTO;
+import com.kkfd.exception.AddException;
 import com.kkfd.exception.FindException;
+import com.kkfd.exception.RemoveException;
 @SpringBootTest
 class ProjectDAOTest {
 	@Autowired
@@ -30,6 +32,20 @@ class ProjectDAOTest {
 		int expectedsize = 2;
 		assertEquals(expectedsize, list.size());
 	}
+	
+	@Test
+	void insertBookmarkTest() throws AddException {
+		String id = "id1";
+		int projNo = 3;
+		dao.insertBookmark(projNo, id);
+	}
+	
+	@Test
+	void deleteBookmarkTest() throws RemoveException {
+		String id = "id1";
+		int projNo = 3;
+		dao.deleteBookmark(projNo, id);
+	}
 
 }
-*/
+

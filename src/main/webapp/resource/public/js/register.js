@@ -514,10 +514,13 @@ function RegistProject() {
     $.ajax({
         url: 'http://localhost:9999/kkfd/project/register',
         method: 'post',
-        accept: 'application/json',
+        // accept: 'application/json', // 멀티파트로 변경한다.
         xhrFields: {
             withCredentials: true
         },
+        //form데이터 객체가 필요하다.
+        //form input tag의 name 속성 => creator.crId
+        //form.serialize();
         data: JSON.stringify({
             'projNo': "",
             "creator":

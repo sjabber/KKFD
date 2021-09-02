@@ -84,27 +84,28 @@
 <body>
 
 <section class="main_section" id="section1">
-    <!-- 카테고리 -->
-    <div class="projectItem">
-        <dl class="projectItem_title">
-            <dt class="projectItem_title_dt">
-                프로젝트 카테고리
-                <div class="Icon">
-                    <i class="fas fa-star-of-life iicon"></i>
-                </div>
-            </dt>
-            <dd class="projectItem_title_dd">
-                프로젝트의 성격과 가장 일치하는 카테고리를 선택해<br>
-                주세요. 적합하지 않을 경우 운영자에 의해 조정될 수<br>
-                있습니다.
-            </dd>
-        </dl>
-        <div class="projectItem_title_form">
-            <div class="projectItem_title_formInner">
-                <div class="projectItem_category_tooltip">
-                    <div class="tooltip_category_label">
-                        <p class="tooltip_category_p">카테고리</p>
-                        <div class="form-group">
+    <form>
+        <!-- 카테고리 -->
+        <div class="projectItem">
+            <dl class="projectItem_title">
+                <dt class="projectItem_title_dt">
+                    프로젝트 카테고리
+                    <div class="Icon">
+                        <i class="fas fa-star-of-life iicon"></i>
+                    </div>
+                </dt>
+                <dd class="projectItem_title_dd">
+                    프로젝트의 성격과 가장 일치하는 카테고리를 선택해<br>
+                    주세요. 적합하지 않을 경우 운영자에 의해 조정될 수<br>
+                    있습니다.
+                </dd>
+            </dl>
+            <div class="projectItem_title_form">
+                <div class="projectItem_title_formInner">
+                    <div class="projectItem_category_tooltip">
+                        <div class="tooltip_category_label">
+                            <p class="tooltip_category_p">카테고리</p>
+                            <div class="form-group">
                             <span class="category_span">
                                 <select class="form-select selectBox">
                                     <option value="1">캔들</option>
@@ -114,267 +115,273 @@
                                     <option value="5">섬유, 자수</option>
                                 </select>
                             </span>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <!-- 제목 -->
-    <div class="projectItem">
-        <dl class="projectItem_title">
-            <dt class="projectItem_title_dt">
-                프로젝트 제목
-                <div class="Icon">
-                    <i class="fas fa-star-of-life iicon"></i>
-                </div>
-            </dt>
-            <dd class="projectItem_title_dd">
-                프로젝트의 주제, 창작물의 특징이 드러나는 멋진<br>
-                제목을 붙여주세요.
-            </dd>
-        </dl>
-        <div class="projectItem_title_form">
-            <div class="projectItem_title_formInner">
-                <div class="projectItem_title_tooltip">
-                    <div class="tooltip_label">
-                        <button type="button" class="LabelWithArea" onclick="$.contentShow($(this))">
-                            <p>제목</p>
-                            <em>
-                                <div class="Icon_svg">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                         class="bi bi-question-circle" viewBox="0 0 16 16">
-                                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                                        <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>
-                                    </svg>
+        <!-- 제목 -->
+        <div class="projectItem">
+            <dl class="projectItem_title">
+                <dt class="projectItem_title_dt">
+                    프로젝트 제목
+                    <div class="Icon">
+                        <i class="fas fa-star-of-life iicon"></i>
+                    </div>
+                </dt>
+                <dd class="projectItem_title_dd">
+                    프로젝트의 주제, 창작물의 특징이 드러나는 멋진<br>
+                    제목을 붙여주세요.
+                </dd>
+            </dl>
+            <div class="projectItem_title_form">
+                <div class="projectItem_title_formInner">
+                    <div class="projectItem_title_tooltip">
+                        <div class="tooltip_label">
+                            <button type="button" class="LabelWithArea" onclick="$.contentShow($(this))">
+                                <p>제목</p>
+                                <em>
+                                    <div class="Icon_svg">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                             fill="currentColor"
+                                             class="bi bi-question-circle" viewBox="0 0 16 16">
+                                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                            <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>
+                                        </svg>
+                                    </div>
+                                </em>
+                            </button>
+                            <div class="LabelWithTooltip">
+                                <div class="LabelWithTooltip_title">
+                                    <div class="title">
+                                        제목은<br>
+                                        어디에 쓰이나요?
+                                    </div>
+                                    <div class="image">
+                                        <img src="/img/project_title.png">
+                                    </div>
                                 </div>
-                            </em>
-                        </button>
-                        <div class="LabelWithTooltip">
-                            <div class="LabelWithTooltip_title">
-                                <div class="title">
-                                    제목은<br>
-                                    어디에 쓰이나요?
-                                </div>
-                                <div class="image">
-                                    <img src="/img/project_title.png">
-                                </div>
+                                <em class="close" onclick="$.contentHide($(this))">
+                                    <div class="close-1">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                             fill="currentColor"
+                                             class="bi bi-x" viewBox="0 0 16 16">
+                                            <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                                        </svg>
+                                    </div>
+                                </em>
                             </div>
-                            <em class="close" onclick="$.contentHide($(this))">
-                                <div class="close-1">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                         class="bi bi-x" viewBox="0 0 16 16">
-                                        <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
-                                    </svg>
-                                </div>
-                            </em>
                         </div>
                     </div>
-                </div>
-                <div class="projectItem_input">
+                    <div class="projectItem_input">
                     <span class="input_wrapper">
                         <input class="inputInner" id="text1" type="text" inputmode="text" placeholder="제목을 입력해주세요.">
                     </span>
-                </div>
-                <div class="blankBlock">
-                    <p class="InputLengthCheck"></p>
-                    <span class="InputLengthCheck_Notice" id="text_cnt1">0/32</span>
+                    </div>
+                    <div class="blankBlock">
+                        <p class="InputLengthCheck"></p>
+                        <span class="InputLengthCheck_Notice" id="text_cnt1">0/32</span>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <!-- 요약 -->
-    <div class="projectItem">
-        <dl class="projectItem_title">
-            <dt class="projectItem_title_dt">
-                프로젝트 요약
-                <div class="Icon">
-                    <i class="fas fa-star-of-life iicon"></i>
-                </div>
-            </dt>
-            <dd class="projectItem_title_dd">
-                후원자 분들이 프로젝트를 빠르게 이해할 수 있도록<br>
-                명확하고 간략하게 소개해 주세요.
-            </dd>
-        </dl>
-        <div class="projectItem_title_form">
-            <div class="projectItem_title_formInner">
-                <div class="projectItem_title_tooltip">
-                    <div class="tooltip_label">
-                        <button type="button" class="LabelWithArea" onclick="$.contentShow($(this))">
-                            <em>
-                                <div class="Icon_svg">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                         class="bi bi-question-circle" viewBox="0 0 16 16">
-                                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                                        <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>
-                                    </svg>
-                                </div>
-                            </em>
-                        </button>
-                        <div class="LabelWithTooltip">
-                            <div class="LabelWithTooltip_title">
-                                <div class="title">
-                                    프로젝트 요약은<br>
-                                    어디에 표시되나요?
-                                </div>
-                                <div class="image">
-                                    <img src="/img/project_sum.png">
-                                </div>
-                            </div>
-                            <em class="close" onclick="$.contentHide($(this))">
-                                <div class="close-1">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                         class="bi bi-x" viewBox="0 0 16 16">
-                                        <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
-                                    </svg>
-                                </div>
-                            </em>
-                        </div>
+        <!-- 요약 -->
+        <div class="projectItem">
+            <dl class="projectItem_title">
+                <dt class="projectItem_title_dt">
+                    프로젝트 요약
+                    <div class="Icon">
+                        <i class="fas fa-star-of-life iicon"></i>
                     </div>
-                </div>
-                <div class="projectItem_input2">
-                    <div class="input_wrapper2">
-                        <textarea class="textAreaInner" id="text2" placeholder="프로젝트 요약을 입력해주세요."></textarea>
-                    </div>
-                </div>
-                <div class="blankBlock">
-                    <p class="InputLengthCheck"></p>
-                    <span class="InputLengthCheck_Notice" id="text_cnt2">0/32</span>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- 소개 -->
-    <div class="projectItem">
-        <dl class="projectItem_title">
-            <dt class="projectItem_title_dt">
-                프로젝트 소개
-                <div class="Icon">
-                    <i class="fas fa-star-of-life iicon"></i>
-                </div>
-            </dt>
-            <dd class="projectItem_title_dd">
-                후원자 분들이 프로젝트를 자세하게 이해할 수 있도록 상세하게 소개해 주세요.
-            </dd>
-        </dl>
-        <div class="projectItem_title_form">
-            <div class="projectItem_title_formInner">
-                <div class="projectItem_title_tooltip">
-                    <div class="tooltip_label">
-                        <button type="button" class="LabelWithArea" onclick="$.contentShow($(this))">
-                            <em>
-                                <div class="Icon_svg">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                         class="bi bi-question-circle" viewBox="0 0 16 16">
-                                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                                        <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>
-                                    </svg>
-                                </div>
-                            </em>
-                        </button>
-                        <div class="LabelWithTooltip">
-                            <div class="LabelWithTooltip_title">
-                                <div class="title">
-                                    프로젝트 소개는<br>
-                                    어디에 표시되나요?
-                                </div>
-                                <div class="image">
-                                    <img src="/img/project_sum.png">
-                                </div>
-                            </div>
-                            <em class="close" onclick="$.contentHide($(this))">
-                                <div class="close-1">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                         class="bi bi-x" viewBox="0 0 16 16">
-                                        <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
-                                    </svg>
-                                </div>
-                            </em>
-                        </div>
-                    </div>
-                </div>
-                <div class="projectItem_input3">
-                    <div class="input_wrapper3">
-                        <textarea class="textAreaInner2" id="text3" placeholder="프로젝트 소개를 입력해주세요."></textarea>
-                    </div>
-                </div>
-                <div class="blankBlock">
-                    <p class="InputLengthCheck"></p>
-                    <span class="InputLengthCheck_Notice" id="text_cnt3">0/32</span>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- 이미지 등록 -->
-    <div class="projectItem">
-        <dl class="projectItem_title">
-            <dt class="projectItem_title_dt">
-                프로젝트 대표 이미지
-                <div class="Icon">
-                    <i class="fas fa-star-of-life iicon"></i>
-                </div>
-            </dt>
-            <dd class="projectItem_title_dd">
-                후원자분들이 프로젝트의 내용을 쉽게 파악하고 좋은<br> 인상을
-                받을 수 있도록 이미지 가이드라인을 따라주세요.
-            </dd>
-            <div class="project_title_img" id="titleImg" style="display: none">
-                <div class="project_title_img_box">
-                    <img src="/img/blank.png" class="project_title_img_box_img">
-                </div>
-            </div>
-        </dl>
-        <div class="projectItem_image_form">
-            <div class="projectItem_image_formInner">
-                <div class="projectItem_image_tooltip">
-                    <div class="tooltip_label">
-                        <button type="button" class="LabelWithArea" onclick="$.contentShow($(this))">
-                            <em>
-                                <div class="Icon_svg">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                         fill="currentColor" class="bi bi-question-circle" viewBox="0 0 16 16">
-                                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                                        <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>
-                                    </svg>
-                                </div>
-                            </em>
-                        </button>
-                        <div class="LabelWithTooltipImg">
-                            <div class="LabelWithTooltip_image">
-                                <div class="imageWrapper">
+                </dt>
+                <dd class="projectItem_title_dd">
+                    후원자 분들이 프로젝트를 빠르게 이해할 수 있도록<br>
+                    명확하고 간략하게 소개해 주세요.
+                </dd>
+            </dl>
+            <div class="projectItem_title_form">
+                <div class="projectItem_title_formInner">
+                    <div class="projectItem_title_tooltip">
+                        <div class="tooltip_label">
+                            <button type="button" class="LabelWithArea" onclick="$.contentShow($(this))">
+                                <em>
+                                    <div class="Icon_svg">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                             fill="currentColor"
+                                             class="bi bi-question-circle" viewBox="0 0 16 16">
+                                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                            <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>
+                                        </svg>
+                                    </div>
+                                </em>
+                            </button>
+                            <div class="LabelWithTooltip">
+                                <div class="LabelWithTooltip_title">
+                                    <div class="title">
+                                        프로젝트 요약은<br>
+                                        어디에 표시되나요?
+                                    </div>
                                     <div class="image">
-                                        <img src="/img/project_upload.png">
+                                        <img src="/img/project_sum.png">
                                     </div>
                                 </div>
-
-                            </div>
-                            <em class="close" onclick="$.contentHide($(this))">
-                                <div class="close-1">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                         fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
-                                        <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
-                                    </svg>
-                                </div>
-                            </em>
-                        </div>
-                    </div>
-                </div>
-                <div class="projectItem_ImageUploader">
-                    <div class="ImageUploader" id="ImageUploader1">
-                        <div class="ImageUploader_inner">
-                            <div class="ImageUploader_Icon">
-                                <i>
-                                    <div>
+                                <em class="close" onclick="$.contentHide($(this))">
+                                    <div class="close-1">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                             fill="currentColor" class="bi bi-card-image" viewBox="0 0 16 16">
-                                            <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
-                                            <path d="M1.5 2A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13zm13 1a.5.5 0 0 1 .5.5v6l-3.775-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12v.54A.505.505 0 0 1 1 12.5v-9a.5.5 0 0 1 .5-.5h13z"/>
+                                             fill="currentColor"
+                                             class="bi bi-x" viewBox="0 0 16 16">
+                                            <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
                                         </svg>
                                     </div>
-                                </i>
+                                </em>
                             </div>
-                            <span class="ImageUploader_span">
+                        </div>
+                    </div>
+                    <div class="projectItem_input2">
+                        <div class="input_wrapper2">
+                            <textarea class="textAreaInner" id="text2" placeholder="프로젝트 요약을 입력해주세요."></textarea>
+                        </div>
+                    </div>
+                    <div class="blankBlock">
+                        <p class="InputLengthCheck"></p>
+                        <span class="InputLengthCheck_Notice" id="text_cnt2">0/32</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 소개 -->
+        <div class="projectItem">
+            <dl class="projectItem_title">
+                <dt class="projectItem_title_dt">
+                    프로젝트 소개
+                    <div class="Icon">
+                        <i class="fas fa-star-of-life iicon"></i>
+                    </div>
+                </dt>
+                <dd class="projectItem_title_dd">
+                    후원자 분들이 프로젝트를 자세하게 이해할 수 있도록 상세하게 소개해 주세요.
+                </dd>
+            </dl>
+            <div class="projectItem_title_form">
+                <div class="projectItem_title_formInner">
+                    <div class="projectItem_title_tooltip">
+                        <div class="tooltip_label">
+                            <button type="button" class="LabelWithArea" onclick="$.contentShow($(this))">
+                                <em>
+                                    <div class="Icon_svg">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                             fill="currentColor"
+                                             class="bi bi-question-circle" viewBox="0 0 16 16">
+                                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                            <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>
+                                        </svg>
+                                    </div>
+                                </em>
+                            </button>
+                            <div class="LabelWithTooltip">
+                                <div class="LabelWithTooltip_title">
+                                    <div class="title">
+                                        프로젝트 소개는<br>
+                                        어디에 표시되나요?
+                                    </div>
+                                    <div class="image">
+                                        <img src="/img/project_sum.png">
+                                    </div>
+                                </div>
+                                <em class="close" onclick="$.contentHide($(this))">
+                                    <div class="close-1">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                             fill="currentColor"
+                                             class="bi bi-x" viewBox="0 0 16 16">
+                                            <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                                        </svg>
+                                    </div>
+                                </em>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="projectItem_input3">
+                        <div class="input_wrapper3">
+                            <textarea class="textAreaInner2" id="text3" placeholder="프로젝트 소개를 입력해주세요."></textarea>
+                        </div>
+                    </div>
+                    <div class="blankBlock">
+                        <p class="InputLengthCheck"></p>
+                        <span class="InputLengthCheck_Notice" id="text_cnt3">0/32</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 이미지 등록 -->
+        <div class="projectItem">
+            <dl class="projectItem_title">
+                <dt class="projectItem_title_dt">
+                    프로젝트 대표 이미지
+                    <div class="Icon">
+                        <i class="fas fa-star-of-life iicon"></i>
+                    </div>
+                </dt>
+                <dd class="projectItem_title_dd">
+                    후원자분들이 프로젝트의 내용을 쉽게 파악하고 좋은<br> 인상을
+                    받을 수 있도록 이미지 가이드라인을 따라주세요.
+                </dd>
+                <div class="project_title_img" id="titleImg" style="display: none">
+                    <div class="project_title_img_box">
+                        <img src="/img/blank.png" class="project_title_img_box_img">
+                    </div>
+                </div>
+            </dl>
+            <div class="projectItem_image_form">
+                <div class="projectItem_image_formInner">
+                    <div class="projectItem_image_tooltip">
+                        <div class="tooltip_label">
+                            <button type="button" class="LabelWithArea" onclick="$.contentShow($(this))">
+                                <em>
+                                    <div class="Icon_svg">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                             fill="currentColor" class="bi bi-question-circle" viewBox="0 0 16 16">
+                                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                            <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>
+                                        </svg>
+                                    </div>
+                                </em>
+                            </button>
+                            <div class="LabelWithTooltipImg">
+                                <div class="LabelWithTooltip_image">
+                                    <div class="imageWrapper">
+                                        <div class="image">
+                                            <img src="/img/project_upload.png">
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <em class="close" onclick="$.contentHide($(this))">
+                                    <div class="close-1">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                             fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+                                            <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                                        </svg>
+                                    </div>
+                                </em>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="projectItem_ImageUploader">
+                        <div class="ImageUploader" id="ImageUploader1">
+                            <div class="ImageUploader_inner">
+                                <div class="ImageUploader_Icon">
+                                    <i>
+                                        <div>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                 fill="currentColor" class="bi bi-card-image" viewBox="0 0 16 16">
+                                                <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
+                                                <path d="M1.5 2A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13zm13 1a.5.5 0 0 1 .5.5v6l-3.775-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12v.54A.505.505 0 0 1 1 12.5v-9a.5.5 0 0 1 .5-.5h13z"/>
+                                            </svg>
+                                        </div>
+                                    </i>
+                                </div>
+                                <span class="ImageUploader_span">
                                 <i>
                                     <div>
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
@@ -386,50 +393,50 @@
                                 </i>
                                 &nbsp;이미지 업로드
                             </span>
-                            <p>
-                                파일형식은 jpg 또는 png로,
-                                <br>
-                                사이즈는 가로 1,240px, 세로 930px 이상
-                                <br>
-                                으로 올려주세요.
-                            </p>
+                                <p>
+                                    파일형식은 jpg 또는 png로,
+                                    <br>
+                                    사이즈는 가로 1,240px, 세로 930px 이상
+                                    <br>
+                                    으로 올려주세요.
+                                </p>
+                            </div>
+                            <input type="file" id="fileUpload1" accept=".jpg, .jpeg, .png"/>
                         </div>
-                        <input type="file" id="fileUpload1" accept=".jpg, .jpeg, .png"/>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="projectItem">
-        <dl class="projectItem_title">
-            <dt class="projectItem_title_dt">
-                프로젝트 보조 이미지
-            </dt>
-            <dd class="projectItem_title_dd">
-                후원자분들이 프로젝트의 내용을 쉽게 파악하고 좋은<br> 인상을
-                받을 수 있도록 이미지 가이드라인을 따라주세요.
-            </dd>
-            <div class="project_detail_img" id="subImg" style="display: none">
-            </div>
-        </dl>
-        <div class="projectItem_image_form">
-            <div class="projectItem_image_formInner">
-                <div class="projectItem_ImageUploader">
-                    <div class="ImageUploader" id="ImageUploader2">
-                        <div class="ImageUploader_inner">
-                            <div class="ImageUploader_Icon">
-                                <i>
-                                    <div>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                             fill="currentColor" class="bi bi-card-image" viewBox="0 0 16 16">
-                                            <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
-                                            <path d="M1.5 2A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13zm13 1a.5.5 0 0 1 .5.5v6l-3.775-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12v.54A.505.505 0 0 1 1 12.5v-9a.5.5 0 0 1 .5-.5h13z"/>
-                                        </svg>
-                                    </div>
-                                </i>
-                            </div>
-                            <span class="ImageUploader_span">
+        <div class="projectItem">
+            <dl class="projectItem_title">
+                <dt class="projectItem_title_dt">
+                    프로젝트 보조 이미지
+                </dt>
+                <dd class="projectItem_title_dd">
+                    후원자분들이 프로젝트의 내용을 쉽게 파악하고 좋은<br> 인상을
+                    받을 수 있도록 이미지 가이드라인을 따라주세요.
+                </dd>
+                <div class="project_detail_img" id="subImg" style="display: none">
+                </div>
+            </dl>
+            <div class="projectItem_image_form">
+                <div class="projectItem_image_formInner">
+                    <div class="projectItem_ImageUploader">
+                        <div class="ImageUploader" id="ImageUploader2">
+                            <div class="ImageUploader_inner">
+                                <div class="ImageUploader_Icon">
+                                    <i>
+                                        <div>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                 fill="currentColor" class="bi bi-card-image" viewBox="0 0 16 16">
+                                                <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
+                                                <path d="M1.5 2A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13zm13 1a.5.5 0 0 1 .5.5v6l-3.775-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12v.54A.505.505 0 0 1 1 12.5v-9a.5.5 0 0 1 .5-.5h13z"/>
+                                            </svg>
+                                        </div>
+                                    </i>
+                                </div>
+                                <span class="ImageUploader_span">
                                 <i>
                                     <div>
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
@@ -441,411 +448,423 @@
                                 </i>
                                 &nbsp;이미지 업로드
                             </span>
-                            <p>
-                                파일형식은 jpg 또는 png로,
-                                <br>
-                                사이즈는 가로 1,240px, 세로 930px 이상
-                                <br>
-                                으로 올려주세요.
-                            </p>
+                                <p>
+                                    파일형식은 jpg 또는 png로,
+                                    <br>
+                                    사이즈는 가로 1,240px, 세로 930px 이상
+                                    <br>
+                                    으로 올려주세요.
+                                </p>
+                            </div>
+                            <input multiple="multiple" type="file" id="fileUpload2" accept=".jpg, .jpeg, .png"/>
                         </div>
-                        <input multiple="multiple" type="file" id="fileUpload2" accept=".jpg, .jpeg, .png"/>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </form>
 </section>
 
 <section class="main_section" id="section2" style="display: none">
     <!-- 창작자 이름 -->
-    <div class="projectItem">
-        <dl class="projectItem_title">
-            <dt class="projectItem_title_dt">
-                창작자 이름
-                <div class="Icon">
-                    <i class="fas fa-star-of-life iicon"></i>
-                </div>
-            </dt>
-            <dd class="projectItem_title_dd">
-                창작자 개인이나 팀을 대표할 수 있는 이름을<br>
-                적어주세요.
-            </dd>
-        </dl>
-        <div class="projectItem_title_form">
-            <div class="projectItem_title_formInner">
-                <div class="projectItem_input">
+    <form>
+        <div class="projectItem">
+            <dl class="projectItem_title">
+                <dt class="projectItem_title_dt">
+                    창작자 이름
+                    <div class="Icon">
+                        <i class="fas fa-star-of-life iicon"></i>
+                    </div>
+                </dt>
+                <dd class="projectItem_title_dd">
+                    창작자 개인이나 팀을 대표할 수 있는 이름을<br>
+                    적어주세요.
+                </dd>
+            </dl>
+            <div class="projectItem_title_form">
+                <div class="projectItem_title_formInner">
+                    <div class="projectItem_input">
                     <span class="input_wrapper">
                         <input class="inputInner" type="text" id="text4" inputmode="text" placeholder="이름을 입력해주세요.">
                     </span>
-                </div>
-                <div class="blankBlock">
-                    <p class="InputLengthCheck"></p>
-                    <span class="InputLengthCheck_Notice" id="text_cnt4">0/32</span>
+                    </div>
+                    <div class="blankBlock">
+                        <p class="InputLengthCheck"></p>
+                        <span class="InputLengthCheck_Notice" id="text_cnt4">0/32</span>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <!-- 창작자 프로필 이미지 -->
-    <div class="projectItem">
-        <dl class="projectItem_title">
-            <dt class="projectItem_title_dt">
-                창작자 이미지
-                <!--<div class="Icon">
-                    <i class="fas fa-star-of-life iicon"></i>
-                </div>-->
-            </dt>
-            <dd class="projectItem_title_dd">
-                창작자 개인이나 팀의 사진을 올려주세요.
-            </dd>
-        </dl>
-        <div class="projectItem_title_form">
-            <div class="projectItem_title_formInner">
-                <div class="projectItem_profile">
-                    <div class="projectItem_profile_circle">
-                        <div class="profile_circle">
-                            <img src="/img/blank.png" class="profile_circle_img"/>
-                            <!--<img src="/img/blank.png" class="profile_circle_img" style="display: none"/>
-                            <div class="profile_circle_inner">
-                                프
-                            </div>-->
-                        </div>
-                    </div>
-                    <div class="projectItem_profile_upload">
-                        <div>
-                            <div class="profile_upload">
-                                <input type="file" accept=".jpg, .png, .jpeg">
-                                <div class="profileUploadIcon">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                         fill="currentColor" class="bi bi-upload" viewBox="0 0 16 16">
-                                        <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
-                                        <path d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708l3-3z"/>
-                                    </svg>
-                                </div>
-                                이미지 파일 업로드
+        <!-- 창작자 프로필 이미지 -->
+        <div class="projectItem">
+            <dl class="projectItem_title">
+                <dt class="projectItem_title_dt">
+                    창작자 이미지
+                    <!--<div class="Icon">
+                        <i class="fas fa-star-of-life iicon"></i>
+                    </div>-->
+                </dt>
+                <dd class="projectItem_title_dd">
+                    창작자 개인이나 팀의 사진을 올려주세요.
+                </dd>
+            </dl>
+            <div class="projectItem_title_form">
+                <div class="projectItem_title_formInner">
+                    <div class="projectItem_profile">
+                        <div class="projectItem_profile_circle">
+                            <div class="profile_circle">
+                                <img src="/img/blank.png" class="profile_circle_img"/>
+                                <!--<img src="/img/blank.png" class="profile_circle_img" style="display: none"/>
+                                <div class="profile_circle_inner">
+                                    프
+                                </div>-->
                             </div>
                         </div>
-                        <p>
-                            파일 형식은 jpg 또는 png 로,
-                            <br>
-                            사이즈는 가로 200px, 세로 200px 이상으로 올려주세요.
-                        </p>
+                        <div class="projectItem_profile_upload">
+                            <div>
+                                <div class="profile_upload">
+                                    <input type="file" accept=".jpg, .png, .jpeg">
+                                    <div class="profileUploadIcon">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                             fill="currentColor" class="bi bi-upload" viewBox="0 0 16 16">
+                                            <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+                                            <path d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708l3-3z"/>
+                                        </svg>
+                                    </div>
+                                    이미지 파일 업로드
+                                </div>
+                            </div>
+                            <p>
+                                파일 형식은 jpg 또는 png 로,
+                                <br>
+                                사이즈는 가로 200px, 세로 200px 이상으로 올려주세요.
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <!-- 창작자 소개 -->
-    <div class="projectItem">
-        <dl class="projectItem_title">
-            <dt class="projectItem_title_dt">
-                창작자 소개
-                <div class="Icon">
-                    <i class="fas fa-star-of-life iicon"></i>
-                </div>
-            </dt>
-            <dd class="projectItem_title_dd">
-                2~3문장으로 창작자님의 이력과 간단한 소개를<br>
-                써주세요.
-            </dd>
-        </dl>
-        <div class="projectItem_title_form">
-            <div class="projectItem_title_formInner">
-                <div class="projectItem_input3">
-                    <div class="input_wrapper3">
-                        <textarea class="textAreaInner2" id="text5" placeholder="창작자 소개를 입력해주세요."></textarea>
+        <!-- 창작자 소개 -->
+        <div class="projectItem">
+            <dl class="projectItem_title">
+                <dt class="projectItem_title_dt">
+                    창작자 소개
+                    <div class="Icon">
+                        <i class="fas fa-star-of-life iicon"></i>
+                    </div>
+                </dt>
+                <dd class="projectItem_title_dd">
+                    2~3문장으로 창작자님의 이력과 간단한 소개를<br>
+                    써주세요.
+                </dd>
+            </dl>
+            <div class="projectItem_title_form">
+                <div class="projectItem_title_formInner">
+                    <div class="projectItem_input3">
+                        <div class="input_wrapper3">
+                            <textarea class="textAreaInner2" id="text5" placeholder="창작자 소개를 입력해주세요."></textarea>
+                        </div>
+                    </div>
+                    <div class="blankBlock">
+                        <p class="InputLengthCheck"></p>
+                        <span class="InputLengthCheck_Notice" id="text_cnt5">0/32</span>
                     </div>
                 </div>
-                <div class="blankBlock">
-                    <p class="InputLengthCheck"></p>
-                    <span class="InputLengthCheck_Notice" id="text_cnt5">0/32</span>
+            </div>
+        </div>
+        <!-- 입금계좌 등록 -->
+        <div class="projectItem">
+            <dl class="projectItem_title">
+                <dt class="projectItem_title_dt">
+                    입금계좌
+                    <div class="Icon">
+                        <i class="fas fa-star-of-life iicon"></i>
+                    </div>
+                </dt>
+                <dd class="projectItem_title_dd">
+                    후원금을 전달받을 계좌를 입력해주세요.
+                </dd>
+            </dl>
+            <div class="projectItem_bank_form">
+                <select class="form-select selectBox" style="display: block" id="bank">
+                    <option value="" selected>은행을 선택해 주세요.</option>
+                    <option value="국민">국민은행</option>
+                    <option value="신한">신한은행</option>
+                    <option value="하나">하나은행</option>
+                    <option value="농협">농협</option>
+                    <option value="수협">수협</option>
+                </select>
+                <div class="projectItem_input4" style="display: block">
+                    <input class="inputInner2" type="text" inputmode="text" placeholder="계좌번호를 입력해주세요." id="acno">
+                </div>
+                <div class="projectItem_input5" style="display: block">
+                    <input class="inputInner3" type="text" inputmode="text" placeholder="예금주를 입력해주세요." id="acholder">
                 </div>
             </div>
         </div>
-    </div>
-    <!-- 입금계좌 등록 -->
-    <div class="projectItem">
-        <dl class="projectItem_title">
-            <dt class="projectItem_title_dt">
-                입금계좌
-                <div class="Icon">
-                    <i class="fas fa-star-of-life iicon"></i>
-                </div>
-            </dt>
-            <dd class="projectItem_title_dd">
-                후원금을 전달받을 계좌를 입력해주세요.
-            </dd>
-        </dl>
-        <div class="projectItem_bank_form">
-            <select class="form-select selectBox" style="display: block" id="bank">
-                <option value="" selected>은행을 선택해 주세요.</option>
-                <option value="국민">국민은행</option>
-                <option value="신한">신한은행</option>
-                <option value="하나">하나은행</option>
-                <option value="농협">농협</option>
-                <option value="수협">수협</option>
-            </select>
-            <div class="projectItem_input4" style="display: block">
-                <input class="inputInner2" type="text" inputmode="text" placeholder="계좌번호를 입력해주세요." id="acno">
-            </div>
-            <div class="projectItem_input5" style="display: block">
-                <input class="inputInner3" type="text" inputmode="text" placeholder="예금주를 입력해주세요." id="acholder">
-            </div>
-        </div>
-    </div>
+    </form>
 </section>
 
 <section class="main_section" id="section3" style="display: none">
     <!-- 제목 -->
-    <div class="projectItem">
-        <dl class="projectItem_title">
-            <dt class="projectItem_title_dt">
-                목표 금액
-                <div class="Icon">
-                    <i class="fas fa-star-of-life iicon"></i>
-                </div>
-            </dt>
-            <dd class="projectItem_title_dd">
-                프로젝트를 완수하기 위해 필요한 금액을 설정해 주세요.
-            </dd>
-            <div class="projectItem_ProjectNotice">
-                <div class="NoticeTitle">
-                    <div>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                             class="bi bi-exclamation-circle" viewBox="0 0 16 16">
-                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                            <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
-                        </svg>
+    <form>
+        <div class="projectItem">
+            <dl class="projectItem_title">
+                <dt class="projectItem_title_dt">
+                    목표 금액
+                    <div class="Icon">
+                        <i class="fas fa-star-of-life iicon"></i>
                     </div>
-                    목표 금액 설정 시 꼭 알아두세요!!
+                </dt>
+                <dd class="projectItem_title_dd">
+                    프로젝트를 완수하기 위해 필요한 금액을 설정해 주세요.
+                </dd>
+                <div class="projectItem_ProjectNotice">
+                    <div class="NoticeTitle">
+                        <div>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                 class="bi bi-exclamation-circle" viewBox="0 0 16 16">
+                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
+                            </svg>
+                        </div>
+                        목표 금액 설정 시 꼭 알아두세요!!
+                    </div>
+                    <div>
+                        <p>종료일까지 목표금액을 달성하지 못하면 후원자 결제가 진행되지 않습니다.</p>
+                        <p>종료 전 후원 취소를 대비해 10% 이상 초과 달성을 목표해 주세요.</p>
+                        <p>제작비, 선물 배송비, 인건비, 예비 비용 등을 함께 고려해주세요.</p>
+                    </div>
                 </div>
-                <div>
-                    <p>종료일까지 목표금액을 달성하지 못하면 후원자 결제가 진행되지 않습니다.</p>
-                    <p>종료 전 후원 취소를 대비해 10% 이상 초과 달성을 목표해 주세요.</p>
-                    <p>제작비, 선물 배송비, 인건비, 예비 비용 등을 함께 고려해주세요.</p>
-                </div>
-            </div>
-        </dl>
-        <div class="projectItem_title_form">
-            <div class="projectItem_title_formInner">
-                <div class="projectGoalFunding">
+            </dl>
+            <div class="projectItem_title_form">
+                <div class="projectItem_title_formInner">
+                    <div class="projectGoalFunding">
 
-                    <p>펀딩금액</p>
-                    <div class="InputWithGoal" style="margin-bottom: 20px">
-                        <div class="InputWithGoal_Check">
+                        <p>펀딩금액</p>
+                        <div class="InputWithGoal" style="margin-bottom: 20px">
+                            <div class="InputWithGoal_Check">
                         <span class="InputWithGoal_InputWrapper">
                             <input type="text" inputmode="numeric" placeholder="물품 한개당 금액을 입력해주세요."
                                    autocomplete="off" autocapitalize="off" id="fm">
                             &nbsp;원
                         </span>
+                            </div>
                         </div>
-                    </div>
 
-                    <p>수량한도</p>
-                    <div class="InputWithGoal" style="margin-bottom: 20px">
-                        <div class="InputWithGoal_Check">
+                        <p>수량한도</p>
+                        <div class="InputWithGoal" style="margin-bottom: 20px">
+                            <div class="InputWithGoal_Check">
                         <span class="InputWithGoal_InputWrapper">
                             <input type="text" inputmode="numeric" placeholder="판매 가능한 최대 개수를 입력해주세요."
                                    autocomplete="off" autocapitalize="off" id="limitcnt">
                             &nbsp;개
                         </span>
+                            </div>
                         </div>
-                    </div>
 
-                    <p>목표갯수</p>
-                    <div class="InputWithGoal">
-                        <div class="InputWithGoal_Check">
+                        <p>목표갯수</p>
+                        <div class="InputWithGoal">
+                            <div class="InputWithGoal_Check">
                         <span class="InputWithGoal_InputWrapper">
                             <input type="text" inputmode="numeric" placeholder="판매 목표 개수를 입력해주세요."
                                    autocomplete="off" autocapitalize="off" id="targetcnt">
                             &nbsp;개
                         </span>
-                        </div>
-                        <div class="InputWithGoal_Notice">
-                            <div class="totalAmount">
-                                <span>목표금액 달성 시 예상 수령액</span>
-                                <em>
-                                    0
-                                    원
-                                </em>
                             </div>
-                            <div class="feewrap1">
-                                총 수수료
-                                <em>
-                                    0
-                                    원
-                                </em>
-                            </div>
-                            <div class="feewrap2">
-                                결제대행 수수료 (총 결제액의 3% + VAT)
-                                <em>
-                                    0
-                                    원
-                                </em>
-                            </div>
-                            <div class="feewrap3">
-                                플랫폼 수수료(총 모금액의 5% + VAT)
-                                <em>
-                                    0
-                                    원
-                                </em>
+                            <div class="InputWithGoal_Notice">
+                                <div class="totalAmount">
+                                    <span>목표금액 달성 시 예상 수령액</span>
+                                    <em>
+                                        0
+                                        원
+                                    </em>
+                                </div>
+                                <div class="feewrap1">
+                                    총 수수료
+                                    <em>
+                                        0
+                                        원
+                                    </em>
+                                </div>
+                                <div class="feewrap2">
+                                    결제대행 수수료 (총 결제액의 3% + VAT)
+                                    <em>
+                                        0
+                                        원
+                                    </em>
+                                </div>
+                                <div class="feewrap3">
+                                    플랫폼 수수료(총 모금액의 5% + VAT)
+                                    <em>
+                                        0
+                                        원
+                                    </em>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <!-- 요약 -->
-    <div class="projectItem">
-        <dl class="projectItem_title">
-            <dt class="projectItem_title_dt">
-                펀딩 일정
-                <div class="Icon">
-                    <i class="fas fa-star-of-life iicon"></i>
-                </div>
-            </dt>
-            <dd class="projectItem_title_dd">
-                설정한 일시가 되면 펀딩이 자동 시작됩니다. 펀딩 시작<br>
-                전까지 날짜를 변경할 수 있고, 즉시 펀딩을 시작할 수도<br>
-                있습니다.
-            </dd>
-        </dl>
-        <div class="projectItem_title_form">
-            <div class="projectItem_date">
-                <ol class="projectItem_date_ol">
-                    <li class="FundingPlan1">
-                        <div class="FundingPlan1_div">
-                            <div class="FindPlan1_startDate">
-                                <p>시작일</p>
-                                <div class="Datepickers">
-                                    <div class="Datepickers_inner">
-                                        <button>
-                                            <div class="calendar-dot">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                     fill="currentColor" class="bi bi-calendar3" viewBox="0 0 16 16">
-                                                    <path d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857V3.857z"/>
-                                                    <path d="M6.5 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
-                                                </svg>
-                                                <input type="text" id="start_dates" name="start_dates" readonly
-                                                       size="12"/>
-                                            </div>
-                                        </button>
+        <!-- 요약 -->
+        <div class="projectItem">
+            <dl class="projectItem_title">
+                <dt class="projectItem_title_dt">
+                    펀딩 일정
+                    <div class="Icon">
+                        <i class="fas fa-star-of-life iicon"></i>
+                    </div>
+                </dt>
+                <dd class="projectItem_title_dd">
+                    설정한 일시가 되면 펀딩이 자동 시작됩니다. 펀딩 시작<br>
+                    전까지 날짜를 변경할 수 있고, 즉시 펀딩을 시작할 수도<br>
+                    있습니다.
+                </dd>
+            </dl>
+            <div class="projectItem_title_form">
+                <div class="projectItem_date">
+                    <ol class="projectItem_date_ol">
+                        <li class="FundingPlan1">
+                            <div class="FundingPlan1_div">
+                                <div class="FindPlan1_startDate">
+                                    <p>시작일</p>
+                                    <div class="Datepickers">
+                                        <div class="Datepickers_inner">
+                                            <button>
+                                                <div class="calendar-dot">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                         fill="currentColor" class="bi bi-calendar3"
+                                                         viewBox="0 0 16 16">
+                                                        <path d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857V3.857z"/>
+                                                        <path d="M6.5 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
+                                                    </svg>
+                                                    <input type="text" id="start_dates" name="start_dates" readonly
+                                                           size="12"/>
+                                                </div>
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="FindPlan1_endDate">
-                                <button type="button" onclick="$.contentShow2($(this))">
-                                    <p>종료일</p>
-                                    <em>
-                                        <div class="question_line">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                 fill="currentColor" class="bi bi-question-circle" viewBox="0 0 16 16">
-                                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                                                <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>
-                                            </svg>
-                                        </div>
-                                    </em>
-                                </button>
+                                <div class="FindPlan1_endDate">
+                                    <button type="button" onclick="$.contentShow2($(this))">
+                                        <p>종료일</p>
+                                        <em>
+                                            <div class="question_line">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                     fill="currentColor" class="bi bi-question-circle"
+                                                     viewBox="0 0 16 16">
+                                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                                    <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>
+                                                </svg>
+                                            </div>
+                                        </em>
+                                    </button>
 
-                                <div class="Datepickers">
-                                    <div class="Datepickers_inner">
-                                        <button>
-                                            <div class="calendar-dot">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                     fill="currentColor" class="bi bi-calendar3" viewBox="0 0 16 16">
-                                                    <path d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857V3.857z"/>
-                                                    <path d="M6.5 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
-                                                </svg>
-                                                <input type="text" id="end_dates" name="end_dates" readonly size="12"/>
-                                            </div>
-                                        </button>
+                                    <div class="Datepickers">
+                                        <div class="Datepickers_inner">
+                                            <button>
+                                                <div class="calendar-dot">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                         fill="currentColor" class="bi bi-calendar3"
+                                                         viewBox="0 0 16 16">
+                                                        <path d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857V3.857z"/>
+                                                        <path d="M6.5 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
+                                                    </svg>
+                                                    <input type="text" id="end_dates" name="end_dates" readonly
+                                                           size="12"/>
+                                                </div>
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="LabelWithTooltip2">
-                            선택하신 종료일 다음날 0시에 펀딩이 종료됩니다.
-                            <em class="close" onclick="$.contentHide($(this))">
-                                <div class="close-1">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                         class="bi bi-x" viewBox="0 0 16 16">
-                                        <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
-                                    </svg>
-                                </div>
-                            </em>
-                        </div>
-                        <div class="FundingTerm">
-                            <p>펀딩기간</p>
-                            최대 60일
-                        </div>
-                    </li>
-                    <li class="FundingPlan2">
-                        <div class="FundingPlan_end">
-                            <div class="FundingPlan_end_inner">
-                                <button class="FundingPlan_end_btn" type="button" onclick="$.contentShow($(this))">
-                                    <p>후원자 결제 종료</p>
-                                    <em>
-                                        <div class="question_line">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                 fill="currentColor" class="bi bi-question-circle" viewBox="0 0 16 16">
-                                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                                                <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>
-                                            </svg>
-                                        </div>
-                                    </em>
-                                </button>
-                                <div class="LabelWithTooltip2">
-                                    프로젝트가 성공하면 펀딩 종료 다음 날 후원금이 결제됩니다. 결제가 이루어지지 않은 경우 24시간 간격으로 7일 동안 결제를 시도합니다.
-                                    <em class="close" onclick="$.contentHide($(this))">
-                                        <div class="close-1">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                 fill="currentColor"
-                                                 class="bi bi-x" viewBox="0 0 16 16">
-                                                <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
-                                            </svg>
-                                        </div>
-                                    </em>
+                            <div class="LabelWithTooltip2">
+                                선택하신 종료일 다음날 0시에 펀딩이 종료됩니다.
+                                <em class="close" onclick="$.contentHide($(this))">
+                                    <div class="close-1">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                             fill="currentColor"
+                                             class="bi bi-x" viewBox="0 0 16 16">
+                                            <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                                        </svg>
+                                    </div>
+                                </em>
+                            </div>
+                            <div class="FundingTerm">
+                                <p>펀딩기간</p>
+                                최대 60일
+                            </div>
+                        </li>
+                        <li class="FundingPlan2">
+                            <div class="FundingPlan_end">
+                                <div class="FundingPlan_end_inner">
+                                    <button class="FundingPlan_end_btn" type="button" onclick="$.contentShow($(this))">
+                                        <p>후원자 결제 종료</p>
+                                        <em>
+                                            <div class="question_line">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                     fill="currentColor" class="bi bi-question-circle"
+                                                     viewBox="0 0 16 16">
+                                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                                    <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>
+                                                </svg>
+                                            </div>
+                                        </em>
+                                    </button>
+                                    <div class="LabelWithTooltip2">
+                                        프로젝트가 성공하면 펀딩 종료 다음 날 후원금이 결제됩니다. 결제가 이루어지지 않은 경우 24시간 간격으로 7일 동안 결제를 시도합니다.
+                                        <em class="close" onclick="$.contentHide($(this))">
+                                            <div class="close-1">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                     fill="currentColor"
+                                                     class="bi bi-x" viewBox="0 0 16 16">
+                                                    <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                                                </svg>
+                                            </div>
+                                        </em>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        종료일 다음 날부터 7일
-                    </li>
-                    <li class="FundingPlan3">
-                        <div class="FundingPlan_end">
-                            <div class="FundingPlan_end_inner">
-                                <button class="FundingPlan_end_btn" type="button" onclick="$.contentShow($(this))">
-                                    <p>정산일</p>
-                                    <em>
-                                        <div class="question_line">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                 fill="currentColor" class="bi bi-question-circle" viewBox="0 0 16 16">
-                                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                                                <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>
-                                            </svg>
-                                        </div>
-                                    </em>
-                                </button>
-                                <div class="LabelWithTooltip2">
-                                    모금액은 후원자 결제 종료 다음 날부터 영업일 기준(주말 및 공휴일 제외) 7일째 되는 날 입금 됩니다.
-                                    <em class="close" onclick="$.contentHide($(this))">
-                                        <div class="close-1">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                 fill="currentColor"
-                                                 class="bi bi-x" viewBox="0 0 16 16">
-                                                <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
-                                            </svg>
-                                        </div>
-                                    </em>
+                            종료일 다음 날부터 7일
+                        </li>
+                        <li class="FundingPlan3">
+                            <div class="FundingPlan_end">
+                                <div class="FundingPlan_end_inner">
+                                    <button class="FundingPlan_end_btn" type="button" onclick="$.contentShow($(this))">
+                                        <p>정산일</p>
+                                        <em>
+                                            <div class="question_line">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                     fill="currentColor" class="bi bi-question-circle"
+                                                     viewBox="0 0 16 16">
+                                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                                    <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>
+                                                </svg>
+                                            </div>
+                                        </em>
+                                    </button>
+                                    <div class="LabelWithTooltip2">
+                                        모금액은 후원자 결제 종료 다음 날부터 영업일 기준(주말 및 공휴일 제외) 7일째 되는 날 입금 됩니다.
+                                        <em class="close" onclick="$.contentHide($(this))">
+                                            <div class="close-1">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                     fill="currentColor"
+                                                     class="bi bi-x" viewBox="0 0 16 16">
+                                                    <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                                                </svg>
+                                            </div>
+                                        </em>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        후원자 결제 종료 다음 날부터 7영업일
-                    </li>
-                </ol>
+                            후원자 결제 종료 다음 날부터 7영업일
+                        </li>
+                    </ol>
+                </div>
             </div>
         </div>
-    </div>
+    </form>
 </section>
 <footer class="footer_save" id="footer" style="display: none">
     <div>

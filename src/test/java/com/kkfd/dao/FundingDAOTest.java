@@ -22,12 +22,12 @@ class FundingDAOTest {
 	
 	Logger log = LoggerFactory.getLogger(this.getClass());
 	
-	@Test
-	void selectTest() throws FindException {
-		List<FundingDTO> list = dao.selectFunsByProjNo(357, "t");
-		int expectedSize = 98;
-		assertEquals(expectedSize, list.size());
-	}
+//	@Test
+//	void selectTest() throws FindException {
+//		List<FundingDTO> list = dao.selectFunsByProjNo(357, "t");
+//		int expectedSize = 98;
+//		assertEquals(expectedSize, list.size());
+//	}
 	
 	/*@Test
 	void insertTest() throws AddException {

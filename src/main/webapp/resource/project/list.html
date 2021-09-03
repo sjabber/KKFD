@@ -121,6 +121,17 @@
           url: url,
         	method: "GET",
         	data : data,
+          xhrFields: {
+                    // Note 중요!!
+                    //백과 프론트가 분리된 경우 withCredentials를 true로 해주어야 cookie값을 받아올 수 있다.
+                    withCredentials: true
+          },
+          statusCode: {
+            204:function () {
+              divHtml += '<div>등록된 프로젝트가 없습니다</div>';
+              $divObj.html(divHtml);
+            }
+          },
         	success: function(responseData){
         		$(responseData).each(function (i, e) {
               var projNo = e.projNo;
@@ -182,6 +193,14 @@
             url: 'http://localhost:9999/kkfd/project/list/' + page,
         		method: "GET",
         		data : data,
+            xhrFields: {withCredentials: true},
+            statusCode: {
+              204:function () {
+                // divHtml += '<div>등록된 프로젝트가 없습니다</div>';
+                divHtml += '<div id="no_content_img"><img src="/img/no_project.png" /></div>';
+                $divObj.html(divHtml);
+              }
+            },
         		success: function(responseData){
               console.log("ajax안 : " + data);
         			$(responseData).each(function (i, e) {
@@ -275,6 +294,7 @@
         		url: url,
         		method: method,
         		data : data,
+            xhrFields: {withCredentials: true},
         		success: function(responseData){
         			$(responseData).each(function (i, e) {
               //추가
@@ -340,12 +360,8 @@
 
           //북마크 버튼
           $('div.focus_item_warp').on("click", "button.category_bookmark_btn", function() {
-          alert($(this).val());
-          //alert("test");
           var $iconObj = $(this).children();
           if($(this).hasClass("off")) {
-            alert("if");
-          
           $.ajax({
             url: 'http://localhost:9999/kkfd/project/' + $(this).val() + '/bookmark',
             method: "POST",
@@ -358,16 +374,19 @@
             },
             data : '{ "projNo":"' + $(this).val() + '" }',
             timeout: {},
+            xhrFields: {withCredentials: true},
             success: function(responseData){
-              alert("추가성공");
+              alert("북마크에 추가되었습니다");
               $iconObj.removeClass("far fa-bookmark");
               $iconObj.addClass("fas fa-bookmark");
               // $('#bm_icon').removeClass("far fa-bookmark");
               // $('#bm_icon').addClass("fas fa-bookmark");
-            }
+            },
+        		error: function(jqXHR){
+        			alert("로그인하세요"); //404, 403, 500
+        		}
           });
         } else{
-          alert("else");
           $.ajax({
             url: 'http://localhost:9999/kkfd/project/' + $(this).val() + '/bookmark',
             method: "DELETE",
@@ -379,41 +398,22 @@
             "Content-Type": "application/json;charset=utf-8",
             },
             data : '{ "projNo":"' + $(this).val() + '" }',
+            xhrFields: {withCredentials: true},
             timeout: {},
             success: function(responseData){
-              alert("삭제성공");
+              alert("북마크에서 삭제되었습니다");
               $iconObj.removeClass("fas fa-bookmark");
               $iconObj.addClass("far fa-bookmark");
               // $('#bm_icon').removeClass("far fa-bookmark");
               // $('#bm_icon').addClass("fas fa-bookmark");
-            }
+            },
+        		error: function(jqXHR){
+        			alert("로그인하세요"); //404, 403, 500
+        		}
           });
         }
         $(this).toggleClass("off");
       });
-
-      //     // //북마크 버튼
-      //     // $('button.category_bookmark_btn').on("click", function(event) {
-      //     //   var projNo = $(this).val();
-      //     //   $.ajax({
-      //     //     url: 'http://localhost:9999/kkfd/project/' + projNo + '/bookmark',
-      //   	// 	  method: "POST",
-      //     //     transformRequest: [null],
-      //     //     transformResponse: [null],
-      //     //     jsonpCallbackParam: "callback",
-      //     //     headers: {
-      //     //     Accept: "application/json, text/plain, */*",
-      //     //     "Content-Type": "application/json;charset=utf-8",
-      //     //     },
-      //   	// 	  data : '{ "projNo":"' + projNo + '" }',
-      //     //     timeout: {},
-      //   	// 	  success: function(responseData){
-      //     //       alert("추가성공");
-
-      //     //     }
-      //     //   });
-      //     // });
-
         });
         
     </script>
@@ -449,11 +449,15 @@
           <div class="header_customer_warp">
             <button class="header_customer_btn">
               <div class="header_login&signup">
-                <span class="login&signup_name">로그인 / 회원가입</span>
+                <span class="login_signup_name">
+                  <a class="admin-no" href="/member/login">로그인 / 회원가입</a>
+                  <a class="admin-yes" href="/creator/cmypage">마이페이지</a>
+                  <a class="admin-yes" href="javascript:Logout()">로그아웃</a>
+                </span>
               </div>
-              <div class="header_profile_img">
+              <!-- <div class="header_profile_img">
                 <img src="./img/blank.png" />
-              </div>
+              </div> -->
             </button>
           </div>
         </div>
@@ -581,5 +585,56 @@
         </div>
       </div>
     </section>
+    <script>
+      function logined() {
+        $("span.login_signup_name > a.admin-no").hide();
+        $("span.login_signup_name > a.admin-yes").show();
+      }
+
+      function logouted() {
+        $("span.login_signup_name > a.admin-no").show();
+        $("span.login_signup_name > a.admin-yes").hide();
+      }
+
+      function Logout() {
+        var backurl = "http://localhost:9999/kkfd/member/logout";
+        $.ajax({
+          url: backurl,
+          method: "get",
+          xhrFields: {
+            withCredentials: true,
+          },
+          success: function () {
+            alert("로그아웃 되었습니다.");
+            logouted();
+            document.location.reload();
+          },
+          error: function (xhr) {
+            alert("로그아웃 에러");
+          },
+        });
+      }
+
+      function checkLogined() {
+        var backurl = "http://localhost:9999/kkfd/member/logincheck";
+        $.ajax({
+          url: backurl,
+          method: "get",
+          dataType: "json",
+          xhrFields: {
+            withCredentials: true,
+          },
+          success: function (result) {
+            logined();
+          },
+          error: function (result) {
+            logouted();
+          },
+        });
+      }
+
+      logouted();
+      checkLogined();
+    </script>
   </body>
 </html>

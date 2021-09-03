@@ -1,105 +1,296 @@
 <!DOCTYPE html>
 <html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/css/index.css" />
+    <link rel="stylesheet" type="text/css" href="/css/public.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
+      crossorigin="anonymous"
+    ></script>
+    <title>크크펀딩</title>
+    <script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <link rel="stylesheet" type="text/css" href="/css/index.css"/>
-  <link rel="stylesheet" type="text/css" href="/css/public.css"/>
-  <link
-          href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css"
-          rel="stylesheet"
-          integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We"
-          crossorigin="anonymous"
-  />
-  <script
-          src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
-          integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
-          crossorigin="anonymous"
-  ></script>
-  <title>크크펀딩</title>
-  <script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
+    <!-- [ REQUIRED ] -->
+    <link rel="stylesheet" href="/css/bpHS.min.css" />
 
-  <!-- [ REQUIRED ] -->
-  <link rel="stylesheet" href="/css/bpHS.min.css">
+    <script>
+      const categoryNoChange = {
+        1: "캔들",
+        2: "조향",
+        3: "비누",
+        4: "도예",
+        5: "섬유·자수",
+      };
+    </script>
+    <script>
+      $(function () {
+        var url = "http://localhost:9999/kkfd/main";
+        var projArea;
+        var $divObj1 = $("div#area1");
+        var $divObj2 = $("div#area2");
+        var $divObj3 = $("div#area3");
+        var $divObj4 = $("div#area4");
+        var divHtml = "";
+        $.ajax({
+          method: "GET",
+          transformRequest: [null],
+          transformResponse: [null],
+          jsonpCallbackParam: "callback",
+          url: url,
+          headers: {
+            Accept: "application/json, text/plain, */*",
+          },
+          xhrFields: { withCredentials: true },
+          success: function (responseData) {
+            $(responseData).each(function (i, e) {
+              projArea = e.projArea;
+              var projNo = e.project.projNo;
+              var projCategory = e.project.projCategory;
+              var crNn = e.project.creator.crNn;
+              var projBm = e.project.projBm;
+              var projTitle = e.project.projTitle;
+              var projGoals = e.project.projGoals;
+              var projStart = e.project.projStart;
+              var projEnd = e.project.projEnd;
 
-</head>
-<body>
-<!-- header -->
-<header class="main_header">
-  <div class="main_header_warp">
-    <div class="header_menu_warp">
-      <div class="header_projectsearch">
-        <button class="projectsearch_item">
-          <a style="text-decoration: none; color: black" href="/project/list/">
-            <i class="fas fa-align-justify fa-lg"></i>
-            <span class="projectsearch_name">프로젝트 둘러보기</span>
+              divHtml = "";
+              divHtml += '<div class="focus_item">';
+              divHtml +=
+                '<a class="info_btn" href="/project/info?no=' + projNo + '">';
+              divHtml += '<div class="focus_item_img">';
+              divHtml +=
+                '<img class="focus_item_img_item" src="/img/project/' +
+                projNo +
+                "/" +
+                projNo +
+                '_t.png" alt="" />';
+              // divHtml += '<img class="focus_item_img_item" src="' + imgPath(projNo) + '" alt="" />';
+              //
+              divHtml += "</div>";
+              divHtml += "</a>";
+              divHtml += '<div class="focus_item_category">';
+              divHtml += '<div class="category_warp">';
+              divHtml +=
+                '<span class="category_item1">' +
+                categoryNoChange[projCategory] +
+                "</span>";
+              divHtml += '<span class="category_between"> | </span>';
+              divHtml += '<span class="category_item2">' + crNn + "</span>";
+              divHtml += "</div>";
+              divHtml += '<div class="category_bookmark">';
+              if (projBm == 1) {
+                divHtml +=
+                  '<button class="category_bookmark_btn" value="' +
+                  projNo +
+                  '">';
+              } else {
+                divHtml +=
+                  '<button class="category_bookmark_btn off" value="' +
+                  projNo +
+                  '">';
+              }
+              if (projBm == 1) {
+                divHtml += '<i class="fas fa-bookmark" id="bm_icon"></i>';
+              } else {
+                divHtml += '<i class="far fa-bookmark" id="bm_icon"></i>';
+              }
+              divHtml += "</button>";
+              divHtml += "</div>";
+              divHtml += "</div>";
+              divHtml +=
+                '<a class="info_btn" href="/project/info?no=' + projNo + '">';
+              divHtml += '<div class="focus_item_title">';
+              divHtml +=
+                '<span class="focus_item_title_value">' + projTitle + "</span>";
+              divHtml += "</div>";
+              divHtml += "</a>";
+              divHtml += '<div class="focus_item_purpose">';
+              divHtml +=
+                '<span class="purpose_value">' + projGoals + "% 달성</span>";
+              divHtml += "</div>";
+              divHtml += '<div class="focus_item_term">';
+              divHtml +=
+                '<span class="term">' + projStart + " ~ " + projEnd + "</span>";
+              divHtml += "</div>";
+              divHtml += "</div>";
+
+              if (projArea == 1) {
+                $divObj1.append(divHtml);
+              } else if (projArea == 2) {
+                $divObj2.append(divHtml);
+              } else if (projArea == 3) {
+                $divObj3.append(divHtml);
+              } else if (projArea == 4) {
+                $divObj4.append(divHtml);
+              }
+            });
+          },
+        });
+
+        //북마크 버튼
+        $("div.focus_item_warp").on(
+          "click",
+          "button.category_bookmark_btn",
+          function () {
+            var $iconObj = $(this).children();
+            if ($(this).hasClass("off")) {
+              $.ajax({
+                url:
+                  "http://localhost:9999/kkfd/project/" +
+                  $(this).val() +
+                  "/bookmark",
+                method: "POST",
+                transformRequest: [null],
+                transformResponse: [null],
+                jsonpCallbackParam: "callback",
+                headers: {
+                  Accept: "application/json, text/plain, */*",
+                  "Content-Type": "application/json;charset=utf-8",
+                },
+                data: '{ "projNo":"' + $(this).val() + '" }',
+                timeout: {},
+                xhrFields: { withCredentials: true },
+                success: function (responseData) {
+                  alert("북마크에 추가되었습니다");
+                  $iconObj.removeClass("far fa-bookmark");
+                  $iconObj.addClass("fas fa-bookmark");
+                  // $('#bm_icon').removeClass("far fa-bookmark");
+                  // $('#bm_icon').addClass("fas fa-bookmark");
+                },
+                error: function (jqXHR) {
+                  alert("로그인하세요"); //404, 403, 500
+                },
+              });
+            } else {
+              $.ajax({
+                url:
+                  "http://localhost:9999/kkfd/project/" +
+                  $(this).val() +
+                  "/bookmark",
+                method: "DELETE",
+                transformRequest: [null],
+                transformResponse: [null],
+                jsonpCallbackParam: "callback",
+                headers: {
+                  Accept: "application/json, text/plain, */*",
+                  "Content-Type": "application/json;charset=utf-8",
+                },
+                data: '{ "projNo":"' + $(this).val() + '" }',
+                xhrFields: { withCredentials: true },
+                timeout: {},
+                success: function (responseData) {
+                  alert("북마크에서 삭제되었습니다");
+                  $iconObj.removeClass("fas fa-bookmark");
+                  $iconObj.addClass("far fa-bookmark");
+                  // $('#bm_icon').removeClass("far fa-bookmark");
+                  // $('#bm_icon').addClass("fas fa-bookmark");
+                },
+                error: function (jqXHR) {
+                  alert("로그인하세요"); //404, 403, 500
+                },
+              });
+            }
+            $(this).toggleClass("off");
+          }
+        );
+      });
+    </script>
+  </head>
+  <body>
+    <!-- header -->
+    <header class="main_header">
+      <div class="main_header_warp">
+        <div class="header_menu_warp">
+          <div class="header_projectsearch">
+            <button class="projectsearch_item">
+              <a
+                style="text-decoration: none; color: black"
+                href="/project/list/"
+              >
+                <i class="fas fa-align-justify fa-lg"></i>
+                <span class="projectsearch_name">프로젝트 둘러보기</span>
+              </a>
+            </button>
+          </div>
+          <div class="header_projectupload">
+            <a style="text-decoration: none" href="/register/registerAgree/">
+              <span class="projectupload_name">프로젝트 올리기</span>
+            </a>
+          </div>
+        </div>
+        <div class="header_mainlogo">
+          <a style="text-decoration: none" href="/">
+            <span class="header_mainlogo_item">크크펀딩</span>
           </a>
-        </button>
-      </div>
-      <div class="header_projectupload">
-        <a style="text-decoration: none;" href="/register/registerAgree/">
-          <span class="projectupload_name">프로젝트 올리기</span>
-        </a>
-      </div>
-    </div>
-    <div class="header_mainlogo">
-      <a style="text-decoration: none;" href="/">
-        <span class="header_mainlogo_item">크크펀딩</span>
-      </a>
-    </div>
-    <div class="header_sub_warp">
-      <div class="header_searchicon">
-        <!-- <i class="fas fa-search fa-lg"></i> -->
-      </div>
-      <div class="header_customer_warp">
-        <button class="header_customer_btn">
-          <div class="header_login&signup">
-                        <span class="login_signup_name">
-                          <a class="admin-no" href="/member/login">로그인 / 회원가입</a>
-                          <a class="admin-yes" href="/creator/cmypage">마이페이지</a>
-                          <a class="admin-yes" href="javascript:Logout()">로그아웃</a>
-                        </span>
+        </div>
+        <div class="header_sub_warp">
+          <div class="header_searchicon">
+            <!-- <i class="fas fa-search fa-lg"></i> -->
           </div>
-          <div class="header_profile_img">
-            <img class="profile" src="/img/blank.png">
+          <div class="header_customer_warp">
+            <button class="header_customer_btn">
+              <div class="header_login&signup">
+                <span class="login_signup_name">
+                  <a class="admin-no" href="/member/login">로그인 / 회원가입</a>
+                  <a class="admin-yes" href="/creator/cmypage">마이페이지</a>
+                  <a class="admin-yes" href="javascript:Logout()">로그아웃</a>
+                </span>
+              </div>
+              <!-- <div class="header_profile_img">
+                <img class="profile" src="/img/blank.png" />
+              </div> -->
+            </button>
           </div>
-        </button>
+        </div>
       </div>
-    </div>
-  </div>
-</header>
-<!-- 메인섹션 -->
-<section class="main_section">
-  <!-- 메인광고 -->
-  <!-- <div class="main_ad"> -->
-  <div class="bp-hs" id="demo-default">
-    <div class="bp-hs_inner">
-      <div class="bp-hs_inner__item" data-transform="scale">
-        <img src="/img/main/01.jpg" alt="Boompx Hero Slider 01"/>
+    </header>
+    <!-- 메인섹션 -->
+    <section class="main_section">
+      <!-- 메인광고 -->
+      <!-- <div class="main_ad"> -->
+      <div class="bp-hs" id="demo-default">
+        <div class="bp-hs_inner">
+          <div class="bp-hs_inner__item" data-transform="scale">
+            <img src="/img/main/01.jpg" alt="Boompx Hero Slider 01" />
+          </div>
+          <div
+            class="bp-hs_inner__item"
+            data-transform="rotate"
+            data-origin="top-left"
+          >
+            <img src="/img/main/02.jpg" alt="Boompx Hero Slider 02" />
+          </div>
+          <div
+            class="bp-hs_inner__item"
+            data-transform="rotate"
+            data-origin="bottom-left"
+          >
+            <img src="/img/main/03.jpg" alt="Boompx Hero Slider 03" />
+          </div>
+          <div class="bp-hs_inner__item">
+            <img src="/img/main/04.jpg" alt="Boompx Hero Slider 04" />
+          </div>
+        </div>
       </div>
-      <div class="bp-hs_inner__item" data-transform="rotate" data-origin="top-left">
-        <img src="/img/main/02.jpg" alt="Boompx Hero Slider 02"/>
-      </div>
-      <div class="bp-hs_inner__item" data-transform="rotate" data-origin="bottom-left">
-        <img src="/img/main/03.jpg" alt="Boompx Hero Slider 03"/>
-      </div>
-      <div class="bp-hs_inner__item">
-        <img src="/img/main/04.jpg" alt="Boompx Hero Slider 04"/>
-      </div>
-    </div>
-  </div>
 
+      <div class="main_project_focus">
+        <!-- 인기 프로젝트 -->
+        <div class="focus_title">
+          <span class="focus_title_item">인기 프로젝트</span>
+        </div>
 
-  <div class="main_project_focus">
-    <!-- 인기 프로젝트 -->
-    <div class="focus_title">
-      <span class="focus_title_item">인기 프로젝트</span>
-    </div>
-
-    <div class="focus_item_warp">
-
-      <div class="focus_item">
+        <div class="focus_item_warp" id="area1">
+          <!-- <div class="focus_item">
         <div class="focus_item_img">
           <img class="focus_item_img_item" src="/img/sample1.jpeg" alt="">
         </div>
@@ -124,979 +315,190 @@
         <div class="focus_item_term">
           <span class="term">2021/08/01 ~ 2021/09/01</span>
         </div>
-      </div>
+      </div> -->
+        </div>
 
-      <div class="focus_item">
-        <div class="focus_item_img">
-          <img class="focus_item_img_item" src="/img/sample1.jpeg" alt="">
+        <!-- 신규 프로젝트 -->
+        <div class="focus_title">
+          <span class="focus_title_item">신규 프로젝트</span>
         </div>
-        <div class="focus_item_category">
-          <div class="category_warp">
-            <span class="category_item1">카테고리</span>
-            <span class="category_between">|</span>
-            <span class="category_item2">크리에이터 닉네임</span>
-          </div>
-          <div class="category_bookmark">
-            <button class="category_bookmark_btn">
-              <i class="far fa-bookmark"></i>
-            </button>
-          </div>
-        </div>
-        <div class="focus_item_title">
-          <span class="focus_item_title_value">프로젝트 타이틀2</span>
-        </div>
-        <div class="focus_item_purpose">
-          <span class="purpose_value">달성률% 달성</span>
-        </div>
-        <div class="focus_item_term">
-          <span class="term">2021/08/01 ~ 2021/09/01</span>
-        </div>
-      </div>
 
-      <div class="focus_item">
-        <div class="focus_item_img">
-          <img class="focus_item_img_item" src="/img/sample1.jpeg" alt="">
+        <div class="focus_item_warp" id="area2"></div>
+
+        <!-- 공개 예정 프로젝트 -->
+        <div class="focus_title">
+          <span class="focus_title_item">공개 예정 프로젝트</span>
         </div>
-        <div class="focus_item_category">
-          <div class="category_warp">
-            <span class="category_item1">카테고리</span>
-            <span class="category_between">|</span>
-            <span class="category_item2">크리에이터 닉네임</span>
-          </div>
-          <div class="category_bookmark">
-            <button class="category_bookmark_btn">
-              <i class="far fa-bookmark"></i>
-            </button>
-          </div>
+
+        <div class="focus_item_warp" id="area3"></div>
+
+        <!-- 성공 임박 프로젝트 -->
+        <div class="focus_title">
+          <span class="focus_title_item">성공 임박 프로젝트</span>
         </div>
-        <div class="focus_item_title">
-          <span class="focus_item_title_value">프로젝트 타이틀3</span>
-        </div>
-        <div class="focus_item_purpose">
-          <span class="purpose_value">달성률% 달성</span>
-        </div>
-        <div class="focus_item_term">
-          <span class="term">2021/08/01 ~ 2021/09/01</span>
+
+        <div class="focus_item_warp" id="area4"></div>
+        <div class="sub_ad">
+          <img class="sub_ad_item" src="/img/sub_ad.jpg" alt="" />
         </div>
       </div>
+    </section>
 
-      <div class="focus_item">
-        <div class="focus_item_img">
-          <img class="focus_item_img_item" src="/img/sample1.jpeg" alt="">
-        </div>
-        <div class="focus_item_category">
-          <div class="category_warp">
-            <span class="category_item1">카테고리</span>
-            <span class="category_between">|</span>
-            <span class="category_item2">크리에이터 닉네임</span>
+    <!-- footer -->
+    <footer class="main_footer">
+      <div class="footer_first_warp">
+        <div class="footer_nav">
+          <div class="footer_nav_item">
+            <ul class="nav_item_ul">
+              <li class="nav_item_li">크크펀딩</li>
+              <li class="nav_item_li">공지사항</li>
+              <li class="nav_item_li">채용</li>
+              <li class="nav_item_li">제휴/협력</li>
+            </ul>
           </div>
-          <div class="category_bookmark">
-            <button class="category_bookmark_btn">
-              <i class="far fa-bookmark"></i>
-            </button>
+          <div class="footer_nav_item">
+            <ul class="nav_item_ul">
+              <li class="nav_item_li">이용안내</li>
+              <li class="nav_item_li">헬프센터</li>
+              <li class="nav_item_li">창작자 가이드</li>
+              <li class="nav_item_li">프로젝트 심사기준</li>
+              <li class="nav_item_li">수수료 정책</li>
+            </ul>
+          </div>
+          <div class="footer_nav_item">
+            <ul class="nav_item_ul">
+              <li class="nav_item_li">정책</li>
+              <li class="nav_item_li">이용약관</li>
+              <li class="nav_item_li">개인정보 처리방침</li>
+            </ul>
+          </div>
+          <div class="footer_nav_item">
+            <ul class="nav_item_ul">
+              <li class="nav_item_li">APP</li>
+              <li class="nav_item_li">안드로이드</li>
+              <li class="nav_item_li">iOS</li>
+            </ul>
           </div>
         </div>
-        <div class="focus_item_title">
-          <span class="focus_item_title_value">프로젝트 타이틀4</span>
-        </div>
-        <div class="focus_item_purpose">
-          <span class="purpose_value">달성률% 달성</span>
-        </div>
-        <div class="focus_item_term">
-          <span class="term">2021/08/01 ~ 2021/09/01</span>
+        <div class="footer_nav_item">
+          <ul class="nav_item_ul">
+            <li class="nav_item_li">고객지원</li>
+            <li class="nav_item_li">평일 10:00 ~ 17:00 (12:00 ~14:00 제외)</li>
+            <li class="nav_item_li">크크펀딩에 문의</li>
+          </ul>
         </div>
       </div>
-
-      <div class="focus_item">
-        <div class="focus_item_img">
-          <img class="focus_item_img_item" src="/img/sample1.jpeg" alt="">
-        </div>
-        <div class="focus_item_category">
-          <div class="category_warp">
-            <span class="category_item1">카테고리</span>
-            <span class="category_between">|</span>
-            <span class="category_item2">크리에이터 닉네임</span>
+      <div class="footer_second_warp">
+        <div class="footer_info_warp">
+          <div class="info_first_warp">
+            <span class="info_item1">회사명</span>
+            <span class="info_item2">크크펀딩</span>
+            <span class="info_item1">주소</span>
+            <span class="info_item2"
+              >경기도 성남시 분당구 성남대로 34 6층(구미동 하나프라자빌딩)</span
+            >
+            <span class="info_item1">대표</span>
+            <span class="info_item2">오문정</span>
+            <span class="info_item1">사업자등록번호</span>
+            <span class="info_item2">105-87-52823</span>
           </div>
-          <div class="category_bookmark">
-            <button class="category_bookmark_btn">
-              <i class="far fa-bookmark"></i>
-            </button>
+          <div class="info_second_warp">
+            <span class="info_item1">통신판매업 신고번호</span>
+            <span class="info_item2">2019-3010165-30-2-02129</span>
+            <span class="info_item1">대표번호</span>
+            <span class="info_item2">031-606-9319</span>
+          </div>
+          <div class="info_last_warp">
+            <span class="last_warp_item">© 2021 KKPD Inc.</span>
           </div>
         </div>
-        <div class="focus_item_title">
-          <span class="focus_item_title_value">프로젝트 타이틀5</span>
-        </div>
-        <div class="focus_item_purpose">
-          <span class="purpose_value">달성률% 달성</span>
-        </div>
-        <div class="focus_item_term">
-          <span class="term">2021/08/01 ~ 2021/09/01</span>
+        <div class="footer_info_icon">
+          <i class="fab fa-java fa-lg"></i>
+          <i class="fab fa-js fa-lg"></i>
+          <i class="fab fa-html5 fa-lg"></i>
+          <i class="fab fa-css3 fa-lg"></i>
+          <i class="fas fa-user-md fa-lg"></i>
+          <i class="fas fa-head-side-mask fa-lg"></i>
         </div>
       </div>
-
-      <div class="focus_item">
-        <div class="focus_item_img">
-          <img class="focus_item_img_item" src="/img/sample1.jpeg" alt="">
-        </div>
-        <div class="focus_item_category">
-          <div class="category_warp">
-            <span class="category_item1">카테고리</span>
-            <span class="category_between">|</span>
-            <span class="category_item2">크리에이터 닉네임</span>
-          </div>
-          <div class="category_bookmark">
-            <button class="category_bookmark_btn">
-              <i class="far fa-bookmark"></i>
-            </button>
-          </div>
-        </div>
-        <div class="focus_item_title">
-          <span class="focus_item_title_value">프로젝트 타이틀6</span>
-        </div>
-        <div class="focus_item_purpose">
-          <span class="purpose_value">달성률% 달성</span>
-        </div>
-        <div class="focus_item_term">
-          <span class="term">2021/08/01 ~ 2021/09/01</span>
+      <div class="footer_last_info">
+        <div class="footer_last_info_div">
+          <span class="last_info_item">
+            크크펀딩은 플랫폼 제공자로서 프로젝트의 당사자가 아니며, 직접적인
+            통신판매를 진행하지 않습니다. 프로젝트의 완수 및 선물제공의 책임은
+            해당 프로젝트의 창작자에게 있으며, 프로젝트와 관련하여 후원자와
+            발생하는 법적 분쟁에 대한 책임은 해당 창작자가 부담합니다.
+          </span>
         </div>
       </div>
+    </footer>
 
-      <div class="focus_item">
-        <div class="focus_item_img">
-          <img class="focus_item_img_item" src="/img/sample1.jpeg" alt="">
-        </div>
-        <div class="focus_item_category">
-          <div class="category_warp">
-            <span class="category_item1">카테고리</span>
-            <span class="category_between">|</span>
-            <span class="category_item2">크리에이터 닉네임</span>
-          </div>
-          <div class="category_bookmark">
-            <button class="category_bookmark_btn">
-              <i class="far fa-bookmark"></i>
-            </button>
-          </div>
-        </div>
-        <div class="focus_item_title">
-          <span class="focus_item_title_value">프로젝트 타이틀7</span>
-        </div>
-        <div class="focus_item_purpose">
-          <span class="purpose_value">달성률% 달성</span>
-        </div>
-        <div class="focus_item_term">
-          <span class="term">2021/08/01 ~ 2021/09/01</span>
-        </div>
-      </div>
+    <!-- [ REQUIRED ] -->
+    <!-- <script src="http://code.jquery.com/jquery.min.js"></script> -->
+    <script src="/js/vendors/jquery.touchSwipe.min.js"></script>
+    <!-- optional (required for touchSwipe option) -->
+    <script src="/js/bpHS.min.js"></script>
 
-      <div class="focus_item">
-        <div class="focus_item_img">
-          <img class="focus_item_img_item" src="/img/sample1.jpeg" alt="">
-        </div>
-        <div class="focus_item_category">
-          <div class="category_warp">
-            <span class="category_item1">카테고리</span>
-            <span class="category_between">|</span>
-            <span class="category_item2">크리에이터 닉네임</span>
-          </div>
-          <div class="category_bookmark">
-            <button class="category_bookmark_btn">
-              <i class="far fa-bookmark"></i>
-            </button>
-          </div>
-        </div>
-        <div class="focus_item_title">
-          <span class="focus_item_title_value">프로젝트 타이틀8</span>
-        </div>
-        <div class="focus_item_purpose">
-          <span class="purpose_value">달성률% 달성</span>
-        </div>
-        <div class="focus_item_term">
-          <span class="term">2021/08/01 ~ 2021/09/01</span>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- 신규 프로젝트 -->
-    <div class="focus_title">
-      <span class="focus_title_item">신규 프로젝트</span>
-    </div>
-
-    <div class="focus_item_warp">
-
-      <div class="focus_item">
-        <div class="focus_item_img">
-          <img class="focus_item_img_item" src="/img/sample1.jpeg" alt="">
-        </div>
-        <div class="focus_item_category">
-          <div class="category_warp">
-            <span class="category_item1">문학 · 에세이</span>
-            <span class="category_between">|</span>
-            <span class="category_item2">이후북스&이후진</span>
-          </div>
-          <div class="category_bookmark">
-            <button class="category_bookmark_btn">
-              <i class="far fa-bookmark"></i>
-            </button>
-          </div>
-        </div>
-        <div class="focus_item_title">
-          <span class="focus_item_title_value">교과서 속 한국소설은 잊어라 애욕의 한국소설></span>
-        </div>
-        <div class="focus_item_purpose">
-          <span class="purpose_value">1462</span>
-          <span class="purpose_name">% 달성</span>
-        </div>
-      </div>
-
-      <div class="focus_item">
-        <div class="focus_item_img">
-          <img class="focus_item_img_item" src="/img/sample1.jpeg" alt="">
-        </div>
-        <div class="focus_item_category">
-          <div class="category_warp">
-            <span class="category_item1">문학 · 에세이</span>
-            <span class="category_between">|</span>
-            <span class="category_item2">이후북스&이후진</span>
-          </div>
-          <div class="category_bookmark">
-            <button class="category_bookmark_btn">
-              <i class="far fa-bookmark"></i>
-            </button>
-          </div>
-        </div>
-        <div class="focus_item_title">
-          <span class="focus_item_title_value">교과서 속 한국소설은 잊어라 애욕의 한국소설></span>
-        </div>
-        <div class="focus_item_purpose">
-          <span class="purpose_value">1462</span>
-          <span class="purpose_name">% 달성</span>
-        </div>
-      </div>
-
-      <div class="focus_item">
-        <div class="focus_item_img">
-          <img class="focus_item_img_item" src="/img/sample1.jpeg" alt="">
-        </div>
-        <div class="focus_item_category">
-          <div class="category_warp">
-            <span class="category_item1">문학 · 에세이</span>
-            <span class="category_between">|</span>
-            <span class="category_item2">이후북스&이후진</span>
-          </div>
-          <div class="category_bookmark">
-            <button class="category_bookmark_btn">
-              <i class="far fa-bookmark"></i>
-            </button>
-          </div>
-        </div>
-        <div class="focus_item_title">
-          <span class="focus_item_title_value">교과서 속 한국소설은 잊어라 애욕의 한국소설></span>
-        </div>
-        <div class="focus_item_purpose">
-          <span class="purpose_value">1462</span>
-          <span class="purpose_name">% 달성</span>
-        </div>
-      </div>
-
-      <div class="focus_item">
-        <div class="focus_item_img">
-          <img class="focus_item_img_item" src="/img/sample1.jpeg" alt="">
-        </div>
-        <div class="focus_item_category">
-          <div class="category_warp">
-            <span class="category_item1">문학 · 에세이</span>
-            <span class="category_between">|</span>
-            <span class="category_item2">이후북스&이후진</span>
-          </div>
-          <div class="category_bookmark">
-            <button class="category_bookmark_btn">
-              <i class="far fa-bookmark"></i>
-            </button>
-          </div>
-        </div>
-        <div class="focus_item_title">
-          <span class="focus_item_title_value">교과서 속 한국소설은 잊어라 애욕의 한국소설></span>
-        </div>
-        <div class="focus_item_purpose">
-          <span class="purpose_value">1462</span>
-          <span class="purpose_name">% 달성</span>
-        </div>
-      </div>
-
-      <div class="focus_item">
-        <div class="focus_item_img">
-          <img class="focus_item_img_item" src="/img/sample1.jpeg" alt="">
-        </div>
-        <div class="focus_item_category">
-          <div class="category_warp">
-            <span class="category_item1">문학 · 에세이</span>
-            <span class="category_between">|</span>
-            <span class="category_item2">이후북스&이후진</span>
-          </div>
-          <div class="category_bookmark">
-            <button class="category_bookmark_btn">
-              <i class="far fa-bookmark"></i>
-            </button>
-          </div>
-        </div>
-        <div class="focus_item_title">
-          <span class="focus_item_title_value">교과서 속 한국소설은 잊어라 애욕의 한국소설></span>
-        </div>
-        <div class="focus_item_purpose">
-          <span class="purpose_value">1462</span>
-          <span class="purpose_name">% 달성</span>
-        </div>
-      </div>
-
-      <div class="focus_item">
-        <div class="focus_item_img">
-          <img class="focus_item_img_item" src="/img/sample1.jpeg" alt="">
-        </div>
-        <div class="focus_item_category">
-          <div class="category_warp">
-            <span class="category_item1">문학 · 에세이</span>
-            <span class="category_between">|</span>
-            <span class="category_item2">이후북스&이후진</span>
-          </div>
-          <div class="category_bookmark">
-            <button class="category_bookmark_btn">
-              <i class="far fa-bookmark"></i>
-            </button>
-          </div>
-        </div>
-        <div class="focus_item_title">
-          <span class="focus_item_title_value">교과서 속 한국소설은 잊어라 애욕의 한국소설></span>
-        </div>
-        <div class="focus_item_purpose">
-          <span class="purpose_value">1462</span>
-          <span class="purpose_name">% 달성</span>
-        </div>
-      </div>
-
-      <div class="focus_item">
-        <div class="focus_item_img">
-          <img class="focus_item_img_item" src="/img/sample1.jpeg" alt="">
-        </div>
-        <div class="focus_item_category">
-          <div class="category_warp">
-            <span class="category_item1">문학 · 에세이</span>
-            <span class="category_between">|</span>
-            <span class="category_item2">이후북스&이후진</span>
-          </div>
-          <div class="category_bookmark">
-            <button class="category_bookmark_btn">
-              <i class="far fa-bookmark"></i>
-            </button>
-          </div>
-        </div>
-        <div class="focus_item_title">
-          <span class="focus_item_title_value">교과서 속 한국소설은 잊어라 애욕의 한국소설></span>
-        </div>
-        <div class="focus_item_purpose">
-          <span class="purpose_value">1462</span>
-          <span class="purpose_name">% 달성</span>
-        </div>
-      </div>
-
-      <div class="focus_item">
-        <div class="focus_item_img">
-          <img class="focus_item_img_item" src="/img/sample1.jpeg" alt="">
-        </div>
-        <div class="focus_item_category">
-          <div class="category_warp">
-            <span class="category_item1">문학 · 에세이</span>
-            <span class="category_between">|</span>
-            <span class="category_item2">이후북스&이후진</span>
-          </div>
-          <div class="category_bookmark">
-            <button class="category_bookmark_btn">
-              <i class="far fa-bookmark"></i>
-            </button>
-          </div>
-        </div>
-        <div class="focus_item_title">
-          <span class="focus_item_title_value">교과서 속 한국소설은 잊어라 애욕의 한국소설></span>
-        </div>
-        <div class="focus_item_purpose">
-          <span class="purpose_value">1462</span>
-          <span class="purpose_name">% 달성</span>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- 공개 예정 프로젝트 -->
-    <div class="focus_title">
-      <span class="focus_title_item">공개 예정 프로젝트</span>
-    </div>
-
-    <div class="focus_item_warp">
-
-      <div class="focus_item">
-        <div class="focus_item_img">
-          <img class="focus_item_img_item" src="/img/sample1.jpeg" alt="">
-        </div>
-        <div class="focus_item_category">
-          <div class="category_warp">
-            <span class="category_item1">문학 · 에세이</span>
-            <span class="category_between">|</span>
-            <span class="category_item2">이후북스&이후진</span>
-          </div>
-          <div class="category_bookmark">
-            <button class="category_bookmark_btn">
-              <i class="far fa-bookmark"></i>
-            </button>
-          </div>
-        </div>
-        <div class="focus_item_title">
-          <span class="focus_item_title_value">교과서 속 한국소설은 잊어라 애욕의 한국소설></span>
-        </div>
-        <div class="focus_item_purpose">
-          <span class="purpose_value">1462</span>
-          <span class="purpose_name">% 달성</span>
-        </div>
-      </div>
-
-      <div class="focus_item">
-        <div class="focus_item_img">
-          <img class="focus_item_img_item" src="/img/sample1.jpeg" alt="">
-        </div>
-        <div class="focus_item_category">
-          <div class="category_warp">
-            <span class="category_item1">문학 · 에세이</span>
-            <span class="category_between">|</span>
-            <span class="category_item2">이후북스&이후진</span>
-          </div>
-          <div class="category_bookmark">
-            <button class="category_bookmark_btn">
-              <i class="far fa-bookmark"></i>
-            </button>
-          </div>
-        </div>
-        <div class="focus_item_title">
-          <span class="focus_item_title_value">교과서 속 한국소설은 잊어라 애욕의 한국소설></span>
-        </div>
-        <div class="focus_item_purpose">
-          <span class="purpose_value">1462</span>
-          <span class="purpose_name">% 달성</span>
-        </div>
-      </div>
-
-      <div class="focus_item">
-        <div class="focus_item_img">
-          <img class="focus_item_img_item" src="/img/sample1.jpeg" alt="">
-        </div>
-        <div class="focus_item_category">
-          <div class="category_warp">
-            <span class="category_item1">문학 · 에세이</span>
-            <span class="category_between">|</span>
-            <span class="category_item2">이후북스&이후진</span>
-          </div>
-          <div class="category_bookmark">
-            <button class="category_bookmark_btn">
-              <i class="far fa-bookmark"></i>
-            </button>
-          </div>
-        </div>
-        <div class="focus_item_title">
-          <span class="focus_item_title_value">교과서 속 한국소설은 잊어라 애욕의 한국소설></span>
-        </div>
-        <div class="focus_item_purpose">
-          <span class="purpose_value">1462</span>
-          <span class="purpose_name">% 달성</span>
-        </div>
-      </div>
-
-      <div class="focus_item">
-        <div class="focus_item_img">
-          <img class="focus_item_img_item" src="/img/sample1.jpeg" alt="">
-        </div>
-        <div class="focus_item_category">
-          <div class="category_warp">
-            <span class="category_item1">문학 · 에세이</span>
-            <span class="category_between">|</span>
-            <span class="category_item2">이후북스&이후진</span>
-          </div>
-          <div class="category_bookmark">
-            <button class="category_bookmark_btn">
-              <i class="far fa-bookmark"></i>
-            </button>
-          </div>
-        </div>
-        <div class="focus_item_title">
-          <span class="focus_item_title_value">교과서 속 한국소설은 잊어라 애욕의 한국소설></span>
-        </div>
-        <div class="focus_item_purpose">
-          <span class="purpose_value">1462</span>
-          <span class="purpose_name">% 달성</span>
-        </div>
-      </div>
-
-      <div class="focus_item">
-        <div class="focus_item_img">
-          <img class="focus_item_img_item" src="/img/sample1.jpeg" alt="">
-        </div>
-        <div class="focus_item_category">
-          <div class="category_warp">
-            <span class="category_item1">문학 · 에세이</span>
-            <span class="category_between">|</span>
-            <span class="category_item2">이후북스&이후진</span>
-          </div>
-          <div class="category_bookmark">
-            <button class="category_bookmark_btn">
-              <i class="far fa-bookmark"></i>
-            </button>
-          </div>
-        </div>
-        <div class="focus_item_title">
-          <span class="focus_item_title_value">교과서 속 한국소설은 잊어라 애욕의 한국소설></span>
-        </div>
-        <div class="focus_item_purpose">
-          <span class="purpose_value">1462</span>
-          <span class="purpose_name">% 달성</span>
-        </div>
-      </div>
-
-      <div class="focus_item">
-        <div class="focus_item_img">
-          <img class="focus_item_img_item" src="/img/sample1.jpeg" alt="">
-        </div>
-        <div class="focus_item_category">
-          <div class="category_warp">
-            <span class="category_item1">문학 · 에세이</span>
-            <span class="category_between">|</span>
-            <span class="category_item2">이후북스&이후진</span>
-          </div>
-          <div class="category_bookmark">
-            <button class="category_bookmark_btn">
-              <i class="far fa-bookmark"></i>
-            </button>
-          </div>
-        </div>
-        <div class="focus_item_title">
-          <span class="focus_item_title_value">교과서 속 한국소설은 잊어라 애욕의 한국소설></span>
-        </div>
-        <div class="focus_item_purpose">
-          <span class="purpose_value">1462</span>
-          <span class="purpose_name">% 달성</span>
-        </div>
-      </div>
-
-      <div class="focus_item">
-        <div class="focus_item_img">
-          <img class="focus_item_img_item" src="/img/sample1.jpeg" alt="">
-        </div>
-        <div class="focus_item_category">
-          <div class="category_warp">
-            <span class="category_item1">문학 · 에세이</span>
-            <span class="category_between">|</span>
-            <span class="category_item2">이후북스&이후진</span>
-          </div>
-          <div class="category_bookmark">
-            <button class="category_bookmark_btn">
-              <i class="far fa-bookmark"></i>
-            </button>
-          </div>
-        </div>
-        <div class="focus_item_title">
-          <span class="focus_item_title_value">교과서 속 한국소설은 잊어라 애욕의 한국소설></span>
-        </div>
-        <div class="focus_item_purpose">
-          <span class="purpose_value">1462</span>
-          <span class="purpose_name">% 달성</span>
-        </div>
-      </div>
-
-      <div class="focus_item">
-        <div class="focus_item_img">
-          <img class="focus_item_img_item" src="/img/sample1.jpeg" alt="">
-        </div>
-        <div class="focus_item_category">
-          <div class="category_warp">
-            <span class="category_item1">문학 · 에세이</span>
-            <span class="category_between">|</span>
-            <span class="category_item2">이후북스&이후진</span>
-          </div>
-          <div class="category_bookmark">
-            <button class="category_bookmark_btn">
-              <i class="far fa-bookmark"></i>
-            </button>
-          </div>
-        </div>
-        <div class="focus_item_title">
-          <span class="focus_item_title_value">교과서 속 한국소설은 잊어라 애욕의 한국소설></span>
-        </div>
-        <div class="focus_item_purpose">
-          <span class="purpose_value">1462</span>
-          <span class="purpose_name">% 달성</span>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- 성공 임박 프로젝트 -->
-    <div class="focus_title">
-      <span class="focus_title_item">성공 임박 프로젝트</span>
-    </div>
-
-    <div class="focus_item_warp">
-
-      <div class="focus_item">
-        <div class="focus_item_img">
-          <img class="focus_item_img_item" src="/img/sample1.jpeg" alt="">
-        </div>
-        <div class="focus_item_category">
-          <div class="category_warp">
-            <span class="category_item1">문학 · 에세이</span>
-            <span class="category_between">|</span>
-            <span class="category_item2">이후북스&이후진</span>
-          </div>
-          <div class="category_bookmark">
-            <button class="category_bookmark_btn">
-              <i class="far fa-bookmark"></i>
-            </button>
-          </div>
-        </div>
-        <div class="focus_item_title">
-          <span class="focus_item_title_value">교과서 속 한국소설은 잊어라 애욕의 한국소설></span>
-        </div>
-        <div class="focus_item_purpose">
-          <span class="purpose_value">1462</span>
-          <span class="purpose_name">% 달성</span>
-        </div>
-      </div>
-
-      <div class="focus_item">
-        <div class="focus_item_img">
-          <img class="focus_item_img_item" src="/img/sample1.jpeg" alt="">
-        </div>
-        <div class="focus_item_category">
-          <div class="category_warp">
-            <span class="category_item1">문학 · 에세이</span>
-            <span class="category_between">|</span>
-            <span class="category_item2">이후북스&이후진</span>
-          </div>
-          <div class="category_bookmark">
-            <button class="category_bookmark_btn">
-              <i class="far fa-bookmark"></i>
-            </button>
-          </div>
-        </div>
-        <div class="focus_item_title">
-          <span class="focus_item_title_value">교과서 속 한국소설은 잊어라 애욕의 한국소설></span>
-        </div>
-        <div class="focus_item_purpose">
-          <span class="purpose_value">1462</span>
-          <span class="purpose_name">% 달성</span>
-        </div>
-      </div>
-
-      <div class="focus_item">
-        <div class="focus_item_img">
-          <img class="focus_item_img_item" src="/img/sample1.jpeg" alt="">
-        </div>
-        <div class="focus_item_category">
-          <div class="category_warp">
-            <span class="category_item1">문학 · 에세이</span>
-            <span class="category_between">|</span>
-            <span class="category_item2">이후북스&이후진</span>
-          </div>
-          <div class="category_bookmark">
-            <button class="category_bookmark_btn">
-              <i class="far fa-bookmark"></i>
-            </button>
-          </div>
-        </div>
-        <div class="focus_item_title">
-          <span class="focus_item_title_value">교과서 속 한국소설은 잊어라 애욕의 한국소설></span>
-        </div>
-        <div class="focus_item_purpose">
-          <span class="purpose_value">1462</span>
-          <span class="purpose_name">% 달성</span>
-        </div>
-      </div>
-
-      <div class="focus_item">
-        <div class="focus_item_img">
-          <img class="focus_item_img_item" src="/img/sample1.jpeg" alt="">
-        </div>
-        <div class="focus_item_category">
-          <div class="category_warp">
-            <span class="category_item1">문학 · 에세이</span>
-            <span class="category_between">|</span>
-            <span class="category_item2">이후북스&이후진</span>
-          </div>
-          <div class="category_bookmark">
-            <button class="category_bookmark_btn">
-              <i class="far fa-bookmark"></i>
-            </button>
-          </div>
-        </div>
-        <div class="focus_item_title">
-          <span class="focus_item_title_value">교과서 속 한국소설은 잊어라 애욕의 한국소설></span>
-        </div>
-        <div class="focus_item_purpose">
-          <span class="purpose_value">1462</span>
-          <span class="purpose_name">% 달성</span>
-        </div>
-      </div>
-
-      <div class="focus_item">
-        <div class="focus_item_img">
-          <img class="focus_item_img_item" src="/img/sample1.jpeg" alt="">
-        </div>
-        <div class="focus_item_category">
-          <div class="category_warp">
-            <span class="category_item1">문학 · 에세이</span>
-            <span class="category_between">|</span>
-            <span class="category_item2">이후북스&이후진</span>
-          </div>
-          <div class="category_bookmark">
-            <button class="category_bookmark_btn">
-              <i class="far fa-bookmark"></i>
-            </button>
-          </div>
-        </div>
-        <div class="focus_item_title">
-          <span class="focus_item_title_value">교과서 속 한국소설은 잊어라 애욕의 한국소설></span>
-        </div>
-        <div class="focus_item_purpose">
-          <span class="purpose_value">1462</span>
-          <span class="purpose_name">% 달성</span>
-        </div>
-      </div>
-
-      <div class="focus_item">
-        <div class="focus_item_img">
-          <img class="focus_item_img_item" src="/img/sample1.jpeg" alt="">
-        </div>
-        <div class="focus_item_category">
-          <div class="category_warp">
-            <span class="category_item1">문학 · 에세이</span>
-            <span class="category_between">|</span>
-            <span class="category_item2">이후북스&이후진</span>
-          </div>
-          <div class="category_bookmark">
-            <button class="category_bookmark_btn">
-              <i class="far fa-bookmark"></i>
-            </button>
-          </div>
-        </div>
-        <div class="focus_item_title">
-          <span class="focus_item_title_value">교과서 속 한국소설은 잊어라 애욕의 한국소설></span>
-        </div>
-        <div class="focus_item_purpose">
-          <span class="purpose_value">1462</span>
-          <span class="purpose_name">% 달성</span>
-        </div>
-      </div>
-
-      <div class="focus_item">
-        <div class="focus_item_img">
-          <img class="focus_item_img_item" src="/img/sample1.jpeg" alt="">
-        </div>
-        <div class="focus_item_category">
-          <div class="category_warp">
-            <span class="category_item1">문학 · 에세이</span>
-            <span class="category_between">|</span>
-            <span class="category_item2">이후북스&이후진</span>
-          </div>
-          <div class="category_bookmark">
-            <button class="category_bookmark_btn">
-              <i class="far fa-bookmark"></i>
-            </button>
-          </div>
-        </div>
-        <div class="focus_item_title">
-          <span class="focus_item_title_value">교과서 속 한국소설은 잊어라 애욕의 한국소설></span>
-        </div>
-        <div class="focus_item_purpose">
-          <span class="purpose_value">1462</span>
-          <span class="purpose_name">% 달성</span>
-        </div>
-      </div>
-
-      <div class="focus_item">
-        <div class="focus_item_img">
-          <img class="focus_item_img_item" src="/img/sample1.jpeg" alt="">
-        </div>
-        <div class="focus_item_category">
-          <div class="category_warp">
-            <span class="category_item1">문학 · 에세이</span>
-            <span class="category_between">|</span>
-            <span class="category_item2">이후북스&이후진</span>
-          </div>
-          <div class="category_bookmark">
-            <button class="category_bookmark_btn">
-              <i class="far fa-bookmark"></i>
-            </button>
-          </div>
-        </div>
-        <div class="focus_item_title">
-          <span class="focus_item_title_value">교과서 속 한국소설은 잊어라 애욕의 한국소설></span>
-        </div>
-        <div class="focus_item_purpose">
-          <span class="purpose_value">1462</span>
-          <span class="purpose_name">% 달성</span>
-        </div>
-      </div>
-    </div>
-    <div class="sub_ad">
-      <img class="sub_ad_item" src="/img/sub_ad.jpg" alt="">
-    </div>
-  </div>
-</section>
-
-<!-- footer -->
-<footer class="main_footer">
-  <div class="footer_first_warp">
-    <div class="footer_nav">
-      <div class="footer_nav_item">
-        <ul class="nav_item_ul">
-          <li class="nav_item_li">크크펀딩</li>
-          <li class="nav_item_li">공지사항</li>
-          <li class="nav_item_li">채용</li>
-          <li class="nav_item_li">제휴/협력</li>
-        </ul>
-      </div>
-      <div class="footer_nav_item">
-        <ul class="nav_item_ul">
-          <li class="nav_item_li">이용안내</li>
-          <li class="nav_item_li">헬프센터</li>
-          <li class="nav_item_li">창작자 가이드</li>
-          <li class="nav_item_li">프로젝트 심사기준</li>
-          <li class="nav_item_li">수수료 정책</li>
-        </ul>
-      </div>
-      <div class="footer_nav_item">
-        <ul class="nav_item_ul">
-          <li class="nav_item_li">정책</li>
-          <li class="nav_item_li">이용약관</li>
-          <li class="nav_item_li">개인정보 처리방침</li>
-        </ul>
-      </div>
-      <div class="footer_nav_item">
-        <ul class="nav_item_ul">
-          <li class="nav_item_li">APP</li>
-          <li class="nav_item_li">안드로이드</li>
-          <li class="nav_item_li">iOS</li>
-        </ul>
-      </div>
-    </div>
-    <div class="footer_nav_item">
-      <ul class="nav_item_ul">
-        <li class="nav_item_li">고객지원</li>
-        <li class="nav_item_li">평일 10:00 ~ 17:00 (12:00 ~14:00 제외)</li>
-        <li class="nav_item_li">크크펀딩에 문의</li>
-      </ul>
-    </div>
-  </div>
-  <div class="footer_second_warp">
-    <div class="footer_info_warp">
-      <div class="info_first_warp">
-        <span class="info_item1">회사명</span>
-        <span class="info_item2">크크펀딩</span>
-        <span class="info_item1">주소</span>
-        <span class="info_item2">경기도 성남시 분당구 성남대로 34 6층(구미동 하나프라자빌딩)</span>
-        <span class="info_item1">대표</span>
-        <span class="info_item2">오문정</span>
-        <span class="info_item1">사업자등록번호</span>
-        <span class="info_item2">105-87-52823</span>
-      </div>
-      <div class="info_second_warp">
-        <span class="info_item1">통신판매업 신고번호</span>
-        <span class="info_item2">2019-3010165-30-2-02129</span>
-        <span class="info_item1">대표번호</span>
-        <span class="info_item2">031-606-9319</span>
-      </div>
-      <div class="info_last_warp">
-        <span class="last_warp_item">© 2021 KKPD Inc.</span>
-      </div>
-    </div>
-    <div class="footer_info_icon">
-      <i class="fab fa-java fa-lg"></i>
-      <i class="fab fa-js fa-lg"></i>
-      <i class="fab fa-html5 fa-lg"></i>
-      <i class="fab fa-css3 fa-lg"></i>
-      <i class="fas fa-user-md fa-lg"></i>
-      <i class="fas fa-head-side-mask fa-lg"></i>
-    </div>
-  </div>
-  <div class="footer_last_info">
-    <div class="footer_last_info_div">
-      <span class="last_info_item">
-        크크펀딩은 플랫폼 제공자로서 프로젝트의 당사자가 아니며, 직접적인 통신판매를 진행하지 않습니다. 프로젝트의 완수 및 선물제공의 책임은 해당 프로젝트의 창작자에게 있으며, 프로젝트와 관련하여 후원자와 발생하는 법적 분쟁에 대한 책임은 해당 창작자가 부담합니다.
-      </span>
-    </div>
-  </div>
-</footer>
-
-<!-- [ REQUIRED ] -->
-<script src="http://code.jquery.com/jquery.min.js"></script>
-<script src="/js/vendors/jquery.touchSwipe.min.js"></script> <!-- optional (required for touchSwipe option) -->
-<script src="/js/bpHS.min.js"></script>
-
-<!-- [ Demo Script ] -->
-<script src="/js/custom.js"></script>
-<script>
-  //전역변수로 선언, 페이지 콘솔 로그 사용을 막는다.
-  /*  console = {};
+    <!-- [ Demo Script ] -->
+    <script src="/js/custom.js"></script>
+    <script>
+      //전역변수로 선언, 페이지 콘솔 로그 사용을 막는다.
+      /*  console = {};
     console.log = function(){};
     console.warn = function(){};
     console.error = function(){};
     console.warn = console.error = () => {};
     (() => { console.warn = console.error = () => {}} )();*/
 
-  function logined() {
-    $('span.login_signup_name > a.admin-no').hide();
-    $('span.login_signup_name > a.admin-yes').show();
-  }
-
-  function logouted() {
-    $('span.login_signup_name > a.admin-no').show();
-    $('span.login_signup_name > a.admin-yes').hide();
-  }
-
-  function Logout() {
-    var backurl = 'http://localhost:9999/kkfd/member/logout';
-    $.ajax({
-      url: backurl,
-      method: 'get',
-      xhrFields: {
-        withCredentials: true
-      },
-      success: function () {
-        alert("로그아웃 되었습니다.");
-        logouted();
-        document.location.reload();
-      },
-      error: function (xhr) {
-        alert("로그아웃 에러");
-      },
-    });
-  }
-
-  function checkLogined() {
-    var backurl = 'http://localhost:9999/kkfd/member/logincheck';
-    $.ajax({
-      url: backurl,
-      method: 'get',
-      dataType: "json",
-      xhrFields: {
-        withCredentials: true
-      },
-      success: function (result) {
-        logined();
-      },
-      error: function (result) {
-        logouted();
+      function logined() {
+        $("span.login_signup_name > a.admin-no").hide();
+        $("span.login_signup_name > a.admin-yes").show();
       }
-    });
-  }
 
-  // 카카오 간편 로그인 실패시
-  /*  $.urlParam = function (name) {
+      function logouted() {
+        $("span.login_signup_name > a.admin-no").show();
+        $("span.login_signup_name > a.admin-yes").hide();
+      }
+
+      function Logout() {
+        var backurl = "http://localhost:9999/kkfd/member/logout";
+        $.ajax({
+          url: backurl,
+          method: "get",
+          xhrFields: {
+            withCredentials: true,
+          },
+          success: function () {
+            alert("로그아웃 되었습니다.");
+            logouted();
+            document.location.reload();
+          },
+          error: function (xhr) {
+            alert("로그아웃 에러");
+          },
+        });
+      }
+
+      function checkLogined() {
+        var backurl = "http://localhost:9999/kkfd/member/logincheck";
+        $.ajax({
+          url: backurl,
+          method: "get",
+          dataType: "json",
+          xhrFields: {
+            withCredentials: true,
+          },
+          success: function (result) {
+            logined();
+          },
+          error: function (result) {
+            logouted();
+          },
+        });
+      }
+
+      // 카카오 간편 로그인 실패시
+      /*  $.urlParam = function (name) {
       var results = new RegExp('[\?&]' + name + '=([^&#]*)')
               .exec(window.location.href);
       if (results == null) {
@@ -1110,9 +512,8 @@
       }
     });*/
 
-  logouted();
-  checkLogined();
-</script>
-</body>
-
+      logouted();
+      checkLogined();
+    </script>
+  </body>
 </html>

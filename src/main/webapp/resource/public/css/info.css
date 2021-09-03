@@ -251,6 +251,8 @@ nav {
 
 .creator_name {
   display: flex;
+  padding-left: 12px;
+  padding-bottom: 3px;
   align-items: center;
   font-size: 18px;
 }
@@ -548,4 +550,10 @@ textarea.content {
 .last_info_item {
   font-size: 11px;
   color: gray;
+}
+
+.login_signup_name > a {
+  margin-left: 10px;
+  text-decoration: none;
+  color: black;
 }

@@ -61,7 +61,7 @@
 
   <select id="selectByNo" parameterType="HashMap" resultMap="projectResultMap">
     SELECT p.proj_no,p.proj_category, p.proj_title, p.proj_fm, p.proj_quantity, p.proj_goals, p.proj_start, p.proj_end, p.proj_intro,
-        p.proj_targetcnt, p.proj_limitcnt, p.proj_delivery, NVL2(b.book_no,1,0) AS projBm, p.proj_id, c.cr_nn, c.cr_intro
+        p.proj_targetcnt, p.proj_limitcnt, p.proj_delivery, NVL2(b.book_no,1,0) AS projBm, p.proj_id, p.proj_status, c.cr_nn, c.cr_intro
     FROM kk_project p
         LEFT OUTER JOIN kk_bookmark b ON (p.proj_no=b.book_proj AND b.book_id=#{memId})
         JOIN kk_creator c ON(p.proj_id=c.cr_id)
@@ -94,9 +94,8 @@
 	proj_targetcnt, proj_fm, proj_quantity, proj_bmcnt, c.cr_nn FROM
 	kk_project p JOIN kk_bookmark b ON (p.proj_no=b.book_proj AND b.book_id=#{id})
 	JOIN kk_creator c ON(p.proj_id=c.cr_id)
-	WHERE proj_status = 1
-	ORDER BY book_no DESC) p LEFT OUTER JOIN kk_bookmark b ON (p.proj_no=b.book_proj 
-	AND b.book_id='id1'))r) WHERE rn BETWEEN START_ROW(#{page},18) AND END_ROW(#{page},18)
+	WHERE proj_status = 1) p LEFT OUTER JOIN kk_bookmark b ON (p.proj_no=b.book_proj 
+	AND b.book_id=#{id})ORDER BY b.book_no DESC)r) WHERE rn BETWEEN START_ROW(#{page},18) AND END_ROW(#{page},18)
   </select>
   
 </mapper>

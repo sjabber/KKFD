@@ -46,20 +46,20 @@ public class FundingController {
 
 	@PostMapping(value= {"/funding"})
 	public ResponseEntity<String> insertFunding (HttpSession session, @RequestBody FundingDTO funding) {
-//		String loginId = (String)session.getAttribute("loginId");
-		String loginId="id3";
-		MemberDTO m = new MemberDTO();
-		m.setMemId(loginId);
-		//log.info("test");
-		try {
-			funding.setMember(m);
-			service.addFunding(funding);
-			//log.info("test2");
-			return new ResponseEntity<String>(HttpStatus.OK);
-		} catch (AddException e) {
-			e.printStackTrace();
+		MemberDTO m = (MemberDTO)session.getAttribute("loginInfo");
+		if(m == null) { //로그인 안된 경우
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		} else {
+			try {
+				funding.setMember(m);
+				service.addFunding(funding);
+				//log.info("test2");
+				return new ResponseEntity<String>(HttpStatus.OK);
+			} catch (AddException e) {
+				e.printStackTrace();
+				return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+			}
 		}
-		return null;
 
 	}
 

@@ -65,7 +65,7 @@ public class MemberController {
         Map<String, String> map = new HashMap<>();
 
         if (m == null) {
-            responseEntity = new ResponseEntity(HttpStatus.UNAUTHORIZED); //401
+            responseEntity = new ResponseEntity(HttpStatus.NO_CONTENT); //204
         } else {
             map.put("name", m.getMemName());
             responseEntity = new ResponseEntity<>(map, HttpStatus.OK);

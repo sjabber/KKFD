@@ -11,6 +11,7 @@ import com.kkfd.dto.CreatorDTO;
 import com.kkfd.exception.AddException;
 import com.kkfd.exception.FindException;
 import com.kkfd.exception.ModifyException;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository("creatorDAO")
 public class CreatorDAOOracle implements CreatorDAO{
@@ -20,13 +21,14 @@ public class CreatorDAOOracle implements CreatorDAO{
 	private SqlSessionFactory sessionFactory;
 	
 	@Override
+	@Transactional(rollbackFor = AddException.class)
 	public void insertCr(CreatorDTO creator) throws AddException {
 		SqlSession session= null;
 		try {
 			session = sessionFactory.openSession();
 			int rowCnt = session.insert("com.kkfd.dto.CreatorMapper.insertCr", creator);
 			if(rowCnt==0) {
-				throw new ModifyException("0");
+				throw new AddException("0");
 			}
 		}catch (Exception e) {
 			throw new AddException(e.getMessage());

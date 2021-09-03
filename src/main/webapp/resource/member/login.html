@@ -132,7 +132,8 @@
                 success: function (result) {
                     //메인 페이지로 이동
                     alert("로그인 되었습니다.");
-                    document.location.href = '/';
+                    window.history.back();
+                    //document.location.href = '/';
                 },
             });
         }

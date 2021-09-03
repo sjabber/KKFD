@@ -1,525 +1,464 @@
 <!DOCTYPE html>
 <html lang="ko">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" type="text/css" href="/css/public.css" />
-    <link rel="stylesheet" type="text/css" href="/css/my.css" />
-    <link rel="stylesheet" type="text/css" href="/css/mylist.css" />
 
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We"
-      crossorigin="anonymous"
-    />
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
-      crossorigin="anonymous"
-    ></script>
-    <title>크크펀딩</title>
-    <script src="/js/basic.js"></script>
-    <script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" type="text/css" href="/css/public.css" />
+  <link rel="stylesheet" type="text/css" href="/css/my.css" />
+  <link rel="stylesheet" type="text/css" href="/css/mylist.css" />
 
-    <script>
-      //남은일 계산
-      function dayBetween(startDay, endDay) {
-        var termMiliSec = endDay.getTime() - startDay.getTime();
-        var term = termMiliSec / (60 * 1000 * 60 * 24);
-        return Math.ceil(term);
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous" />
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
+    crossorigin="anonymous"></script>
+  <title>크크펀딩</title>
+  <script src="/js/basic.js"></script>
+  <script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+  <script>
+    //남은일 계산
+    function dayBetween(startDay, endDay) {
+      var termMiliSec = endDay.getTime() - startDay.getTime();
+      var term = termMiliSec / ((60 * 1000 * 60 * 24));
+      return Math.ceil(term);
+    }
+
+    //[전체 테이블 페이지요청에 따라 교체]
+    function mylist(responseObj) {
+      var $trDataObj = $('body > section > div.my > table.allProj tr.data');//tr class가 data인 객체들
+      $trDataObj.not(":first").remove();  //이전 화면 프로젝트 목록지우기(안보이는 tr원본객체는 남기고 삭제)
+      var $trObj = $trDataObj.first();   //전체 테이블 tr원본객체
+      var $btnObj = $('body > section > div.my > button.view');   //보기 버튼 원본객체
+      $(responseObj.list).each(function (i, p) {
+        var $trCopyObj = $trObj.clone(); //tr 복제본객체
+        var totalFm = p.projFm * p.projQuantity;
+        $trCopyObj.show();
+        $trCopyObj.find('th.projNo').html(p.projNo);
+        $trCopyObj.find('a.projTitle').html(p.projTitle).attr('href', '/project/info?no=' + p.projNo);
+        $trCopyObj.find('td.term').html(p.projStart + '~' + p.projEnd);
+
+        switch (p.projStatus) {
+          case 0:   //취소 : 빨강 기간에 취소선
+            $trCopyObj.find('div.status').addClass('bg-danger').addClass('text-white').html('취소');
+            $trCopyObj.find('td.term').addClass('text-decoration-line-through');
+            break;
+          case 10:  //예정 : 회색
+            $trCopyObj.find('div.status').addClass('bg-secondary').addClass('text-white').html('예정');
+            break;
+          case 20:  //실패 : 노랑 모집금액에 취소선
+            $trCopyObj.find('div.status').addClass('bg-warning').addClass('text dark').html('실패');
+            $trCopyObj.find('td.totalFm').addClass('text-decoration-line-through').html(numberWithCommas(totalFm + '원'));
+            break;
+          case 21:  //성공 : 초록 모집금액 표시, 참여자 보기 버튼
+            $trCopyObj.find('div.status').addClass('bg-success').addClass('text-white').html('성공');
+            $trCopyObj.find('td.totalFm').html(numberWithCommas(totalFm + '원'));
+            var btnCopyObj = $btnObj.clone();
+            btnCopyObj.show().val(p.projNo).attr('onClick', "location.href='/project/joinlist?no=" + p.projNo + "'");
+            $trCopyObj.find('td.view').append(btnCopyObj);
+            break;
+          default:  //진행예정,진행 : 파랑 모집금액 표시
+            $trCopyObj.find('div.status').addClass('bg-primary').addClass('text-white').html('진행');
+            $trCopyObj.find('td.totalFm').html(numberWithCommas(totalFm + '원'));
+            break;
+        }
+        $trObj.parent().append($trCopyObj);
+      });//end of each
+
+      var cPage = responseObj.currentPage;
+      var tPage = responseObj.totalPage;
+      var sPage = responseObj.startPage;
+      var ePage = responseObj.endPage;
+      var url = responseObj.url;
+
+      var $pageLi = $('div.pagination_container>ul.pagination').children();//a태그 포함한 li
+      var $prevLi = $pageLi.first();
+      var $nextLi = $pageLi.last();
+      if (cPage == 1) {
+        $prevLi.addClass('disabled');
+        $prevLi.find('a.page-link').attr('aria-disabled', true);
+      } else {
+        $prevLi.removeClass('disabled');
+        $prevLi.find('a.page-link').attr('aria-disabled', false).attr('href', url + (cPage - 1));
       }
-
-      //[전체 테이블 페이지요청에 따라 교체]
-      function mylist(responseObj) {
-        var $trDataObj = $("body > section > div.my > table.allProj tr.data"); //tr class가 data인 객체들
-        $trDataObj.not(":first").remove(); //이전 화면 프로젝트 목록지우기(안보이는 tr원본객체는 남기고 삭제)
-        var $trObj = $trDataObj.first(); //전체 테이블 tr원본객체
-        var $btnObj = $("body > section > div.my > button.view"); //보기 버튼 원본객체
-        $(responseObj.list).each(function (i, p) {
-          var $trCopyObj = $trObj.clone(); //tr 복제본객체
-          var totalFm = p.projFm * p.projQuantity;
-          $trCopyObj.show();
-          $trCopyObj.find("th.projNo").html(p.projNo);
-          $trCopyObj
-            .find("a.projTitle")
-            .html(p.projTitle)
-            .attr("href", "/project/info?no=" + p.projNo);
-          $trCopyObj.find("td.term").html(p.projStart + "~" + p.projEnd);
-
-          switch (p.projStatus) {
-            case 0: //취소 : 빨강 기간에 취소선
-              $trCopyObj
-                .find("div.state")
-                .addClass("bg-danger")
-                .addClass("text-white")
-                .html("취소");
-              $trCopyObj
-                .find("td.term")
-                .addClass("text-decoration-line-through");
-              break;
-            case 10: //예정 : 회색
-              $trCopyObj
-                .find("div.state")
-                .addClass("bg-secondary")
-                .addClass("text-white")
-                .html("예정");
-              break;
-            case 20: //실패 : 노랑 모집금액에 취소선
-              $trCopyObj
-                .find("div.state")
-                .addClass("bg-warning")
-                .addClass("text dark")
-                .html("실패");
-              $trCopyObj
-                .find("td.totalFm")
-                .addClass("text-decoration-line-through")
-                .html(numberWithCommas(totalFm + "원"));
-              break;
-            case 21: //성공 : 초록 모집금액 표시, 참여자 보기 버튼
-              $trCopyObj
-                .find("div.state")
-                .addClass("bg-success")
-                .addClass("text-white")
-                .html("성공");
-              $trCopyObj
-                .find("td.totalFm")
-                .html(numberWithCommas(totalFm + "원"));
-              var btnCopyObj = $btnObj.clone();
-              btnCopyObj
-                .show()
-                .val(p.projNo)
-                .attr(
-                  "onClick",
-                  "location.href='/project/joinlist?no=" + p.projNo + "'"
-                );
-              $trCopyObj.find("td.view").append(btnCopyObj);
-              break;
-            default:
-              //진행예정,진행 : 파랑 모집금액 표시
-              $trCopyObj
-                .find("div.state")
-                .addClass("bg-primary")
-                .addClass("text-white")
-                .html("진행");
-              $trCopyObj
-                .find("td.totalFm")
-                .html(numberWithCommas(totalFm + "원"));
-              break;
-          }
-          $trObj.parent().append($trCopyObj);
-        }); //end of each
-
-        var cPage = responseObj.currentPage;
-        var tPage = responseObj.totalPage;
-        var sPage = responseObj.startPage;
-        var ePage = responseObj.endPage;
-        var url = responseObj.url;
-
-        var $pageLi = $("div.pagination_container>ul.pagination").children(); //a태그 포함한 li
-        var $prevLi = $pageLi.first();
-        var $nextLi = $pageLi.last();
-        if (cPage == 1) {
-          $prevLi.addClass("disabled");
-          $prevLi.find("a.page-link").attr("aria-disabled", true);
-        } else {
-          $prevLi.removeClass("disabled");
-          $prevLi
-            .find("a.page-link")
-            .attr("aria-disabled", false)
-            .attr("href", url + (cPage - 1));
+      if (cPage == tPage) {
+        $nextLi.addClass('disabled');
+        $nextLi.find('a.page-link').attr('aria-disabled', true);
+      } else {
+        $nextLi.removeClass('disabled');
+        $nextLi.find('a.page-link').attr('aria-disabled', false).attr('href', url + (cPage + 1));
+      }
+      var $liObj = $pageLi.eq(1);
+      $pageLi.parent().find('li.num').not(':first').remove();//안보이는 원본li객체는 남기고 삭제
+      for (let k = sPage; k <= ePage; k++) {
+        $liCopyObj = $liObj.clone();
+        $liCopyObj.show();
+        $liCopyObj.find('a.page-link').html(k).attr('href', url + k);
+        if (k == cPage) {
+          $liCopyObj.addClass('active').attr('aria-current', "page");
         }
-        if (cPage == tPage) {
-          $nextLi.addClass("disabled");
-          $nextLi.find("a.page-link").attr("aria-disabled", true);
-        } else {
-          $nextLi.removeClass("disabled");
-          $nextLi
-            .find("a.page-link")
-            .attr("aria-disabled", false)
-            .attr("href", url + (cPage + 1));
-        }
-        var $liObj = $pageLi.eq(1);
-        $pageLi.parent().find("li.num").not(":first").remove(); //안보이는 원본li객체는 남기고 삭제
-        for (let k = sPage; k <= ePage; k++) {
-          $liCopyObj = $liObj.clone();
-          $liCopyObj.show();
-          $liCopyObj
-            .find("a.page-link")
-            .html(k)
-            .attr("href", url + k);
-          if (k == cPage) {
-            $liCopyObj.addClass("active").attr("aria-current", "page");
-          }
-          $nextLi.before($liCopyObj);
-        } //end of for
-      } //end of function
+        $nextLi.before($liCopyObj);
+      }//end of for
+    };//end of function
 
-      $(function () {
-        var backurl = "http://localhost:9999/kkfd/creator/projects/1";
-        $.ajax({
-          url: backurl,
-          method: "GET",
-          transformRequest: [null],
-          transformResponse: [null],
-          jsonpCallbackParam: "callback",
-          headers: {
-            Accept: "application/json, text/plain, */*",
+    $(function () {
+      var backurl = 'http://localhost:9999/kkfd/creator/projects/1';
+      $.ajax({
+        "url": backurl,
+        "method": "GET",
+        "transformRequest": [null],
+        "transformResponse": [null],
+        "jsonpCallbackParam": "callback",
+        "headers": {
+          "Accept": "application/json, text/plain, */*"
+        }, "xhrFields": {
+          withCredentials: true
+        },
+        "timeout": {},
+        "statusCode": {
+          401: function () {
+            alert('로그인후 사용해주세요');
+            location.replace("/member/login");
           },
-          timeout: {},
-          success: function (responseObj) {
+          500: function () {
+            alert('서버에러, 관리자에게 문의해 주세요.');
+          },
+          204: function () {
+            var trHtml = '';
+            trHtml += '<tr><td colspan="6" class="text-center">등록한 프로젝트가 없습니다.</td><tr>';
+            $('body > section > div.my > table.allProj>tbody').html(trHtml);
+            trHtml = '';
+            trHtml += '<tr><td colspan="6" class="text-center">진행중인 프로젝트가 없습니다.</td><tr>';
+            $('body > section > div.my > table.ongoing>tbody').html(trHtml);
+          },
+          200: function (responseObj) {
             //0:취소
             //1:정상(10:진행예정 / 11:달성률<25 / 12: 25<=달성률<75 / 13: 75<=달성률<100 / 15:100<=달성률<제한수량 /  19:제한수량도달)
             //2:마감(20:실패, 21:성공)
-            var $trObj = $("body > section > div.my > table.ongoing tr.data"); //진행예정&진행중 테이블 tr원본객체
-            var $btnObj = $("body > section > div.my > button.cancle"); //취소버튼 원본객체
+            var $trObj = $('body > section > div.my > table.ongoing tr.data');  //진행예정&진행중 테이블 tr원본객체
+            var $btnObj = $('body > section > div.my > button.cancle');         //취소버튼 원본객체
             var now = new Date();
+            var ongoingCnt = 0;
             $(responseObj.list).each(function (i, p) {
               if (p.projStatus > 9 && p.projStatus < 20) {
+                ongoingCnt++;
                 var totalFm = p.projFm * p.projQuantity;
                 var restDay = dayBetween(now, new Date(p.projEnd));
                 var $trCopyObj = $trObj.clone(); //tr 복제본객체
                 $trCopyObj.show();
-                $trCopyObj.find("th.projNo").html(p.projNo);
-                $trCopyObj
-                  .find("a.projTitle")
-                  .html(p.projTitle)
-                  .attr("href", "/project/info?no=" + p.projNo);
-                $trCopyObj
-                  .find("td.totalFm")
-                  .html(numberWithCommas(totalFm) + "원");
-                $trCopyObj.find("td.restDay").html(restDay + "일");
+                $trCopyObj.find('th.projNo').html(p.projNo);
+                $trCopyObj.find('a.projTitle').html(p.projTitle).attr('href', '/project/info?no=' + p.projNo);
+                $trCopyObj.find('td.totalFm').html(numberWithCommas(totalFm) + '원');
+                $trCopyObj.find('td.restDay').html(restDay + '일');
                 var pst = p.projGoals;
-                var $progressBar = $trCopyObj.find("div.progress-bar");
+                var $progressBar = $trCopyObj.find('div.progress-bar');
                 switch (p.projStatus) {
-                  case 10: //진행예정
-                    $trCopyObj.find("div.progress").append("진행예정");
+                  case 10:  //진행예정
+                    $trCopyObj.find('div.progress').append('진행예정');
                     break;
-                  case 11: //25%이하 : 노랑
-                    $progressBar
-                      .css("width", pst * 2)
-                      .attr("aria-valuenow", pst)
-                      .html(pst + "%");
-                    $progressBar.addClass("bg-warning");
+                  case 11:  //25%이하 : 노랑
+                    $progressBar.css('width', pst * 2).attr('aria-valuenow', pst).html(pst + '%');
+                    $progressBar.addClass('bg-warning');
                     break;
-                  case 12: //25%~75% : 파랑
-                    $progressBar
-                      .css("width", pst * 2)
-                      .attr("aria-valuenow", pst)
-                      .html(pst + "%");
-                    $progressBar.addClass("bg-primary");
+                  case 12:  //25%~75% : 파랑
+                    $progressBar.css('width', pst * 2).attr('aria-valuenow', pst).html(pst + '%');
+                    $progressBar.addClass('bg-primary');
                     break;
                   case 13: //75%~100% : 청록
-                    $progressBar
-                      .css("width", pst * 2)
-                      .attr("aria-valuenow", pst)
-                      .html(pst + "%");
-                    $progressBar.addClass("bg-info");
+                    $progressBar.css('width', pst * 2).attr('aria-valuenow', pst).html(pst + '%');
+                    $progressBar.addClass('bg-info');
                     break;
                   case 15: //100%~제한수량 : 초록
-                    $progressBar
-                      .css("width", 100 * 2)
-                      .attr("aria-valuenow", 100)
-                      .html(pst + "%");
-                    $progressBar.addClass("bg-success");
+                    $progressBar.css('width', 100 * 2).attr('aria-valuenow', 100).html(pst + '%');
+                    $progressBar.addClass('bg-success');
                     break;
-                  default:
-                    //제한수량 도달
-                    $progressBar
-                      .css("width", 100 * 2)
-                      .attr("aria-valuenow", 100)
-                      .html("제한수량도달");
-                    $progressBar.addClass("bg-secondary");
+                  default:  //제한수량 도달
+                    $progressBar.css('width', 100 * 2).attr('aria-valuenow', 100).html('제한수량도달');
+                    $progressBar.addClass('bg-secondary')
                     break;
                 }
                 /*[취소가능 버튼 복제 후 추가] 10:진행예정 / 11:달성률<25 / 12: 25<=달성률<75 / 13: 75<=달성률<100 */
-                if (
-                  p.projStatus == 12 ||
-                  p.projStatus == 11 ||
-                  p.projStatus == 13 ||
-                  p.projStatus == 10
-                ) {
+                if (p.projStatus == 12 || p.projStatus == 11 || p.projStatus == 13 || p.projStatus == 10) {
                   var $btnCopyObj = $btnObj.clone(); //취소버튼복제본객체
                   $btnCopyObj.show();
                   $btnCopyObj.val(p.projNo);
-                  $trCopyObj.find("td.cancle").append($btnCopyObj);
+                  $trCopyObj.find('td.cancle').append($btnCopyObj);
                 }
               }
-              $trObj.parent().append($trCopyObj); //tr의 부모인 table에 tr복제본을 마지막자식요소로 추가한다
-            }); //end of each
+              $trObj.parent().append($trCopyObj);
+            });//end of each
+            //진행중인 프로젝트 없으면 
+            console.log(ongoingCnt);
+            if (ongoingCnt == 0) {
+              console.log('if');
+              var trHtml = '';
+              trHtml += '<tr><td colspan="6" class="text-center">진행 중인 프로젝트가 없습니다.</td><tr>';
+              $('body > section > div.my > table.ongoing > tbody').html(trHtml);
+            }
+
             //전체리스트 출력
             mylist(responseObj);
-          }, //end of success
-          error: function (jqXHR, textStatus) {
-            /*에러 처리 더 찾아보기
-          if (jqXHR.status == 401) {
-            window.location.href = "/login/page";
-          } else if (jqXHR.status == 500 && jqXHR.responseText.indexOf("ConstraintViolationException")) {
-            alert("중복된 값(영문약어,단어명or용어명..)이 있습니다. 검색 후 등록하세요.");
-          } else {
-            alert("시스템 오류입니다. 잠시 후 다시 접속하시기 바랍니다. [ message: " + jqXHR.responseText + "\error:" + textStatus + "]");
-          }
-          */
-          }, //end of error
-        }); //end of Ajax
+          },//end of 200
+        },//end of statusCode
+      });//end of Ajax
 
-        $("div.pagination_container>ul.pagination").on(
-          "click",
-          "li.page-item > a.page-link",
-          function () {
-            var backurl = $(this).attr("href");
-            $.ajax({
-              url: backurl,
-              method: "GET",
-              transformRequest: [null],
-              transformResponse: [null],
-              jsonpCallbackParam: "callback",
-              headers: {
-                Accept: "application/json, text/plain, */*",
-              },
-              timeout: {},
-              success: function (responseObj) {
-                mylist(responseObj);
-              }, //end of success
-              error: function (jqXHR, textStatus) {}, //end of error
-            }); //end of Ajax
-            return false;
-          }
-        ); //end of function;
+      //페이지이동
+      $('div.pagination_container>ul.pagination').on('click', 'li.page-item > a.page-link', function () {
+        var backurl = $(this).attr('href');
+        $.ajax({
+          "url": backurl,
+          "method": "GET",
+          "transformRequest": [null],
+          "transformResponse": [null],
+          "jsonpCallbackParam": "callback",
+          "headers": {
+            "Accept": "application/json, text/plain, */*"
+          }, "xhrFields": {
+            withCredentials: true
+          },
+          "timeout": {},
+          "statusCode": {
+            401: function () {
+              alert('로그인후 사용해주세요');
+              location.replace("/member/login");
+            },
+            500: function () {
+              alert('서버에러, 관리자에게 문의해 주세요.');
+            },
+            200: function (responseObj) {
+              mylist(responseObj);
+            },//end of 200
+          },// end of statusCode
+        });//end of Ajax
+        return false;
+      });//end of function;
 
-        //취소 버튼
-        $("table.ongoing").on("click", "button.cancle", function () {
-          var result = confirm("취소~ 위약금10%~!!!그래도 취소?");
-          if (result) {
-            var backurl = "http://localhost:9999/kkfd/project/" + $(this).val();
-            $.ajax({
-              method: "PUT",
-              url: backurl,
-              transformRequest: [null],
-              transformResponse: [null],
-              jsonpCallbackParam: "callback",
-              headers: {
-                Accept: "application/json, text/plain, */*",
-                "Content-Type": "application/json;charset=utf-8",
+      //취소 버튼
+      $('table.ongoing').on('click', 'button.cancle', function () {
+        var result = confirm('취소확인) 약관에 따라 위약금 모집금액의 10%를 지불해야 합니다.그래도 취소하시겠습니다.');
+        if (result) {
+          var backurl = "http://localhost:9999/kkfd/project/" + $(this).val();
+          $.ajax({
+            "method": "PUT",
+            "url": backurl,
+            "transformRequest": [null],
+            "transformResponse": [null],
+            "jsonpCallbackParam": "callback",
+            "headers": {
+              "Accept": "application/json, text/plain, */*",
+              "Content-Type": "application/json;charset=utf-8"
+            }, "xhrFields": {
+              withCredentials: true
+            },
+            "data": "",
+            "timeout": {},
+            "statusCode": {
+              401: function () {
+                alert('로그인후 사용해주세요');
+                location.replace("/member/login");
               },
-              data: "",
-              timeout: {},
-              success: function (responseObj) {
+              403: function () {
+                alert('취소 권한이 없습니다.');
+                location.replace("/");
+              },
+              500: function () {
+                alert('서버에러, 관리자에게 문의해 주세요.');
+              },
+              200: function (responseObj) {
                 location.reload();
-              }, //end of success
-              error: function (jqXHR, textStatus) {}, //end of error
-            }); //end of Ajax;
-          } //end of if;
-        }); //end of function;
-      }); //end of load;
-    </script>
-  </head>
+              },//end of 200
+            }//end of statusCode
+          });//end of Ajax;
+        }//end of if;
+      });//end of function;
 
-  <body>
-    <!-- header -->
-    <header class="main_header">
-      <div class="main_header_warp">
-        <div class="header_menu_warp">
-          <div class="header_projectsearch">
-            <button class="projectsearch_item">
-              <a
-                style="text-decoration: none; color: black"
-                href="/project/list"
-              >
-                <i class="fas fa-align-justify fa-lg"></i>
-                <span class="projectsearch_name">프로젝트 둘러보기</span>
-              </a>
-            </button>
-          </div>
-          <div class="header_projectupload">
-            <a style="text-decoration: none" href="/register/registerAgree/">
-              <span class="projectupload_name">프로젝트 올리기</span>
+    });//end of load;
+  </script>
+</head>
+
+<body>
+  <!-- header -->
+  <header class="main_header">
+    <div class="main_header_warp">
+      <div class="header_menu_warp">
+        <div class="header_projectsearch">
+          <button class="projectsearch_item">
+            <a style="text-decoration: none; color: black" href="/project/list">
+              <i class="fas fa-align-justify fa-lg"></i>
+              <span class="projectsearch_name">프로젝트 둘러보기</span>
             </a>
-          </div>
+          </button>
         </div>
-        <div class="header_mainlogo">
-          <a style="text-decoration: none" href="/">
-            <span class="header_mainlogo_item">크크펀딩</span>
+        <div class="header_projectupload">
+          <a style="text-decoration: none;" href="/register/registerAgree/">
+            <span class="projectupload_name">프로젝트 올리기</span>
           </a>
         </div>
-        <div class="header_sub_warp">
-          <div class="header_searchicon">
-            <!-- <i class="fas fa-search fa-lg"></i> -->
-          </div>
-          <div class="header_customer_warp">
-            <button class="header_customer_btn">
-              <div class="header_login&signup">
-                <span class="login_signup_name">
-                  <a href="/member/login">로그인 / 회원가입</a>
-                </span>
+      </div>
+      <div class="header_mainlogo">
+        <a style="text-decoration: none;" href="/">
+          <span class="header_mainlogo_item">크크펀딩</span>
+        </a>
+      </div>
+      <div class="header_sub_warp">
+        <div class="header_searchicon">
+          <!-- <i class="fas fa-search fa-lg"></i> -->
+        </div>
+        <div class="header_customer_warp">
+          <button class="header_customer_btn">
+            <div class="header_login&signup">
+              <span class="login_signup_name">
+                <a class="admin-no" href="/member/login">로그인 / 회원가입</a>
+                <a class="admin-yes" href="/creator/cmypage">마이페이지</a>
+                <a class="admin-yes" href="javascript:Logout()">로그아웃</a>
+              </span>
+            </div>
+            <!--
+            <div class="header_profile_img">
+              <img class="profile" src="/img/blank.png">
+            </div>-->
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!-- 메인섹션 -->
+  <section class="main_section">
+    <div class="my">
+      <div class="toptitle">
+        <h3>마이페이지</h3>
+      </div>
+      <div class="topnav">
+        <a class="member" href="/member/mypage">회원정보수정</a>
+        <a class="member" href="/member/funlist">펀딩한 프로젝트</a>
+        <a class="member" href="/project/bmlist">북마크한 프로젝트</a>
+        <a class="creator" href="/creator/cmypage">크리에이터 프로필수정</a>
+        <a class="creator_active" href="/creator/mylist">마이 프로젝트</a>
+      </div>
+
+      <br>
+      <h4>진행예정 & 진행중인 프로젝트</h4>
+      <!--취소btn 원본객체-->
+      <button type="button" class="cancle btn btn-outline-danger btn-sm" value="" style="display: none">취소</button>
+      <table class="table ongoing">
+        <thead class="table-light">
+          <tr>
+            <th scope="col" width="7%">번호</th>
+            <th scope="col" width="43%">프로젝트명</th>
+            <th scope="col" width="20%" class="text-center">달성률</th>
+            <th scope="col" class="text-end">남은기간</th>
+            <th scope="col" class="text-center">모집금액</th>
+            <th scope="col" class="text-center">취소</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="data" style="display: none;">
+            <th scope=" row" class="projNo">
+            </th>
+            <td><a class="projTitle text-decoration-none" title="펀딩 상세 페이지로 이동"></a></td>
+            <td>
+              <div class="progress">
+                <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="25" aria-valuemin="0"
+                  aria-valuemax="100"></div>
               </div>
-              <div class="header_profile_img">
-                <img class="profile" src="/img/blank.png" />
-              </div>
-            </button>
-          </div>
-        </div>
-      </div>
-    </header>
-    <!-- 메인섹션 -->
-    <section class="main_section">
-      <div class="my">
-        <div class="toptitle">
-          <h3>마이페이지</h3>
-        </div>
-        <div class="topnav">
-          <a class="member" href="/member/mypage">회원정보수정</a>
-          <a class="member" href="/member/funlist">펀딩한 프로젝트</a>
-          <a class="member" href="/project/bmlist">북마크한 프로젝트</a>
-          <a class="creator" href="/creator/cmypage">크리에이터 프로필수정</a>
-          <a class="creator_active" href="/creator/mylist">마이 프로젝트</a>
-        </div>
+            </td>
+            <td class="text-end restDay"></td>
+            <td class="text-end totalFm"></td>
+            <td class="text-center cancle"></td>
+          </tr>
+        </tbody>
+      </table>
+      <br>
+      <br>
+      <h4>전체 프로젝트</h4>
+      <button type="button" class="view btn btn-outline-success btn-sm" style="display: none;">보기</button>
+      <table class="table allProj">
+        <thead class="table-light">
+          <tr>
+            <th scope="col" width="7%">번호</th>
+            <th scope="col" width="43%">프로젝트명</th>
+            <th scope="col" width="8%">목표도달</th>
+            <th scope="col" class="text-center">기간</th>
+            <th scope="col" class="text-center">모집금액</th>
+            <th scope="col" class="text-center">참여자</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="data" style="display: none;">
+            <th scope="row" class="projNo"></th>
+            <td><a class="projTitle text-decoration-none"></a></td>
+            <td class="text-center">
+              <div class="status"></div>
+            </td>
+            <td class="text-center term"></td>
+            <td class="text-end totalFm"></td>
+            <td class="text-center view"></td>
+          </tr>
+        </tbody>
+      </table>
 
-        <br />
-        <h4>진행예정 & 진행중인 프로젝트</h4>
-        <!--취소btn 원본객체-->
-        <button
-          type="button"
-          class="cancle btn btn-outline-danger btn-sm"
-          value=""
-          style="display: none"
-        >
-          취소
-        </button>
-        <table class="table ongoing">
-          <thead class="table-light">
-            <tr>
-              <th scope="col" width="7%">번호</th>
-              <th scope="col" width="43%">프로젝트명</th>
-              <th scope="col" width="20%" class="text-center">달성률</th>
-              <th scope="col" class="text-end">남은기간</th>
-              <th scope="col" class="text-center">모집금액</th>
-              <th scope="col" class="text-center">취소</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr class="data" style="display: none">
-              <th scope=" row" class="projNo"></th>
-              <td>
-                <a
-                  class="projTitle text-decoration-none"
-                  title="펀딩 상세 페이지로 이동"
-                ></a>
-              </td>
-              <td>
-                <div class="progress">
-                  <div
-                    class="progress-bar"
-                    role="progressbar"
-                    style="width: 0%"
-                    aria-valuenow="25"
-                    aria-valuemin="0"
-                    aria-valuemax="100"
-                  ></div>
-                </div>
-              </td>
-              <td class="text-end restDay"></td>
-              <td class="text-end totalFm"></td>
-              <td class="text-center cancle"></td>
-            </tr>
-          </tbody>
-        </table>
-        <br />
+      <div class="pagination_container">
+        <ul class="pagination">
+          <li class="page-item"><a class="page-link" tabindex="-1">&laquo;</a>
+          </li>
+          <li class="num page-item" style="display: none;"><a class="page-link"></a></li>
+          <li class="page-item">
+            <a class="page-link">&raquo;</a>
+          </li>
+        </ul>
+      </div>
+    </div>
 
-        <h4>전체 프로젝트</h4>
-        <button
-          type="button"
-          class="view btn btn-outline-success btn-sm"
-          style="display: none"
-        >
-          보기
-        </button>
-        <table class="table allProj">
-          <thead class="table-light">
-            <tr>
-              <th scope="col" width="7%">번호</th>
-              <th scope="col" width="43%">프로젝트명</th>
-              <th scope="col" width="8%">목표도달</th>
-              <th scope="col" class="text-center">기간</th>
-              <th scope="col" class="text-center">모집금액</th>
-              <th scope="col" class="text-center">참여자</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr class="data" style="display: none">
-              <th scope="row" class="projNo"></th>
-              <td><a class="projTitle text-decoration-none"></a></td>
-              <td class="text-center">
-                <div class="state"></div>
-              </td>
-              <td class="text-center term"></td>
-              <td class="text-end totalFm"></td>
-              <td class="text-center view"></td>
-            </tr>
-          </tbody>
-        </table>
+  </section>
+  <footer class="main_footer">
 
-        <div class="pagination_container">
-          <ul class="pagination">
-            <li class="page-item">
-              <a class="page-link" tabindex="-1">&laquo;</a>
-            </li>
-            <li class="num page-item" style="display: none">
-              <a class="page-link"></a>
-            </li>
-            <li class="page-item">
-              <a class="page-link">&raquo;</a>
-            </li>
-          </ul>
+    <div class="footer_second_warp">
+      <div class="footer_info_warp">
+        <div class="info_first_warp">
+          <span class="info_item1">회사명</span>
+          <span class="info_item2">크크펀딩</span>
+          <span class="info_item1">주소</span>
+          <span class="info_item2">경기도 성남시 분당구 성남대로 34 6층(구미동 하나프라자빌딩)</span>
+          <span class="info_item1">대표</span>
+          <span class="info_item2">오문정</span>
+          <span class="info_item1">사업자등록번호</span>
+          <span class="info_item2">105-87-52823</span>
+        </div>
+        <div class="info_second_warp">
+          <span class="info_item1">통신판매업 신고번호</span>
+          <span class="info_item2">2019-3010165-30-2-02129</span>
+          <span class="info_item1">대표번호</span>
+          <span class="info_item2">031-606-9319</span>
+        </div>
+        <div class="info_last_warp">
+          <span class="last_warp_item">© 2021 KKPD Inc.</span>
         </div>
       </div>
-    </section>
-    <footer class="main_footer">
-      <div class="footer_second_warp">
-        <div class="footer_info_warp">
-          <div class="info_first_warp">
-            <span class="info_item1">회사명</span>
-            <span class="info_item2">크크펀딩</span>
-            <span class="info_item1">주소</span>
-            <span class="info_item2"
-              >경기도 성남시 분당구 성남대로 34 6층(구미동 하나프라자빌딩)</span
-            >
-            <span class="info_item1">대표</span>
-            <span class="info_item2">오문정</span>
-            <span class="info_item1">사업자등록번호</span>
-            <span class="info_item2">105-87-52823</span>
-          </div>
-          <div class="info_second_warp">
-            <span class="info_item1">통신판매업 신고번호</span>
-            <span class="info_item2">2019-3010165-30-2-02129</span>
-            <span class="info_item1">대표번호</span>
-            <span class="info_item2">031-606-9319</span>
-          </div>
-          <div class="info_last_warp">
-            <span class="last_warp_item">© 2021 KKPD Inc.</span>
-          </div>
-        </div>
-        <div class="footer_info_icon">
-          <i class="fab fa-java fa-lg"></i>
-          <i class="fab fa-js fa-lg"></i>
-          <i class="fab fa-html5 fa-lg"></i>
-          <i class="fab fa-css3 fa-lg"></i>
-          <i class="fas fa-user-md fa-lg"></i>
-          <i class="fas fa-head-side-mask fa-lg"></i>
-        </div>
+      <div class="footer_info_icon">
+        <i class="fab fa-java fa-lg"></i>
+        <i class="fab fa-js fa-lg"></i>
+        <i class="fab fa-html5 fa-lg"></i>
+        <i class="fab fa-css3 fa-lg"></i>
+        <i class="fas fa-user-md fa-lg"></i>
+        <i class="fas fa-head-side-mask fa-lg"></i>
       </div>
-      <div class="footer_last_info">
-        <div class="footer_last_info_div">
-          <span class="last_info_item">
-            크크펀딩은 플랫폼 제공자로서 프로젝트의 당사자가 아니며, 직접적인
-            통신판매를 진행하지 않습니다. 프로젝트의 완수 및 선물제공의 책임은
-            해당 프로젝트의 창작자에게 있으며, 프로젝트와 관련하여 후원자와
-            발생하는 법적 분쟁에 대한 책임은 해당 창작자가 부담합니다.
-          </span>
-        </div>
+    </div>
+    <div class="footer_last_info">
+      <div class="footer_last_info_div">
+        <span class="last_info_item">
+          크크펀딩은 플랫폼 제공자로서 프로젝트의 당사자가 아니며, 직접적인 통신판매를 진행하지 않습니다. 프로젝트의 완수 및 선물제공의 책임은 해당 프로젝트의 창작자에게 있으며, 프로젝트와 관련하여 후원자와
+          발생하는 법적 분쟁에 대한 책임은 해당 창작자가 부담합니다.
+        </span>
       </div>
-    </footer>
-  </body>
+    </div>
+  </footer>
+  <script>
+    logouted();
+    checkLogined();
+  </script>
+</body>
+
 </html>

@@ -83,9 +83,8 @@ public class MemberDAOOracle implements MemberDAO {
             session = sessionFactory.openSession();
             int rowCnt = session.update("com.kkfd.dto.MemberMapper.update", m);
             if(rowCnt==0) {
-                throw new ModifyException("업데이트x");
+                throw new ModifyException("0");
             }
-            //DAO method 타입을 void?int?
         } catch (Exception e) {
             e.printStackTrace();
             throw new ModifyException(e.getMessage());

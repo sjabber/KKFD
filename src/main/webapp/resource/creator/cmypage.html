@@ -30,6 +30,8 @@
         "jsonpCallbackParam": "callback",
         "headers": {
           "Accept": "application/json, text/plain, */*"
+        }, "xhrFields": {
+          withCredentials: true
         },
         "timeout": {},
         success: function (responseObj) {
@@ -95,6 +97,8 @@
             "headers": {
               "Accept": "application/json, text/plain, */*",
               "Content-Type": "application/json;charset=utf-8"
+            }, "xhrFields": {
+              withCredentials: true
             },
             success: function (responseObj) {
               alert("성공");
@@ -116,6 +120,8 @@
             "headers": {
               "Accept": "application/json, text/plain, */*",
               "Content-Type": "application/json;charset=utf-8"
+            }, "xhrFields": {
+              withCredentials: true
             },
             success: function (responseObj) {
               alert("성공");
@@ -212,13 +218,13 @@
         <div class="header_customer_warp">
           <button class="header_customer_btn">
             <div class="header_login&signup">
-              <span class="login&signup_name">
-                <a href="/member/login">로그인 / 회원가입</a>
+              <span class="login_signup_name">
+                <a class="admin-no" href="/member/login">로그인 / 회원가입</a>
+                <a class="admin-yes" href="/creator/cmypage">마이페이지</a>
+                <a class="admin-yes" href="javascript:Logout()">로그아웃</a>
               </span>
             </div>
-            <div class="header_profile_img">
-              <img class="profile" src="/img/blank.png">
-            </div>
+
           </button>
         </div>
       </div>
@@ -422,7 +428,10 @@
       </div>
     </div>
   </footer>
-
+  <script>
+    logouted();
+    checkLogined();
+  </script>
 </body>
 
 </html>

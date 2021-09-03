@@ -49,8 +49,8 @@ public class ProjectService {
 	//------------------------------------------------------------//
 	
 	
-	public int cancleProj(int projNo, String loginId) throws ModifyException{
-		return dao.updateProj(projNo, loginId) ;
+	public void cancleProj(int projNo, String loginId) throws ModifyException{
+		dao.updateProj(projNo, loginId) ;
 	}
 
 

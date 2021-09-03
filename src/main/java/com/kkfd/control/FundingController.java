@@ -66,31 +66,27 @@ public class FundingController {
 	@PutMapping(value={"/fundings"})
 	public ResponseEntity<Integer> trackingNum(HttpSession session, @RequestBody List<FundingDTO> list) {
 		MemberDTO m = (MemberDTO)session.getAttribute("loginInfo");
-		String loginId = "t";
-//		if(m == null) {
-//			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);//401 : 권한없음
-//		} 
-//		String loginId= m.getMemId();
+		if(m == null) {
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);//401 : 권한없음
+		} 
+		String loginId= m.getMemId();
 		try {
 			int rowCnt = service.modifyFuns(list);
 			return new ResponseEntity<Integer>(rowCnt,HttpStatus.OK);
 		} catch (ModifyException e) {
 			e.printStackTrace();
-			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);//SQL   
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);//서버  
 		}						    
 	}
 
 	@GetMapping(value={"/fundings"})
 	public ResponseEntity<PageDTO<FundingDTO>> fundinglist(HttpSession session,
-			@RequestParam int term,
-			@RequestParam int state,
-			@RequestParam int page){
+			int term,int state, int page){
 		MemberDTO m = (MemberDTO)session.getAttribute("loginInfo");
-		String loginId = "t";
-//		if(m == null) {
-//			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);//401 : 권한없음
-//		} 
-//		String loginId= m.getMemId();
+		if(m == null) {
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);//401 : 권한없음
+		} 
+		String loginId= m.getMemId();
 
 		try {
 			int totalCnt = service.countMyFunList(loginId, term, state);
@@ -101,9 +97,9 @@ public class FundingController {
 			List<FundingDTO> list = service.findFunsById(loginId, term, state, page);
 			Date now = new Date();
 			//project.getProjStatus()
-			//0:무산(프로젝트 취소+프로젝트 실패)
-			//1:진행중(10:진행중 / 11:임박 / 12:결제예정(달성:마감전 100%))
-			//2:결제완료(프로젝트 성공)-결제
+			//0:결제취소(0무산(크리에이터가 취소) 20실패)
+			//1:진행중(10:진행중 / 11:임박(90%이상) / 12:결제예정(달성:마감전 100%))
+			//2:결제완료(성공) (21: 성공 22 : 배송 중(성공+배송예정 일 이후)-결제
 			//3:전체
 			int status = 0;							
 			for(FundingDTO funding : list) {
@@ -111,32 +107,36 @@ public class FundingController {
 				if(project.getProjStatus()==0) {	//0: 취소	
 					continue;									
 				}
-				if(now.before(project.getProjStart())) {		//10:현재가 시작일 전 - 진행예정
-					status=10;
-				}else if(now.before(project.getProjEnd())) {	//<현재가 시작일 후 & 종료일 전> - 진행중
+				//<현재가 시작일 후 & 종료일 전> - 진행중
+				if(now.after(project.getProjStart()) && now.before(project.getProjEnd())) {	
 					if(project.getProjGoals()==100){
-						status=12;	
-					}else if(project.getProjGoals()>=95){
+						status=12;	//결제예정
+					}else if(project.getProjGoals()>=90){
 						status=11;	
 					}else {
 						status=10;	
 					}
-				}else {											//<현재가 종료일 후> - 종료
+				//<현재가 종료일 후> - 종료
+				}else if(now.after(project.getProjEnd())){											
 					if(project.getProjGoals()<100) {			//20:종료인 프로젝트중 달성률 100%미만 실패
-						status=0;	
+						status=20;	
 					}
 					else{										//21:종료인 프로젝트중 달성률 100%이상 성공
-						status=2;								
+						if(now.before(project.getProjDelivery())) {
+							status=21;								
+						}else {
+							status=22;								
+						}
+						//배송 API구현시 배송예정일 이후에는 운송장조회기능 활성화
 					}								
 				}
 				project.setProjStatus(status);
 				funding.setProject(project);
 			}
-			String url = "?term=" + term+ "?state=" +state;
-			PageDTO<FundingDTO> pd = new PageDTO<FundingDTO>(page,totalPage ,list, url);
+			PageDTO<FundingDTO> pd = new PageDTO<FundingDTO>(page,totalPage ,list, null);
 			return new ResponseEntity<>(pd,HttpStatus.OK);//프로젝트 있는경우
 		}catch(FindException e){
-			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);//응답 변경	   
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);  
 		}
 	}
 }

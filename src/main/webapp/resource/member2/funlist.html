@@ -9,7 +9,6 @@
   <link rel="stylesheet" type="text/css" href="/css/my.css" />
   <link rel="stylesheet" type="text/css" href="/css/funlist.css" />
 
-
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous" />
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
@@ -21,140 +20,154 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
   <script>
-
-    function getUrlParams() {
-      var params = {};
-
-      window.location.search.replace(/[?&]+([^=&]+)=([^&]*)/gi,
-        function (str, key, value) {
-          params[key] = value;
-        }
-      );
-      return params;
-    }
     $(function () {
-      var params = getUrlParams();
-      var currentTerm = params[term];
-      var currentState = params[state];
       var $form = $('form#criteria');
-      $form.$('input[name=term]').val(currentTerm);
-      $form.$('input[name=state]').val(currentState);
-
-      function funlist(no) {
-        $form.find('input[name=page]').val(no);
-        var backurl = 'http://localhost:9999/kkfd/fundings/';
+      $form.submit(function () {
         var data = $form.serialize();
+        var backurl = 'http://localhost:9999/kkfd/fundings';
         $.ajax({
           url: backurl,
           method: "GET",
           data: data,
-          success: function (responseObj) {
-            var $trObj = $('body > section > div.my > table.allFun tr.data');//tr class가 data인 객체들
-            $(responseObj.list).each(function (i, f) {
-              var $trCopyObj = $trObj.clone(); //tr 복제본객체
-              $trCopyObj.show();
-              $trCopyObj.find('th.funNo').html(f.funNo);
-              $trCopyObj.find('a.projTitle').html(f.project.projTitle).attr('href', '/project/info?no=' + f.project.projNo);
-              $trCopyObj.find('td.funDate').html(f.funDate);
-              $trCopyObj.find('td.funFm').html(f.funFm);
-              $trCopyObj.find('td.projEnd').html(f.project.prodEnd);
-              $trCopyObj.find('td.funDelivery').html(f.fundDelivery);
-              $trCopyObj.find('td.funTrack').html(f.funTrack);
+          xhrFields: {
+            withCredentials: true
+          }, statusCode: {
+            401: function () {
+              alert('로그인후 사용해주세요');
+              location.replace("/member/login");
+            },
+            500: function () {
+              alert('서버에러, 관리자에게 문의해 주세요.');
+            },
+            204: function () {
+              var trHtml = '';
+              trHtml += '<tr><td colspan="8" class="text-center">펀딩한 프로젝트가 없습니다.</td><tr>';
+              $('body > section > div.my > table.allFun>tbody').html(trHtml);
+            },
+            200: function (responseObj) {
+              var $trDataObj = $('body > section > div.my > table.allFun tr.data');//tr class가 data인 객체들
+              $trDataObj.not(":first").remove();  //이전 화면 프로젝트 목록지우기(안보이는 tr원본객체는 남기고 삭제)
+              var $trObj = $trDataObj.first();
+              $(responseObj.list).each(function (i, f) {
+                var $trCopyObj = $trObj.clone(); //tr 복제본객체
+                $trCopyObj.show();
+                $trCopyObj.find('th.funNo').html(f.funNo);
+                $trCopyObj.find('a.projTitle').html(f.project.projTitle).attr('href', '/project/info?no=' + f.project.projNo);
+                $trCopyObj.find('td.funDate').html(f.funDate);
+                $trCopyObj.find('td.funFm').html(numberWithCommas(f.funFm) + '원');
+                $trCopyObj.find('td.projEnd').html(f.project.projEnd);
+                $trCopyObj.find('td.projDelivery').html(f.project.projDelivery);
+                if (f.funTrack != 0) {
+                  $trCopyObj.find('td.funTrack').html(f.funTrack);
+                }
 
+                //0:결제취소(0무산(크리에이터가 취소) /  20실패)
+                //1:진행중(10:진행중 / 11:임박(90%이상) / 12:결제예정(달성:마감전 100%))
+                //2:결제완료(성공) (21: 성공 / 22 : 배송 중(성공+배송예정 일 이후)-결제
+                switch (f.project.projStatus) {
+                  case 0:   // 무산 펀딩금액,배송예정일 취소선
+                    $trCopyObj.find('div.status').addClass('bg-danger').addClass('text-white').html('무산');
+                    $trCopyObj.find('td.funFm').addClass('text-decoration-line-through');
+                    $trCopyObj.find('td.projDelivery').addClass('text-decoration-line-through');
+                    break;
+                  case 10:  //진행중 : 회색
+                    $trCopyObj.find('div.status').addClass('bg-secondary').addClass('text-white').html('진행중');
+                    break;
+                  case 11:  //성공임박 : 검정
+                    $trCopyObj.find('div.status').addClass('bg-dark').addClass('text-white').html('성공임박');
+                    break;
+                  case 12:  //결제예정 : 청록 , 종료일(결제일) 강조
+                    $trCopyObj.find('div.status').addClass('bg-info').addClass('text-dark').html('결제예정');
+                    $trCopyObj.find('td.projEnd').addClass('fw-bold');
+                    break;
+                  case 20:  //실패 : 노랑, 펀딩금액,배송예정일 취소선
+                    $trCopyObj.find('div.status').addClass('bg-warning').addClass('text dark').html('실패');
+                    $trCopyObj.find('td.funFm').addClass('text-decoration-line-through');
+                    $trCopyObj.find('td.projDelivery').addClass('text-decoration-line-through');
+                    break;
+                  case 21:  //결제완료 : 초록 배송예정일 강조
+                    $trCopyObj.find('div.status').addClass('bg-success').addClass('text-white').html('결제완료');
+                    $trCopyObj.find('td.projDelivery').addClass('fw-bold');
+                    break;
+                  case 22:  //배송중 : 
+                    $trCopyObj.find('div.status').addClass('bg-primary').addClass('text-white').html('배송중');
+                    $trCopyObj.find('td.projDelivery').addClass('fw-bold');
+                    /*배송조회버튼
+                    var btnCopyObj = $btnObj.clone();
+                    btnCopyObj.show().val(p.projNo).attr('onClick', "");
+                    $trCopyObj.find('td.view').append(btnCopyObj);
+                    */
+                    break;
+                }
+                $trObj.parent().append($trCopyObj);
+              });//end of each
 
-              switch (f.project.projStatus) {
-                case 0:   //취소 : 빨강 기간에 취소선
-                  $trCopyObj.find('div.state').addClass('bg-danger').addClass('text-white').html('취소');
-                  $trCopyObj.find('td.term').addClass('text-decoration-line-through');
-                  break;
-                case 10:  //예정 : 회색
-                  $trCopyObj.find('div.state').addClass('bg-secondary').addClass('text-white').html('예정');
-                  break;
-                case 20:  //실패 : 노랑 모집금액에 취소선
-                  $trCopyObj.find('div.state').addClass('bg-warning').addClass('text dark').html('실패');
-                  $trCopyObj.find('td.totalFm').addClass('text-decoration-line-through').html(numberWithCommas(totalFm + '원'));
-                  break;
-                case 21:  //성공 : 초록 모집금액 표시, 참여자 보기 버튼
-                  $trCopyObj.find('div.state').addClass('bg-success').addClass('text-white').html('성공');
-                  $trCopyObj.find('td.totalFm').html(numberWithCommas(totalFm + '원'));
-                  var btnCopyObj = $btnObj.clone();
-                  btnCopyObj.show().val(p.projNo).attr('onClick', "location.href='/project2/joinlist?no=" + p.projNo + "'");
-                  $trCopyObj.find('td.view').append(btnCopyObj);
-                  break;
-                default:  //진행예정,진행 : 파랑 모집금액 표시
-                  $trCopyObj.find('div.state').addClass('bg-primary').addClass('text-white').html('진행');
-                  $trCopyObj.find('td.totalFm').html(numberWithCommas(totalFm + '원'));
-                  break;
+              var cPage = responseObj.currentPage;
+              var tPage = responseObj.totalPage;
+              var sPage = responseObj.startPage;
+              var ePage = responseObj.endPage;
+
+              var $pageLi = $('div.pagination_container>ul.pagination').children();//a태그 포함한 li
+              var $prevLi = $pageLi.first();
+              var $nextLi = $pageLi.last();
+              if (cPage == 1) {
+                $prevLi.addClass('disabled');
+                $prevLi.find('a.page-link').attr('aria-disabled', true);
+              } else {
+                $prevLi.removeClass('disabled');
+                $prevLi.find('a.page-link').attr('aria-disabled', false).attr('href', (cPage - 1));
               }
-              $trObj.parent().append($trCopyObj);
-            });//end of each
-
-            var cPage = responseObj.currentPage;
-            var tPage = responseObj.totalPage;
-            var sPage = responseObj.startPage;
-            var ePage = responseObj.endPage;
-            var url = responseObj.url;
-
-            var $pageLi = $('div.pagination_container>ul.pagination').children();//a태그 포함한 li
-            var $prevLi = $pageLi.first();
-            var $nextLi = $pageLi.last();
-            if (cPage == 1) {
-              $prevLi.addClass('disabled');
-              $prevLi.find('a.page-link').attr('aria-disabled', true);
-            } else {
-              $prevLi.removeClass('disabled');
-              $prevLi.find('a.page-link').attr('aria-disabled', false).attr('href', url + (cPage - 1));
-            }
-            if (cPage == tPage) {
-              $nextLi.addClass('disabled');
-              $nextLi.find('a.page-link').attr('aria-disabled', true);
-            } else {
-              $nextLi.removeClass('disabled');
-              $nextLi.find('a.page-link').attr('aria-disabled', false).attr('href', url + (cPage + 1));
-            }
-            var $liObj = $pageLi.eq(1);
-            $pageLi.parent().find('li.num').not(':first').remove();//안보이는 원본li객체는 남기고 삭제
-            for (let k = sPage; k <= ePage; k++) {
-              $liCopyObj = $liObj.clone();
-              $liCopyObj.show();
-              $liCopyObj.find('a.page-link').html(k).attr('href', url + k);
-              if (k == cPage) {
-                $liCopyObj.addClass('active').attr('aria-current', "page");
+              if (cPage == tPage) {
+                $nextLi.addClass('disabled');
+                $nextLi.find('a.page-link').attr('aria-disabled', true);
+              } else {
+                $nextLi.removeClass('disabled');
+                $nextLi.find('a.page-link').attr('aria-disabled', false).attr('href', (cPage + 1));
               }
-              $nextLi.before($liCopyObj);
-            }//end of for
-          },//end of success
-          error: function (jqXHR, textStatus) {
-
-          }//end of error
-        });//end of Ajax
-
-      };
-
-
-      $('div.pagination_container>ul.pagination').on('click', 'li.page-item > a.page-link', function () {
-        var page = $(this).attr('href');
-        $.ajax({
-          "url": backurl,
-          "method": "GET",
-          "transformRequest": [null],
-          "transformResponse": [null],
-          "jsonpCallbackParam": "callback",
-          "headers": {
-            "Accept": "application/json, text/plain, */*"
-          },
-          "timeout": {},
-          success: function (responseObj) {
-            mylist(responseObj);
-          },//end of success
-          error: function (jqXHR, textStatus) {
-
-          }//end of error
+              var $liObj = $pageLi.eq(1);
+              $pageLi.parent().find('li.num').not(':first').remove();//안보이는 원본li객체는 남기고 삭제
+              for (let k = sPage; k <= ePage; k++) {
+                $liCopyObj = $liObj.clone();
+                $liCopyObj.show();
+                $liCopyObj.find('a.page-link').html(k).attr('href', k);
+                if (k == cPage) {
+                  $liCopyObj.addClass('active').attr('aria-current', "page");
+                }
+                $nextLi.before($liCopyObj);
+              }//end of for
+            },//end of 200
+          }//end of statuscod
         });//end of Ajax
         return false;
-      });//end of function;
+      });
 
+      //초기 화면 로드
+      $form.submit();
+
+      $form.find('input[name=term]').change(function () {
+        $form.find('input[name=page]').val(1);//상태값 바뀌면 페이지 1로 초기화
+        $form.submit();
+      });
+
+      $form.find('select[name=state]').change(function () {
+        $form.find('input[name=page]').val(1);//상태값 바뀌면 페이지 1로 초기화
+        $form.submit();
+
+      });
+      $('div.pagination_container>ul.pagination').on('click', 'li.page-item > a.page-link', function () {
+        if ($(this).parent().hasClass('move')) {//<<버튼이거나 >>이고 비활성화시 
+          if ($(this).attr('aria-disabled') == true) {
+            return false;
+          }
+        }
+        var page = $(this).attr('href');
+        console.log(page);
+        $form.find('input[name=page]').val(page);
+        $form.submit();
+        return false;//버블링방지
+      });
     });//end of load;
+
   </script>
 </head>
 
@@ -189,13 +202,13 @@
         <div class="header_customer_warp">
           <button class="header_customer_btn">
             <div class="header_login&signup">
-              <span class="login&signup_name">
-                <a href="/member/login">로그인 / 회원가입</a>
+              <span class="login_signup_name">
+                <a class="admin-no" href="/member/login">로그인 / 회원가입</a>
+                <a class="admin-yes" href="/creator/cmypage">마이페이지</a>
+                <a class="admin-yes" href="javascript:Logout()">로그아웃</a>
               </span>
             </div>
-            <div class="header_profile_img">
-              <img class="profile" src="/img/blank.png">
-            </div>
+
           </button>
         </div>
       </div>
@@ -214,42 +227,45 @@
         <a class="creator" href="/creator/cmypage">크리에이터 프로필수정</a>
         <a class="creator" href="/creator/mylist">마이 프로젝트</a>
       </div>
-      <div class="d-flex justify-content-between align-items-center my-3">
-        <div class="d-flex  justify-content-between align-items-center">
-          <div class="me-4 fs-5">기간</div>
-          <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-            <input type="radio" class="btn-check" name="term" id="month1" autocomplete="off" checked>
-            <label class="btn btn-outline-secondary" for="month1">1개월</label>
-            <input type="radio" class="btn-check" name="term" id="month3" autocomplete="off">
-            <label class="btn btn-outline-secondary" for="month3">3개월</label>
-            <input type="radio" class="btn-check" name="term" id="month6" autocomplete="off">
-            <label class="btn btn-outline-secondary" for="month6">6개월</label>
-            <input type="radio" class="btn-check" name="term" id="month12" autocomplete="off">
-            <label class="btn btn-outline-secondary" for="month12">12개월</label>
+      <form id="criteria">
+        <div class="d-flex justify-content-between align-items-center my-3">
+          <div class="d-flex  justify-content-between align-items-center">
+            <div class="me-4 fs-5">기간</div>
+            <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+              <input type="radio" class="btn-check" name="term" id="month1" value="1" autocomplete="off" checked>
+              <label class="btn btn-outline-secondary" for="month1">1개월</label>
+              <input type="radio" class="btn-check" name="term" id="month3" value="3" autocomplete="off">
+              <label class="btn btn-outline-secondary" for="month3">3개월</label>
+              <input type="radio" class="btn-check" name="term" id="month6" value="6" autocomplete="off">
+              <label class="btn btn-outline-secondary" for="month6">6개월</label>
+              <input type="radio" class="btn-check" name="term" id="month12" value="12" autocomplete="off">
+              <label class="btn btn-outline-secondary" for="month12">12개월</label>
+            </div>
           </div>
+          <div class="d-flex justify-content-between align-items-center">
+            <div class="me-4 fs-5 w-50">상태</div>
+            <select class="form-select" name="state" ria-label="Default select example">
+              <option value="3" selected>전체</option>
+              <option value="0">결제취소</option>
+              <option value="1">진행중</option>
+              <option value="2">결제완료</option>
+            </select>
+          </div>
+          <input type="hidden" name="page" value="1">
+        </div>
+      </form>
 
-        </div>
-        <div class="d-flex justify-content-between align-items-center">
-          <div class="me-4 fs-5 w-50">상태</div>
-          <select class="form-select" aria-label="Default select example">
-            <option value="3" selected>전체</option>
-            <option value="0">무산</option>
-            <option value="1">진행중</option>
-            <option value="2">결제완료</option>
-          </select>
-        </div>
-      </div>
       <table class="table allFun">
         <thead class="table-light">
           <tr>
             <th scope="col" width="5%">번호</th>
             <th scope="col" width="8%">신청일</th>
-            <th scope="col" width="30%">프로젝트명</th>
-            <th scope="col" width="8%">펀딩금액</th>
-            <th scope="col" width="8%">목표도달</th>
-            <th scope="col" width="8%">마감일</th>
-            <th scope="col" width="8%">배송예정일</th>
-            <th scope="col" width="8%">운송장번호</th>
+            <th scope="col" width="37%">프로젝트명</th>
+            <th scope="col" width="11%">펀딩금액</th>
+            <th scope="col" width="9%" class="text-center">상태</th>
+            <th scope="col" width="10%" class="text-center">마감일</th>
+            <th scope="col" width="10%">배송예정일</th>
+            <th scope="col" width="10%">운송장번호</th>
           </tr>
         </thead>
         <tbody>
@@ -257,13 +273,12 @@
             <th scope="row" class="funNo"></th>
             <td class="funDate"></td>
             <td><a class="projTitle text-decoration-none"></a></td>
-            <td class="ext-end funFm"></td>
+            <td class="text-center funFm"></td>
             <td class="text-center status">
               <div class="status"></div>
             </td>
-
             <td class="projEnd"></td>
-            <td class="funDelivery"></td>
+            <td class="projDelivery"></td>
             <td class="funTrack"></td>
           </tr>
         </tbody>
@@ -271,10 +286,10 @@
 
       <div class="pagination_container">
         <ul class="pagination">
-          <li class="page-item"><a class="page-link" tabindex="-1">&laquo;</a>
+          <li class="move page-item"><a class="page-link" tabindex="-1">&laquo;</a>
           </li>
           <li class="num page-item" style="display: none;"><a class="page-link"></a></li>
-          <li class="page-item">
+          <li class="move page-item">
             <a class="page-link">&raquo;</a>
           </li>
         </ul>
@@ -324,7 +339,10 @@
       </div>
     </div>
   </footer>
-
+  <script>
+    logouted();
+    checkLogined();
+  </script>
 </body>
 
 </html>

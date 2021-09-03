@@ -125,14 +125,17 @@ public class ProjectDAOOracle implements ProjectDAO {
 	
 	//[creator]마이 프로젝트 취소
 	@Override
-	public int updateProj(int projNo, String loginId) throws ModifyException{
+	public void updateProj(int projNo, String loginId) throws ModifyException{
 			SqlSession session= null;
 			try {
 				session = sessionFactory.openSession();
 				HashMap<String, Object> map = new HashMap<>();
 				map.put("projNo", projNo);
 				map.put("loginId", loginId);
-				return session.update("com.kkfd.dto.ProjectMapper2.updateProj",map);
+				int rowCnt = session.update("com.kkfd.dto.ProjectMapper2.updateProj",map);
+				if(rowCnt==0) {
+					throw new ModifyException("0");
+				}
 			}catch (Exception e) {
 				throw new ModifyException(e.getMessage());
 			}finally {

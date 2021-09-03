@@ -33,18 +33,28 @@
         "headers": {
           "Accept": "application/json, text/plain, */*",
           "Content-Type": "application/json;charset=utf-8"
-        },
-        success: function (responseObj) {
-          alert("성공");
-          location.reload();
+        }, "xhrFields": {
+          withCredentials: true
+        }, "statusCode": {
+          401: function () {
+            alert('로그인후 사용해주세요');
+            location.replace("/member/login");
+          },
+          500: function () {
+            alert('서버에러, 관리자에게 문의해 주세요.');
+          },
+          200: function (responseObj) {
+            alert("회원정보 수정성공");
+            location.reload();
+            $('div.mypage_name').text(responseObj.name);
+            $('div.mypage_phone').text(responseObj.phone);
+            $('input#phone').val(responseObj.phone);
+            $('div.mypage_email').text(responseObj.email);
+          },//end of 200
+        }//end of statusCode
+      });//end of Ajax
+    }//end of function
 
-        },
-        error: function (jqXHR) {
-          alert("에러:" + jqXHR.status);
-
-        }
-      });
-    }
     $(function () {
       var backurl = "http://localhost:9999/kkfd/member/";
       $.ajax({
@@ -55,17 +65,25 @@
         "jsonpCallbackParam": "callback",
         "headers": {
           "Accept": "application/json, text/plain, */*"
+        }, "xhrFields": {
+          withCredentials: true
         },
         "timeout": {},
-        success: function (responseObj) {
-          $('div.mypage_name').text(responseObj.name);
-          $('div.mypage_phone').text(responseObj.phone);
-          $('input#phone').val(responseObj.phone);
-          $('div.mypage_email').text(responseObj.email);
-        },//end of success
-        error: function (jqXHR, textStatus) {
-
-        }//end of error
+        "statusCode": {
+          401: function () {
+            alert('로그인후 사용해주세요');
+            location.replace("/member/login");
+          },
+          500: function () {
+            alert('서버에러, 관리자에게 문의해 주세요.');
+          },
+          200: function (responseObj) {
+            $('div.mypage_name').text(responseObj.name);
+            $('div.mypage_phone').text(responseObj.phone);
+            $('input#phone').val(responseObj.phone);
+            $('div.mypage_email').text(responseObj.email);
+          },//end of 200
+        }//end of statusCode
       });//end of Ajax
 
       //비밀번호 유효성검사
@@ -185,13 +203,13 @@
         <div class="header_customer_warp">
           <button class="header_customer_btn">
             <div class="header_login&signup">
-              <span class="login&signup_name">
-                <a href="/member/login">로그인 / 회원가입</a>
+              <span class="login_signup_name">
+                <a class="admin-no" href="/member/login">로그인 / 회원가입</a>
+                <a class="admin-yes" href="/creator/cmypage">마이페이지</a>
+                <a class="admin-yes" href="javascript:Logout()">로그아웃</a>
               </span>
             </div>
-            <div class="header_profile_img">
-              <img class="profile" src="/img/blank.png">
-            </div>
+
           </button>
         </div>
       </div>
@@ -337,7 +355,10 @@
       </div>
     </div>
   </footer>
-
+  <script>
+    logouted();
+    checkLogined();
+  </script>
 </body>
 
 </html>

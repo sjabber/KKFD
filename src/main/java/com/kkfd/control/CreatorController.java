@@ -47,11 +47,10 @@ public class CreatorController {
 	@GetMapping
 	public ResponseEntity<CreatorDTO> inquiryCr(HttpSession session) {
 		MemberDTO m = (MemberDTO)session.getAttribute("loginInfo");
-		String loginId = "t";
-//		if(m == null) {
-//			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);//401 : 권한없음
-//		} 
-//		String loginId= m.getMemId();
+		if(m == null) {
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);//401 : 권한없음
+		} 
+		String loginId= m.getMemId();
 
 		try {
 			CreatorDTO creator = creatorService.findCrById(loginId);
@@ -79,17 +78,16 @@ public class CreatorController {
 	@PostMapping
 	public ResponseEntity registerCr(HttpSession session, @RequestBody CreatorDTO creator) {
 		MemberDTO m = (MemberDTO)session.getAttribute("loginInfo");
-		String loginId = "t";
-//		if(m == null) {
-//			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);//401 : 권한없음
-//		} 
-//		String loginId= m.getMemId();
+		if(m == null) {
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);//401 : 권한없음
+		} 
+		String loginId= m.getMemId();
 		try {
 			creatorService.addCr(creator);
 			return new ResponseEntity(HttpStatus.OK);				//200 : 크리에이터로 등록 완료
 		} catch (AddException e) {
 			e.printStackTrace();
-			if(e.getMessage()=="0") {
+			if(e.getMessage().equals("0")) {
 				return new ResponseEntity(HttpStatus.NOT_FOUND);	//403 : 등록된 행 수 0   
 			}
 			return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);//500 : 서버 내부 문제  
@@ -100,11 +98,10 @@ public class CreatorController {
 	public ResponseEntity changeCr(HttpSession session, @RequestBody CreatorDTO creator) {
 		log.error("여기" + creator.toString());
 		MemberDTO m = (MemberDTO)session.getAttribute("loginInfo");
-		String loginId = "t";
-//		if(m == null) {
-//			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);//401 : 권한없음
-//		} 
-//		String loginId= m.getMemId();
+		if(m == null) {
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);//401 : 권한없음
+		} 
+		String loginId= m.getMemId();
 		
 		//Creator Table에 id 존재 여부 확인후 update
 		try {
@@ -122,7 +119,7 @@ public class CreatorController {
 			return new ResponseEntity<>(HttpStatus.OK);				//200 : 크리에이터 정보 수정완료
 		} catch (ModifyException e) {
 			e.printStackTrace();
-			if(e.getMessage()=="0") {
+			if(e.getMessage().equals("0")) {
 				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);//204 : 수정된 행 수 0   
 			}
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR); //500 : 서버 내부오류  
@@ -134,17 +131,16 @@ public class CreatorController {
 	public ResponseEntity<PageDTO<ProjectDTO>> myProjects(HttpSession session
 			,@PathVariable(name="pageNo") int currentPage){
 		MemberDTO m = (MemberDTO)session.getAttribute("loginInfo");
-		String loginId = "t";
-//		if(m == null) {
-//			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);//401 : 권한없음
-//		} 
-//		String loginId= m.getMemId();
+		if(m == null) {
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);//401 : 권한없음
+		} 
+		String loginId= m.getMemId();
 		try {
 			int totalCnt = projetService.countMyProjs(loginId);
 			log.info(String.valueOf(totalCnt));
 
 			if(totalCnt==0) {
-				return new ResponseEntity<PageDTO<ProjectDTO>>(HttpStatus.NO_CONTENT);//프로젝트 없음	
+				return new ResponseEntity<>(HttpStatus.NO_CONTENT);//프로젝트 없음	
 			}
 			int totalPage =  (int) Math.ceil(totalCnt/(double)PageDTO.CNT_PER_PAGE);			
 			List<ProjectDTO> list = projetService.findProjsByCrId(loginId,currentPage);
@@ -187,6 +183,7 @@ public class CreatorController {
 			}
 			String url = "http://localhost:9999/kkfd/creator/projects/";
 			PageDTO<ProjectDTO> pd = new PageDTO<ProjectDTO>(currentPage,totalPage ,list, url);
+			log.info(String.valueOf("성공"));
 
 			return new ResponseEntity<PageDTO<ProjectDTO>>(pd,HttpStatus.OK);//프로젝트 있는경우
 		}catch(FindException e){

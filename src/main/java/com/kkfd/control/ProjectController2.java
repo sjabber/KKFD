@@ -39,56 +39,44 @@ public class ProjectController2 {
 	public ResponseEntity cancleProj(HttpSession session
 			,@PathVariable int projNo){
 		MemberDTO m = (MemberDTO)session.getAttribute("loginInfo");
-		String loginId = "t";
-//		if(m == null) {
-//			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);//401 : 권한없음
-//		} 
-//		String loginId= m.getMemId();
+		if(m == null) {
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);//401 : 권한없음
+		} 
+		String loginId= m.getMemId();
 		try {
-			int rowCnt = service.cancleProj(projNo, loginId);
-			if(rowCnt==0) {//취소할 프로젝트 없음(크리에이터 아이디가 틀리거나 프로젝트번호가 이미 없거나)
-				return new ResponseEntity(HttpStatus.NO_CONTENT);//프로젝트 없음	
-			}
-			return new ResponseEntity(HttpStatus.OK);//취소 성공	
+			service.cancleProj(projNo, loginId);
+			return new ResponseEntity<>(HttpStatus.OK);//취소 성공	
 
 		} catch (ModifyException e) {
-			return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+			if(e.getMessage().equals("0")) {//취소할 프로젝트 없음 proj_id=#{loginId}
+				return new ResponseEntity<>(HttpStatus.FORBIDDEN);//취소한 권한없음
+			}
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
 	}
 	@GetMapping(value={"/{projNo}/fundings"})
 	public ResponseEntity<Map<String,Object>> joinList(HttpSession session,@PathVariable int projNo){
 		MemberDTO m = (MemberDTO)session.getAttribute("loginInfo");
-		String loginId = "t";
-//		if(m == null) {
-//			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);//401 : 권한없음
-//		} 
-//		String loginId= m.getMemId();
+		if(m == null) {
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);//401 : 권한없음
+		} 
+		String loginId= m.getMemId();
 		try {
 			Map<String,Object> result = service.findFunsByProjNo(projNo,loginId);
-			log.error(result.get("project").getClass().toString()); 	//Map
-			log.error(result.get("fundingList").getClass().toString());	//List
-			//List<FundingDTO> fundingList = (List)(result.get("fundingList"));
+			//log.error(result.get("project").getClass().toString()); 	//DTO
+			//log.error(result.get("fundingList").getClass().toString());	//List
 			//ProjectDTO project = (ProjectDTO)(result.get("project"));
 			//List<FundingDTO> fundingList = (List)(result.get("fundingList"));
-			//log.error("project " + project.toString());
-			//log.error("fundingList" + fundingList.toString());
-			//log.error("result " + result.toString());
-			
+
 			if(result.size()==0) {//로그인한 아이디가 펀딩참여자 볼 권한이 없을 때 WHERE p.proj_id=#{loginId}
 				return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 			}
-			//return null;
 			return new ResponseEntity<Map<String,Object>>(result,HttpStatus.OK);//참여자 정상정으로 불러오는경우
 		}catch(FindException e){
-			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);//SQL   
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);// 
 		}
 	}
-
-	
-	//
-
-
 }
 
 

@@ -431,12 +431,12 @@ function checkCreator() {
     });
 }
 
-function RegistProject() {
+/*function RegistProject() {
     // 1. 프로젝트 기본정보
-    /*    var p_category = $('select.selectBox option:selected').val();
+    /!*    var p_category = $('select.selectBox option:selected').val();
         var p_title = $('input#text1').val();
         var p_summary = $('textarea#text2').val();
-        var p_intro = $('textarea#text3').val();*/
+        var p_intro = $('textarea#text3').val();*!/
     var p_category = $('select.selectBox option:selected');
     var p_title = $('input#text1');
     var p_summary = $('textarea#text2');
@@ -446,11 +446,11 @@ function RegistProject() {
     var projectInfo = [p_category, p_title, p_summary, p_intro];
 
     // 2. 창작자 정보
-    /*    var c_name = $('input#text4').val();
+    /!*    var c_name = $('input#text4').val();
         var c_intro = $('textarea#text5').val();
         var c_bank = $('select#bank option:selected').val();
         var c_acno = $('input#acno').val();
-        var c_acholder = $('input#acholder').val();*/
+        var c_acholder = $('input#acholder').val();*!/
     var c_name = $('input#text4');
     var c_intro = $('textarea#text5');
     var c_bank = $('select#bank option:selected');
@@ -460,11 +460,11 @@ function RegistProject() {
     var creatorInfo = [c_name, c_intro, c_bank, c_acno];
 
     // 3. 펀딩계획
-    /*    var f_fm = $('input#fm').val();
+    /!*    var f_fm = $('input#fm').val();
         var f_limitcnt = $('input#limitcnt').val();
         var f_targetcnt = $('input#targetcnt').val();
         var f_start = $('input#start_dates').val();
-        var f_end = $('input#end_dates').val();*/
+        var f_end = $('input#end_dates').val();*!/
     var f_fm = $('input#fm');
     var f_limitcnt = $('input#limitcnt');
     var f_targetcnt = $('input#targetcnt');
@@ -562,6 +562,134 @@ function RegistProject() {
         },
         error: function (result) {
             alert('서버에러 발생, 관리자에게 문의해주세요');
+        }
+    });
+}*/
+
+function RegistProject() {
+/*    // 1. 프로젝트 기본정보
+    /!*    var p_category = $('select.selectBox option:selected').val();
+        var p_title = $('input#text1').val();
+        var p_summary = $('textarea#text2').val();
+        var p_intro = $('textarea#text3').val();*!/
+    var p_category = $('select.selectBox option:selected');
+    var p_title = $('input#text1');
+    var p_summary = $('textarea#text2');
+    var p_intro = $('textarea#text3');
+    var p_image = $('input#fileUpload1');
+
+    var projectInfo = [p_category, p_title, p_summary, p_intro];
+
+    // 2. 창작자 정보
+    /!*    var c_name = $('input#text4').val();
+        var c_intro = $('textarea#text5').val();
+        var c_bank = $('select#bank option:selected').val();
+        var c_acno = $('input#acno').val();
+        var c_acholder = $('input#acholder').val();*!/
+    var c_name = $('input#text4');
+    var c_intro = $('textarea#text5');
+    var c_bank = $('select#bank option:selected');
+    var c_acno = $('input#acno');
+    var c_acholder = $('input#acholder');
+
+    var creatorInfo = [c_name, c_intro, c_bank, c_acno];
+
+    // 3. 펀딩계획
+    /!*    var f_fm = $('input#fm').val();
+        var f_limitcnt = $('input#limitcnt').val();
+        var f_targetcnt = $('input#targetcnt').val();
+        var f_start = $('input#start_dates').val();
+        var f_end = $('input#end_dates').val();*!/
+    var f_fm = $('input#fm');
+    var f_limitcnt = $('input#limitcnt');
+    var f_targetcnt = $('input#targetcnt');
+    var f_start = $('input#start_dates');
+    var f_end = $('input#end_dates');
+
+    var fundingInfo = [f_fm, f_limitcnt, f_targetcnt, f_start, f_end];
+
+    // 필수 입력이 되어있지 않은 경우 포커싱
+    // 프로젝트 기본정보 포커싱
+    for (var i = 0; i < projectInfo.length; i++) {
+        if (projectInfo[i].val() === "") {
+            alert('기본 정보의 필수항목을 입력해주세요.');
+            section1();
+            projectInfo[i].focus();
+            return;
+        }
+    }
+    if (titleImg === false) {
+        alert('대표 이미지를 업로드해 주세요.')
+        section1();
+        p_image.focus()
+        return;
+    }
+
+    // 프로젝트 창작자 정보 포커싱
+    for (var i = 0; i < creatorInfo.length; i++) {
+        if (creatorInfo[i].val() === "") {
+            alert('창작자 정보의 필수항목을 입력해주세요.');
+            section2();
+            creatorInfo[i].focus();
+            return;
+        }
+    }
+
+    // 프로젝트 펀딩계획 정보 포커싱
+    for (var i = 0; i < fundingInfo.length; i++) {
+        if (fundingInfo[i].val() === "") {
+            alert('펀딩계획의 필수항목을 입력해주세요.');
+            section3();
+            fundingInfo[i].focus();
+            return;
+        }
+    }*/
+
+    // formData, 파일 여러개 업로드
+    var formData = new FormData();
+    var b = [];
+    for(var i = 0; i < document.forms.length; i++) {
+        var form = document.forms[i];
+        var data = new FormData(form);
+        var formValues = data.entries();
+
+        while (!(ent = formValues.next()).done) {
+            formData.append(`${ent.value[0]}[]`, ent.value[1]);
+        }
+    }
+
+    // form data 항목 출력.
+    formData.forEach(function (value, key) {
+        console.log(key + ":" + value);
+    });
+
+    // todo projDelivery (예상 수령일) 날짜 계산되어서 들어가야한다.
+    $.ajax({
+        url: 'http://localhost:9999/kkfd/project/register',
+        method: 'post',
+        // accept: 'application/json', // 멀티파트로 변경한다.
+        xhrFields: {
+            withCredentials: true
+        },
+        contentType : false,
+        processData: false,
+        //form데이터 객체가 필요하다.
+        //form input tag의 name 속성 => creator.crId
+        //form.serialize();
+        data: formData,
+        statusCode: {
+            401: function () {
+                alert('로그인이 안되어있는 경우 등록 불가!!');
+            },
+            500: function () {
+                alert('서버오류, 관리자에게 문의해 주세요.');
+            }
+        },
+        success: function (result) {
+            alert('성공적으로 대입됨');
+        },
+        error: function (result) {
+            alert('서버오류2, 관리자에게 문의해 주세요.');
         }
     });
 }

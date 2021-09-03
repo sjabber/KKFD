@@ -84,7 +84,7 @@
 <body>
 
 <section class="main_section" id="section1">
-    <form>
+    <form method="post" enctype="multipart/form-data">
         <!-- 카테고리 -->
         <div class="projectItem">
             <dl class="projectItem_title">
@@ -401,7 +401,7 @@
                                     으로 올려주세요.
                                 </p>
                             </div>
-                            <input type="file" id="fileUpload1" accept=".jpg, .jpeg, .png"/>
+                            <input type="file" id="fileUpload1" name="thumbnail" accept=".jpg, .jpeg, .png"/>
                         </div>
                     </div>
                 </div>
@@ -456,7 +456,7 @@
                                     으로 올려주세요.
                                 </p>
                             </div>
-                            <input multiple="multiple" type="file" id="fileUpload2" accept=".jpg, .jpeg, .png"/>
+                            <input multiple="multiple" type="file" id="fileUpload2" name="details" accept=".jpg, .jpeg, .png"/>
                         </div>
                     </div>
                 </div>
@@ -467,7 +467,7 @@
 
 <section class="main_section" id="section2" style="display: none">
     <!-- 창작자 이름 -->
-    <form>
+    <form method="post" enctype="multipart/form-data">
         <div class="projectItem">
             <dl class="projectItem_title">
                 <dt class="projectItem_title_dt">
@@ -523,7 +523,7 @@
                         <div class="projectItem_profile_upload">
                             <div>
                                 <div class="profile_upload">
-                                    <input type="file" accept=".jpg, .png, .jpeg">
+                                    <input type="file" name="profile" accept=".jpg, .png, .jpeg">
                                     <div class="profileUploadIcon">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                              fill="currentColor" class="bi bi-upload" viewBox="0 0 16 16">
@@ -607,7 +607,7 @@
 
 <section class="main_section" id="section3" style="display: none">
     <!-- 제목 -->
-    <form>
+    <form method="post" enctype="multipart/form-data">
         <div class="projectItem">
             <dl class="projectItem_title">
                 <dt class="projectItem_title_dt">

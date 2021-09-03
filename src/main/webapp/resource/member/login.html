@@ -1,142 +1,164 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>크크펀딩 | 로그인</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <link href="/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/css/login.css" rel="stylesheet">
-    <link href="/css/subheader.css" rel="stylesheet">
-</head>
-<body>
-<header class="main_header">
-    <div class="main_header_warp">
+    <link href="/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="/css/login.css" rel="stylesheet" />
+    <link href="/css/subheader.css" rel="stylesheet" />
+  </head>
+  <body>
+    <header class="main_header">
+      <div class="main_header_warp">
         <div class="header_mainlogo">
-            <a style="text-decoration: none;" href="/">
-                <span class="header_mainlogo_item">크크펀딩</span>
-            </a>
+          <a style="text-decoration: none" href="/">
+            <span class="header_mainlogo_item">크크펀딩</span>
+          </a>
         </div>
-    </div>
-</header>
-<div class="page_entry">
-    <div class="page_entry2">
+      </div>
+    </header>
+    <div class="page_entry">
+      <div class="page_entry2">
         <div class="page_container">
-            <div class="page_top">
-                <div class="page_top_title">
-                    <h1>로그인</h1>
-                </div>
+          <div class="page_top">
+            <div class="page_top_title">
+              <h1>로그인</h1>
             </div>
-            <div class="inner_login">
-                <div class="login_form">
-                    <form method="post" id="authForm" action="">
-                        <fieldset>
-                            <div class="box_login">
-                                <div class="input-box">
-                                    <label for="loginId" class="screen_out">아이디</label>
-                                    <input type="text" id="loginId" name="loginId" placeholder="ID"
-                                           onkeyup="checkCapsLock(event)">
-                                </div>
-                                <div class="input-box">
-                                    <label for="loginPw" class="screen_out"> 비밀번호</label>
-                                    <input type="password" id="loginPw" name="password" placeholder="Password"
-                                           onkeyup="checkCapsLock(event)">
-                                </div>
-                            </div>
-                            <div id="message"></div>
-                            <!--                    <button type="button" class="btn_kakao_login"
+          </div>
+          <div class="inner_login">
+            <div class="login_form">
+              <form method="post" id="authForm" action="">
+                <fieldset>
+                  <div class="box_login">
+                    <div class="input-box">
+                      <label for="loginId" class="screen_out">아이디</label>
+                      <input
+                        type="text"
+                        id="loginId"
+                        name="loginId"
+                        placeholder="ID"
+                        onkeyup="checkCapsLock(event)"
+                      />
+                    </div>
+                    <div class="input-box">
+                      <label for="loginPw" class="screen_out"> 비밀번호</label>
+                      <input
+                        type="password"
+                        id="loginPw"
+                        name="password"
+                        placeholder="Password"
+                        onkeyup="checkCapsLock(event)"
+                      />
+                    </div>
+                  </div>
+                  <div id="message"></div>
+                  <!--                    <button type="button" class="btn_kakao_login"
                                                         onclick="location.href='https://kauth.kakao.com/oauth/authorize?' +
                                                          'response_type=code&client_id=a1be24597949e454b86b2921694fc65b&' +
                                                           'redirect_uri=http://localhost:8888/Add_it/login&response_type=code'">
                                                     카카오 간편 로그인 (개인회원)</button>-->
-                            <button type="button" class="btn_login" onclick="Login()">로그인</button>
-                            <div class="login_state">
-                                <div class="inp_chk">
-                                    <input type="checkbox" class="lg_radio" id="keepLogin" name="keepLogin">
-                                    <label for="keepLogin" class="lg_lb">
-                                        <span class="img_top ico_check"></span>
-                                        <span class="login_span">로그인 상태 유지</span>
-                                    </label>
-                                </div>
-                                <span class="id_find">
-                            <a href="#" class="link_find">아이디</a>
-                                        /
-                            <a href="#" class="link_find">비밀번호 찾기</a>
-                        </span>
-                            </div>
-                            <div class="login_signup">아직 크크펀딩 계정이 없으신가요?&nbsp;
-                                <span>
-                        <a href="/member/signup">가입하기</a>
+                  <button type="button" class="btn_login" onclick="Login()">
+                    로그인
+                  </button>
+                  <div class="login_state">
+                    <div class="inp_chk">
+                      <input
+                        type="checkbox"
+                        class="lg_radio"
+                        id="keepLogin"
+                        name="keepLogin"
+                      />
+                      <label for="keepLogin" class="lg_lb">
+                        <span class="img_top ico_check"></span>
+                        <span class="login_span">로그인 상태 유지</span>
+                      </label>
+                    </div>
+                    <span class="id_find">
+                      <a href="#" class="link_find">아이디</a>
+                      /
+                      <a href="#" class="link_find">비밀번호 찾기</a>
                     </span>
-                            </div>
-                            <div class="style_divider"></div>
-                            <span class="login_pw">
-                        <a href="">혹시 비밀번호를 잊으셨나요?</a>
+                  </div>
+                  <div class="login_signup">
+                    아직 크크펀딩 계정이 없으신가요?&nbsp;
+                    <span>
+                      <a href="/member/signup">가입하기</a>
                     </span>
-                        </fieldset>
-                    </form>
-                </div>
+                  </div>
+                  <div class="style_divider"></div>
+                  <span class="login_pw">
+                    <a href="">혹시 비밀번호를 잊으셨나요?</a>
+                  </span>
+                </fieldset>
+              </form>
             </div>
+          </div>
         </div>
+      </div>
     </div>
-</div>
-</body>
-<script>
+  </body>
+  <script>
     $("#authForm").keypress(function (e) {
-        if (e.keyCode === 13) {
-            Login();
-        }
+      if (e.keyCode === 13) {
+        Login();
+      }
     });
 
     function checkCapsLock(event) {
-        if (event.getModifierState("CapsLock")) {
-            $('#message').text("Caps Lock이 켜져 있습니다.");
-        } else {
-            $('#message').text("");
-        }
+      if (event.getModifierState("CapsLock")) {
+        $("#message").text("Caps Lock이 켜져 있습니다.");
+      } else {
+        $("#message").text("");
+      }
     }
 
     function Login() {
-        var id = $('form#authForm > fieldset > .box_login > .input-box > #loginId').val();
-        var pwd = $('form#authForm > fieldset > .box_login > .input-box > #loginPw').val();
+      var id = $(
+        "form#authForm > fieldset > .box_login > .input-box > #loginId"
+      ).val();
+      var pwd = $(
+        "form#authForm > fieldset > .box_login > .input-box > #loginPw"
+      ).val();
 
-        if (id === "") {
-            alert("아이디를 입력하세요.");
-        } else if (pwd === "") {
-            alert("패스워드를 입력하세요.");
-        } else {
-            var backurl = 'http://localhost:9999/kkfd/member/login';
-            $.ajax({
-                url: backurl,
-                method: 'post',
-                accept: 'application/json',
-                xhrFields: {
-                    // Note 중요!!
-                    //백과 프론트가 분리된 경우 withCredentials를 true로 해주어야 cookie값을 받아올 수 있다.
-                    withCredentials: true
-                },
-                data: JSON.stringify({
-                    'id': id,
-                    'pwd': pwd
-                }),
-                // dataType을 지운 이유 => 서버로부터 HttpStatus 만 반환되기 때문. dataType이 json이면 json도 같이 반환되어야함.
-                //dataType: "json",
-                contentType: 'application/json; charset=utf-8',
-                statusCode: {
-                    401:function () {
-                        alert('아이디나 패스워드가 틀렸습니다.');
-                    },
-                    500:function () {
-                        alert('서버에러, 관리자에게 문의해 주세요.');
-                    }
-                },
-                success: function (result) {
-                    //메인 페이지로 이동
-                    alert("로그인 되었습니다.");
-                    window.history.back();
-                    //document.location.href = '/';
-                },
-            });
-        }
+      if (id === "") {
+        alert("아이디를 입력하세요.");
+      } else if (pwd === "") {
+        alert("패스워드를 입력하세요.");
+      } else {
+        var backurl = "http://localhost:9999/kkfd/member/login";
+        $.ajax({
+          url: backurl,
+          method: "post",
+          accept: "application/json",
+          xhrFields: {
+            // Note 중요!!
+            //백과 프론트가 분리된 경우 withCredentials를 true로 해주어야 cookie값을 받아올 수 있다.
+            withCredentials: true,
+          },
+          data: JSON.stringify({
+            id: id,
+            pwd: pwd,
+          }),
+          // dataType을 지운 이유 => 서버로부터 HttpStatus 만 반환되기 때문. dataType이 json이면 json도 같이 반환되어야함.
+          //dataType: "json",
+          contentType: "application/json; charset=utf-8",
+          statusCode: {
+            401: function () {
+              alert("아이디나 패스워드가 틀렸습니다.");
+            },
+            500: function () {
+              alert("서버에러, 관리자에게 문의해 주세요.");
+            },
+          },
+          success: function (result) {
+            //메인 페이지로 이동
+            alert("로그인 되었습니다.");
+            // window.history.back();
+            document.location.href = "/";
+          },
+        });
+      }
     }
-</script>
+  </script>
 </html>

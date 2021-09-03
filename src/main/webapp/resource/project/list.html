@@ -616,20 +616,25 @@
       }
 
       function checkLogined() {
-        var backurl = "http://localhost:9999/kkfd/member/logincheck";
+        var backurl = 'http://localhost:9999/kkfd/member/logincheck';
         $.ajax({
           url: backurl,
-          method: "get",
+          method: 'get',
           dataType: "json",
           xhrFields: {
-            withCredentials: true,
+            withCredentials: true
+          },
+          statusCode: {
+            204:function () {
+              logouted();
+            },
           },
           success: function (result) {
             logined();
           },
           error: function (result) {
             logouted();
-          },
+          }
         });
       }
 

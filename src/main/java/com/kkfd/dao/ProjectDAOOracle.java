@@ -20,12 +20,14 @@ import com.kkfd.exception.AddException;
 import com.kkfd.exception.FindException;
 import com.kkfd.exception.ModifyException;
 import com.kkfd.exception.RemoveException;
+import org.springframework.transaction.annotation.Transactional;
+
 @Repository("projectDAO")
 public class ProjectDAOOracle implements ProjectDAO {
 	Logger log = LoggerFactory.getLogger(this.getClass());
 	@Autowired
 	private SqlSessionFactory sessionFactory;
-	
+
 	//[project]프로젝트 목록
 	@Override
 	public List<ProjectDTO> selectProjs(SearchDTO search) throws FindException {
@@ -38,7 +40,7 @@ public class ProjectDAOOracle implements ProjectDAO {
 		}finally {
 			if(session!=null) session.close();
 		}
-		
+
 	}
 
 	//[project]프로젝트 상세
@@ -57,8 +59,8 @@ public class ProjectDAOOracle implements ProjectDAO {
 			if(session!=null) session.close();
 		}
 	}
-	
-	
+
+
 	@Override
 	public List<ProjectDTO> selectPrevProj(int proj_no) throws FindException {
 		SqlSession session= null;
@@ -71,16 +73,16 @@ public class ProjectDAOOracle implements ProjectDAO {
 			if(session!=null) session.close();
 		}
 	}
-	
+
 	@Override
 	public void insertBookmark(int projNo, String id) throws AddException {
 		SqlSession session= null;
 		try {
-		session = sessionFactory.openSession();
-		HashMap<String, Object> map = new HashMap<>();
-		map.put("projNo", projNo);
-		map.put("id", id);
-		session.insert("com.kkfd.dto.ProjectMapper.insertBookmark", map);
+			session = sessionFactory.openSession();
+			HashMap<String, Object> map = new HashMap<>();
+			map.put("projNo", projNo);
+			map.put("id", id);
+			session.insert("com.kkfd.dto.ProjectMapper.insertBookmark", map);
 		}catch (Exception e) {
 			throw new AddException(e.getMessage());
 		}finally {
@@ -92,18 +94,18 @@ public class ProjectDAOOracle implements ProjectDAO {
 	public void deleteBookmark(int projNo, String id) throws RemoveException {
 		SqlSession session= null;
 		try {
-		session = sessionFactory.openSession();
-		HashMap<String, Object> map = new HashMap<>();
-		map.put("projNo", projNo);
-		map.put("id", id);
-		session.insert("com.kkfd.dto.ProjectMapper.deleteBookmark", map);
+			session = sessionFactory.openSession();
+			HashMap<String, Object> map = new HashMap<>();
+			map.put("projNo", projNo);
+			map.put("id", id);
+			session.insert("com.kkfd.dto.ProjectMapper.deleteBookmark", map);
 		}catch (Exception e) {
 			throw new RemoveException(e.getMessage());
 		}finally {
 			if(session!=null) session.close();
 		}
 	}
-	
+
 	@Override
 	public List<ProjectDTO> myBookmark(String id, int page) throws FindException {
 		SqlSession session= null;
@@ -119,10 +121,10 @@ public class ProjectDAOOracle implements ProjectDAO {
 			if(session!=null) session.close();
 		}
 	}
-	
-	
+
+
 	//----------------------------------------------------//
-	
+
 	//[creator]마이 프로젝트 취소
 	@Override
 	public void updateProj(int projNo, String loginId) throws ModifyException{
@@ -141,9 +143,11 @@ public class ProjectDAOOracle implements ProjectDAO {
 			}finally {
 				if(session!=null) session.close();
 			}		
-		}
 
-	
+		}
+	}
+
+
 
 	//[creator]마이 프로젝트
 	@Override
@@ -185,15 +189,31 @@ public class ProjectDAOOracle implements ProjectDAO {
 			HashMap<String, Object>map = new HashMap<>();
 			map.put("projNo", projNo);
 			map.put("loginId", loginId);
-			 Map<String,Object> result = session.selectOne("com.kkfd.dto.ProjectMapper2.selectFunsByProjNo", map);
+			Map<String,Object> result = session.selectOne("com.kkfd.dto.ProjectMapper2.selectFunsByProjNo", map);
 			log.info(result.toString());
 			return result;
-		
+
 		}catch (Exception e) {
 			throw new FindException(e.getMessage());
 		}finally {
 			if(session!=null) session.close();
 		}
-		
+
+	}
+
+	@Override
+	@Transactional(rollbackFor = AddException.class)
+	public int insertProj(ProjectDTO project) throws AddException {
+		SqlSession session = null;
+		try {
+			session = sessionFactory.openSession();
+			return session.insert("com.kkfd.dto.ProjectMapper.insertProj", project);
+		} catch (Exception e) {
+			throw new AddException(e.getMessage());
+		} finally {
+			if (session != null) {
+				session.close();
+			}
+		}
 	}
 }

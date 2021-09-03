@@ -45,6 +45,7 @@
           transformRequest: [null],
           transformResponse: [null],
           jsonpCallbackParam: "callback",
+          xhrFields: { withCredentials: true },
           url: backurl,
           headers: {
             Accept: "application/json, text/plain, */*",
@@ -66,11 +67,12 @@
               var projStart = e.projStart;
               var projEnd = e.projEnd;
               var projBm = e.projBm;
+              var projStatus = e.projStatus;
               var sum = projFm * projQuantity;
               $("div.proj_title").html(projTitle);
               $("div.creator_profile_img>img").attr(
                 "src",
-                "/img/creator/" + crId + ".png"
+                "/img/profile/" + crId + ".png"
               );
               $("div.creator_name>span").html(crNn);
               $("span.sum").html(numberWithCommas(sum));
@@ -106,7 +108,7 @@
               $("textarea.content").html(projIntro);
               $("div.mid_creator_profile_img>img.mid_creator_profile_img").attr(
                 "src",
-                "/img/creator/" + crId + ".png"
+                "/img/profile/" + crId + ".png"
               );
               $("div.mid_creator_info span").html(crNn);
               $("div.mid_creator_intro").html(crIntro);
@@ -117,7 +119,8 @@
               if (
                 end.getTime() > now.getTime() &&
                 now.getTime() > start.getTime() &&
-                projQuantity < projLimitcnt
+                projQuantity < projLimitcnt &&
+                projStatus == 1
               ) {
                 $("#go_to_apply_btn")
                   .html("펀딩 신청")
@@ -160,8 +163,6 @@
                 //ajax 북마크 추가/삭제
                 if ($(this).hasClass("off")) {
                   console.log("if");
-                  $("#bm_icon").removeClass("far fa-bookmark");
-                  $("#bm_icon").addClass("fas fa-bookmark");
                   $.ajax({
                     url:
                       "http://localhost:9999/kkfd/project/" +
@@ -171,6 +172,7 @@
                     transformRequest: [null],
                     transformResponse: [null],
                     jsonpCallbackParam: "callback",
+                    xhrFields: { withCredentials: true },
                     headers: {
                       Accept: "application/json, text/plain, */*",
                       "Content-Type": "application/json;charset=utf-8",
@@ -178,13 +180,16 @@
                     data: '{ "projNo":"' + projNo + '" }',
                     timeout: {},
                     success: function (responseData) {
-                      alert("추가성공");
+                      alert("북마크에 추가되었습니다");
+                      $("#bm_icon").removeClass("far fa-bookmark");
+                      $("#bm_icon").addClass("fas fa-bookmark");
+                    },
+                    error: function (jqXHR) {
+                      alert("로그인하세요"); //404, 403, 500
                     },
                   });
                 } else {
                   console.log("else");
-                  $("#bm_icon").removeClass("fas fa-bookmark");
-                  $("#bm_icon").addClass("far fa-bookmark");
                   $.ajax({
                     url:
                       "http://localhost:9999/kkfd/project/" +
@@ -194,6 +199,7 @@
                     transformRequest: [null],
                     transformResponse: [null],
                     jsonpCallbackParam: "callback",
+                    xhrFields: { withCredentials: true },
                     headers: {
                       Accept: "application/json, text/plain, */*",
                       "Content-Type": "application/json;charset=utf-8",
@@ -201,7 +207,12 @@
                     data: '{ "projNo":"' + projNo + '" }',
                     timeout: {},
                     success: function (responseData) {
-                      alert("삭제성공");
+                      alert("북마크에서 삭제되었습니다");
+                      $("#bm_icon").removeClass("fas fa-bookmark");
+                      $("#bm_icon").addClass("far fa-bookmark");
+                    },
+                    error: function (jqXHR) {
+                      alert("로그인하세요"); //404, 403, 500
                     },
                   });
                 }
@@ -288,10 +299,13 @@
         <div class="header_menu_warp">
           <div class="header_projectsearch">
             <button class="projectsearch_item">
-              <a style="text-decoration: none; color: black" href="/project/list/">
-              <i class="fas fa-align-justify fa-lg"></i>
-              <span class="projectsearch_name">프로젝트 둘러보기</span>
-            </a>
+              <a
+                style="text-decoration: none; color: black"
+                href="/project/list/"
+              >
+                <i class="fas fa-align-justify fa-lg"></i>
+                <span class="projectsearch_name">프로젝트 둘러보기</span>
+              </a>
             </button>
           </div>
           <div class="header_projectupload">
@@ -312,11 +326,15 @@
           <div class="header_customer_warp">
             <button class="header_customer_btn">
               <div class="header_login&signup">
-                <span class="login&signup_name">로그인 / 회원가입</span>
+                <span class="login_signup_name">
+                  <a class="admin-no" href="/member/login">로그인 / 회원가입</a>
+                  <a class="admin-yes" href="/creator/cmypage">마이페이지</a>
+                  <a class="admin-yes" href="javascript:Logout()">로그아웃</a>
+                </span>
               </div>
-              <div class="header_profile_img">
+              <!-- <div class="header_profile_img">
                 <img class="mid_creator_profile_img" src="" />
-              </div>
+              </div> -->
             </button>
           </div>
         </div>
@@ -496,5 +514,56 @@
         </div>
       </div>
     </footer>
+    <script>
+      function logined() {
+        $("span.login_signup_name > a.admin-no").hide();
+        $("span.login_signup_name > a.admin-yes").show();
+      }
+
+      function logouted() {
+        $("span.login_signup_name > a.admin-no").show();
+        $("span.login_signup_name > a.admin-yes").hide();
+      }
+
+      function Logout() {
+        var backurl = "http://localhost:9999/kkfd/member/logout";
+        $.ajax({
+          url: backurl,
+          method: "get",
+          xhrFields: {
+            withCredentials: true,
+          },
+          success: function () {
+            alert("로그아웃 되었습니다.");
+            logouted();
+            document.location.reload();
+          },
+          error: function (xhr) {
+            alert("로그아웃 에러");
+          },
+        });
+      }
+
+      function checkLogined() {
+        var backurl = "http://localhost:9999/kkfd/member/logincheck";
+        $.ajax({
+          url: backurl,
+          method: "get",
+          dataType: "json",
+          xhrFields: {
+            withCredentials: true,
+          },
+          success: function (result) {
+            logined();
+          },
+          error: function (result) {
+            logouted();
+          },
+        });
+      }
+
+      logouted();
+      checkLogined();
+    </script>
   </body>
 </html>

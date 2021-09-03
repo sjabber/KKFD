@@ -38,7 +38,7 @@ import com.kkfd.exception.ModifyException;
 import com.kkfd.service.FundingService;
 
 @RestController
-public class FundingController {	
+public class FundingController {
 	@Autowired
 	private FundingService service;
 
@@ -46,20 +46,20 @@ public class FundingController {
 
 	@PostMapping(value= {"/funding"})
 	public ResponseEntity<String> insertFunding (HttpSession session, @RequestBody FundingDTO funding) {
-//		String loginId = (String)session.getAttribute("loginId");
-		String loginId="id3";
-		MemberDTO m = new MemberDTO();
-		m.setMemId(loginId);
-		//log.info("test");
-		try {
-			funding.setMember(m);
-			service.addFunding(funding);
-			//log.info("test2");
-			return new ResponseEntity<String>(HttpStatus.OK);
-		} catch (AddException e) {
-			e.printStackTrace();
+		MemberDTO m = (MemberDTO)session.getAttribute("loginInfo");
+		if(m == null) { //로그인 안된 경우
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		} else {
+			try {
+				funding.setMember(m);
+				service.addFunding(funding);
+				//log.info("test2");
+				return new ResponseEntity<String>(HttpStatus.OK);
+			} catch (AddException e) {
+				e.printStackTrace();
+				return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+			}
 		}
-		return null;
 
 	}
 
@@ -70,6 +70,7 @@ public class FundingController {
 			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);//401 : 권한없음
 		} 
 		String loginId= m.getMemId();
+
 		try {
 			int rowCnt = service.modifyFuns(list);
 			return new ResponseEntity<Integer>(rowCnt,HttpStatus.OK);
@@ -88,10 +89,11 @@ public class FundingController {
 		} 
 		String loginId= m.getMemId();
 
+
 		try {
 			int totalCnt = service.countMyFunList(loginId, term, state);
 			if(totalCnt==0) {
-				return new ResponseEntity<PageDTO<FundingDTO>>(HttpStatus.NO_CONTENT);//프로젝트 없음	
+				return new ResponseEntity<PageDTO<FundingDTO>>(HttpStatus.NO_CONTENT);//프로젝트 없음
 			}
 			int totalPage =  (int) Math.ceil(totalCnt/(double)PageDTO.CNT_PER_PAGE);
 			List<FundingDTO> list = service.findFunsById(loginId, term, state, page);
@@ -101,11 +103,11 @@ public class FundingController {
 			//1:진행중(10:진행중 / 11:임박(90%이상) / 12:결제예정(달성:마감전 100%))
 			//2:결제완료(성공) (21: 성공 22 : 배송 중(성공+배송예정 일 이후)-결제
 			//3:전체
-			int status = 0;							
+			int status = 0;
 			for(FundingDTO funding : list) {
 				ProjectDTO project = funding.getProject();
-				if(project.getProjStatus()==0) {	//0: 취소	
-					continue;									
+				if(project.getProjStatus()==0) {	//0: 취소
+					continue;
 				}
 				//<현재가 시작일 후 & 종료일 전> - 진행중
 				if(now.after(project.getProjStart()) && now.before(project.getProjEnd())) {	
@@ -113,8 +115,9 @@ public class FundingController {
 						status=12;	//결제예정
 					}else if(project.getProjGoals()>=90){
 						status=11;	
+
 					}else {
-						status=10;	
+						status=10;
 					}
 				//<현재가 종료일 후> - 종료
 				}else if(now.after(project.getProjEnd())){											
@@ -129,6 +132,7 @@ public class FundingController {
 						}
 						//배송 API구현시 배송예정일 이후에는 운송장조회기능 활성화
 					}								
+
 				}
 				project.setProjStatus(status);
 				funding.setProject(project);

@@ -74,7 +74,6 @@ public class FundingDAOOracle implements FundingDAO {
 		}finally {
 			if(session!=null) session.close();
 		}
-		
 	}
 	@Override
 	public int countMyFunList(String loginId, int term, int state) throws FindException {

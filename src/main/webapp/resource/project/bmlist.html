@@ -6,7 +6,6 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" type="text/css" href="/css/public.css" />
-  <link rel="stylesheet" type="text/css" href="/js/basic.js" />
   <link rel="stylesheet" type="text/css" href="/css/my.css" />
   <link rel="stylesheet" type="text/css" href="/css/bmlist.css" />
 
@@ -15,16 +14,201 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
     crossorigin="anonymous"></script>
-  <title>크크펀딩</title>
+  <title>마이페이지-북마크한프로젝트</title>
   <script src="/js/basic.js"></script>
   <script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
   <script>
-
+    const categoryNoChange = {
+         1: '캔들',
+         2: '조향',
+         3: '비누',
+         4: '도예',
+         5: '섬유·자수'
+    }
+  </script>
+  <script>
     $(function () {
-      var backurl = "http://localhost:9999/project/list/1";
+      var page = 1;
+      var url = 'http://localhost:9999/kkfd/project/bmlist/' + page;
+      var $divObj = $('div.focus_item_warp');
+      var divHtml = "";
+      $.ajax({
+          url: url,
+        	method: "GET",
+          xhrFields: {withCredentials: true},
+          statusCode: {
+            204:function () {
+              divHtml += '<div id="no_content_img"><img src="/img/no_bookmark.png" /></div>';
+              $divObj.html(divHtml);
+            },
+            502:function () {
+              alert("502");
+            }
+          },
+        	success: function(responseData){
+        		$(responseData).each(function (i, e) {
+              var projNo = e.projNo;
+              // console.log(imgPath(projNo));
+              //console.log("위" + projNo);
+              var projCategory = e.projCategory;
+              var crNn = e.creator.crNn;
+              var projBm = e.projBm;
+              var projTitle = e.projTitle;
+              var projGoals = e.projGoals;
+              var projStart = e.projStart;
+              var projEnd = e.projEnd;
 
+              divHtml += '<div class="focus_item">';
+              divHtml += '<a class="info_btn" href="/project/info?no=' + projNo + '">';
+              divHtml += '<div class="focus_item_img">';
+              divHtml += '<img class="focus_item_img_item" src="/img/project/' + projNo + '/' + projNo + '_t.png" alt="" />';
+              // divHtml += '<img class="focus_item_img_item" src="' + imgPath(projNo) + '" alt="" />';
+              //
+              divHtml += '</div>';
+              divHtml += '</a>';
+              divHtml += '<div class="focus_item_category">';
+              divHtml += '<div class="category_warp">';
+              divHtml += '<span class="category_item1">' + categoryNoChange[projCategory] + '</span>';
+              divHtml += '<span class="category_between"> | </span>';
+              divHtml += '<span class="category_item2">' + crNn + '</span>';
+              divHtml += '</div>';
+              divHtml += '<div class="category_bookmark">';
+              if(projBm == 1){divHtml += '<button class="category_bookmark_btn" value="' + projNo + '">';} else {divHtml += '<button class="category_bookmark_btn off" value="' + projNo + '">';}
+              if(projBm == 1){divHtml += '<i class="fas fa-bookmark" id="bm_icon"></i>';} else {divHtml += '<i class="far fa-bookmark" id="bm_icon"></i>';}
+              divHtml += '</button>';
+              divHtml += '</div>';
+              divHtml += '</div>';
+              divHtml += '<a class="info_btn" href="/project/info?no=' + projNo + '">';
+              divHtml += '<div class="focus_item_title">';
+              divHtml += '<span class="focus_item_title_value">' + projTitle + '</span>';
+              divHtml += '</div>';
+              divHtml += '</a>';
+              divHtml += '<div class="focus_item_purpose">';
+              divHtml += '<span class="purpose_value">' + projGoals + '% 달성</span>';
+              divHtml += '</div>';
+              divHtml += '<div class="focus_item_term">';
+              divHtml += '<span class="term">' + projStart + ' ~ ' + projEnd + '</span>';
+              divHtml += '</div>';
+              divHtml += '</div>';
+            });
+            $divObj.html(divHtml);
+          }
+        });
+
+        //무한 스크롤
+        $(window).scroll(function () {
+          var scrolltop = parseInt ( $(window).scrollTop() );
+          if ($(window).scrollTop() == $(document).height() - $(window).height()) {
+            page++;
+            //var data = $form.serialize();
+            var url = 'http://localhost:9999/kkfd/project/bmlist/' + page;
+            var method = 'GET';
+            $.ajax({
+              url: url,
+              method: method,
+              xhrFields: {withCredentials: true},
+              success: function(responseData){
+                $(responseData).each(function (i, e) {
+                //추가
+                var projNo = e.projNo;
+                console.log(projNo);
+                var projCategory = e.projCategory;
+                var crNn = e.creator.crNn;
+                var projBm = e.projBm;
+                var projTitle = e.projTitle;
+                var projGoals = e.projGoals;
+                var projStart = e.projStart;
+                var projEnd = e.projEnd;
+
+                divHtml += '<div class="focus_item">';
+                divHtml += '<a class="info_btn" href="/project/info?no=' + projNo + '">';
+                divHtml += '<div class="focus_item_img">';
+                divHtml += '<img class="focus_item_img_item" src="/img/project/' + projNo + '/' + projNo + '_t.png" alt="" />';
+                // divHtml += '<img class="focus_item_img_item" src="' + imgPath(projNo) + '" alt="" />';
+                divHtml += '</div>';
+                divHtml += '</a>';
+                divHtml += '<div class="focus_item_category">';
+                divHtml += '<div class="category_warp">';
+                divHtml += '<span class="category_item1">' + categoryNoChange[projCategory] + '</span>';
+                divHtml += '<span class="category_between"> | </span>';
+                divHtml += '<span class="category_item2">' + crNn + '</span>';
+                divHtml += '</div>';
+                divHtml += '<div class="category_bookmark">';
+                if(projBm == 1){divHtml += '<button class="category_bookmark_btn" value="' + projNo + '">';} else {divHtml += '<button class="category_bookmark_btn off" value="' + projNo + '">';}
+                if(projBm == 1){divHtml += '<i class="fas fa-bookmark" id="bm_icon"></i>';} else {divHtml += '<i class="far fa-bookmark" id="bm_icon"></i>';}
+                divHtml += '</button>';
+                divHtml += '</div>';
+                divHtml += '</div>';
+                divHtml += '<a class="info_btn" href="/project/info?no=' + projNo + '">';
+                divHtml += '<div class="focus_item_title">';
+                divHtml += '<span class="focus_item_title_value">' + projTitle + '</span>';
+                divHtml += '</div>';
+                divHtml += '</a>';
+                divHtml += '<div class="focus_item_purpose">';
+                divHtml += '<span class="purpose_value">' + projGoals + '% 달성</span>';
+                divHtml += '</div>';
+                divHtml += '<div class="focus_item_term">';
+                divHtml += '<span class="term">' + projStart + ' ~ ' + projEnd + '</span>';
+                divHtml += '</div>';
+                divHtml += '</div>';
+              });
+              $divObj.html(divHtml);
+              },
+              error: function(jqXHR){
+                alert(jqXHR.status); //404, 403, 500
+              }
+            });
+            
+          }
+        });
+
+        //북마크 버튼
+        $('div.focus_item_warp').on("click", "button.category_bookmark_btn", function() {
+          var $iconObj = $(this).children();
+          if($(this).hasClass("off")) {
+            $.ajax({
+              url: 'http://localhost:9999/kkfd/project/' + $(this).val() + '/bookmark',
+              method: "POST",
+              transformRequest: [null],
+              transformResponse: [null],
+              jsonpCallbackParam: "callback",
+              headers: {
+              Accept: "application/json, text/plain, */*",
+              "Content-Type": "application/json;charset=utf-8",
+              },
+              data : '{ "projNo":"' + $(this).val() + '" }',
+              xhrFields: {withCredentials: true},
+              timeout: {},
+              success: function(responseData){
+                alert("북마크에 추가되었습니다");
+                $iconObj.removeClass("far fa-bookmark");
+                $iconObj.addClass("fas fa-bookmark");
+              }
+            });
+          } else{
+            $.ajax({
+              url: 'http://localhost:9999/kkfd/project/' + $(this).val() + '/bookmark',
+              method: "DELETE",
+              transformRequest: [null],
+              transformResponse: [null],
+              jsonpCallbackParam: "callback",
+              headers: {
+              Accept: "application/json, text/plain, */*",
+              "Content-Type": "application/json;charset=utf-8",
+              },
+              data : '{ "projNo":"' + $(this).val() + '" }',
+              xhrFields: {withCredentials: true},
+              timeout: {},
+              success: function(responseData){
+                alert("북마크에서 삭제되었습니다");
+                $iconObj.removeClass("fas fa-bookmark");
+                $iconObj.addClass("far fa-bookmark");
+              }
+            });
+          }
+          $(this).toggleClass("off");
+        });
 
     });
   </script>
@@ -85,13 +269,46 @@
         <a class="creator" href="/creator/mylist">마이 프로젝트</a>
       </div>
       <!--[북마크한 프로젝트]-->
-
+      <div class="main_project_focus">
+        <div class="focus_item_warp">
+          <!-- <div class="focus_item">
+            <a class="info_btn" href="#">
+            <div class="focus_item_img">
+              <img class="focus_item_img_item" src="./img/sample.jpg" alt="" />
+            </div>
+            </a>
+            <div class="focus_item_category">
+              <div class="category_warp">
+                <span class="category_item1">카테고리</span>
+                <span class="category_between">|</span>
+                <span class="category_item2">닉네임</span>
+              </div>
+              <div class="category_bookmark">
+                <button class="category_bookmark_btn">
+                  <i class="far fa-bookmark"></i>
+                </button>
+              </div>
+            </div>
+            <a class="info_btn" href="#">
+            <div class="focus_item_title">
+              <span class="focus_item_title_value">프로젝트 타이틀</span>
+            </div>
+          </a>
+            <div class="focus_item_purpose">
+              <span class="purpose_value">달성률% 달성</span>
+            </div>
+            <div class="focus_item_term">
+              <span class="term">2021/08/01 ~ 2021/09/01</span>
+            </div>
+          </div> -->
+        </div>
+      </div>
 
 
     </div>
 
   </section>
-  <footer class="main_footer">
+  <!-- <footer class="main_footer">
 
     <div class="footer_second_warp">
       <div class="footer_info_warp">
@@ -132,8 +349,58 @@
         </span>
       </div>
     </div>
-  </footer>
+  </footer> -->
+  <script>
+    function logined() {
+      $("span.login_signup_name > a.admin-no").hide();
+      $("span.login_signup_name > a.admin-yes").show();
+    }
 
+    function logouted() {
+      $("span.login_signup_name > a.admin-no").show();
+      $("span.login_signup_name > a.admin-yes").hide();
+    }
+
+    function Logout() {
+      var backurl = "http://localhost:9999/kkfd/member/logout";
+      $.ajax({
+        url: backurl,
+        method: "get",
+        xhrFields: {
+          withCredentials: true,
+        },
+        success: function () {
+          alert("로그아웃 되었습니다.");
+          logouted();
+          document.location.reload();
+        },
+        error: function (xhr) {
+          alert("로그아웃 에러");
+        },
+      });
+    }
+
+    function checkLogined() {
+      var backurl = "http://localhost:9999/kkfd/member/logincheck";
+      $.ajax({
+        url: backurl,
+        method: "get",
+        dataType: "json",
+        xhrFields: {
+          withCredentials: true,
+        },
+        success: function (result) {
+          logined();
+        },
+        error: function (result) {
+          logouted();
+        },
+      });
+    }
+
+    logouted();
+    checkLogined();
+  </script>
 </body>
 
 </html>

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.kkfd.dto.ProjectDTO;
+import com.kkfd.dto.ProjectMainDTO;
 import com.kkfd.exception.AddException;
 import com.kkfd.exception.FindException;
 import com.kkfd.exception.RemoveException;
@@ -17,6 +18,7 @@ import com.kkfd.exception.RemoveException;
 class ProjectDAOTest {
 	@Autowired
 	ProjectDAO dao;
+	
 	@Test
 	void test() throws FindException {
 		ProjectDTO proj = dao.selectByNo(4, null);

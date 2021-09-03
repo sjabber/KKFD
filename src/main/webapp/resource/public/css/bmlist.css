@@ -319,6 +319,11 @@ nav {
   font-weight: bold;
 }
 
+#no_content_img {
+  padding-top: 182px;
+  padding-left: 182px;
+}
+
 /* .focus_item_title_value :hover {
   color: black;
 } */

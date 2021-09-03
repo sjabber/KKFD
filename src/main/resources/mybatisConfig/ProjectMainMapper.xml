@@ -3,44 +3,55 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kkfd.dto.ProjectMainMapper">
-<select id="selectMain" resultType="main">
+
+<resultMap id="projectMainResultMap" type="main" autoMapping="true">
+	<!-- <result column="proj_area" property="projArea"/> -->
+		<association javaType="project" property="project" autoMapping="true"> <!-- 컬렉션 -->
+		<id column="proj_no" property="projNo"/>
+		 	<association javaType="creator" property="creator" autoMapping="true">
+		  	<!-- <result column="proj_id" property="crId"/> -->
+			</association>
+		</association>
+</resultMap>
+
+<select id="selectMainLogined" resultMap="projectMainResultMap">
 SELECT 1 AS proj_area, r.*
 FROM (SELECT p.proj_no,p.proj_category, p.proj_title, p.proj_goals, proj_start, proj_end,
-            NVL2(b.book_no,1,0) AS bm
-        FROM kk_project p
+            NVL2(b.book_no,1,0) AS proj_bm, c.cr_nn
+        FROM kk_project p JOIN kk_creator c ON(p.proj_id=c.cr_id)
            LEFT OUTER JOIN kk_bookmark b 
            ON (p.proj_no=b.book_proj AND b.book_id=#{id})
         WHERE p.proj_status=1 AND  SYSDATE <![CDATA[<]]> p.proj_end
         ORDER BY p.proj_bmcnt DESC
     ) r
 WHERE ROWNUM BETWEEN 1 AND 8
-UNION
+UNION ALL
 SELECT 2 AS c, r.*
 FROM (SELECT p.proj_no,p.proj_category, p.proj_title, p.proj_goals, proj_start, proj_end,
-            NVL2(b.book_no,1,0) AS bm
-        FROM kk_project p
+            NVL2(b.book_no,1,0) AS proj_bm, c.cr_nn
+        FROM kk_project p JOIN kk_creator c ON(p.proj_id=c.cr_id)
            LEFT OUTER JOIN kk_bookmark b 
            ON (p.proj_no=b.book_proj AND b.book_id=#{id})
         WHERE p.proj_status=1 AND p.proj_start <![CDATA[<]]> SYSDATE 
-        ORDER BY  p.proj_start DESC
+        ORDER BY  p.proj_no DESC
     ) r
 WHERE ROWNUM BETWEEN 1 AND 8
-UNION
+UNION ALL
 SELECT 3 AS c, r.*
 FROM (SELECT p.proj_no,p.proj_category, p.proj_title, p.proj_goals, proj_start, proj_end,
-            NVL2(b.book_no,1,0) AS bm
-        FROM kk_project p
+            NVL2(b.book_no,1,0) AS proj_bm, c.cr_nn
+        FROM kk_project p JOIN kk_creator c ON(p.proj_id=c.cr_id)
            LEFT OUTER JOIN kk_bookmark b 
            ON (p.proj_no=b.book_proj AND b.book_id=#{id})
         WHERE p.proj_status=1 AND SYSDATE <![CDATA[<]]> p.proj_start
         ORDER BY p.proj_no DESC
     ) r
 WHERE ROWNUM BETWEEN 1 AND 8
-UNION
+UNION ALL
 SELECT 4 AS c, r.*
 FROM (SELECT p.proj_no,p.proj_category, p.proj_title, p.proj_goals, proj_start, proj_end,
-            NVL2(b.book_no,1,0) AS bm
-        FROM kk_project p
+            NVL2(b.book_no,1,0) AS proj_bm, c.cr_nn
+        FROM kk_project p JOIN kk_creator c ON(p.proj_id=c.cr_id)
            LEFT OUTER JOIN kk_bookmark b 
            ON (p.proj_no=b.book_proj AND b.book_id=#{id})
         WHERE p.proj_status=1 
@@ -50,4 +61,41 @@ FROM (SELECT p.proj_no,p.proj_category, p.proj_title, p.proj_goals, proj_start, 
     ) r
 WHERE ROWNUM BETWEEN 1 AND 8
 </select>
+
+<select id="selectMain" resultMap="projectMainResultMap">
+SELECT 1 AS proj_area, r.*
+FROM (SELECT p.proj_no,p.proj_category, p.proj_title, p.proj_goals, proj_start, proj_end, c.cr_nn
+        FROM kk_project p JOIN kk_creator c ON(p.proj_id=c.cr_id)
+        WHERE p.proj_status=1 AND  SYSDATE <![CDATA[<]]> p.proj_end
+        ORDER BY p.proj_bmcnt DESC
+    ) r
+WHERE ROWNUM BETWEEN 1 AND 8
+UNION ALL
+SELECT 2 AS c, r.*
+FROM (SELECT p.proj_no,p.proj_category, p.proj_title, p.proj_goals, proj_start, proj_end, c.cr_nn
+        FROM kk_project p JOIN kk_creator c ON(p.proj_id=c.cr_id)
+        WHERE p.proj_status=1 AND p.proj_start <![CDATA[<]]> SYSDATE 
+        ORDER BY  p.proj_no DESC
+    ) r
+WHERE ROWNUM BETWEEN 1 AND 8
+UNION ALL
+SELECT 3 AS c, r.*
+FROM (SELECT p.proj_no,p.proj_category, p.proj_title, p.proj_goals, proj_start, proj_end, c.cr_nn
+        FROM kk_project p JOIN kk_creator c ON(p.proj_id=c.cr_id)
+        WHERE p.proj_status=1 AND SYSDATE <![CDATA[<]]> p.proj_start
+        ORDER BY p.proj_no DESC
+    ) r
+WHERE ROWNUM BETWEEN 1 AND 8
+UNION ALL
+SELECT 4 AS c, r.*
+FROM (SELECT p.proj_no,p.proj_category, p.proj_title, p.proj_goals, proj_start, proj_end, c.cr_nn
+        FROM kk_project p JOIN kk_creator c ON(p.proj_id=c.cr_id)
+        WHERE p.proj_status=1 
+        AND ( p.proj_goals BETWEEN 75 AND 100)
+        AND SYSDATE <![CDATA[<]]> p.proj_end
+        ORDER BY p.proj_end ASC
+    ) r
+WHERE ROWNUM BETWEEN 1 AND 8
+</select>
+
 </mapper>

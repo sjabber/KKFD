@@ -22,6 +22,10 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
 
+      function goBack() {
+        window.history.back();
+      }
+
       const categoryNoChange = {
          1: '캔들',
          2: '조향',
@@ -51,6 +55,7 @@
           transformRequest: [null],
           transformResponse: [null],
           jsonpCallbackParam: "callback",
+          xhrFields: {withCredentials: true},
           url: backurl,
           headers: {
             Accept: "application/json, text/plain, */*",
@@ -91,6 +96,23 @@
               //alert("test");
 
               $("#apply_btn").click(function () {
+
+                if($("input#input_receiver").val() == "") {
+                  alert("받는 사람을 입력해주세요");
+                  return false;
+                } else if($("input#input_addr").val() == "") {
+                  alert("주소를 입력해주세요");
+                  return false;
+                } else if($("input#input_detail").val() == "") {
+                  alert("상세주소를 입력해주세요");
+                  return false;
+                } else if($("select#cmpypage_bankname option:selected").val() == 0) {
+                  alert("은행을 선택해주세요");
+                  return false;
+                } else if($("input#input_acno").val() == "") {
+                  alert("계좌번호를 입력해주세요");
+                  return false;
+                }
                 
                   //alert("test");
                   $.ajax({
@@ -102,6 +124,7 @@
                       null
                     ],
                     jsonpCallbackParam: "callback",
+                    xhrFields: {withCredentials: true},
                     url: "http://localhost:9999/kkfd/funding",
                     headers: {
                       "Accept": "application/json, text/plain, */*",
@@ -111,6 +134,10 @@
                     timeout: {},
                     success: function (responseObj) {
                       alert("신청 완료");
+                      location.replace('/member/funlist');
+                    },
+                    error: function(jqXHR){
+                      alert("로그인하세요"); //404, 403, 500
                     }
                   });
                 
@@ -118,6 +145,33 @@
               
             });
           },
+        });
+
+        $.ajax({
+          method: "GET",
+          transformRequest: [
+            null
+          ],
+          transformResponse: [
+            null
+          ],
+          jsonpCallbackParam: "callback",
+          xhrFields: {withCredentials: true},
+          url: "http://localhost:9999/kkfd/member/",
+          headers: {
+            "Accept": "application/json, text/plain, */*"
+          },
+          success: function (responseData){
+            $(responseData).each(function (i, e) {
+            var email = e.email;
+            var phone = e.phone;
+            $('span.mem_email').html(email);
+            $('span.mem_phone').html(phone);
+          });
+          }, error: function(jqXHR){
+            alert("로그인하세요");
+            goBack();
+          }
         });
 
         $("#funding_quantity").change(function () {
@@ -175,11 +229,15 @@
           <div class="header_customer_warp">
             <button class="header_customer_btn">
               <div class="header_login&signup">
-                <span class="login&signup_name">로그인 / 회원가입</span>
+                <span class="login_signup_name">
+                  <a class="admin-no" href="/member/login">로그인 / 회원가입</a>
+                  <a class="admin-yes" href="/creator/cmypage">마이페이지</a>
+                  <a class="admin-yes" href="javascript:Logout()">로그아웃</a>
+                </span>
               </div>
-              <div class="header_profile_img">
+              <!-- <div class="header_profile_img">
                 <img src="./img/blank.png" />
-              </div>
+              </div> -->
             </button>
           </div>
         </div>
@@ -234,10 +292,10 @@
           <div class="apply_title">회원 정보</div>
           <div class="apply_box">
             <div class="box_row">
-              <span>연락처</span> <span><!-- 펀딩신청회원 연락처 --></span>
+              <span>연락처</span> <span class="mem_phone"><!-- 펀딩신청회원 연락처 --></span>
             </div>
             <div class="box_row">
-              <span>이메일</span> <span><!-- 펀딩신청회원 이메일 --></span>
+              <span>이메일</span> <span class="mem_email"><!-- 펀딩신청회원 이메일 --></span>
             </div>
             <div class="apply_box">
               <div>* 위 연락처와 이메일로 후원 관련 소식이 전달됩니다.</div>
@@ -444,5 +502,56 @@
         </div>
       </div>
     </footer>
+    <script>
+      function logined() {
+        $("span.login_signup_name > a.admin-no").hide();
+        $("span.login_signup_name > a.admin-yes").show();
+      }
+
+      function logouted() {
+        $("span.login_signup_name > a.admin-no").show();
+        $("span.login_signup_name > a.admin-yes").hide();
+      }
+
+      function Logout() {
+        var backurl = "http://localhost:9999/kkfd/member/logout";
+        $.ajax({
+          url: backurl,
+          method: "get",
+          xhrFields: {
+            withCredentials: true,
+          },
+          success: function () {
+            alert("로그아웃 되었습니다.");
+            logouted();
+            document.location.reload();
+          },
+          error: function (xhr) {
+            alert("로그아웃 에러");
+          },
+        });
+      }
+
+      function checkLogined() {
+        var backurl = "http://localhost:9999/kkfd/member/logincheck";
+        $.ajax({
+          url: backurl,
+          method: "get",
+          dataType: "json",
+          xhrFields: {
+            withCredentials: true,
+          },
+          success: function (result) {
+            logined();
+          },
+          error: function (result) {
+            logouted();
+          },
+        });
+      }
+
+      logouted();
+      checkLogined();
+    </script>
   </body>
 </html>

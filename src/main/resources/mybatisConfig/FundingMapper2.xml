@@ -12,7 +12,7 @@
 		   <result column="fun_proj" property="projNo"/>
 		  </association>
 </resultMap>
-<select id="selectFunsById" parameterType="HashMap" resultType="funding">
+<select id="selectFunsById" parameterType="HashMap" resultMap="fundingResultMap">
 SELECT *
 FROM(SELECT ROWNUM AS rn, r.*
         FROM (SELECT f.fun_no, f.fun_date, f.fun_fm, f.fun_track,
@@ -30,11 +30,11 @@ FROM(SELECT ROWNUM AS rn, r.*
 				</when>
 				<!-- 1:진행중-->
 				<when test="state==1">
-					AND (p.proj_start<![CDATA[ < ]]>SYSDATE AND SYSDATE<![CDATA[ < ]]>p.proj_end)   
+					AND (p.proj_status!=0 AND (p.proj_start<![CDATA[ < ]]>SYSDATE AND SYSDATE<![CDATA[ < ]]>p.proj_end))   
 				</when>
 				<!-- 2:성사(프로젝트성공)-->
 				<when test="state==2">
-					AND p.proj_end<![CDATA[ < ]]>SYSDATE AND p.proj_goals<![CDATA[ >= ]]>100)   
+					AND (p.proj_status!=0 AND(p.proj_end<![CDATA[ < ]]>SYSDATE AND p.proj_goals<![CDATA[ >= ]]>100))  
 				</when>             
 			</choose>            
 				ORDER BY f.fun_no DESC) r)
@@ -55,11 +55,11 @@ WHERE fun_id=#{loginId}
 	</when>
 	<!-- 1:진행중-->
 	<when test="state==1">
-		AND (p.proj_start<![CDATA[ < ]]>SYSDATE AND SYSDATE<![CDATA[ < ]]>p.proj_end)   
+		AND (p.proj_status!=0 AND (p.proj_start<![CDATA[ < ]]>SYSDATE AND SYSDATE<![CDATA[ < ]]>p.proj_end))   
 	</when>
 	<!-- 2:성사-->
 	<when test="state==2">
-		AND (p.proj_end<![CDATA[ < ]]>SYSDATE AND p.proj_goals<![CDATA[ >= ]]>100)  
+		AND (p.proj_status!=0 AND(p.proj_end<![CDATA[ < ]]>SYSDATE AND p.proj_goals<![CDATA[ >= ]]>100))  
 	</when>             
 </choose>           
 </select>  

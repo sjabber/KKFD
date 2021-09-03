@@ -67,6 +67,7 @@
                  JOIN kk_creator c ON(p.proj_id=c.cr_id)
         WHERE p.proj_no=#{projNo}
     </select>
+    
 
     <select id="selectPrevProj" resultType="project">
         SELECT *
@@ -108,4 +109,44 @@
                 sysdate, 0, 1)
     </insert>
 
+
+<!--   <select id="selectByNo" parameterType="HashMap" resultMap="projectResultMap">
+    SELECT p.proj_no,p.proj_category, p.proj_title, p.proj_fm, p.proj_quantity, p.proj_goals, p.proj_start, p.proj_end, p.proj_intro,
+        p.proj_targetcnt, p.proj_limitcnt, p.proj_delivery, NVL2(b.book_no,1,0) AS projBm, p.proj_id, p.proj_status, c.cr_nn, c.cr_intro
+    FROM kk_project p
+        LEFT OUTER JOIN kk_bookmark b ON (p.proj_no=b.book_proj AND b.book_id=#{memId})
+        JOIN kk_creator c ON(p.proj_id=c.cr_id)
+    WHERE p.proj_no=#{projNo}
+  </select> -->
+  
+  <select id="selectPrevProj" resultType="project">
+    SELECT *
+    FROM(SELECT proj_no, proj_title, proj_summary
+        FROM kk_project
+        WHERE proj_id =(SELECT proj_id FROM kk_project WHERE proj_no=#{no})
+        AND(proj_no != #{no})
+        ORDER BY proj_no DESC
+        )
+    WHERE ROWNUM BETWEEN 1 AND 5
+  </select>
+  
+  <insert id="insertBookmark" parameterType="java.util.HashMap">
+  INSERT INTO kk_bookmark VALUES(bookmark.NEXTVAL, #{id}, #{projNo})
+  </insert>
+  
+  <delete id="deleteBookmark" parameterType="java.util.HashMap">
+  DELETE FROM kk_bookmark WHERE book_id = #{id} AND book_proj = #{projNo}
+  </delete>
+  
+  <select id="myBookmark" parameterType="java.util.HashMap" resultMap="projectResultMap">
+	SELECT * FROM ( SELECT ROWNUM AS rn, r.* FROM (
+	SELECT p.*, NVL2(b.book_no,1,0) AS proj_bm FROM
+	(SELECT proj_no, proj_category, proj_title, proj_summary, proj_start, proj_end, proj_goals, 
+	proj_targetcnt, proj_fm, proj_quantity, proj_bmcnt, c.cr_nn FROM
+	kk_project p JOIN kk_bookmark b ON (p.proj_no=b.book_proj AND b.book_id=#{id})
+	JOIN kk_creator c ON(p.proj_id=c.cr_id)
+	WHERE proj_status = 1) p LEFT OUTER JOIN kk_bookmark b ON (p.proj_no=b.book_proj 
+	AND b.book_id=#{id})ORDER BY b.book_no DESC)r) WHERE rn BETWEEN START_ROW(#{page},18) AND END_ROW(#{page},18)
+  </select>
+  
 </mapper>

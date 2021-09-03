@@ -69,7 +69,8 @@ public interface ProjectDAO {
 	 * @return
 	 * @throws ModifyException
 	 */
-	public int updateProj(int projNo, String loginId) throws ModifyException;
+	public void updateProj(int projNo, String loginId) throws ModifyException;
+	
 
 	/**
 	 *

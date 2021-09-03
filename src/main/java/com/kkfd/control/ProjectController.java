@@ -1,11 +1,10 @@
 package com.kkfd.control;
 
-import com.kkfd.dto.ProjectDTO;
-import com.kkfd.dto.SearchDTO;
-import com.kkfd.exception.AddException;
-import com.kkfd.exception.FindException;
-import com.kkfd.exception.RemoveException;
-import com.kkfd.service.ProjectService;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +17,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.List;
+import com.kkfd.dto.MemberDTO;
+import com.kkfd.dto.ProjectDTO;
+import com.kkfd.dto.SearchDTO;
+import com.kkfd.exception.AddException;
+import com.kkfd.exception.FindException;
+import com.kkfd.exception.RemoveException;
+import com.kkfd.service.ProjectService;
 
 @RestController
 @RequestMapping("/project/*")
@@ -36,42 +39,49 @@ public class ProjectController {
 	 *      이벤트 3-1 : 검색버튼을 누른 후 카테고리 바꾸면 검색+카테고리
 	 */
 	@GetMapping(value={"/list/{page}"})
-	public ResponseEntity<List<ProjectDTO>> projList(HttpSession session,SearchDTO search, @PathVariable int page)
-			throws FindException {
-		//String loginId = (String)session.getAttribute("loginId");
-		search.setPage(page);
-		log.info(search.toString());
-		String loginId="id1";
-		if(loginId != null) {
-			search.setId(loginId);
+	public ResponseEntity<List<ProjectDTO>> projList(HttpSession session,SearchDTO search, @PathVariable int page) {
+//		String loginId = (String)session.getAttribute("loginId");
+		
+		MemberDTO m = (MemberDTO)session.getAttribute("loginInfo");
+		if(m == null) {
+			search.setId(null);
+		} else {
+			search.setId(m.getMemId());
 		}
-
-		//초안
+		search.setPage(page);
 		try {
 			List<ProjectDTO> list = new ArrayList<ProjectDTO>();
 			list = service.findProjs(search);
+			if(list.size() == 0) {
+				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+			}
 			/* 1.load시 요청  : list/?p=1
 			 * 2.카테고리,진행상태,달성률,정렬 	: /list/?p=1&category=1&state=2&goal=3&order=date>
 			 * 3.카테고리,진행상태,달성률,정렬+단어	: /list?p=1&category=0&state=0&goal=0&order=b&word=word
 			 */
-			return new ResponseEntity(list,null,HttpStatus.OK);//응답 변경	
+			return new ResponseEntity<>(list,null,HttpStatus.OK);//응답 변경	
 			//html에서 if(list==null) 목록이 존재하지 않습니다.
 		}catch(FindException e){
-			return new ResponseEntity(HttpStatus.BAD_GATEWAY);//응답 변경	   
+			return new ResponseEntity<>(HttpStatus.BAD_GATEWAY);//응답 변경	   
 		}
 	}
 
 	@GetMapping(value={"/{no}"})
 	public ResponseEntity<ProjectDTO> proj(HttpSession session, @PathVariable int no) {
-		//String loginId = (String)session.getAttribute("loginId");
-		String loginId="id1";
+		String loginId;
+		MemberDTO m = (MemberDTO)session.getAttribute("loginInfo");
+		if(m == null) {
+			loginId = null;
+		} else {
+			loginId = m.getMemId();
+		}
 		try {
 			ProjectDTO project = service.findByNo(no, loginId);
 			return new ResponseEntity<ProjectDTO>(project, HttpStatus.OK);
 		} catch (FindException e) {
 			e.printStackTrace();
+			return new ResponseEntity<>(HttpStatus.BAD_GATEWAY);
 		}
-		return null;
 	}
 
 	@GetMapping(value={"/{no}/history"})
@@ -83,46 +93,64 @@ public class ProjectController {
 			e.printStackTrace();
 			return new ResponseEntity<>(HttpStatus.BAD_GATEWAY);
 		}
-		//return null;
 	}
 	
 	@PostMapping(value={"/{no}/bookmark"})
 	public ResponseEntity<?> addbookmark(HttpSession session, @PathVariable int no) {
 		//String loginId = (String)session.getAttribute("loginId");
-		String loginId="id1";
-		try {
-			service.addBookmark(no, loginId);
-			return new ResponseEntity(HttpStatus.OK);
-		} catch (AddException e) {
-			e.printStackTrace();
+		MemberDTO m = (MemberDTO)session.getAttribute("loginInfo");
+		String loginId;
+		if(m == null) {
 			return new ResponseEntity<>(HttpStatus.BAD_GATEWAY);
+		} else {
+			loginId = m.getMemId();
+			try {
+				service.addBookmark(no, loginId);
+				return new ResponseEntity<>(HttpStatus.OK);
+			} catch (AddException e) {
+				e.printStackTrace();
+				return new ResponseEntity<>(HttpStatus.BAD_GATEWAY);
+			}
 		}
 	}
 	
 	@DeleteMapping(value={"/{no}/bookmark"})
 	public ResponseEntity<?> removebookmark(HttpSession session, @PathVariable int no) {
-		//String loginId = (String)session.getAttribute("loginId");
-		String loginId="id1";
-		try {
-			service.removeBookmark(no, loginId);
-			return new ResponseEntity(HttpStatus.OK);
-		} catch (RemoveException e) {
-			e.printStackTrace();
+		String loginId;
+		MemberDTO m = (MemberDTO)session.getAttribute("loginInfo");
+		if(m == null) {
 			return new ResponseEntity<>(HttpStatus.BAD_GATEWAY);
+		} else {
+			loginId = m.getMemId();
+			try {
+				service.removeBookmark(no, loginId);
+				return new ResponseEntity<>(HttpStatus.OK);
+			} catch (RemoveException e) {
+				e.printStackTrace();
+				return new ResponseEntity<>(HttpStatus.BAD_GATEWAY);
+			}
 		}
 	}
 	
-	@GetMapping(value={"/mypage/bookmark/{page}"})
+	@GetMapping(value={"/bmlist/{page}"})
 	public ResponseEntity<List<ProjectDTO>> projList(HttpSession session, String id, @PathVariable int page)
 			throws FindException {
-		//String loginId = (String)session.getAttribute("loginId");
-		String loginId="id1";
-		try {
-			List<ProjectDTO> list = new ArrayList<ProjectDTO>();
-			list = service.findMyBookmark(loginId, page);
-			return new ResponseEntity(list,null,HttpStatus.OK);
-		}catch(FindException e){
-			return new ResponseEntity(HttpStatus.BAD_GATEWAY);  
+		String loginId;
+		MemberDTO m = (MemberDTO)session.getAttribute("loginInfo");
+		if(m == null) {
+			return new ResponseEntity<>(HttpStatus.BAD_GATEWAY);
+		} else {
+			loginId = m.getMemId();
+			try {
+				List<ProjectDTO> list = new ArrayList<ProjectDTO>();
+				list = service.findMyBookmark(loginId, page);
+				if(list.size() == 0) {
+					return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+				}
+				return new ResponseEntity<>(list,null,HttpStatus.OK);
+			}catch(FindException e){
+				return new ResponseEntity<>(HttpStatus.BAD_GATEWAY);  
+			}
 		}
 	}
 

@@ -2,15 +2,18 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.kkfd.dto.ProjectMapper2"><!--  project : , fundingList: {} -->
-<resultMap id="fundingResultMap" type="Hashmap" > 
-    <id column="proj_no" property="project.projNo"/>
-    <result column="proj_title" property="project.projTitle"/>
-    <result column="proj_fm" property="project.projFm"/>
-    <result column="proj_quantity" property="project.projQuantity"/>
-    <result column="proj_goals" property="project.projGoals"/>
-    <result column="proj_delivery" property="project.projDelivery"/>
-    <result column="proj_end" property="project.projEnd"/>
+<mapper namespace="com.kkfd.dto.ProjectMapper2"><!--no:357, project : (DTO) , fundingList: {} -->
+<resultMap id="fundingResultMap" type="hashmap" > 
+    <id column="proj_no" property="no"></id>
+    <association property="project" javaType="project">
+    	<id column="proj_no" property="projNo"/>
+	    <result column="proj_title" property="projTitle"/>
+	    <result column="proj_fm" property="projFm"/>
+	    <result column="proj_quantity" property="projQuantity"/>
+	    <result column="proj_goals" property="projGoals"/>
+	    <result column="proj_delivery" property="projDelivery"/>
+	    <result column="proj_end" property="projEnd"/> 
+    </association>
     <collection javaType="List" ofType="funding" property="fundingList" autoMapping="true">
        <id column="fun_no" property="funNo"/>
        <association javaType="member" property="member" autoMapping="true">
@@ -18,30 +21,6 @@
 		</association>
     </collection>
 </resultMap>
-
-<!--  project : , fundingList: {} -->
-<!-- 
-<resultMap id="fundingResultMap2" type="Hashmap"> 
-<id column="proj_no" property="project.projNo"/>
-<association javaType="project" property="project">
-	<id column="proj_no" property="project.projNo"/>
- 	<result column="proj_title" property="project.projTitle"/>
-    <result column="proj_fm" property="project.projFm"/>
-    <result column="proj_quantity" property="project.projQuantity"/>
-    <result column="proj_goals" property="project.projGoals"/>
-    <result column="proj_delivery" property="project.projDelivery"/>
-    <result column="proj_end" property="project.projEnd"/> 
-</association>
-  <collection javaType="List" ofType="funding" property="fundingList">
-     <id column="fun_no" property="funNo"/>
-     <association javaType="member" property="member" autoMapping="true">
-  <result column="mem_id" property="memId"/> 
-</association>
-  </collection> 
-</resultMap>
- -->
-
-
 <select id="selectProjsByCrId" parameterType="HashMap" resultType="project">
 SELECT *
 FROM (SELECT ROWNUM AS rn,p.*

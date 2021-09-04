@@ -52,9 +52,12 @@ public class FundingController {
 		} else {
 			try {
 				funding.setMember(m);
-				service.addFunding(funding);
-				//log.info("test2");
-				return new ResponseEntity<String>(HttpStatus.OK);
+				int result = service.addFunding(funding);
+				if(result == 1) {
+					return new ResponseEntity<String>(HttpStatus.OK);
+				} else {
+					return new ResponseEntity<String>(HttpStatus.MULTIPLE_CHOICES);
+				}
 			} catch (AddException e) {
 				e.printStackTrace();
 				return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

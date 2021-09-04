@@ -132,13 +132,23 @@
                     },
                     data: "{\"project\":{\"projNo\":\"" + projNo + "\"},\"funQuantity\":" + $("input#funding_quantity").val() + ",\"funFm\":" + (projFm * $("input#funding_quantity").val()) + ",\"funName\":\"" + $("input#input_receiver").val() + "\",\"funAddress\":\"" + $("input#input_addr").val() + "\",\"funDetail\":\"" + $("input#input_detail").val() + "\",\"funBank\":\"" + $("select#cmpypage_bankname option:selected").val() + "\",\"funAcno\":\"" + $("input#input_acno").val() + "\"}",
                     timeout: {},
+                    statusCode: {
+                      300:function () {
+                        alert("주문수량이 재고보다 많거나 이미 제한수량에 도달한 프로젝트입니다");
+                        goBack();
+                      },
+                      500:function () {
+                        alert("로그인하세요");
+                        goBack();
+                      },
+                    },
                     success: function (responseObj) {
                       alert("신청 완료");
                       location.replace('/member/funlist');
-                    },
-                    error: function(jqXHR){
-                      alert("로그인하세요"); //404, 403, 500
                     }
+                    // error: function(jqXHR){
+                    //   alert("로그인하세요"); //404, 403, 500
+                    // }
                   });
                 
               });
@@ -219,7 +229,7 @@
         </div>
         <div class="header_mainlogo">
           <a style="text-decoration: none" href="/">
-            <span class="header_mainlogo_item">크크펀딩</span>
+            <span class="header_mainlogo_item"><img src="/img/logo.png" alt=""/></span>
           </a>
         </div>
         <div class="header_sub_warp">
@@ -524,7 +534,8 @@
           success: function () {
             alert("로그아웃 되었습니다.");
             logouted();
-            document.location.reload();
+            window.history.back();
+            // document.location.reload();
           },
           error: function (xhr) {
             alert("로그아웃 에러");

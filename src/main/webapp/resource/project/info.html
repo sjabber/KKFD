@@ -70,10 +70,9 @@
               var projStatus = e.projStatus;
               var sum = projFm * projQuantity;
               $("div.proj_title").html(projTitle);
-              $("div.creator_profile_img>img").attr(
-                "src",
-                "/img/profile/" + crId + ".png"
-              );
+              $("div.creator_profile_img>img")
+                .attr("src", "/img/profile/" + crId + ".png")
+                .attr("onerror", "this.src='/img/profile/" + crId + ".jpg';");
               $("div.creator_name>span").html(crNn);
               $("span.sum").html(numberWithCommas(sum));
               $("span.pct").html(projGoals + "%");
@@ -85,31 +84,34 @@
               $("span.target_cnt_fm").html(
                 numberWithCommas(projTargetcnt * projFm)
               );
-              $("div.represent_img>img.represent_img").attr(
-                "src",
-                "/img/project/" + no + "/" + no + "_t.png"
-              );
-              $("div.mid_img_1>img.mid_imgss_1").attr(
-                "src",
-                "/img/project/" + no + "/" + no + "_1.png"
-              );
-              $("div.mid_img_2>img.mid_imgss_2").attr(
-                "src",
-                "/img/project/" + no + "/" + no + "_2.png"
-              );
-              $("div.mid_img_3>img.mid_imgss_3").attr(
-                "src",
-                "/img/project/" + no + "/" + no + "_3.png"
-              );
-              $("div.mid_img_4>img.mid_imgss_4").attr(
-                "src",
-                "/img/project/" + no + "/" + no + "_4.png"
-              );
+              $("div.represent_img>img.represent_img")
+                .attr("src", "/img/project/" + no + "/" + no + "_t.png")
+                .attr(
+                  "onerror",
+                  "this.src='/img/project/" + no + "/" + no + "_t.jpg';"
+                );
+              // divHtml += '<img class="focus_item_img_item" src="/img/project/' + projNo + '/' + projNo + '_t.png" onerror="this.src=\'/img/project/' + projNo + '/' + projNo + '_t.jpg\';" />';
+              for (var i = 1; i < 5; i++) {
+                $("div.mid_img_" + i + ">img.mid_imgss_" + i)
+                  .attr(
+                    "src",
+                    "/img/project/" + no + "/" + no + "_" + i + ".png"
+                  )
+                  .attr(
+                    "onerror",
+                    "this.src='/img/project/" +
+                      no +
+                      "/" +
+                      no +
+                      "_" +
+                      i +
+                      ".jpg';"
+                  );
+              }
               $("textarea.content").html(projIntro);
-              $("div.mid_creator_profile_img>img.mid_creator_profile_img").attr(
-                "src",
-                "/img/profile/" + crId + ".png"
-              );
+              $("div.mid_creator_profile_img>img.mid_creator_profile_img")
+                .attr("src", "/img/profile/" + crId + ".png")
+                .attr("onerror", "this.src='/img/profile/" + crId + ".jpg';");
               $("div.mid_creator_info span").html(crNn);
               $("div.mid_creator_intro").html(crIntro);
 
@@ -265,12 +267,17 @@
                   prevProjNo +
                   '">';
                 divHtml += '<div class="prev_proj_img">';
+                // divHtml += '<img class="thumbnail_img" src="/img/project/' + prevProjNo + "/" + prevProjNo + '_t.PNG" />';
                 divHtml +=
                   '<img class="thumbnail_img" src="/img/project/' +
                   prevProjNo +
                   "/" +
                   prevProjNo +
-                  '_t.PNG" />';
+                  '_t.png" onerror="this.src=\'/img/project/' +
+                  prevProjNo +
+                  "/" +
+                  prevProjNo +
+                  "_t.jpg';\" />";
                 divHtml += "</div>";
                 divHtml += '<div class="prev_proj_info_wrap">';
                 divHtml += '<div class="prev_proj_title">';
@@ -316,7 +323,9 @@
         </div>
         <div class="header_mainlogo">
           <a style="text-decoration: none" href="/">
-            <span class="header_mainlogo_item">크크펀딩</span>
+            <span class="header_mainlogo_item"
+              ><img src="/img/logo.png" alt=""
+            /></span>
           </a>
         </div>
         <div class="header_sub_warp">

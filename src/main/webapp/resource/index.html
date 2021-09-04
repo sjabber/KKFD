@@ -68,14 +68,23 @@
               divHtml +=
                 '<a class="info_btn" href="/project/info?no=' + projNo + '">';
               divHtml += '<div class="focus_item_img">';
+              // divHtml +=
+              //   '<img class="focus_item_img_item" src="/img/project/' +
+              //   projNo +
+              //   "/" +
+              //   projNo +
+              //   '_t.png" alt="" />';
+              // divHtml += '<img class="focus_item_img_item" src="' + imgPath(projNo) + '" alt="" />';
               divHtml +=
                 '<img class="focus_item_img_item" src="/img/project/' +
                 projNo +
                 "/" +
                 projNo +
-                '_t.png" alt="" />';
-              // divHtml += '<img class="focus_item_img_item" src="' + imgPath(projNo) + '" alt="" />';
-              //
+                '_t.png" onerror="this.src=\'/img/project/' +
+                projNo +
+                "/" +
+                projNo +
+                "_t.jpg';\" />";
               divHtml += "</div>";
               divHtml += "</a>";
               divHtml += '<div class="focus_item_category">';
@@ -114,6 +123,12 @@
                 '<span class="focus_item_title_value">' + projTitle + "</span>";
               divHtml += "</div>";
               divHtml += "</a>";
+              divHtml +=
+                '<br /><div class="progress" style="height: 2px;"><div class="progress-bar bg-danger" role="progressbar" style="width: ' +
+                projGoals +
+                '%;" aria-valuenow="' +
+                projGoals +
+                '" aria-valuemin="0" aria-valuemax="100"></div></div>';
               divHtml += '<div class="focus_item_purpose">';
               divHtml +=
                 '<span class="purpose_value">' + projGoals + "% 달성</span>";
@@ -230,7 +245,9 @@
         </div>
         <div class="header_mainlogo">
           <a style="text-decoration: none" href="/">
-            <span class="header_mainlogo_item">크크펀딩</span>
+            <span class="header_mainlogo_item"
+              ><img src="/img/logo.png" alt=""
+            /></span>
           </a>
         </div>
         <div class="header_sub_warp">
@@ -479,28 +496,28 @@
         });
       }
 
-  function checkLogined() {
-    var backurl = 'http://localhost:9999/kkfd/member/logincheck';
-    $.ajax({
-      url: backurl,
-      method: 'get',
-      dataType: "json",
-      xhrFields: {
-        withCredentials: true
-      },
-      statusCode: {
-        204:function () {
-          logouted();
-        },
-      },
-      success: function (result) {
-        logined();
-      },
-      error: function (result) {
-        logouted();
+      function checkLogined() {
+        var backurl = "http://localhost:9999/kkfd/member/logincheck";
+        $.ajax({
+          url: backurl,
+          method: "get",
+          dataType: "json",
+          xhrFields: {
+            withCredentials: true,
+          },
+          statusCode: {
+            204: function () {
+              logouted();
+            },
+          },
+          success: function (result) {
+            logined();
+          },
+          error: function (result) {
+            logouted();
+          },
+        });
       }
-    });
-  }
 
       // 카카오 간편 로그인 실패시
       /*  $.urlParam = function (name) {

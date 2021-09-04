@@ -1,8 +1,10 @@
 package com.kkfd.control;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -31,6 +33,10 @@ public class ProjectController {
 
 	@Autowired
 	private ProjectService service;
+	
+	@Autowired
+	private ServletContext servletContext;
+	
 	Logger log = LoggerFactory.getLogger(this.getClass());
 	/*
 	 * 이벤트1 : 카테고리,정렬기준,상태,달성률 select값이 달라지면
@@ -52,6 +58,28 @@ public class ProjectController {
 		try {
 			List<ProjectDTO> list = new ArrayList<ProjectDTO>();
 			list = service.findProjs(search);
+			//이미지 확장자 확인(.jpg, .png)후 실제 파일이름.확장자 반환
+			String imgPath = servletContext.getRealPath("resource/public/img/project");
+			String[] extension = {"jpg","png"};
+			String imgDir =  "";
+			for(ProjectDTO project : list) {
+				imgDir = imgPath + "/" + project.getProjNo();
+//				File[] files = new File(imgDir).listFiles();
+//				for(File file: files) {
+//					String fileName = file.getName();
+//					int indexOfExtension = fileName.lastIndexOf("_t.");
+//					if(indexOfExtension > -1) { //"_t."를 포함하는 이름의 파일이 있는 경우
+//						project.setExt(fileName.substring(indexOfExtension+3)); //확장자 
+//						break;
+//					}
+//				}
+				for(int i=0;i<extension.length ;i++) {
+					File file = new File(imgDir , project.getProjNo() + "_t." + extension[i]);
+					if(file.exists()) {
+						project.setExt(extension[i]);
+					}
+				}
+			}
 			if(list.size() == 0) {
 				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 			}
@@ -144,6 +172,19 @@ public class ProjectController {
 			try {
 				List<ProjectDTO> list = new ArrayList<ProjectDTO>();
 				list = service.findMyBookmark(loginId, page);
+				//이미지 확장자 확인(.jpg, .png)후 실제 파일이름.확장자 반환
+				String imgPath = servletContext.getRealPath("resource/public/img/project");
+				String[] extension = {"jpg","png"};
+				String imgDir =  "";
+				for(ProjectDTO project : list) {
+					imgDir = imgPath + "/" + project.getProjNo() ;
+					for(int i=0;i<extension.length ;i++) {
+						File file = new File(imgDir , project.getProjNo() + "_t." + extension[i]);
+						if(file.exists()) {
+							project.setExt(extension[i]);
+						}
+					}
+				}
 				if(list.size() == 0) {
 					return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 				}

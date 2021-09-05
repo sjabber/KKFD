@@ -107,7 +107,7 @@ CREATE TABLE kk_funding
     fun_detail VARCHAR2(255) NOT NULL,
     fun_bank VARCHAR2(20) NOT NULL,
     fun_acno VARCHAR2(20) NOT NULL,
-    fun_track NUMBER(1) DEFAULT 0 NOT NULL,
+    fun_track NUMBER DEFAULT 0 NOT NULL,
     fun_date DATE DEFAULT SYSDATE NOT NULL
 );
 

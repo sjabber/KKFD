@@ -19,11 +19,17 @@ minvalue 1
 nocycle
 cache 20;
 
--- funding μ‹ν€€μ¤μ λ‹¤μκ°’ ν™•μΈ
+
+alter sequence project increment by 400;
+select project.nextval from dual;
+alter sequence project increment by 1;
+
+
+-- funding ?‹???¤? ?‹¤?κ°? ?™•?Έ
 SELECT funding.NEXTVAL
 FROM dual;
 
--- funding μ‹ν€€μ¤μ λ‹¤μκ°’ λ³€κ²½
--- ν„μ¬κ°’-2 = λ‹¤μ μ‹ν€€μ¤κ°’ μΌλ΅ λ§μ¶λ‹¤.
+-- funding ?‹???¤? ?‹¤?κ°? λ³?κ²?
+-- ?„?¬κ°?-2 = ?‹¤? ?‹???¤κ°? ?Όλ΅? λ§μ¶?‹¤.
 ALTER SEQUENCE funding
 INCREMENT BY -2;

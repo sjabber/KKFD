@@ -34,7 +34,7 @@
           }, statusCode: {
             401: function () {
               alert('로그인후 사용해주세요');
-              location.replace("/member/login");
+              // location.replace("/member/login");
             },
             500: function () {
               alert('서버에러, 관리자에게 문의해 주세요.');
@@ -85,8 +85,8 @@
                     $trCopyObj.find('td.funFm').addClass('text-decoration-line-through');
                     $trCopyObj.find('td.projDelivery').addClass('text-decoration-line-through');
                     break;
-                  case 21:  //결제완료 : 초록 배송예정일 강조
-                    $trCopyObj.find('div.status').addClass('bg-success').addClass('text-white').html('결제완료');
+                  case 21:  //결제성공 : 초록 배송예정일 강조
+                    $trCopyObj.find('div.status').addClass('bg-success').addClass('text-white').html('결제성공');
                     $trCopyObj.find('td.projDelivery').addClass('fw-bold');
                     break;
                   case 22:  //배송중 : 
@@ -260,11 +260,11 @@
           <tr>
             <th scope="col" width="5%">번호</th>
             <th scope="col" width="8%">신청일</th>
-            <th scope="col" width="37%">프로젝트명</th>
+            <th scope="col" width="35%">프로젝트명</th>
             <th scope="col" width="11%">펀딩금액</th>
             <th scope="col" width="9%" class="text-center">상태</th>
-            <th scope="col" width="10%" class="text-center">마감일</th>
-            <th scope="col" width="10%">배송예정일</th>
+            <th scope="col" width="11%" class="text-center">마감일</th>
+            <th scope="col" width="11%">배송예정일</th>
             <th scope="col" width="10%">운송장번호</th>
           </tr>
         </thead>

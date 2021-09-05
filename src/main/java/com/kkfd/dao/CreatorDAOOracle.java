@@ -14,7 +14,7 @@ import com.kkfd.exception.ModifyException;
 import org.springframework.transaction.annotation.Transactional;
 
 @Repository("creatorDAO")
-public class CreatorDAOOracle implements CreatorDAO{
+public class CreatorDAOOracle implements CreatorDAO {
 	Logger log = LoggerFactory.getLogger(this.getClass());
 
 	@Autowired

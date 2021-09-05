@@ -331,9 +331,28 @@ function datePickerSet(sDate, eDate, flag) {
             minDate: new Date(),
             onSelect: function () {
                 datePickerSet(sDate, eDate);
+
+                if (eDate.val() !== '') {
+                    var start = new Date(sDate.val());
+                    var end = new Date(eDate.val());
+
+                    var diff = end.getTime() - start.getTime();
+                    diff = diff / (1000*60*60*24);
+
+                    $('div.FundingTerm').html(
+                        '<p>펀딩기간</p>' +
+                        '최대 ' + diff + '일');
+
+                    let dd7 = end.getTime() + (60*60*24*1000) * 7;
+                    let dd8 = end.getTime() + (60*60*24*1000) * 8;
+                    dd7 = new Date(dd7);
+                    dd8 = new Date(dd8);
+
+                    $('li.FundingPlan2 > p').text(getFormatDate(dd7) + ' 일 오후 12시');
+                    $('li.FundingPlan3 > p').text(getFormatDate(dd8) + ' 일 이내 정산');
+                }
             }
         });
-
 
         if (!isValidStr(sDay)) {
             //isValidStr -> true, 값이 없는것 -> false 처리됨
@@ -365,8 +384,41 @@ function datePickerSet(sDate, eDate, flag) {
             autoClose: true,
             onSelect: function () {
                 datePickerSet(sDate, eDate);
+
+                if (sDate.val() !== '') {
+                    var start = new Date(sDate.val());
+                    var end = new Date(eDate.val());
+
+                    console.log(start);
+                    console.log(end);
+
+                    var diff = end.getTime() - start.getTime();
+                    diff = diff / (1000*60*60*24);
+
+                    $('div.FundingTerm').html(
+                        '<p>펀딩기간</p>' +
+                        '최대 ' + diff + '일');
+
+
+                    let dd7 = end.getTime() + (60*60*24*1000) * 7;
+                    let dd8 = end.getTime() + (60*60*24*1000) * 8;
+                    dd7 = new Date(dd7);
+                    dd8 = new Date(dd8);
+
+                    $('li.FundingPlan2 > p').text(getFormatDate(dd7) + ' 일 오후 12시');
+                    $('li.FundingPlan3 > p').text(getFormatDate(dd8) + ' 일 이내 정산');
+                }
             }
         });
+    }
+
+    function getFormatDate(date){
+        var year = date.getFullYear();
+        var month = (1 + date.getMonth());
+        month = month >= 10 ? month : '0' + month;
+        var day = date.getDate();
+        day = day >= 10 ? day : '0' + day;
+        return year + '-' + month + '-' + day;
     }
 
     function isValidStr(str) {
@@ -431,147 +483,12 @@ function checkCreator() {
     });
 }
 
-/*function RegistProject() {
-    // 1. 프로젝트 기본정보
-    /!*    var p_category = $('select.selectBox option:selected').val();
-        var p_title = $('input#text1').val();
-        var p_summary = $('textarea#text2').val();
-        var p_intro = $('textarea#text3').val();*!/
-    var p_category = $('select.selectBox option:selected');
-    var p_title = $('input#text1');
-    var p_summary = $('textarea#text2');
-    var p_intro = $('textarea#text3');
-    var p_image = $('input#fileUpload1');
-
-    var projectInfo = [p_category, p_title, p_summary, p_intro];
-
-    // 2. 창작자 정보
-    /!*    var c_name = $('input#text4').val();
-        var c_intro = $('textarea#text5').val();
-        var c_bank = $('select#bank option:selected').val();
-        var c_acno = $('input#acno').val();
-        var c_acholder = $('input#acholder').val();*!/
-    var c_name = $('input#text4');
-    var c_intro = $('textarea#text5');
-    var c_bank = $('select#bank option:selected');
-    var c_acno = $('input#acno');
-    var c_acholder = $('input#acholder');
-
-    var creatorInfo = [c_name, c_intro, c_bank, c_acno];
-
-    // 3. 펀딩계획
-    /!*    var f_fm = $('input#fm').val();
-        var f_limitcnt = $('input#limitcnt').val();
-        var f_targetcnt = $('input#targetcnt').val();
-        var f_start = $('input#start_dates').val();
-        var f_end = $('input#end_dates').val();*!/
-    var f_fm = $('input#fm');
-    var f_limitcnt = $('input#limitcnt');
-    var f_targetcnt = $('input#targetcnt');
-    var f_start = $('input#start_dates');
-    var f_end = $('input#end_dates');
-
-    var fundingInfo = [f_fm, f_limitcnt, f_targetcnt, f_start, f_end];
-
-    // 필수 입력이 되어있지 않은 경우 포커싱
-    // 프로젝트 기본정보 포커싱
-    for (var i = 0; i < projectInfo.length; i++) {
-        if (projectInfo[i].val() === "") {
-            alert('기본 정보의 필수항목을 입력해주세요.');
-            section1();
-            projectInfo[i].focus();
-            return;
-        }
-    }
-    if (titleImg === false) {
-        alert('대표 이미지를 업로드해 주세요.')
-        section1();
-        p_image.focus()
-        return;
-    }
-
-    // 프로젝트 창작자 정보 포커싱
-    for (var i = 0; i < creatorInfo.length; i++) {
-        if (creatorInfo[i].val() === "") {
-            alert('창작자 정보의 필수항목을 입력해주세요.');
-            section2();
-            creatorInfo[i].focus();
-            return;
-        }
-    }
-
-    // 프로젝트 펀딩계획 정보 포커싱
-    for (var i = 0; i < fundingInfo.length; i++) {
-        if (fundingInfo[i].val() === "") {
-            alert('펀딩계획의 필수항목을 입력해주세요.');
-            section3();
-            fundingInfo[i].focus();
-            return;
-        }
-    }
-
-    // todo projDelivery (예상 수령일) 날짜 계산되어서 들어가야한다.
-    $.ajax({
-        url: 'http://localhost:9999/kkfd/project/register',
-        method: 'post',
-        // accept: 'application/json', // 멀티파트로 변경한다.
-        xhrFields: {
-            withCredentials: true
-        },
-        //form데이터 객체가 필요하다.
-        //form input tag의 name 속성 => creator.crId
-        //form.serialize();
-        data: JSON.stringify({
-            'projNo': "",
-            "creator":
-                {
-                    "crId": "",
-                    "crNn": c_name.val(),
-                    "crIntro": c_intro.val(),
-                    "crAcholder": c_acholder.val(),
-                    "crBank": c_bank.val(),
-                    "crAcno": c_acno.val()
-                },
-            "projCategory": p_category.val(),
-            "projTitle": p_title.val(),
-            "projSummary": p_summary.val(),
-            "projIntro": p_intro.val(),
-            "projFm": f_fm.val(),
-            "projTargetcnt": f_targetcnt.val(),
-            "projLimitcnt": f_limitcnt.val(),
-            "projQuantity": "",
-            "projGoals": "",
-            "projStart": f_start.val(),
-            "projEnd": f_end.val(),
-            "projDelivery": "",
-            "projBmcnt": "",
-            "projStatus": "",
-            "projBm": ""
-        }),
-        contentType: 'application/json; charset=utf-8',
-        statusCode: {
-            401: function () {
-                alert('로그인이 안되어있는 경우 등록 불가!!');
-            },
-            500: function () {
-                alert('서버오류 관리자에게 문의해 주세요.');
-            }
-        },
-        success: function (result) {
-            alert('성공적으로 대입됨');
-        },
-        error: function (result) {
-            alert('서버에러 발생, 관리자에게 문의해주세요');
-        }
-    });
-}*/
-
 function RegistProject() {
-/*    // 1. 프로젝트 기본정보
-    /!*    var p_category = $('select.selectBox option:selected').val();
+    // 1. 프로젝트 기본정보
+    /*    var p_category = $('select.selectBox option:selected').val();
         var p_title = $('input#text1').val();
         var p_summary = $('textarea#text2').val();
-        var p_intro = $('textarea#text3').val();*!/
+        var p_intro = $('textarea#text3').val();*/
     var p_category = $('select.selectBox option:selected');
     var p_title = $('input#text1');
     var p_summary = $('textarea#text2');
@@ -581,11 +498,11 @@ function RegistProject() {
     var projectInfo = [p_category, p_title, p_summary, p_intro];
 
     // 2. 창작자 정보
-    /!*    var c_name = $('input#text4').val();
+    /*    var c_name = $('input#text4').val();
         var c_intro = $('textarea#text5').val();
         var c_bank = $('select#bank option:selected').val();
         var c_acno = $('input#acno').val();
-        var c_acholder = $('input#acholder').val();*!/
+        var c_acholder = $('input#acholder').val();*/
     var c_name = $('input#text4');
     var c_intro = $('textarea#text5');
     var c_bank = $('select#bank option:selected');
@@ -595,11 +512,11 @@ function RegistProject() {
     var creatorInfo = [c_name, c_intro, c_bank, c_acno];
 
     // 3. 펀딩계획
-    /!*    var f_fm = $('input#fm').val();
+    /*    var f_fm = $('input#fm').val();
         var f_limitcnt = $('input#limitcnt').val();
         var f_targetcnt = $('input#targetcnt').val();
         var f_start = $('input#start_dates').val();
-        var f_end = $('input#end_dates').val();*!/
+        var f_end = $('input#end_dates').val();*/
     var f_fm = $('input#fm');
     var f_limitcnt = $('input#limitcnt');
     var f_targetcnt = $('input#targetcnt');
@@ -643,18 +560,30 @@ function RegistProject() {
             fundingInfo[i].focus();
             return;
         }
-    }*/
+    }
+
+    var limit = f_limitcnt.val().replace(',','');
+    var target = f_targetcnt.val().replace(',','');
+    limit = Number(limit);
+    target = Number(target);
+
+    if (limit < target) {
+        alert("수량한도(판매 가능한 최대 개수)는 목표개수 이상이어야 합니다.");
+    }
 
     // formData, 파일 여러개 업로드
     var formData = new FormData();
-    var b = [];
     for(var i = 0; i < document.forms.length; i++) {
         var form = document.forms[i];
         var data = new FormData(form);
         var formValues = data.entries();
 
         while (!(ent = formValues.next()).done) {
-            formData.append(`${ent.value[0]}[]`, ent.value[1]);
+            if (String(ent.value[0]) === "projFm" || String(ent.value[0]) === "projLimitcnt"
+                || String(ent.value[0]) === "projTargetcnt") {
+                ent.value[1] = uncomma(ent.value[1]);
+            } 
+            formData.append(`${ent.value[0]}`, ent.value[1]);
         }
     }
 
@@ -667,68 +596,99 @@ function RegistProject() {
     $.ajax({
         url: 'http://localhost:9999/kkfd/project/register',
         method: 'post',
-        // accept: 'application/json', // 멀티파트로 변경한다.
         xhrFields: {
             withCredentials: true
         },
         contentType : false,
         processData: false,
-        //form데이터 객체가 필요하다.
-        //form input tag의 name 속성 => creator.crId
-        //form.serialize();
         data: formData,
         statusCode: {
             401: function () {
-                alert('로그인이 안되어있는 경우 등록 불가!!');
+                alert('로그인해 주세요.');
             },
             500: function () {
-                alert('서버오류, 관리자에게 문의해 주세요.');
+                alert('서버에러, 관리자에게 문의해 주세요.');
             }
         },
         success: function (result) {
-            alert('성공적으로 대입됨');
+            alert('프로젝트 등록이 완료되었습니다.');
+            document.location.href = '/';
         },
         error: function (result) {
-            alert('서버오류2, 관리자에게 문의해 주세요.');
+            alert('예상치 못한 문제가 발생했습니다. 관리자에게 문의해 주세요.');
         }
     });
+    return false;
 }
 
-function fileUpload() {
-    $.ajax({
-        type: "POST",
-        enctype: 'multipart/form-data',
-        url: "http://localhost:9999/kkfd/importTargets",
-        data: data,
-        processData: false,
-        contentType: false,
-        async: false,
-        cache: false,
-        timeout: 600000,
-        xhrFields: {
-            withCredentials: true
-        },
-        success: function (result) {
-            // console.log("SUCCESS : ", result.data);
-            alert('전송이 완료되었습니다.');
-            location.reload();
-        },
-        error: function (result) {
-            if (result.status === 500) {
-                alert('서버에러');
-            } else if (r.status === 403) {
-                Refresh();
-                alert("세션 갱신, 다시 클릭해 주세요.");
-            } else if (result.status === 405) {
-                alert("훈련대상은 최대 300명 까지만 등록이 가능합니다. ");
-            } else {
-                alert('파일을 확인해주세요');
-            }
-            // console.log("ERROR : ", result.status);
+function inputNumberFormat(obj) {
+    obj.value = comma(uncomma(obj.value));
+}
+
+function comma(str) {
+    str = String(str);
+    return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+}
+
+function uncomma(str) {
+    str = String(str);
+    return str.replace(/[^\d]+/g, '');
+}
+
+$(function () {
+    var f_fm = $('input#fm');
+    var f_targetcnt = $('input#targetcnt');
+    var f_start = $('input#start_dates');
+    var f_end = $('input#end_dates');
+
+    f_fm.on('keyup', function () {
+        if (f_fm.val() !== '' && f_targetcnt.val() !== '') {
+            var fm = f_fm.val().replace(',', '');
+            var targetcnt = f_targetcnt.val().replace(',', '');
+            fm = parseInt(fm);
+            targetcnt = parseInt(targetcnt);
+
+            var result = (fm * targetcnt);
+            var fee1 = result * 0.03;
+            var fee2 = result * 0.05;
+            var feeTotal = fee1 + fee2;
+
+            $('div.InputWithGoal_Notice > div.totalAmount > em').text(comma(result - feeTotal) + " 원");
+            $('div.InputWithGoal_Notice > div.feewrap1 > em').text(comma(feeTotal) + " 원");
+            $('div.InputWithGoal_Notice > div.feewrap2 > em').text(comma(fee1) + " 원");
+            $('div.InputWithGoal_Notice > div.feewrap3 > em').text(comma(fee2) + " 원");
+        } else if (f_fm.val() === '' || f_targetcnt.val() === '') {
+            $('div.InputWithGoal_Notice > div.totalAmount > em').text("0 원");
+            $('div.InputWithGoal_Notice > div.feewrap1 > em').text("0 원");
+            $('div.InputWithGoal_Notice > div.feewrap2 > em').text("0 원");
+            $('div.InputWithGoal_Notice > div.feewrap3 > em').text("0 원");
         }
     });
-}
 
+    f_targetcnt.on('keyup', function () {
+        if (f_fm.val() !== '' && f_targetcnt.val() !== '') {
+            var fm = f_fm.val().replace(',', '');
+            var targetcnt = f_targetcnt.val().replace(',', '');
+            fm = parseInt(fm);
+            targetcnt = parseInt(targetcnt);
+
+            var result = (fm * targetcnt);
+            var fee1 = result * 0.03;
+            var fee2 = result * 0.05;
+            var feeTotal = fee1 + fee2;
+
+            $('div.InputWithGoal_Notice > div.totalAmount > em').text(comma(result - feeTotal) + " 원");
+            $('div.InputWithGoal_Notice > div.feewrap1 > em').text(comma(feeTotal) + " 원");
+            $('div.InputWithGoal_Notice > div.feewrap2 > em').text(comma(fee1) + " 원");
+            $('div.InputWithGoal_Notice > div.feewrap3 > em').text(comma(fee2) + " 원");
+        } else if (f_fm.val() === '' || f_targetcnt.val() === '') {
+            $('div.InputWithGoal_Notice > div.totalAmount > em').text("0 원");
+            $('div.InputWithGoal_Notice > div.feewrap1 > em').text("0 원");
+            $('div.InputWithGoal_Notice > div.feewrap2 > em').text("0 원");
+            $('div.InputWithGoal_Notice > div.feewrap3 > em').text("0 원");
+        }
+    });
+});
 
 // 섹션 교체 기능
 /*$(function () {

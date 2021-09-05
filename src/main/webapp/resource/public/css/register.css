@@ -1009,7 +1009,7 @@ div.totalAmount > em {
 }
 
 
-.feewrap1 .feewrap2, .feewrap3 > em {
+.feewrap1 > em, .feewrap2 > em, .feewrap3 > em {
     display: inline;
     font-style: normal;
     color: rgb(61, 61, 61);

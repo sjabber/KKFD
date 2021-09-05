@@ -176,7 +176,7 @@
                     </div>
                     <div class="projectItem_input">
                     <span class="input_wrapper">
-                        <input class="inputInner" id="text1" type="text" inputmode="text" placeholder="제목을 입력해주세요.">
+                        <input class="inputInner" id="text1" type="text" inputmode="text" name="projTitle" placeholder="제목을 입력해주세요.">
                     </span>
                     </div>
                     <div class="blankBlock">
@@ -240,7 +240,7 @@
                     </div>
                     <div class="projectItem_input2">
                         <div class="input_wrapper2">
-                            <textarea class="textAreaInner" id="text2" placeholder="프로젝트 요약을 입력해주세요."></textarea>
+                            <textarea class="textAreaInner" id="text2" name="projSummary" placeholder="프로젝트 요약을 입력해주세요."></textarea>
                         </div>
                     </div>
                     <div class="blankBlock">
@@ -303,7 +303,7 @@
                     </div>
                     <div class="projectItem_input3">
                         <div class="input_wrapper3">
-                            <textarea class="textAreaInner2" id="text3" placeholder="프로젝트 소개를 입력해주세요."></textarea>
+                            <textarea class="textAreaInner2" name="projIntro" id="text3" placeholder="프로젝트 소개를 입력해주세요."></textarea>
                         </div>
                     </div>
                     <div class="blankBlock">
@@ -485,7 +485,7 @@
                 <div class="projectItem_title_formInner">
                     <div class="projectItem_input">
                     <span class="input_wrapper">
-                        <input class="inputInner" type="text" id="text4" inputmode="text" placeholder="이름을 입력해주세요.">
+                        <input class="inputInner" type="text" id="text4" inputmode="text" name="creator.crNn" placeholder="이름을 입력해주세요.">
                     </span>
                     </div>
                     <div class="blankBlock">
@@ -562,7 +562,7 @@
                 <div class="projectItem_title_formInner">
                     <div class="projectItem_input3">
                         <div class="input_wrapper3">
-                            <textarea class="textAreaInner2" id="text5" placeholder="창작자 소개를 입력해주세요."></textarea>
+                            <textarea class="textAreaInner2" id="text5" name="creator.crIntro" placeholder="창작자 소개를 입력해주세요."></textarea>
                         </div>
                     </div>
                     <div class="blankBlock">
@@ -586,7 +586,7 @@
                 </dd>
             </dl>
             <div class="projectItem_bank_form">
-                <select class="form-select selectBox" style="display: block" id="bank">
+                <select class="form-select selectBox" style="display: block" id="bank" name="creator.crBank">
                     <option value="" selected>은행을 선택해 주세요.</option>
                     <option value="국민">국민은행</option>
                     <option value="신한">신한은행</option>
@@ -595,10 +595,10 @@
                     <option value="수협">수협</option>
                 </select>
                 <div class="projectItem_input4" style="display: block">
-                    <input class="inputInner2" type="text" inputmode="text" placeholder="계좌번호를 입력해주세요." id="acno">
+                    <input class="inputInner2" type="number" inputmode="text" placeholder="계좌번호를 입력해주세요." name="creator.crAcno" id="acno">
                 </div>
                 <div class="projectItem_input5" style="display: block">
-                    <input class="inputInner3" type="text" inputmode="text" placeholder="예금주를 입력해주세요." id="acholder">
+                    <input class="inputInner3" type="text" inputmode="text" placeholder="예금주를 입력해주세요." name="creator.crAcholder" id="acholder">
                 </div>
             </div>
         </div>
@@ -645,7 +645,7 @@
                         <div class="InputWithGoal" style="margin-bottom: 20px">
                             <div class="InputWithGoal_Check">
                         <span class="InputWithGoal_InputWrapper">
-                            <input type="text" inputmode="numeric" placeholder="물품 한개당 금액을 입력해주세요."
+                            <input type="text" onkeyup="inputNumberFormat(this);" inputmode="numeric" name="projFm" placeholder="물품 한개당 금액을 입력해주세요."
                                    autocomplete="off" autocapitalize="off" id="fm">
                             &nbsp;원
                         </span>
@@ -656,18 +656,18 @@
                         <div class="InputWithGoal" style="margin-bottom: 20px">
                             <div class="InputWithGoal_Check">
                         <span class="InputWithGoal_InputWrapper">
-                            <input type="text" inputmode="numeric" placeholder="판매 가능한 최대 개수를 입력해주세요."
+                            <input type="text" onkeyup="inputNumberFormat(this);" inputmode="numeric" name="projLimitcnt" placeholder="판매 가능한 최대 개수를 입력해주세요."
                                    autocomplete="off" autocapitalize="off" id="limitcnt">
                             &nbsp;개
                         </span>
                             </div>
                         </div>
 
-                        <p>목표갯수</p>
+                        <p>목표개수</p>
                         <div class="InputWithGoal">
                             <div class="InputWithGoal_Check">
                         <span class="InputWithGoal_InputWrapper">
-                            <input type="text" inputmode="numeric" placeholder="판매 목표 개수를 입력해주세요."
+                            <input type="text" onkeyup="inputNumberFormat(this);" inputmode="numeric" name="projTargetcnt" placeholder="판매 목표 개수를 입력해주세요."
                                    autocomplete="off" autocapitalize="off" id="targetcnt">
                             &nbsp;개
                         </span>
@@ -731,7 +731,7 @@
                                     <p>시작일</p>
                                     <div class="Datepickers">
                                         <div class="Datepickers_inner">
-                                            <button>
+                                            <button type="button">
                                                 <div class="calendar-dot">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                          fill="currentColor" class="bi bi-calendar3"
@@ -739,7 +739,7 @@
                                                         <path d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857V3.857z"/>
                                                         <path d="M6.5 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
                                                     </svg>
-                                                    <input type="text" id="start_dates" name="start_dates" readonly
+                                                    <input type="text" id="start_dates" name="projStart" readonly
                                                            size="12"/>
                                                 </div>
                                             </button>
@@ -763,7 +763,7 @@
 
                                     <div class="Datepickers">
                                         <div class="Datepickers_inner">
-                                            <button>
+                                            <button type="button">
                                                 <div class="calendar-dot">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                          fill="currentColor" class="bi bi-calendar3"
@@ -771,7 +771,7 @@
                                                         <path d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857V3.857z"/>
                                                         <path d="M6.5 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
                                                     </svg>
-                                                    <input type="text" id="end_dates" name="end_dates" readonly
+                                                    <input type="text" id="end_dates" name="projEnd" readonly
                                                            size="12"/>
                                                 </div>
                                             </button>
@@ -793,7 +793,7 @@
                             </div>
                             <div class="FundingTerm">
                                 <p>펀딩기간</p>
-                                최대 60일
+                                최대 0일
                             </div>
                         </li>
                         <li class="FundingPlan2">
@@ -826,7 +826,7 @@
                                     </div>
                                 </div>
                             </div>
-                            종료일 다음 날부터 7일
+                            <p>종료일 다음 날부터 7일</p>
                         </li>
                         <li class="FundingPlan3">
                             <div class="FundingPlan_end">
@@ -858,7 +858,7 @@
                                     </div>
                                 </div>
                             </div>
-                            후원자 결제 종료 다음 날부터 7영업일
+                            <p>후원자 결제 종료 다음 날부터 7영업일</p>
                         </li>
                     </ol>
                 </div>

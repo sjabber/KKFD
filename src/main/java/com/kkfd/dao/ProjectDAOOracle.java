@@ -145,9 +145,6 @@ public class ProjectDAOOracle implements ProjectDAO {
 			}		
 
 		}
-	
-
-
 
 	//[creator]마이 프로젝트
 	@Override
@@ -208,6 +205,7 @@ public class ProjectDAOOracle implements ProjectDAO {
 		try {
 			session = sessionFactory.openSession();
 			return session.insert("com.kkfd.dto.ProjectMapper.insertProj", project);
+			//return projNo;
 		} catch (Exception e) {
 			throw new AddException(e.getMessage());
 		} finally {

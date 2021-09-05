@@ -33,11 +33,6 @@ app.get('/register/regist/basicInfo', function (req, res) {
     fs.createReadStream("./register/regist.html").pipe(res);
 });
 
-/*app.get('/register/regist/basicInfo', function (req, res) {
-    res.writeHead(200, {"Content-Type": "text/html"});
-    fs.createReadStream("./register/basicInfo.html").pipe(res);
-});*/
-
 app.get('/register/regist/creatorInfo', function (req, res) {
     res.writeHead(200, { "Content-Type": "text/html" });
     fs.createReadStream("./register/creatorInfo.html").pipe(res);

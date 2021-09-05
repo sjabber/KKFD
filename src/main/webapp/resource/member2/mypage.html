@@ -21,6 +21,76 @@
 
   <script>
 
+    //숫자만 기입하면 -씌여지게 하는 함수
+    function inputPhoneNumber(obj) {
+      let number = obj.value.replace(/[^0-9]/g, "");
+      let phone = "";
+      if (number.length < 4) {
+        return number;
+      } else if (number.length < 7) {
+        phone += number.substr(0, 3);
+        phone += "-";
+        phone += number.substr(3);
+      } else if (number.substr(1, 1) === "2" && number.length < 10) {
+        //case 02-xxx-xxxx
+        phone += number.substr(0, 2);
+        phone += "-";
+        phone += number.substr(2, 3);
+        phone += "-";
+        phone += number.substr(5, 4);
+      } else if (number.substr(1, 1) === "2" && number.length < 11) {
+        phone += number.substr(0, 2);
+        phone += "-";
+        phone += number.substr(2, 4);
+        phone += "-";
+        phone += number.substr(6, 4);
+      } else if (number.length < 11) {
+        //case 010-xxx-xxxx, 031-xxx-xxxx
+        phone += number.substr(0, 3);
+        phone += "-";
+        phone += number.substr(3, 3);
+        phone += "-";
+        phone += number.substr(6);
+      } else { //010-xxxx-xxxx, 031-xxxx-xxxx
+        phone += number.substr(0, 3);
+        phone += "-";
+        phone += number.substr(3, 4);
+        phone += "-";
+        phone += number.substr(7);
+      }
+      obj.value = phone;
+    }
+    function divPhoneNumber(num) {
+      var phone = "";
+      if (num.length < 10) {
+        //case : 02-xxx-xxxx
+        phone += num.substr(0, 2);
+        phone += "-"
+        phone += num.substr(2, 3);
+        phone += "-"
+        phone += str.substr(5, 4);
+      } else if (num.substr(1, 1) === "2" && num.length === 10) {
+        //case : 02-xxxx-xxxx
+        phone += num.substr(0, 2);
+        phone += "-"
+        phone += num.substr(2, 4);
+        phone += "-"
+        phone += num.substr(6, 4);
+      } else if (num.length === 10) {
+        phone += num.substr(0, 3);
+        phone += "-"
+        phone += num.substr(3, 3);
+        phone += "-"
+        phone += num.substr(6, 4);
+      } else if (num.length === 11) {
+        phone += num.substr(0, 3);
+        phone += "-"
+        phone += num.substr(3, 4);
+        phone += "-"
+        phone += num.substr(7, 4);
+      }
+      return phone;
+    }
     function update(jsonData) {
       var backurl = "http://localhost:9999/kkfd/member/";
       $.ajax({
@@ -78,8 +148,9 @@
             alert('서버에러, 관리자에게 문의해 주세요.');
           },
           200: function (responseObj) {
+            var phone = divPhoneNumber(responseObj.phone);
             $('div.mypage_name').text(responseObj.name);
-            $('div.mypage_phone').text(responseObj.phone);
+            $('div.mypage_phone').text(phone);
             $('input#phone').val(responseObj.phone);
             $('div.mypage_email').text(responseObj.email);
           },//end of 200
@@ -98,20 +169,49 @@
         }
       });
 
-      //핸드폰번호 유효성검사 후 수정 요청
+
+      //핸드폰번호 -빼고 db에전송
       $('button#phoneUp').click(function () {
-        var phone = $('input#phone').val()
-        var patternPhone = /01[016789]-[^0][0-9]{2,3}-[0-9]{3,4}/;
-        if (!patternPhone.test(phone)) {
-          alert('핸드폰 번호를 확인 해주세요');
-          $('input#phone').focus();
-          return false;
+        var phoneDate = "";
+        var $phone = $('input#phone');
+        if ($phone.val().length < 12) {
+          //case : 02-xxx-xxxx
+          phoneDate += $phone.val().substr(0, 2);
+          phoneDate += $phone.val().substr(3, 3);
+          phoneDate += $phone.val().substr(7, 4);
+        } else if ($phone.val().substr(1, 1) === "2" && $phone.val().length === 12) {
+          //case : 02-xxxx-xxxx
+          phoneDate += $phone.val().substr(0, 2);
+          phoneDate += $phone.val().substr(3, 4);
+          phoneDate += $phone.val().substr(8, 4);
+        } else if ($phone.val().length === 12) {
+          phoneDate += $phone.val().substr(0, 3);
+          phoneDate += $phone.val().substr(4, 3);
+          phoneDate += $phone.val().substr(8, 4);
+        } else if ($phone.val().length === 13) {
+          phoneDate += $phone.val().substr(0, 3);
+          phoneDate += $phone.val().substr(4, 4);
+          phoneDate += $phone.val().substr(9, 4);
         }
-        var data = '{"phone" : "' + phone + '"}'
+        var data = '{"phone" : "' + phoneDate + '"}';
         update(data);
         return false;
       });
-
+      /*
+            //핸드폰번호 유효성검사 후 수정 요청
+            $('button#phoneUp').click(function () {
+              var phone = $('input#phone').val()
+              var patternPhone = /01[016789]-[^0][0-9]{2,3}-[0-9]{3,4}/;
+              if (!patternPhone.test(phone)) {
+                alert('핸드폰 번호를 확인 해주세요');
+                $('input#phone').focus();
+                return false;
+              }
+              var data = '{"phone" : "' + phone + '"}'
+              update(data);
+              return false;
+            });
+      */
       //비밀번호 유효성 검사 후 수정 요청
       $('form#pwdUp').submit(function () {
         if ($('input#pwd1').val() != $('input#pwd2').val()) {
@@ -205,7 +305,7 @@
             <div class="header_login&signup">
               <span class="login_signup_name">
                 <a class="admin-no" href="/member/login">로그인 / 회원가입</a>
-                <a class="admin-yes" href="/member/mypage">마이페이지</a>
+                <a class="admin-yes" href="/creator/cmypage">마이페이지</a>
                 <a class="admin-yes" href="javascript:Logout()">로그아웃</a>
               </span>
             </div>
@@ -261,8 +361,7 @@
               <!--이전 휴대전화 번호-->
             </div>
             <div class="mypage_input_box">
-              <input type="text" id="phone" placeholder="010-xxxx-xxxx형식으로 적어주세요." maxlength="30"
-                class="mypage_input" />
+              <input type="text" id="phone" maxlength="13" class="mypage_input" onkeyup="inputPhoneNumber(this);" />
               <div><button type="button" id="phoneUp" class="mypage_save_btn">저 장</button></div>
             </div>
           </div>

@@ -26,7 +26,7 @@ public class CreatorDTO {
 	@Override
 	public String toString() {
 		return "CreatorDTO [crId=" + crId + ", crNn=" + crNn + ", crIntro=" + crIntro + ", crAcholder=" + crAcholder
-				+ ", crBank=" + crBank + ", crAcno=" + crAcno + ", ImgPath=" + imgPath + "]";
+				+ ", crBank=" + crBank + ", crAcno=" + crAcno + ", imgPath=" + imgPath + "]";
 	}
 	public String getCrId() {
 		return crId;
@@ -71,8 +71,5 @@ public class CreatorDTO {
 
 	public void setImgPath(String imgPath) {
 		this.imgPath = imgPath;
-	}
-
-	
-	
+	}	
 }

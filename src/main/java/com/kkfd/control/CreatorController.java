@@ -37,7 +37,7 @@ public class CreatorController {
 
 	@Autowired
 	private ServletContext servletContext;
-	
+
 	@Autowired
 	private CreatorService creatorService;//Creaotor Table에 접근 조회,입력,수정
 
@@ -57,18 +57,17 @@ public class CreatorController {
 			if(creator==null) {
 				return new ResponseEntity<>(HttpStatus.NO_CONTENT);//204 : 크리에이터 테이블에 없음
 			}
-			
-			//이미지 확장자 확인(.jpg, .png)후 실제 파일이름.확장자 반환
-			String uploadPath = servletContext.getRealPath("resource/public/img/profile");
-			String[] extension = {"jpg","png"};
-			String path ="/img/blank.png";
-			for(int i=0;i<extension.length ;i++) {
-				File file = new File(uploadPath,loginId+"."+extension[i]);
-				if(file.exists()) {
-					path = "/img/profile/" + loginId+"."+extension[i];
-					creator.setImgPath(path);
-				}
+
+			//이미지 확인("/img/(id)/(id).png)후 없으면 기본이미지 출력
+			String dir = servletContext.getRealPath("resource/public/img/profile")+"/"+loginId;
+			String path = null;
+			File file = new File(dir,loginId+".png");
+			if(file.exists()) {
+				path = "/img/profile/" +loginId +"/"+loginId+".png";
+			}else{
+				path = "/img/blank.png";
 			}
+			creator.setImgPath(path);
 			return new ResponseEntity<CreatorDTO>(creator,HttpStatus.OK);//200 : 크리에이터 정보조회
 		}catch(FindException e){
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);//500 : 서버 내부 문제  
@@ -82,6 +81,7 @@ public class CreatorController {
 			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);//401 : 권한없음
 		} 
 		String loginId= m.getMemId();
+		creator.setCrId(loginId);
 		try {
 			creatorService.addCr(creator);
 			return new ResponseEntity(HttpStatus.OK);				//200 : 크리에이터로 등록 완료
@@ -96,13 +96,12 @@ public class CreatorController {
 
 	@PutMapping	
 	public ResponseEntity changeCr(HttpSession session, @RequestBody CreatorDTO creator) {
-		log.error("여기" + creator.toString());
 		MemberDTO m = (MemberDTO)session.getAttribute("loginInfo");
 		if(m == null) {
 			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);//401 : 권한없음
 		} 
 		String loginId= m.getMemId();
-		
+
 		//Creator Table에 id 존재 여부 확인후 update
 		try {
 			CreatorDTO prevCreator = creatorService.findCrById(loginId);

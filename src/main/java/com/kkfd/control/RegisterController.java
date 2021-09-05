@@ -136,7 +136,7 @@ public class RegisterController {
 
         // 업로드한 파일 검증 로직
         if (!"".equals(FileName) && file.getSize() != 0) {
-            //System.out.println("thumbnail 파일크기 : " + file.getSize() + ", 파일이름 : " + FileName);
+            System.out.println("thumbnail 파일크기 : " + file.getSize() + ", 파일이름 : " + FileName);
             File realfile;
             if (choice == true) {
                 // 섬네일

@@ -20,7 +20,7 @@ public class CreatorDTO {
 		this.crAcholder = crAcholder;
 		this.crBank = crBank;
 		this.crAcno = crAcno;
-		imgPath = imgPath;
+		this.imgPath = imgPath;
 	}
 
 	@Override

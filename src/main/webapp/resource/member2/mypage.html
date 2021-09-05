@@ -193,7 +193,7 @@
       </div>
       <div class="header_mainlogo">
         <a style="text-decoration: none;" href="/">
-          <span class="header_mainlogo_item">크크펀딩</span>
+          <span class="header_mainlogo_item"><img src="/img/logo.png" alt="" /></span>
         </a>
       </div>
       <div class="header_sub_warp">
@@ -356,6 +356,24 @@
     </div>
   </footer>
   <script>
+    function Logout() {
+      var backurl = "http://localhost:9999/kkfd/member/logout";
+      $.ajax({
+        url: backurl,
+        method: "get",
+        xhrFields: {
+          withCredentials: true,
+        },
+        success: function () {
+          alert("로그아웃 되었습니다.");
+          logouted();
+          document.location.href = "/";
+        },
+        error: function (xhr) {
+          alert("로그아웃 에러");
+        },
+      });
+    }
     logouted();
     checkLogined();
   </script>

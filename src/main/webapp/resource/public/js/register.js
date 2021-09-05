@@ -475,7 +475,6 @@ function checkCreator() {
             if (acholder != null) {
                 $('#acholder').val(acholder);
             }
-
         },
         /*error: function (result) {
             alert('서버오류, 관리자에게 문의해주세요.');

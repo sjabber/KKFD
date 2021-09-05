@@ -17,7 +17,6 @@
       crossorigin="anonymous"
     ></script>
     <title>크크펀딩 | 등록</title>
-    <script src="/js/basic.js"></script>
     <script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   </head>
@@ -115,89 +114,6 @@
       text-align: right;
     }
   </style>
-  <script>
-    function checkLogin() {
-      var check;
-      var backurl = "http://localhost:9999/kkfd/member/logincheck";
-      $.ajax({
-        url: backurl,
-        method: "get",
-        dataType: "json",
-        async: false,
-        xhrFields: {
-          withCredentials: true,
-        },
-        statusCode: {
-          200: function () {
-            check = true;
-          },
-          204: function () {
-            check = false;
-          },
-        },
-        success: function (result) {
-          check = true;
-        },
-        error: function (result) {
-          check = false;
-        },
-      });
-      return check;
-    }
-
-    function startRegister() {
-      var checked_All = $("input.chkid");
-      if ($("input.chkid").is(":checked")) {
-        if (checkLogin() === true) {
-          location.href = "/register/regist/basicInfo";
-        } else {
-          alert("로그인해 주세요");
-          location.href = "/member/login";
-        }
-      } else {
-        alert("프로젝트 약관에 동의해 주세요.");
-      }
-    }
-
-    function allCheck() {
-      $("[name=check2]").prop("checked", true); // 모두 체크하기
-      if ($("[name=check1]").prop("checked") === false) {
-        $("[name=check2]").prop("checked", false); // 모두 체크해제하기
-      }
-    }
-
-    function oneCheck(a) {
-      var allChkBox = $("[name=check1]");
-      var chkBoxName = $(a).attr("name");
-
-      if ($(a).prop("checked")) {
-        checkBoxLength = $("[name=" + chkBoxName + "]").length;
-        //전체체크박스 수(모두동의하기 체크박스 제외)
-        checkedLength = $("[name=" + chkBoxName + "]:checked").length;
-        //체크된 체크박스 수
-        if (checkBoxLength == checkedLength) {
-          allChkBox.prop("checked", true);
-          //전체체크박스수 == 체크된 체크박스 수 같다면 모두체크
-        } else {
-          allChkBox.prop("checked", false);
-        }
-      } else {
-        allChkBox.prop("checked", false);
-      }
-    }
-
-    $(function () {
-      $("[name=check1]").click(function () {
-        allCheck(this);
-        //모두동의하기 체크박스 클릭시
-      });
-      $("[name=check2]").each(function () {
-        $(this).click(function () {
-          oneCheck(this);
-        });
-      });
-    });
-  </script>
   <body>
     <!-- header -->
     <header class="main_header">
@@ -234,13 +150,15 @@
           <div class="header_customer_warp">
             <button class="header_customer_btn">
               <div class="header_login&signup">
-                <span class="login&signup_name">
-                  <a href="/member/login">로그인 / 회원가입</a>
+                 <span class="login_signup_name">
+                  <a class="admin-no" href="/member/login">로그인 / 회원가입</a>
+                  <a class="admin-yes" href="/member/mypage">마이페이지</a>
+                  <a class="admin-yes" href="javascript:Logout()">로그아웃</a>
                 </span>
               </div>
-              <div class="header_profile_img">
+<!--              <div class="header_profile_img">
                 <img class="profile" src="/img/blank.png" />
-              </div>
+              </div>-->
             </button>
           </div>
         </div>
@@ -342,61 +260,120 @@
         </li>
       </ul>
     </form>
-    <script>
-      function logined() {
-        $("span.login_signup_name > a.admin-no").hide();
-        $("span.login_signup_name > a.admin-yes").show();
-      }
-
-      function logouted() {
-        $("span.login_signup_name > a.admin-no").show();
-        $("span.login_signup_name > a.admin-yes").hide();
-      }
-
-      function Logout() {
-        var backurl = "http://localhost:9999/kkfd/member/logout";
-        $.ajax({
-          url: backurl,
-          method: "get",
-          xhrFields: {
-            withCredentials: true,
-          },
-          success: function () {
-            alert("로그아웃 되었습니다.");
-            logouted();
-            document.location.href = "/";
-          },
-          error: function (xhr) {
-            alert("로그아웃 에러");
-          },
-        });
-      }
-
-      function checkLogined() {
-        var backurl = "http://localhost:9999/kkfd/member/logincheck";
-        $.ajax({
-          url: backurl,
-          method: "get",
-          dataType: "json",
-          xhrFields: {
-            withCredentials: true,
-          },
-          statusCode: {
-            204: function () {
-              logouted();
-            },
-          },
-          success: function (result) {
-            logined();
-          },
-          error: function (result) {
-            logouted();
-          },
-        });
-      }
-
-      logouted();
-      checkLogined();
-    </script>
   </body>
+  <script>
+    function logined() {
+      $("span.login_signup_name > a.admin-no").hide();
+      $("span.login_signup_name > a.admin-yes").show();
+    }
+
+    function logouted() {
+      $("span.login_signup_name > a.admin-no").show();
+      $("span.login_signup_name > a.admin-yes").hide();
+    }
+
+    function Logout() {
+      var backurl = "http://localhost:9999/kkfd/member/logout";
+      $.ajax({
+        url: backurl,
+        method: "get",
+        xhrFields: {
+          withCredentials: true,
+        },
+        success: function () {
+          alert("로그아웃 되었습니다.");
+          logouted();
+          document.location.href = "/";
+        },
+        error: function (xhr) {
+          alert("로그아웃 에러");
+        },
+      });
+    }
+
+    function checkLogin() {
+      var check;
+      var backurl = "http://localhost:9999/kkfd/member/logincheck";
+      $.ajax({
+        url: backurl,
+        method: "get",
+        dataType: "json",
+        async: false,
+        xhrFields: {
+          withCredentials: true,
+        },
+        statusCode: {
+          204: function () {
+            check = false;
+            logouted();
+          },
+        },
+        success: function (result) {
+          check = true;
+          logined();
+        },
+        error: function (result) {
+          check = false;
+          logouted();
+        },
+      });
+      return check;
+    }
+
+    function startRegister() {
+      var checked_All = $("input.chkid");
+      if ($("input.chkid").is(":checked")) {
+        if (checkLogin() === true) {
+          location.href = "/register/regist/basicInfo";
+        } else {
+          alert("로그인해 주세요");
+          location.href = "/member/login";
+        }
+      } else {
+        alert("프로젝트 약관에 동의해 주세요.");
+      }
+    }
+
+    function allCheck() {
+      $("[name=check2]").prop("checked", true); // 모두 체크하기
+      if ($("[name=check1]").prop("checked") === false) {
+        $("[name=check2]").prop("checked", false); // 모두 체크해제하기
+      }
+    }
+
+    function oneCheck(a) {
+      var allChkBox = $("[name=check1]");
+      var chkBoxName = $(a).attr("name");
+
+      if ($(a).prop("checked")) {
+        checkBoxLength = $("[name=" + chkBoxName + "]").length;
+        //전체체크박스 수(모두동의하기 체크박스 제외)
+        checkedLength = $("[name=" + chkBoxName + "]:checked").length;
+        //체크된 체크박스 수
+        if (checkBoxLength == checkedLength) {
+          allChkBox.prop("checked", true);
+          //전체체크박스수 == 체크된 체크박스 수 같다면 모두체크
+        } else {
+          allChkBox.prop("checked", false);
+        }
+      } else {
+        allChkBox.prop("checked", false);
+      }
+    }
+
+    $(function () {
+      $("[name=check1]").click(function () {
+        allCheck(this);
+        //모두동의하기 체크박스 클릭시
+      });
+      $("[name=check2]").each(function () {
+        $(this).click(function () {
+          oneCheck(this);
+        });
+      });
+    });
+
+    logouted();
+    checkLogin();
+  </script>
 </html>

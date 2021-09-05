@@ -130,19 +130,24 @@ public class RegisterController {
             new File(uploadPath).mkdirs();
         }
 
+        System.out.println("uploadPath : " + uploadPath);
+
         // 업로드한 파일의 본래 확장자를 알아낸다.
         String FileName = file.getOriginalFilename();
         String FileExtention = StringUtils.getFilenameExtension(FileName);
 
         // 업로드한 파일 검증 로직
         if (!"".equals(FileName) && file.getSize() != 0) {
-            System.out.println("thumbnail 파일크기 : " + file.getSize() + ", 파일이름 : " + FileName);
             File realfile;
-            if (choice == true) {
+            if (choice) {
                 // 섬네일
+                System.out.println("thumbnail 파일크기 : " + file.getSize() + ", 파일이름 : " + FileName);
+                System.out.println("파일 확장자 : " + FileExtention);
                 realfile = new File(uploadPath, id + "_t." + FileExtention);
             } else {
                 // 회원 프로필
+                System.out.println("회원 프로필 파일크기 : " + file.getSize() + ", 파일이름 : " + FileName);
+                System.out.println("파일 확장자 : " + FileExtention);
                 realfile = new File(uploadPath, id + "." + FileExtention);
             }
             try {
@@ -161,6 +166,8 @@ public class RegisterController {
         // return 체크
         boolean check = true;
 
+        System.out.println("Imgs의 uploadPath : " + uploadPath);
+
         // 경로생성
         if (!new File(uploadPath).exists()) {
             log.info("업로드 실제경로 생성");
@@ -175,7 +182,7 @@ public class RegisterController {
 
             // 업로드한 파일 검증 로직
             if (!"".equals(FileName) && file.getSize() != 0) {
-                System.out.println("thumbnail 파일크기 : " + file.getSize() + ", 파일이름 : " + FileName);
+                System.out.println("details 파일크기 : " + file.getSize() + ", 파일이름 : " + FileName);
 
                 File realfile = new File(uploadPath, id + "_" + i + "." + FileExtention);
                 try {

@@ -9,14 +9,14 @@
 		  <result column="mem_id" property="memId"/> 
 		</association>
 		<association javaType="project" property="project" autoMapping="true">
-		   <result column="fun_proj" property="projNo"/>
+		   <result column="proj_no" property="projNo"/>
 		  </association>
 </resultMap>
 <select id="selectFunsById" parameterType="HashMap" resultMap="fundingResultMap">
 SELECT *
 FROM(SELECT ROWNUM AS rn, r.*
         FROM (SELECT f.fun_no, f.fun_date, f.fun_fm, f.fun_track,
-                    p.proj_no, p.proj_title, p.proj_goals, p.proj_start, p.proj_end,
+        			p.proj_no, p.proj_title, p.proj_goals, p.proj_start, p.proj_end,
                     p.proj_delivery, p.proj_status
             FROM kk_funding f
                 JOIN kk_project p ON(f.fun_proj = p.proj_no)

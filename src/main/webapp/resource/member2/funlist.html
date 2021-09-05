@@ -50,6 +50,7 @@
               var $trObj = $trDataObj.first();
               $(responseObj.list).each(function (i, f) {
                 var $trCopyObj = $trObj.clone(); //tr 복제본객체
+                console.log(f.project.projNo);
                 $trCopyObj.show();
                 $trCopyObj.find('th.funNo').html(f.funNo);
                 $trCopyObj.find('a.projTitle').html(f.project.projTitle).attr('href', '/project/info?no=' + f.project.projNo);
@@ -204,7 +205,7 @@
             <div class="header_login&signup">
               <span class="login_signup_name">
                 <a class="admin-no" href="/member/login">로그인 / 회원가입</a>
-                <a class="admin-yes" href="/creator/cmypage">마이페이지</a>
+                <a class="admin-yes" href="/member/mypage">마이페이지</a>
                 <a class="admin-yes" href="javascript:Logout()">로그아웃</a>
               </span>
             </div>

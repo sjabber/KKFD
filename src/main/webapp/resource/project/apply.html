@@ -80,7 +80,6 @@
               var projDelivery = e.projDelivery;
               var projBm = e.projBm;
               var sum = projFm * projQuantity;
-              // var funding_quantity = $("#funding_quantity").val();
               console.log(funding_quantity);
               $('div.category_nickname>span.category').html(categoryNoChange[projCategory]);
               $('div.category_nickname>span.cr_nn').html(crNn);
@@ -93,7 +92,6 @@
               $('div.box_row>span.final_fm').html(numberWithCommas(projFm * 1) + "원");
               $('div.pay_info>span.funding_paydate').html(projEnd);
               console.log(dt);
-              //alert("test");
 
               $("#apply_btn").click(function () {
 
@@ -113,8 +111,7 @@
                   alert("계좌번호를 입력해주세요");
                   return false;
                 }
-                
-                  //alert("test");
+
                   $.ajax({
                     method: "POST",
                     transformRequest: [
@@ -135,10 +132,14 @@
                     statusCode: {
                       300:function () {
                         alert("주문수량이 재고보다 많거나 이미 제한수량에 도달한 프로젝트입니다");
+                        location.replace('/project/info?no=' + projNo);
+                      },
+                      401:function () {
+                        alert("로그인하세요");
                         goBack();
                       },
                       500:function () {
-                        alert("로그인하세요");
+                        alert("서버 에러, 관리자에게 문의해주세요");
                         goBack();
                       },
                     },
@@ -146,9 +147,6 @@
                       alert("신청 완료");
                       location.replace('/member/funlist');
                     }
-                    // error: function(jqXHR){
-                    //   alert("로그인하세요"); //404, 403, 500
-                    // }
                   });
                 
               });
@@ -199,11 +197,6 @@
             $("#apply_btn").attr("disabled", true);
           }
         });
-
-        // $("#apply_btn").click(function(e) {
-        //   alert("test");
-        //   e.preventDefault();
-        // });
         
       });
     </script>
@@ -345,14 +338,8 @@
                   조회
                 </button>
               </div>
-                <!-- </span> -->
               
             </div>
-            <!-- <div class="box_row"> -->
-              <!-- <span class="address"> -->
-                
-                <!-- </span> -->
-            <!-- </div> -->
             <div class="box_row">
               <span>주소</span
               >
@@ -389,7 +376,6 @@
               <label for="cmpypage_bankname">
               <span>은행입력</span></label>
               <span class="bank">
-                <!-- <input type="text" class="form-control"/> -->
                 <select id="cmpypage_bankname" class="form-control" name="cr_bank">
                   <option value="0">은행명을 선택하세요</option>
                   <option value="경남은행">경남은행</option>
@@ -535,7 +521,6 @@
             alert("로그아웃 되었습니다.");
             logouted();
             window.history.back();
-            // document.location.reload();
           },
           error: function (xhr) {
             alert("로그아웃 에러");

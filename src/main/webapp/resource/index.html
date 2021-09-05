@@ -51,6 +51,16 @@
             Accept: "application/json, text/plain, */*",
           },
           xhrFields: { withCredentials: true },
+          statusCode: {
+            204: function () {
+              divHtml +=
+                '<div id="no_content_img"><img src="/img/no_project.png" /></div>';
+              $divObj1.html(divHtml);
+              $divObj2.html(divHtml);
+              $divObj3.html(divHtml);
+              $divObj4.html(divHtml);
+            },
+          },
           success: function (responseData) {
             $(responseData).each(function (i, e) {
               projArea = e.projArea;
@@ -68,13 +78,6 @@
               divHtml +=
                 '<a class="info_btn" href="/project/info?no=' + projNo + '">';
               divHtml += '<div class="focus_item_img">';
-              // divHtml +=
-              //   '<img class="focus_item_img_item" src="/img/project/' +
-              //   projNo +
-              //   "/" +
-              //   projNo +
-              //   '_t.png" alt="" />';
-              // divHtml += '<img class="focus_item_img_item" src="' + imgPath(projNo) + '" alt="" />';
               divHtml +=
                 '<img class="focus_item_img_item" src="/img/project/' +
                 projNo +
@@ -179,11 +182,9 @@
                   alert("북마크에 추가되었습니다");
                   $iconObj.removeClass("far fa-bookmark");
                   $iconObj.addClass("fas fa-bookmark");
-                  // $('#bm_icon').removeClass("far fa-bookmark");
-                  // $('#bm_icon').addClass("fas fa-bookmark");
                 },
                 error: function (jqXHR) {
-                  alert("로그인하세요"); //404, 403, 500
+                  alert("로그인하세요");
                 },
               });
             } else {
@@ -207,11 +208,9 @@
                   alert("북마크에서 삭제되었습니다");
                   $iconObj.removeClass("fas fa-bookmark");
                   $iconObj.addClass("far fa-bookmark");
-                  // $('#bm_icon').removeClass("far fa-bookmark");
-                  // $('#bm_icon').addClass("fas fa-bookmark");
                 },
                 error: function (jqXHR) {
-                  alert("로그인하세요"); //404, 403, 500
+                  alert("로그인하세요");
                 },
               });
             }
@@ -274,7 +273,6 @@
     <!-- 메인섹션 -->
     <section class="main_section">
       <!-- 메인광고 -->
-      <!-- <div class="main_ad"> -->
       <div class="bp-hs" id="demo-default">
         <div class="bp-hs_inner">
           <div class="bp-hs_inner__item" data-transform="scale">
@@ -306,55 +304,28 @@
           <span class="focus_title_item">인기 프로젝트</span>
         </div>
 
-        <div class="focus_item_warp" id="area1">
-          <!-- <div class="focus_item">
-        <div class="focus_item_img">
-          <img class="focus_item_img_item" src="/img/sample1.jpeg" alt="">
-        </div>
-        <div class="focus_item_category">
-          <div class="category_warp">
-            <span class="category_item1">카테고리</span>
-            <span class="category_between">|</span>
-            <span class="category_item2">크리에이터 닉네임</span>
-          </div>
-          <div class="category_bookmark">
-            <button class="category_bookmark_btn">
-              <i class="far fa-bookmark"></i>
-            </button>
-          </div>
-        </div>
-        <div class="focus_item_title">
-          <span class="focus_item_title_value">프로젝트 타이틀1</span>
-        </div>
-        <div class="focus_item_purpose">
-          <span class="purpose_value">달성률% 달성</span>
-        </div>
-        <div class="focus_item_term">
-          <span class="term">2021/08/01 ~ 2021/09/01</span>
-        </div>
-      </div> -->
-        </div>
+        <div class="focus_item_warp" id="area1"><!-- 생성 영역 --></div>
 
         <!-- 신규 프로젝트 -->
         <div class="focus_title">
           <span class="focus_title_item">신규 프로젝트</span>
         </div>
 
-        <div class="focus_item_warp" id="area2"></div>
+        <div class="focus_item_warp" id="area2"><!-- 생성 영역 --></div>
 
         <!-- 공개 예정 프로젝트 -->
         <div class="focus_title">
           <span class="focus_title_item">공개 예정 프로젝트</span>
         </div>
 
-        <div class="focus_item_warp" id="area3"></div>
+        <div class="focus_item_warp" id="area3"><!-- 생성 영역 --></div>
 
         <!-- 성공 임박 프로젝트 -->
         <div class="focus_title">
           <span class="focus_title_item">성공 임박 프로젝트</span>
         </div>
 
-        <div class="focus_item_warp" id="area4"></div>
+        <div class="focus_item_warp" id="area4"><!-- 생성 영역 --></div>
         <div class="sub_ad">
           <img class="sub_ad_item" src="/img/sub_ad.jpg" alt="" />
         </div>

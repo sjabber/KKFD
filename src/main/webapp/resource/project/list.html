@@ -29,96 +29,6 @@
          5: '섬유·자수'
       }
 
-      // function hideImgIfSrcSizeIsInvalid() {
-      //   $("img").each(function() {
-      //     var $imgTag = $(this);
-      //     var imgWidth = $imgTag.width();
-      //   if (imgWidth == null || imgWidth == 330) {
-      //     console.log("jpg");
-      //   }
-      //   });
-      // }
-
-      
-
-
-      // function imgPath(no) {
-      //     var path = "C:/Users/82102/Desktop/KKFD/src/main/webapp/resource/public/img/project/" + no + "/" + no + "_t.png";
-      //     var file = new File(["img"], path, { type: "image/png", });
-      //     if (file.exists) {
-      //         console.log(path);
-      //         console.log("if : " + no);
-      //         return path
-      //     } else {
-      //         console.log("else : " + no);
-      //         path = "/img/project/" + no + "/" + no + "_t.jpg";
-      //         return path;
-      //     }
-      // }
-
-      // function CheckImagefiles(fileName) {
-      //   var result = false;
-      //   var ext = fileName.substring(fileName.lastIndexOf('.') + 1);
-      //   if(!ext){
-      //       return result;
-      //   }
-      //   var imgs = ['gif', 'jpg', 'jpeg', 'png', 'bmp' ,'ico', 'apng'];
-      //   ext = ext.toLocaleLowerCase();
-      //   imgs.forEach( function(element) {
-      //       if(ext == element){
-      //           result = true;
-      //       }
-      //   });
-      //   return result;
-      // }
-
-      // function getExtensionOfFilename(filename) {
-      // var _fileLen = filename.length;
-      // var _lastDot = filename.lastIndexOf('.');
-      // var _fileExt = filename.substring(_lastDot, _fileLen).toLowerCase();
-      // return _fileExt;
-      // }
-
-
-      // $(function(){
-      //   alert(imgPath("5"));   
-      // });
-    //   function imgPath(no) {
-    //   var file = new Image;
-    
-    //   var path = 'http://localhost:9999/kkfd/img/project/' + no + '/' + no + '_t.png';
-    //   file.src = path;
-    //   if (file.complete) {
-    //     return path;
-    //   }
-      
-    //   // path = './img/project/' + no + '/' + no + '_t.PNG';
-    //   // file.src = path;
-    //   // if (file.complete) {
-    //   //   return path;
-    //   // }
-
-    //   // path = './img/project/' + no + '/' + no + '_t.jpg';
-    //   // file.src = path;
-    //   // if (file.complete) {
-    //   //   return path;
-    //   // }
-
-    //   // path = './img/project/' + no + '/' + no + '_t.JPG';
-    //   // file.src = path;
-    //   // if (file.complete) {
-    //   //   return path;
-    //   // }
-      
-    //   else {
-    //     path = '/img/project/' + no + '/' + no + '_t.jpg';
-    //     if (file.complete) {
-    //       return path;
-    //     } else{
-    //       return path;
-    //     }
-    //   }
-    // }
     </script>
     <script>
       $(function () {
@@ -134,22 +44,16 @@
           url: url,
         	method: "GET",
         	data : data,
-          xhrFields: {
-                    // Note 중요!!
-                    //백과 프론트가 분리된 경우 withCredentials를 true로 해주어야 cookie값을 받아올 수 있다.
-                    withCredentials: true
-          },
+          xhrFields: { withCredentials: true },
           statusCode: {
             204:function () {
-              divHtml += '<div>등록된 프로젝트가 없습니다</div>';
+              divHtml += '<div id="no_content_img"><img src="/img/no_project.png" /></div>';
               $divObj.html(divHtml);
             }
           },
         	success: function(responseData){
         		$(responseData).each(function (i, e) {
               var projNo = e.projNo;
-              // console.log(imgPath(projNo));
-              //console.log("위" + projNo);
               var projCategory = e.projCategory;
               var crNn = e.creator.crNn;
               var projBm = e.projBm;
@@ -164,11 +68,6 @@
               divHtml += '<a class="info_btn" href="/project/info?no=' + projNo + '">';
               divHtml += '<div class="focus_item_img">';
               divHtml += '<img class="focus_item_img_item" src="/img/project/' + projNo + '/' + projNo + '_t.' + ext + '" />';
-              // divHtml += '<img class="focus_item_img_item" src="/img/project/' + projNo + '/' + projNo + '_t.png" onerror="this.src=\'/img/project/' + projNo + '/' + projNo + '_t.jpg\';" />';
-              // <img src="원래이미지경로" onerror="this.src='대체이미지경로';" />
-              // divHtml += '<img class="focus_item_img_item" src="/img/project/' + projNo + '/' + projNo + '_t.png" alt="" />';
-              // divHtml += '<img class="focus_item_img_item" src="' + imgPath(projNo) + '" alt="" />';
-              //
               divHtml += '</div>';
               divHtml += '</a>';
               divHtml += '<div class="focus_item_category">';
@@ -188,9 +87,7 @@
               divHtml += '<span class="focus_item_title_value">' + projTitle + '</span>';
               divHtml += '</div>';
               divHtml += '</a>';
-              //
               divHtml += '<br /><div class="progress" style="height: 2px;"><div class="progress-bar bg-danger" role="progressbar" style="width: ' + projGoals + '%;" aria-valuenow="' + projGoals + '" aria-valuemin="0" aria-valuemax="100"></div></div>';
-              //
               divHtml += '<div class="focus_item_purpose">';
               divHtml += '<span class="purpose_value">' + projGoals + '% 달성</span>';
               divHtml += '</div>';
@@ -199,7 +96,6 @@
               divHtml += '</div>';
               divHtml += '</div>';
             });
-            //$divObj.empty();
             $divObj.html(divHtml);
           }
         });
@@ -207,17 +103,13 @@
         //필터링
         $form.submit(function() {
           data = $form.serialize();
-        	//alert(data);
-          //$divObj.empty();
         	$.ajax({
-        		//url: 'http://localhost:9999/kkfd/project/list/' + page + '?' + data,
             url: 'http://localhost:9999/kkfd/project/list/' + page,
         		method: "GET",
         		data : data,
             xhrFields: {withCredentials: true},
             statusCode: {
               204:function () {
-                // divHtml += '<div>등록된 프로젝트가 없습니다</div>';
                 divHtml += '<div id="no_content_img"><img src="/img/no_project.png" /></div>';
                 $divObj.html(divHtml);
               }
@@ -225,7 +117,6 @@
         		success: function(responseData){
               console.log("ajax안 : " + data);
         			$(responseData).each(function (i, e) {
-              //empty하고 추가
               var projNo = e.projNo;
               console.log(projNo);
               var projCategory = e.projCategory;
@@ -241,9 +132,6 @@
               divHtml += '<a class="info_btn" href="/project/info?no=' + projNo + '">';
               divHtml += '<div class="focus_item_img">';
               divHtml += '<img class="focus_item_img_item" src="/img/project/' + projNo + '/' + projNo + '_t.' + ext + '" />';
-              // divHtml += '<img class="focus_item_img_item" src="/img/project/' + projNo + '/' + projNo + '_t.png" onerror="this.src=\'/img/project/' + projNo + '/' + projNo + '_t.jpg\';" />';
-              // divHtml += '<img class="focus_item_img_item" src="/img/project/' + projNo + '/' + projNo + '_t.png" alt="" />';
-              // divHtml += '<img class="focus_item_img_item" src="' + imgPath(projNo) + '" alt="" />';
               divHtml += '</div>';
               divHtml += '</a>';
               divHtml += '<div class="focus_item_category">';
@@ -272,11 +160,10 @@
               divHtml += '</div>';
               divHtml += '</div>';
             });
-            //$divObj.empty();
             $divObj.html(divHtml);
         		},
         		error: function(jqXHR){
-        			alert(jqXHR.status); //404, 403, 500
+        			alert(jqXHR.status);
         		}
         	});
         	return false;
@@ -301,9 +188,6 @@
         $(window).scroll(function () {
           var scrolltop = parseInt ( $(window).scrollTop() );
           if (
-            // $(window).scrollTop() ==
-            // $(document).height() - $(window).height()
-            // scrolltop >= $(document).height() - $(window).height() - 5
             $(window).scrollTop() == $(document).height() - $(window).height()
           ) {
             console.log($(document).height());
@@ -314,7 +198,6 @@
             var data = $form.serialize();
           var url = 'http://localhost:9999/kkfd/project/list/' + page;
         	var method = 'GET';
-        	//alert(data);
         	$.ajax({
         		url: url,
         		method: method,
@@ -322,7 +205,6 @@
             xhrFields: {withCredentials: true},
         		success: function(responseData){
         			$(responseData).each(function (i, e) {
-              //추가
               var projNo = e.projNo;
               console.log(projNo);
               var projCategory = e.projCategory;
@@ -338,9 +220,6 @@
               divHtml += '<a class="info_btn" href="/project/info?no=' + projNo + '">';
               divHtml += '<div class="focus_item_img">';
               divHtml += '<img class="focus_item_img_item" src="/img/project/' + projNo + '/' + projNo + '_t.' + ext + '" />';
-              // divHtml += '<img class="focus_item_img_item" src="/img/project/' + projNo + '/' + projNo + '_t.png" onerror="this.src=\'/img/project/' + projNo + '/' + projNo + '_t.jpg\';" />';
-              // divHtml += '<img class="focus_item_img_item" src="/img/project/' + projNo + '/' + projNo + '_t.png" alt="" />';
-              // divHtml += '<img class="focus_item_img_item" src="' + imgPath(projNo) + '" alt="" />';
               divHtml += '</div>';
               divHtml += '</a>';
               divHtml += '<div class="focus_item_category">';
@@ -372,7 +251,7 @@
             $divObj.html(divHtml);
         		},
         		error: function(jqXHR){
-        			alert(jqXHR.status); //404, 403, 500
+        			alert(jqXHR.status);
         		}
         	});            console.log("page:"+page);
             
@@ -384,7 +263,6 @@
             $divObj.empty();
             page = 1;
             divHtml = "";
-            //$form.submit();
           });
 
           //북마크 버튼
@@ -408,11 +286,9 @@
               alert("북마크에 추가되었습니다");
               $iconObj.removeClass("far fa-bookmark");
               $iconObj.addClass("fas fa-bookmark");
-              // $('#bm_icon').removeClass("far fa-bookmark");
-              // $('#bm_icon').addClass("fas fa-bookmark");
             },
         		error: function(jqXHR){
-        			alert("로그인하세요"); //404, 403, 500
+        			alert("로그인하세요");
         		}
           });
         } else{
@@ -433,11 +309,9 @@
               alert("북마크에서 삭제되었습니다");
               $iconObj.removeClass("fas fa-bookmark");
               $iconObj.addClass("far fa-bookmark");
-              // $('#bm_icon').removeClass("far fa-bookmark");
-              // $('#bm_icon').addClass("fas fa-bookmark");
             },
         		error: function(jqXHR){
-        			alert("로그인하세요"); //404, 403, 500
+        			alert("로그인하세요");
         		}
           });
         }
@@ -581,36 +455,6 @@
         </div>
       <div class="main_project_focus">
         <div class="focus_item_warp">
-          <!-- <div class="focus_item">
-            <a class="info_btn" href="#">
-            <div class="focus_item_img">
-              <img class="focus_item_img_item" src="./img/sample.jpg" alt="" />
-            </div>
-            </a>
-            <div class="focus_item_category">
-              <div class="category_warp">
-                <span class="category_item1">카테고리</span>
-                <span class="category_between">|</span>
-                <span class="category_item2">닉네임</span>
-              </div>
-              <div class="category_bookmark">
-                <button class="category_bookmark_btn">
-                  <i class="far fa-bookmark"></i>
-                </button>
-              </div>
-            </div>
-            <a class="info_btn" href="#">
-            <div class="focus_item_title">
-              <span class="focus_item_title_value">프로젝트 타이틀</span>
-            </div>
-          </a>
-            <div class="focus_item_purpose">
-              <span class="purpose_value">달성률% 달성</span>
-            </div>
-            <div class="focus_item_term">
-              <span class="term">2021/08/01 ~ 2021/09/01</span>
-            </div>
-          </div> -->
         </div>
       </div>
     </section>

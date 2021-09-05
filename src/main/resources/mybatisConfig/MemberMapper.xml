@@ -12,14 +12,14 @@
         SELECT * FROM KK_MEMBER WHERE MEM_ID=#{id}
     </select>
     
-    <update id="update" parameterType="member">
-	  UPDATE kk_member
-	    <set>
-	      <if test="memPwd != null">mem_pwd=#{memPwd},</if>
-	      <if test="memName != null">mem_name=#{memName},</if>
-	      <if test="memPhone != null">mem_phone=#{memPhone},</if>
-	      <if test="memEmail != null">mem_email=#{memEmail}</if>
-	    </set>
-	  where mem_id=#{memId}
-    </update>    
+ <update id="update" parameterType="member">
+ UPDATE kk_member
+   <set>
+     <if test="memPwd != null">mem_pwd=#{memPwd},</if>
+     <if test="memName != null">mem_name=#{memName},</if>
+     <if test="memPhone != null">mem_phone=#{memPhone},</if>
+     <if test="memEmail != null">mem_email=#{memEmail}</if>
+   </set>
+ where mem_id=#{memId}
+ </update>    
 </mapper>

@@ -24,7 +24,7 @@
 <select id="selectProjsByCrId" parameterType="HashMap" resultType="project">
 SELECT *
 FROM (SELECT ROWNUM AS rn,p.*
-      FROM(SELECT  proj_no, proj_title, proj_start, proj_end, proj_goals, proj_fm, proj_quantity, proj_status
+      FROM(SELECT  proj_no, proj_title, proj_start, proj_end, proj_goals, proj_fm, proj_quantity, proj_status, proj_limitcnt
             FROM kk_project
             WHERE proj_id=#{loginId}
             ORDER BY proj_no DESC

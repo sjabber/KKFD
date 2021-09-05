@@ -49,8 +49,6 @@
         	success: function(responseData){
         		$(responseData).each(function (i, e) {
               var projNo = e.projNo;
-              // console.log(imgPath(projNo));
-              //console.log("위" + projNo);
               var projCategory = e.projCategory;
               var crNn = e.creator.crNn;
               var projBm = e.projBm;
@@ -58,13 +56,12 @@
               var projGoals = e.projGoals;
               var projStart = e.projStart;
               var projEnd = e.projEnd;
+              var ext = e.ext
 
               divHtml += '<div class="focus_item">';
               divHtml += '<a class="info_btn" href="/project/info?no=' + projNo + '">';
               divHtml += '<div class="focus_item_img">';
-              divHtml += '<img class="focus_item_img_item" src="/img/project/' + projNo + '/' + projNo + '_t.png" alt="" />';
-              // divHtml += '<img class="focus_item_img_item" src="' + imgPath(projNo) + '" alt="" />';
-              //
+              divHtml += '<img class="focus_item_img_item" src="/img/project/' + projNo + '/' + projNo + '_t.' + ext + '" />';
               divHtml += '</div>';
               divHtml += '</a>';
               divHtml += '<div class="focus_item_category">';
@@ -84,6 +81,7 @@
               divHtml += '<span class="focus_item_title_value">' + projTitle + '</span>';
               divHtml += '</div>';
               divHtml += '</a>';
+              divHtml += '<br /><div class="progress" style="height: 2px;"><div class="progress-bar bg-danger" role="progressbar" style="width: ' + projGoals + '%;" aria-valuenow="' + projGoals + '" aria-valuemin="0" aria-valuemax="100"></div></div>';
               divHtml += '<div class="focus_item_purpose">';
               divHtml += '<span class="purpose_value">' + projGoals + '% 달성</span>';
               divHtml += '</div>';
@@ -101,7 +99,6 @@
           var scrolltop = parseInt ( $(window).scrollTop() );
           if ($(window).scrollTop() == $(document).height() - $(window).height()) {
             page++;
-            //var data = $form.serialize();
             var url = 'http://localhost:9999/kkfd/project/bmlist/' + page;
             var method = 'GET';
             $.ajax({
@@ -110,7 +107,6 @@
               xhrFields: {withCredentials: true},
               success: function(responseData){
                 $(responseData).each(function (i, e) {
-                //추가
                 var projNo = e.projNo;
                 console.log(projNo);
                 var projCategory = e.projCategory;
@@ -120,12 +116,12 @@
                 var projGoals = e.projGoals;
                 var projStart = e.projStart;
                 var projEnd = e.projEnd;
+                var ext = e.ext;
 
                 divHtml += '<div class="focus_item">';
                 divHtml += '<a class="info_btn" href="/project/info?no=' + projNo + '">';
                 divHtml += '<div class="focus_item_img">';
-                divHtml += '<img class="focus_item_img_item" src="/img/project/' + projNo + '/' + projNo + '_t.png" alt="" />';
-                // divHtml += '<img class="focus_item_img_item" src="' + imgPath(projNo) + '" alt="" />';
+                divHtml += '<img class="focus_item_img_item" src="/img/project/' + projNo + '/' + projNo + '_t.' + ext + '" />';
                 divHtml += '</div>';
                 divHtml += '</a>';
                 divHtml += '<div class="focus_item_category">';
@@ -145,6 +141,7 @@
                 divHtml += '<span class="focus_item_title_value">' + projTitle + '</span>';
                 divHtml += '</div>';
                 divHtml += '</a>';
+                divHtml += '<br /><div class="progress" style="height: 2px;"><div class="progress-bar bg-danger" role="progressbar" style="width: ' + projGoals + '%;" aria-valuenow="' + projGoals + '" aria-valuemin="0" aria-valuemax="100"></div></div>';
                 divHtml += '<div class="focus_item_purpose">';
                 divHtml += '<span class="purpose_value">' + projGoals + '% 달성</span>';
                 divHtml += '</div>';
@@ -156,7 +153,7 @@
               $divObj.html(divHtml);
               },
               error: function(jqXHR){
-                alert(jqXHR.status); //404, 403, 500
+                alert(jqXHR.status);
               }
             });
             
@@ -235,7 +232,7 @@
       </div>
       <div class="header_mainlogo">
         <a style="text-decoration: none;" href="/">
-          <span class="header_mainlogo_item">크크펀딩</span>
+          <span class="header_mainlogo_item"><img src="/img/logo.png" alt=""/></span>
         </a>
       </div>
       <div class="header_sub_warp">
@@ -271,36 +268,6 @@
       <!--[북마크한 프로젝트]-->
       <div class="main_project_focus">
         <div class="focus_item_warp">
-          <!-- <div class="focus_item">
-            <a class="info_btn" href="#">
-            <div class="focus_item_img">
-              <img class="focus_item_img_item" src="./img/sample.jpg" alt="" />
-            </div>
-            </a>
-            <div class="focus_item_category">
-              <div class="category_warp">
-                <span class="category_item1">카테고리</span>
-                <span class="category_between">|</span>
-                <span class="category_item2">닉네임</span>
-              </div>
-              <div class="category_bookmark">
-                <button class="category_bookmark_btn">
-                  <i class="far fa-bookmark"></i>
-                </button>
-              </div>
-            </div>
-            <a class="info_btn" href="#">
-            <div class="focus_item_title">
-              <span class="focus_item_title_value">프로젝트 타이틀</span>
-            </div>
-          </a>
-            <div class="focus_item_purpose">
-              <span class="purpose_value">달성률% 달성</span>
-            </div>
-            <div class="focus_item_term">
-              <span class="term">2021/08/01 ~ 2021/09/01</span>
-            </div>
-          </div> -->
         </div>
       </div>
 
@@ -308,48 +275,6 @@
     </div>
 
   </section>
-  <!-- <footer class="main_footer">
-
-    <div class="footer_second_warp">
-      <div class="footer_info_warp">
-        <div class="info_first_warp">
-          <span class="info_item1">회사명</span>
-          <span class="info_item2">크크펀딩</span>
-          <span class="info_item1">주소</span>
-          <span class="info_item2">경기도 성남시 분당구 성남대로 34 6층(구미동 하나프라자빌딩)</span>
-          <span class="info_item1">대표</span>
-          <span class="info_item2">오문정</span>
-          <span class="info_item1">사업자등록번호</span>
-          <span class="info_item2">105-87-52823</span>
-        </div>
-        <div class="info_second_warp">
-          <span class="info_item1">통신판매업 신고번호</span>
-          <span class="info_item2">2019-3010165-30-2-02129</span>
-          <span class="info_item1">대표번호</span>
-          <span class="info_item2">031-606-9319</span>
-        </div>
-        <div class="info_last_warp">
-          <span class="last_warp_item">© 2021 KKPD Inc.</span>
-        </div>
-      </div>
-      <div class="footer_info_icon">
-        <i class="fab fa-java fa-lg"></i>
-        <i class="fab fa-js fa-lg"></i>
-        <i class="fab fa-html5 fa-lg"></i>
-        <i class="fab fa-css3 fa-lg"></i>
-        <i class="fas fa-user-md fa-lg"></i>
-        <i class="fas fa-head-side-mask fa-lg"></i>
-      </div>
-    </div>
-    <div class="footer_last_info">
-      <div class="footer_last_info_div">
-        <span class="last_info_item">
-          크크펀딩은 플랫폼 제공자로서 프로젝트의 당사자가 아니며, 직접적인 통신판매를 진행하지 않습니다. 프로젝트의 완수 및 선물제공의 책임은 해당 프로젝트의 창작자에게 있으며, 프로젝트와 관련하여 후원자와
-          발생하는 법적 분쟁에 대한 책임은 해당 창작자가 부담합니다.
-        </span>
-      </div>
-    </div>
-  </footer> -->
   <script>
     function logined() {
       $("span.login_signup_name > a.admin-no").hide();
@@ -372,7 +297,7 @@
         success: function () {
           alert("로그아웃 되었습니다.");
           logouted();
-          document.location.reload();
+          document.location.href = "/";
         },
         error: function (xhr) {
           alert("로그아웃 에러");

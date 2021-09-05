@@ -48,13 +48,16 @@ public class FundingController {
 	public ResponseEntity<String> insertFunding (HttpSession session, @RequestBody FundingDTO funding) {
 		MemberDTO m = (MemberDTO)session.getAttribute("loginInfo");
 		if(m == null) { //로그인 안된 경우
-			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		} else {
 			try {
 				funding.setMember(m);
-				service.addFunding(funding);
-				//log.info("test2");
-				return new ResponseEntity<String>(HttpStatus.OK);
+				int result = service.addFunding(funding);
+				if(result == 1) {
+					return new ResponseEntity<String>(HttpStatus.OK);
+				} else {
+					return new ResponseEntity<String>(HttpStatus.MULTIPLE_CHOICES);
+				}
 			} catch (AddException e) {
 				e.printStackTrace();
 				return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

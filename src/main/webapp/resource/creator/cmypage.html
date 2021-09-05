@@ -34,42 +34,49 @@
           withCredentials: true
         },
         "timeout": {},
-        success: function (responseObj) {
-          var id = responseObj.crId;
-          var nn = responseObj.crNn;
-          var intro = responseObj.crIntro;
-          var bank = responseObj.crBank;
-          var acno = responseObj.crAcno;
-          var acholder = responseObj.crAcholder;
-          var path = responseObj.imgPath;
-          console.log(id);
-          console.log(path);
+        "statusCode": {
+          401: function () {
+            alert('로그인후 사용해주세요');
+            location.replace("/member/login");
+          },
+          500: function () {
+            alert('서버에러, 관리자에게 문의해 주세요.');
+          },
+          204: function () {
+            alert('크리에이터로 등록하여 프로젝트를 등록해보세요');
+          },
+          200: function (responseObj) {
+            var id = responseObj.crId;
+            var nn = responseObj.crNn;
+            var intro = responseObj.crIntro;
+            var bank = responseObj.crBank;
+            var acno = responseObj.crAcno;
+            var acholder = responseObj.crAcholder;
+            var path = responseObj.imgPath;
 
-          if (id != null) {
-            $('img.cmypage_profile_img').attr('src', path);
-            $('img#prevImg').attr('src', path);
-            $('form.creatorIn input.crId').val(id);
-          }
-          if (nn != null) {
-            $('div.cmypage_nickname').text(nn);
-            $('form#nickname > input[name=crNn]').val(nn);
-            $('span#prevNn').text(nn);
-          }
-          if (intro != null) {
-            $('div.cmypage_intro').text(intro);
-            $('form#intro > textarea').val(intro);
-            $('div#prevIntro').text(intro);
-          }
-          if (bank != null) {
-            $('div.cmypage_bank').text(bank + "  /  " + acno + "  /  " + acholder);
-            $('form#bank select[name=crBank]').val(bank);
-            $('form#bank input[name=crAcno]').val(acno);
-            $('form#bank input[name=crAcholder]').val(acholder);
-          }
-        },//end of success
-        error: function (jqXHR, textStatus) {
-
-        }//end of error
+            if (id != null) {
+              $('img.cmypage_profile_img').attr('src', path);
+              $('img#prevImg').attr('src', path);
+              $('form.creatorIn input.crId').val(id);
+            }
+            if (nn != null) {
+              $('div.cmypage_nickname').text(nn);
+              $('form#nickname > input[name=crNn]').val(nn);
+              $('span#prevNn').text(nn);
+            }
+            if (intro != null) {
+              $('div.cmypage_intro').text(intro);
+              $('form#intro > textarea').val(intro);
+              $('div#prevIntro').text(intro);
+            }
+            if (bank != null) {
+              $('div.cmypage_bank').text(bank + "  /  " + acno + "  /  " + acholder);
+              $('form#bank select[name=crBank]').val(bank);
+              $('form#bank input[name=crAcno]').val(acno);
+              $('form#bank input[name=crAcholder]').val(acholder);
+            }
+          },//end of 200
+        }
       });//end of Ajax
 
       $('form.creatorIn').submit(function () {

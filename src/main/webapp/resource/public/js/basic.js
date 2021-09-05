@@ -50,6 +50,11 @@ function checkLogined() {
         xhrFields: {
             withCredentials: true
         },
+        statusCode: {
+            204: function () {
+                logouted();
+            },
+        },
         success: function (result) {
             logined();
         },

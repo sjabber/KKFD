@@ -251,6 +251,8 @@ nav {
 
 .creator_name {
   display: flex;
+  padding-left: 12px;
+  padding-bottom: 3px;
   align-items: center;
   font-size: 18px;
 }
@@ -399,7 +401,7 @@ img.mid_creator_profile_img {
 .mid_creator_intro {
   padding: 5px 0px;
   font-size: 14px;
-  width: 390px;
+  width: 380px;
   height: auto;
 }
 
@@ -447,7 +449,9 @@ img.mid_creator_profile_img {
   justify-content: space-between;
   margin-top: 30px;
   margin-bottom: 10px;
-  height: 1200px;
+  /* height: 600px; */
+  height: 1080px;
+  /* height: auto; */
 }
 
 textarea.content {
@@ -457,6 +461,7 @@ textarea.content {
   padding: 30px;
   margin: 0px 50px 0px;
   width: 960px;
+  height: auto;
   overflow: visible;
   font-size: 15px;
 }
@@ -545,4 +550,10 @@ textarea.content {
 .last_info_item {
   font-size: 11px;
   color: gray;
+}
+
+.login_signup_name > a {
+  margin-left: 10px;
+  text-decoration: none;
+  color: black;
 }

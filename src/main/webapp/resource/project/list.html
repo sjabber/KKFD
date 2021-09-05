@@ -1,142 +1,373 @@
 <!DOCTYPE html>
 <html lang="ko">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" type="text/css" href="/css/list.css" />
-    <link rel="stylesheet" type="text/css" href="/css/public.css" />
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We"
-      crossorigin="anonymous"
-    />
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
-      crossorigin="anonymous"
-    ></script>
-    <title>프로젝트 목록</title>
-    <script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script>
-      $(function () {
 
-        
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" type="text/css" href="/css/list.css" />
+  <link rel="stylesheet" type="text/css" href="/css/public.css" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous" />
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
+          crossorigin="anonymous"></script>
+  <title>프로젝트 목록</title>
+  <script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script>
 
-        var page = 1;
-        var $form = $("#search_form");
-        $form.submit(function() {
+    const categoryNoChange = {
+      1: '캔들',
+      2: '조향',
+      3: '비누',
+      4: '도예',
+      5: '섬유·자수'
+    }
 
+  </script>
+  <script>
+    $(function () {
+      var page = 1;
+      var $form = $("#search_form");
+      var data = $form.serialize();
+      var url = 'http://kkfd.eastus.cloudapp.azure.com:9999/kkfd/project/list/' + page;
+
+      var $divObj = $('div.focus_item_warp');
+      var divHtml = "";
+
+      $.ajax({
+        url: url,
+        method: "GET",
+        data: data,
+        xhrFields: { withCredentials: true },
+        statusCode: {
+          204: function () {
+            divHtml += '<div id="no_content_img"><img src="/img/no_project.png" /></div>';
+            $divObj.html(divHtml);
+          }
+        },
+        success: function (responseData) {
+          $(responseData).each(function (i, e) {
+            var projNo = e.projNo;
+            var projCategory = e.projCategory;
+            var crNn = e.creator.crNn;
+            var projBm = e.projBm;
+            var projTitle = e.projTitle;
+            var projGoals = e.projGoals;
+            var projStart = e.projStart;
+            var projEnd = e.projEnd;
+            var ext = e.ext;
+            console.log(ext);
+
+            divHtml += '<div class="focus_item">';
+            divHtml += '<a class="info_btn" href="/project/info?no=' + projNo + '">';
+            divHtml += '<div class="focus_item_img">';
+            divHtml += '<img class="focus_item_img_item" src="/img/project/' + projNo + '/' + projNo + '_t.' + ext + '" />';
+            divHtml += '</div>';
+            divHtml += '</a>';
+            divHtml += '<div class="focus_item_category">';
+            divHtml += '<div class="category_warp">';
+            divHtml += '<span class="category_item1">' + categoryNoChange[projCategory] + '</span>';
+            divHtml += '<span class="category_between"> | </span>';
+            divHtml += '<span class="category_item2">' + crNn + '</span>';
+            divHtml += '</div>';
+            divHtml += '<div class="category_bookmark">';
+            if (projBm == 1) { divHtml += '<button class="category_bookmark_btn" value="' + projNo + '">'; } else { divHtml += '<button class="category_bookmark_btn off" value="' + projNo + '">'; }
+            if (projBm == 1) { divHtml += '<i class="fas fa-bookmark" id="bm_icon"></i>'; } else { divHtml += '<i class="far fa-bookmark" id="bm_icon"></i>'; }
+            divHtml += '</button>';
+            divHtml += '</div>';
+            divHtml += '</div>';
+            divHtml += '<a class="info_btn" href="/project/info?no=' + projNo + '">';
+            divHtml += '<div class="focus_item_title">';
+            divHtml += '<span class="focus_item_title_value">' + projTitle + '</span>';
+            divHtml += '</div>';
+            divHtml += '</a>';
+            divHtml += '<br /><div class="progress" style="height: 2px;"><div class="progress-bar bg-danger" role="progressbar" style="width: ' + projGoals + '%;" aria-valuenow="' + projGoals + '" aria-valuemin="0" aria-valuemax="100"></div></div>';
+            divHtml += '<div class="focus_item_purpose">';
+            divHtml += '<span class="purpose_value">' + projGoals + '% 달성</span>';
+            divHtml += '</div>';
+            divHtml += '<div class="focus_item_term">';
+            divHtml += '<span class="term">' + projStart + ' ~ ' + projEnd + '</span>';
+            divHtml += '</div>';
+            divHtml += '</div>';
+          });
+          $divObj.html(divHtml);
+        }
+      });
+
+      //필터링
+      $form.submit(function () {
+        data = $form.serialize();
+        $.ajax({
+          url: 'http://kkfd.eastus.cloudapp.azure.com:9999/kkfd/project/list/' + page,
+          method: "GET",
+          data: data,
+          xhrFields: { withCredentials: true },
+          statusCode: {
+            204: function () {
+              divHtml += '<div id="no_content_img"><img src="/img/no_project.png" /></div>';
+              $divObj.html(divHtml);
+            }
+          },
+          success: function (responseData) {
+            console.log("ajax안 : " + data);
+            $(responseData).each(function (i, e) {
+              var projNo = e.projNo;
+              console.log(projNo);
+              var projCategory = e.projCategory;
+              var crNn = e.creator.crNn;
+              var projBm = e.projBm;
+              var projTitle = e.projTitle;
+              var projGoals = e.projGoals;
+              var projStart = e.projStart;
+              var projEnd = e.projEnd;
+              var ext = e.ext;
+
+              divHtml += '<div class="focus_item">';
+              divHtml += '<a class="info_btn" href="/project/info?no=' + projNo + '">';
+              divHtml += '<div class="focus_item_img">';
+              divHtml += '<img class="focus_item_img_item" src="/img/project/' + projNo + '/' + projNo + '_t.' + ext + '" />';
+              divHtml += '</div>';
+              divHtml += '</a>';
+              divHtml += '<div class="focus_item_category">';
+              divHtml += '<div class="category_warp">';
+              divHtml += '<span class="category_item1">' + categoryNoChange[projCategory] + '</span>';
+              divHtml += '<span class="category_between"> | </span>';
+              divHtml += '<span class="category_item2">' + crNn + '</span>';
+              divHtml += '</div>';
+              divHtml += '<div class="category_bookmark">';
+              if (projBm == 1) { divHtml += '<button class="category_bookmark_btn" value="' + projNo + '">'; } else { divHtml += '<button class="category_bookmark_btn off" value="' + projNo + '">'; }
+              if (projBm == 1) { divHtml += '<i class="fas fa-bookmark" id="bm_icon"></i>'; } else { divHtml += '<i class="far fa-bookmark" id="bm_icon"></i>'; }
+              divHtml += '</button>';
+              divHtml += '</div>';
+              divHtml += '</div>';
+              divHtml += '<a class="info_btn" href="/project/info?no=' + projNo + '">';
+              divHtml += '<div class="focus_item_title">';
+              divHtml += '<span class="focus_item_title_value">' + projTitle + '</span>';
+              divHtml += '</div>';
+              divHtml += '</a>';
+              divHtml += '<br /><div class="progress" style="height: 2px;"><div class="progress-bar bg-danger" role="progressbar" style="width: ' + projGoals + '%;" aria-valuenow="' + projGoals + '" aria-valuemin="0" aria-valuemax="100"></div></div>';
+              divHtml += '<div class="focus_item_purpose">';
+              divHtml += '<span class="purpose_value">' + projGoals + '% 달성</span>';
+              divHtml += '</div>';
+              divHtml += '<div class="focus_item_term">';
+              divHtml += '<span class="term">' + projStart + ' ~ ' + projEnd + '</span>';
+              divHtml += '</div>';
+              divHtml += '</div>';
+            });
+            $divObj.html(divHtml);
+          },
+          error: function (jqXHR) {
+            alert(jqXHR.status);
+          }
+        });
+        return false;
+
+      });
+
+      $form.find('select.form-select').change(function () {
+        $divObj.empty();
+        page = 1;
+        divHtml = "";
+        console.log($(this).val());
+        console.log("ajax밖 : " + $form.serialize());
+        $form.submit();
+      });
+
+      console.log($(document).height());
+      console.log($(window).height());
+      console.log($(document).height() - $(window).height()
+      );
+
+      //무한 스크롤
+      $(window).scroll(function () {
+        var scrolltop = parseInt($(window).scrollTop());
+        if (
+                $(window).scrollTop() == $(document).height() - $(window).height()
+        ) {
+          console.log($(document).height());
+          console.log($(window).height());
+          console.log($(document).height() - $(window).height()
+          );
+          page++;
           var data = $form.serialize();
           var url = 'http://kkfd.eastus.cloudapp.azure.com:9999/kkfd/project/list/' + page;
-        	var method = 'GET';
-        	alert(data);
-        	$.ajax({
-        		url: url,
-        		method: method,
-        		data : data,
-        		success: function(responseData){
-        			$(responseData).each(function (i, e) {
-              var projNo = e.projNo;
-              console.log(projNo);
-              //empty하고 추가
-            });
-        		},
-        		error: function(jqXHR){
-        			alert(jqXHR.status); //404, 403, 500
-        		}
-        	});
-        	return false;
+          var method = 'GET';
+          $.ajax({
+            url: url,
+            method: method,
+            data: data,
+            xhrFields: { withCredentials: true },
+            success: function (responseData) {
+              $(responseData).each(function (i, e) {
+                var projNo = e.projNo;
+                console.log(projNo);
+                var projCategory = e.projCategory;
+                var crNn = e.creator.crNn;
+                var projBm = e.projBm;
+                var projTitle = e.projTitle;
+                var projGoals = e.projGoals;
+                var projStart = e.projStart;
+                var projEnd = e.projEnd;
+                var ext = e.ext;
 
-        });
+                divHtml += '<div class="focus_item">';
+                divHtml += '<a class="info_btn" href="/project/info?no=' + projNo + '">';
+                divHtml += '<div class="focus_item_img">';
+                divHtml += '<img class="focus_item_img_item" src="/img/project/' + projNo + '/' + projNo + '_t.' + ext + '" />';
+                divHtml += '</div>';
+                divHtml += '</a>';
+                divHtml += '<div class="focus_item_category">';
+                divHtml += '<div class="category_warp">';
+                divHtml += '<span class="category_item1">' + categoryNoChange[projCategory] + '</span>';
+                divHtml += '<span class="category_between"> | </span>';
+                divHtml += '<span class="category_item2">' + crNn + '</span>';
+                divHtml += '</div>';
+                divHtml += '<div class="category_bookmark">';
+                if (projBm == 1) { divHtml += '<button class="category_bookmark_btn" value="' + projNo + '">'; } else { divHtml += '<button class="category_bookmark_btn off" value="' + projNo + '">'; }
+                if (projBm == 1) { divHtml += '<i class="fas fa-bookmark" id="bm_icon"></i>'; } else { divHtml += '<i class="far fa-bookmark" id="bm_icon"></i>'; }
+                divHtml += '</button>';
+                divHtml += '</div>';
+                divHtml += '</div>';
+                divHtml += '<a class="info_btn" href="/project/info?no=' + projNo + '">';
+                divHtml += '<div class="focus_item_title">';
+                divHtml += '<span class="focus_item_title_value">' + projTitle + '</span>';
+                divHtml += '</div>';
+                divHtml += '</a>';
+                divHtml += '<br /><div class="progress" style="height: 2px;"><div class="progress-bar bg-danger" role="progressbar" style="width: ' + projGoals + '%;" aria-valuenow="' + projGoals + '" aria-valuemin="0" aria-valuemax="100"></div></div>';
+                divHtml += '<div class="focus_item_purpose">';
+                divHtml += '<span class="purpose_value">' + projGoals + '% 달성</span>';
+                divHtml += '</div>';
+                divHtml += '<div class="focus_item_term">';
+                divHtml += '<span class="term">' + projStart + ' ~ ' + projEnd + '</span>';
+                divHtml += '</div>';
+                divHtml += '</div>';
+              });
+              $divObj.html(divHtml);
+            },
+            error: function (jqXHR) {
+              alert(jqXHR.status);
+            }
+          }); console.log("page:" + page);
 
-        $form.find('select.form-select').change(function() {
-          console.log($(this).val());
-          console.log($form.serialize());
-          $form.submit();
-        });
+        }
+      });
 
-        $(window).scroll(function () {
-          if (
-            $(window).scrollTop() ==
-            $(document).height() - $(window).height()
-            
-          ) {
-            page++;
-            var data = $form.serialize();
-          var url = 'http://kkfd.eastus.cloudapp.azure.com:9999/kkfd/project/list/' + page;
-        	var method = 'GET';
-        	alert(data);
-        	$.ajax({
-        		url: url,
-        		method: method,
-        		data : data,
-        		success: function(responseData){
-        			$(responseData).each(function (i, e) {
-              var projNo = e.projNo;
-              console.log(projNo);
+      //검색 버튼
+      $('#search_btn').click(function () {
+        $divObj.empty();
+        page = 1;
+        divHtml = "";
+      });
 
-              //추가
-            });
-        		},
-        		error: function(jqXHR){
-        			alert(jqXHR.status); //404, 403, 500
-        		}
-        	});            console.log("page:"+page);
-            
+      //북마크 버튼
+      $('div.focus_item_warp').on("click", "button.category_bookmark_btn", function () {
+        var $iconObj = $(this).children();
+        if ($(this).hasClass("off")) {
+          $.ajax({
+            url: 'http://kkfd.eastus.cloudapp.azure.com:9999/kkfd/project/' + $(this).val() + '/bookmark',
+            method: "POST",
+            transformRequest: [null],
+            transformResponse: [null],
+            jsonpCallbackParam: "callback",
+            headers: {
+              Accept: "application/json, text/plain, */*",
+              "Content-Type": "application/json;charset=utf-8",
+            },
+            data: '{ "projNo":"' + $(this).val() + '" }',
+            timeout: {},
+            xhrFields: { withCredentials: true },
+            success: function (responseData) {
+              alert("북마크에 추가되었습니다");
+              $iconObj.removeClass("far fa-bookmark");
+              $iconObj.addClass("fas fa-bookmark");
+            },
+            error: function (jqXHR) {
+              alert("로그인하세요");
             }
           });
-        });
-        
-    </script>
-  </head>
-  <body>
-    <!-- header -->
-    <header class="main_header">
-      <div class="main_header_warp">
-        <div class="header_menu_warp">
-          <div class="header_projectsearch">
-            <button class="projectsearch_item">
-              <i class="fas fa-align-justify fa-lg"></i>
-              <span class="projectsearch_name">프로젝트 둘러보기</span>
-            </button>
-          </div>
-          <div class="header_projectupload">
-            <a style="text-decoration: none" href="#">
-              <span class="projectupload_name">프로젝트 올리기</span>
-            </a>
-          </div>
-        </div>
-        <div class="header_mainlogo">
-          <a style="text-decoration: none" href="#">
-            <span class="header_mainlogo_item">크크펀딩</span>
+        } else {
+          $.ajax({
+            url: 'http://kkfd.eastus.cloudapp.azure.com:9999/kkfd/project/' + $(this).val() + '/bookmark',
+            method: "DELETE",
+            transformRequest: [null],
+            transformResponse: [null],
+            jsonpCallbackParam: "callback",
+            headers: {
+              Accept: "application/json, text/plain, */*",
+              "Content-Type": "application/json;charset=utf-8",
+            },
+            data: '{ "projNo":"' + $(this).val() + '" }',
+            xhrFields: { withCredentials: true },
+            timeout: {},
+            success: function (responseData) {
+              alert("북마크에서 삭제되었습니다");
+              $iconObj.removeClass("fas fa-bookmark");
+              $iconObj.addClass("far fa-bookmark");
+            },
+            error: function (jqXHR) {
+              alert("로그인하세요");
+            }
+          });
+        }
+        $(this).toggleClass("off");
+      });
+    });
+
+  </script>
+</head>
+
+<body>
+<!-- header -->
+<header class="main_header">
+  <div class="main_header_warp">
+    <div class="header_menu_warp">
+      <div class="header_projectsearch">
+        <button class="projectsearch_item">
+          <a style="text-decoration: none; color: black" href="/project/list/">
+            <i class="fas fa-align-justify fa-lg"></i>
+            <span class="projectsearch_name">프로젝트 둘러보기</span>
           </a>
-        </div>
-        <div class="header_sub_warp">
-          <div class="header_searchicon">
-            <!-- <i class="fas fa-search fa-lg"></i> -->
-          </div>
-          <div class="header_customer_warp">
-            <button class="header_customer_btn">
-              <div class="header_login&signup">
-                <span class="login&signup_name">로그인 / 회원가입</span>
-              </div>
-              <div class="header_profile_img">
-                <img src="./img/blank.png" />
-              </div>
-            </button>
-          </div>
-        </div>
+        </button>
       </div>
-    </header>
-    <!-- section -->
-    <section class="main_section">
-      <div class="main_project_focus">
-        <div>
-          <form id="search_form" action="" method="GET">
-            <div
-              class="
+      <div class="header_projectupload">
+        <a style="text-decoration: none" href="/register/registerAgree/">
+          <span class="projectupload_name">프로젝트 올리기</span>
+        </a>
+      </div>
+    </div>
+    <div class="header_mainlogo">
+      <a style="text-decoration: none" href="/">
+        <span class="header_mainlogo_item"><img src="/img/logo.png" alt="" /></span>
+      </a>
+    </div>
+    <div class="header_sub_warp">
+      <div class="header_searchicon">
+        <!-- <i class="fas fa-search fa-lg"></i> -->
+      </div>
+      <div class="header_customer_warp">
+        <button class="header_customer_btn">
+          <div class="header_login&signup">
+              <span class="login_signup_name">
+                <a class="admin-no" href="/member/login">로그인 / 회원가입</a>
+                <a class="admin-yes" href="/member/mypage">마이페이지</a>
+                <a class="admin-yes" href="javascript:Logout()">로그아웃</a>
+              </span>
+          </div>
+          <!-- <div class="header_profile_img">
+              <img src="./img/blank.png" />
+            </div> -->
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+<!-- section -->
+<section class="main_section">
+  <div class="main_project_focus">
+    <div>
+      <form id="search_form" action="" method="GET">
+        <div class="
                 d-flex
                 justify-content-between
                 pt-2
@@ -145,572 +376,122 @@
                 pe-2
                 me-1
                 bg-light
-              "
-            >
-              <div class="d-flex">
-                <div class="form-floating w-22 me-2">
-                  <select name="category" class="form-select" id="select">
-                    <option value="0" selected>전체</option>
-                    <option value="1">캔들</option>
-                    <option value="2">조향</option>
-                    <option value="3">비누</option>
-                    <option value="4">도예</option>
-                    <option value="5">섬유·자수</option>
-                  </select>
-                  <label for="floatingSelectGrid">카테고리</label>
-                </div>
+              ">
+          <div class="d-flex">
+            <div class="form-floating w-22 me-2">
+              <select name="category" class="form-select" id="select">
+                <option value="0" selected>전체</option>
+                <option value="1">캔들</option>
+                <option value="2">조향</option>
+                <option value="3">비누</option>
+                <option value="4">도예</option>
+                <option value="5">섬유·자수</option>
+              </select>
+              <label for="floatingSelectGrid">카테고리</label>
+            </div>
 
-                <div class="form-floating w-28 me-2">
-                  <select name="state" class="form-select" id="select">
-                    <option value="0" selected>전체</option>
-                    <option value="1">진행 예정 프로젝트</option>
-                    <option value="2">진행 중 프로젝트</option>
-                    <option value="3">완료된 프로젝트</option>
-                  </select>
-                  <label for="floatingSelectGrid">상태</label>
-                </div>
+            <div class="form-floating w-28 me-2">
+              <select name="state" class="form-select" id="select">
+                <option value="0" selected>전체</option>
+                <option value="1">진행 예정 프로젝트</option>
+                <option value="2">진행 중 프로젝트</option>
+                <option value="3">완료된 프로젝트</option>
+              </select>
+              <label for="floatingSelectGrid">상태</label>
+            </div>
 
-                <div class="form-floating w-30 me-2">
-                  <select
-                    name="goal"
-                    class="form-select"
-                    id="select"
-                    aria-label="Default select example"
-                  >
-                    <option value="0" selected>전체</option>
-                    <option value="1">75% 이하</option>
-                    <option value="2">75% ~ 100%</option>
-                    <option value="3">100% 초과</option>
-                  </select>
-                  <label for="floatingSelectGrid">달성률</label>
-                </div>
+            <div class="form-floating w-30 me-2">
+              <select name="goal" class="form-select" id="select" aria-label="Default select example">
+                <option value="0" selected>전체</option>
+                <option value="1">75% 이하</option>
+                <option value="2">75% ~ 100%</option>
+                <option value="3">100% 초과</option>
+              </select>
+              <label for="floatingSelectGrid">달성률</label>
+            </div>
 
-                <div class="form-floating w-20 me-2">
-                  <select
-                    name="standard"
-                    class="form-select"
-                    id="select"
-                    aria-label="Default select example"
-                  >
-                    <option value="0" selected>인기순</option>
-                    <option value="1">최신순</option>
-                    <option value="2">마감임박순</option>
-                  </select>
-                  <label for="floatingSelectGrid">정렬</label>
-                </div>
-              </div>
-              <div class="d-flex">
-                <div class="form-floating">
-                  <input
-                    name="word"
-                    class="form-control me-2"
-                    type="search"
-                    placeholder="제목으로 검색"
-                    aria-label="Search"
-                  />
-                  <label for="floatingSelectGrid">제목으로 검색하세요</label>
-                </div>
-                <button class="btn btn-outline-success" type="submit">
-                  Search
-                </button>
-              </div>
-            </div>
-          </form>
-        </div>
-      <div class="main_project_focus">
-        <div class="focus_item_warp">
-          <div class="focus_item">
-            <a class="info_btn" href="#">
-            <div class="focus_item_img">
-              <img class="focus_item_img_item" src="./img/sample.jpg" alt="" />
-            </div>
-            </a>
-            <div class="focus_item_category">
-              <div class="category_warp">
-                <span class="category_item1">카테고리</span>
-                <span class="category_between">|</span>
-                <span class="category_item2">닉네임</span>
-              </div>
-              <div class="category_bookmark">
-                <button class="category_bookmark_btn">
-                  <i class="far fa-bookmark"></i>
-                </button>
-              </div>
-            </div>
-            <a class="info_btn" href="#">
-            <div class="focus_item_title">
-              <span class="focus_item_title_value">프로젝트 타이틀</span>
-            </div>
-          </a>
-            <div class="focus_item_purpose">
-              <span class="purpose_value">달성률% 달성</span>
-            </div>
-            <div class="focus_item_term">
-              <span class="term">2021/08/01 ~ 2021/09/01</span>
-            </div>
-          
-          </div>
-
-          <div class="focus_item">
-            <div class="focus_item_img">
-              <img class="focus_item_img_item" src="./img/sample.jpg" alt="" />
-            </div>
-            <div class="focus_item_category">
-              <div class="category_warp">
-                <span class="category_item1">캔들</span>
-                <span class="category_between">|</span>
-                <span class="category_item2">닉네임</span>
-              </div>
-              <div class="category_bookmark">
-                <button class="category_bookmark_btn">
-                  <i class="fas fa-bookmark"></i>
-                </button>
-              </div>
-            </div>
-            <div class="focus_item_title">
-              <span class="focus_item_title_value">프로젝트 타이틀</span>
-            </div>
-            <div class="focus_item_purpose">
-              <span class="purpose_value">달성률% 달성</span>
-            </div>
-            <div class="focus_item_term">
-              <span class="term">2021/08/01 ~ 2021/09/01</span>
+            <div class="form-floating w-20 me-2">
+              <select name="standard" class="form-select" id="select" aria-label="Default select example">
+                <option value="0" selected>인기순</option>
+                <option value="1">최신순</option>
+                <option value="2">마감임박순</option>
+              </select>
+              <label for="floatingSelectGrid">정렬</label>
             </div>
           </div>
-
-          <div class="focus_item">
-            <div class="focus_item_img">
-              <img class="focus_item_img_item" src="./img/sample.jpg" alt="" />
-            </div>
-            <div class="focus_item_category">
-              <div class="category_warp">
-                <span class="category_item1">캔들</span>
-                <span class="category_between">|</span>
-                <span class="category_item2">닉네임</span>
-              </div>
-              <div class="category_bookmark">
-                <button class="category_bookmark_btn">
-                  <i class="far fa-bookmark"></i>
-                </button>
-              </div>
-            </div>
-            <div class="focus_item_title">
-              <span class="focus_item_title_value">프로젝트 타이틀</span>
-            </div>
-            <div class="focus_item_purpose">
-              <span class="purpose_value">달성률% 달성</span>
-            </div>
-            <div class="focus_item_term">
-              <span class="term">2021/08/01 ~ 2021/09/01</span>
-            </div>
-          </div>
-
-          <div class="focus_item">
-            <div class="focus_item_img">
-              <img class="focus_item_img_item" src="./img/sample.jpg" alt="" />
-            </div>
-            <div class="focus_item_category">
-              <div class="category_warp">
-                <span class="category_item1">캔들</span>
-                <span class="category_between">|</span>
-                <span class="category_item2">닉네임</span>
-              </div>
-              <div class="category_bookmark">
-                <button class="category_bookmark_btn">
-                  <i class="fas fa-bookmark"></i>
-                </button>
-              </div>
-            </div>
-            <div class="focus_item_title">
-              <span class="focus_item_title_value">프로젝트 타이틀</span>
-            </div>
-            <div class="focus_item_purpose">
-              <span class="purpose_value">달성률% 달성</span>
-            </div>
-            <div class="focus_item_term">
-              <span class="term">2021/08/01 ~ 2021/09/01</span>
-            </div>
-          </div>
-
-          <div class="focus_item">
-            <div class="focus_item_img">
-              <img class="focus_item_img_item" src="./img/sample.jpg" alt="" />
-            </div>
-            <div class="focus_item_category">
-              <div class="category_warp">
-                <span class="category_item1">캔들</span>
-                <span class="category_between">|</span>
-                <span class="category_item2">닉네임</span>
-              </div>
-              <div class="category_bookmark">
-                <button class="category_bookmark_btn">
-                  <i class="far fa-bookmark"></i>
-                </button>
-              </div>
-            </div>
-            <div class="focus_item_title">
-              <span class="focus_item_title_value">프로젝트 타이틀</span>
-            </div>
-            <div class="focus_item_purpose">
-              <span class="purpose_value">달성률% 달성</span>
-            </div>
-            <div class="focus_item_term">
-              <span class="term">2021/08/01 ~ 2021/09/01</span>
-            </div>
-          </div>
-
-          <div class="focus_item">
-            <div class="focus_item_img">
-              <img class="focus_item_img_item" src="./img/sample.jpg" alt="" />
-            </div>
-            <div class="focus_item_category">
-              <div class="category_warp">
-                <span class="category_item1">캔들</span>
-                <span class="category_between">|</span>
-                <span class="category_item2">닉네임</span>
-              </div>
-              <div class="category_bookmark">
-                <button class="category_bookmark_btn">
-                  <i class="far fa-bookmark"></i>
-                </button>
-              </div>
-            </div>
-            <div class="focus_item_title">
-              <span class="focus_item_title_value">프로젝트 타이틀</span>
-            </div>
-            <div class="focus_item_purpose">
-              <span class="purpose_value">달성률% 달성</span>
-            </div>
-            <div class="focus_item_term">
-              <span class="term">2021/08/01 ~ 2021/09/01</span>
-            </div>
-          </div>
-
-          <div class="focus_item">
-            <div class="focus_item_img">
-              <img class="focus_item_img_item" src="./img/sample.jpg" alt="" />
-            </div>
-            <div class="focus_item_category">
-              <div class="category_warp">
-                <span class="category_item1">캔들</span>
-                <span class="category_between">|</span>
-                <span class="category_item2">닉네임</span>
-              </div>
-              <div class="category_bookmark">
-                <button class="category_bookmark_btn">
-                  <i class="far fa-bookmark"></i>
-                </button>
-              </div>
-            </div>
-            <div class="focus_item_title">
-              <span class="focus_item_title_value">프로젝트 타이틀</span>
-            </div>
-            <div class="focus_item_purpose">
-              <span class="purpose_value">달성률% 달성</span>
-            </div>
-            <div class="focus_item_term">
-              <span class="term">2021/08/01 ~ 2021/09/01</span>
-            </div>
-          </div>
-
-          <div class="focus_item">
-            <div class="focus_item_img">
-              <img class="focus_item_img_item" src="./img/sample.jpg" alt="" />
-            </div>
-            <div class="focus_item_category">
-              <div class="category_warp">
-                <span class="category_item1">캔들</span>
-                <span class="category_between">|</span>
-                <span class="category_item2">닉네임</span>
-              </div>
-              <div class="category_bookmark">
-                <button class="category_bookmark_btn">
-                  <i class="far fa-bookmark"></i>
-                </button>
-              </div>
-            </div>
-            <div class="focus_item_title">
-              <span class="focus_item_title_value">프로젝트 타이틀</span>
-            </div>
-            <div class="focus_item_purpose">
-              <span class="purpose_value">달성률% 달성</span>
-            </div>
-            <div class="focus_item_term">
-              <span class="term">2021/08/01 ~ 2021/09/01</span>
-            </div>
-          </div>
-
-          <div class="focus_item">
-            <div class="focus_item_img">
-              <img class="focus_item_img_item" src="./img/sample.jpg" alt="" />
-            </div>
-            <div class="focus_item_category">
-              <div class="category_warp">
-                <span class="category_item1">캔들</span>
-                <span class="category_between">|</span>
-                <span class="category_item2">닉네임</span>
-              </div>
-              <div class="category_bookmark">
-                <button class="category_bookmark_btn">
-                  <i class="far fa-bookmark"></i>
-                </button>
-              </div>
-            </div>
-            <div class="focus_item_title">
-              <span class="focus_item_title_value">프로젝트 타이틀</span>
-            </div>
-            <div class="focus_item_purpose">
-              <span class="purpose_value">달성률% 달성</span>
-            </div>
-            <div class="focus_item_term">
-              <span class="term">2021/08/01 ~ 2021/09/01</span>
-            </div>
-          </div>
-
-          <div class="focus_item">
-            <div class="focus_item_img">
-              <img class="focus_item_img_item" src="./img/sample.jpg" alt="" />
-            </div>
-            <div class="focus_item_category">
-              <div class="category_warp">
-                <span class="category_item1">캔들</span>
-                <span class="category_between">|</span>
-                <span class="category_item2">닉네임</span>
-              </div>
-              <div class="category_bookmark">
-                <button class="category_bookmark_btn">
-                  <i class="far fa-bookmark"></i>
-                </button>
-              </div>
-            </div>
-            <div class="focus_item_title">
-              <span class="focus_item_title_value">프로젝트 타이틀</span>
-            </div>
-            <div class="focus_item_purpose">
-              <span class="purpose_value">달성률% 달성</span>
-            </div>
-            <div class="focus_item_term">
-              <span class="term">2021/08/01 ~ 2021/09/01</span>
-            </div>
-          </div>
-
-          <div class="focus_item">
-            <div class="focus_item_img">
-              <img class="focus_item_img_item" src="./img/sample.jpg" alt="" />
-            </div>
-            <div class="focus_item_category">
-              <div class="category_warp">
-                <span class="category_item1">캔들</span>
-                <span class="category_between">|</span>
-                <span class="category_item2">닉네임</span>
-              </div>
-              <div class="category_bookmark">
-                <button class="category_bookmark_btn">
-                  <i class="far fa-bookmark"></i>
-                </button>
-              </div>
-            </div>
-            <div class="focus_item_title">
-              <span class="focus_item_title_value">프로젝트 타이틀</span>
-            </div>
-            <div class="focus_item_purpose">
-              <span class="purpose_value">달성률% 달성</span>
-            </div>
-            <div class="focus_item_term">
-              <span class="term">2021/08/01 ~ 2021/09/01</span>
-            </div>
-          </div>
-
-          <div class="focus_item">
-            <div class="focus_item_img">
-              <img class="focus_item_img_item" src="./img/sample.jpg" alt="" />
-            </div>
-            <div class="focus_item_category">
-              <div class="category_warp">
-                <span class="category_item1">캔들</span>
-                <span class="category_between">|</span>
-                <span class="category_item2">닉네임</span>
-              </div>
-              <div class="category_bookmark">
-                <button class="category_bookmark_btn">
-                  <i class="far fa-bookmark"></i>
-                </button>
-              </div>
-            </div>
-            <div class="focus_item_title">
-              <span class="focus_item_title_value">프로젝트 타이틀</span>
-            </div>
-            <div class="focus_item_purpose">
-              <span class="purpose_value">달성률% 달성</span>
-            </div>
-            <div class="focus_item_term">
-              <span class="term">2021/08/01 ~ 2021/09/01</span>
-            </div>
-          </div>
-
-          <div class="focus_item">
-            <div class="focus_item_img">
-              <img class="focus_item_img_item" src="./img/sample.jpg" alt="" />
-            </div>
-            <div class="focus_item_category">
-              <div class="category_warp">
-                <span class="category_item1">캔들</span>
-                <span class="category_between">|</span>
-                <span class="category_item2">닉네임</span>
-              </div>
-              <div class="category_bookmark">
-                <button class="category_bookmark_btn">
-                  <i class="far fa-bookmark"></i>
-                </button>
-              </div>
-            </div>
-            <div class="focus_item_title">
-              <span class="focus_item_title_value">프로젝트 타이틀</span>
-            </div>
-            <div class="focus_item_purpose">
-              <span class="purpose_value">달성률% 달성</span>
-            </div>
-            <div class="focus_item_term">
-              <span class="term">2021/08/01 ~ 2021/09/01</span>
-            </div>
-          </div>
-
-          <div class="focus_item">
-            <div class="focus_item_img">
-              <img class="focus_item_img_item" src="./img/sample.jpg" alt="" />
-            </div>
-            <div class="focus_item_category">
-              <div class="category_warp">
-                <span class="category_item1">캔들</span>
-                <span class="category_between">|</span>
-                <span class="category_item2">닉네임</span>
-              </div>
-              <div class="category_bookmark">
-                <button class="category_bookmark_btn">
-                  <i class="far fa-bookmark"></i>
-                </button>
-              </div>
-            </div>
-            <div class="focus_item_title">
-              <span class="focus_item_title_value">프로젝트 타이틀</span>
-            </div>
-            <div class="focus_item_purpose">
-              <span class="purpose_value">달성률% 달성</span>
-            </div>
-            <div class="focus_item_term">
-              <span class="term">2021/08/01 ~ 2021/09/01</span>
-            </div>
-          </div>
-
-          <div class="focus_item">
-            <div class="focus_item_img">
-              <img class="focus_item_img_item" src="./img/sample.jpg" alt="" />
-            </div>
-            <div class="focus_item_category">
-              <div class="category_warp">
-                <span class="category_item1">캔들</span>
-                <span class="category_between">|</span>
-                <span class="category_item2">닉네임</span>
-              </div>
-              <div class="category_bookmark">
-                <button class="category_bookmark_btn">
-                  <i class="far fa-bookmark"></i>
-                </button>
-              </div>
-            </div>
-            <div class="focus_item_title">
-              <span class="focus_item_title_value">프로젝트 타이틀</span>
-            </div>
-            <div class="focus_item_purpose">
-              <span class="purpose_value">달성률% 달성</span>
-            </div>
-            <div class="focus_item_term">
-              <span class="term">2021/08/01 ~ 2021/09/01</span>
-            </div>
-          </div>
-
-          <div class="focus_item">
-            <div class="focus_item_img">
-              <img class="focus_item_img_item" src="./img/sample.jpg" alt="" />
-            </div>
-            <div class="focus_item_category">
-              <div class="category_warp">
-                <span class="category_item1">캔들</span>
-                <span class="category_between">|</span>
-                <span class="category_item2">닉네임</span>
-              </div>
-              <div class="category_bookmark">
-                <button class="category_bookmark_btn">
-                  <i class="far fa-bookmark"></i>
-                </button>
-              </div>
-            </div>
-            <div class="focus_item_title">
-              <span class="focus_item_title_value">프로젝트 타이틀</span>
-            </div>
-            <div class="focus_item_purpose">
-              <span class="purpose_value">달성률% 달성</span>
-            </div>
-            <div class="focus_item_term">
-              <span class="term">2021/08/01 ~ 2021/09/01</span>
-            </div>
-          </div>
-
-          <div class="focus_item">
-            <div class="focus_item_img">
-              <img class="focus_item_img_item" src="./img/sample.jpg" alt="" />
-            </div>
-            <div class="focus_item_category">
-              <div class="category_warp">
-                <span class="category_item1">캔들</span>
-                <span class="category_between">|</span>
-                <span class="category_item2">닉네임</span>
-              </div>
-              <div class="category_bookmark">
-                <button class="category_bookmark_btn">
-                  <i class="far fa-bookmark"></i>
-                </button>
-              </div>
-            </div>
-            <div class="focus_item_title">
-              <span class="focus_item_title_value">프로젝트 타이틀</span>
-            </div>
-            <div class="focus_item_purpose">
-              <span class="purpose_value">달성률% 달성</span>
-            </div>
-            <div class="focus_item_term">
-              <span class="term">2021/08/01 ~ 2021/09/01</span>
-            </div>
-          </div>
-
-          <div class="focus_item">
-            <div class="focus_item_img">
-              <img class="focus_item_img_item" src="./img/sample.jpg" alt="" />
-            </div>
-            <div class="focus_item_category">
-              <div class="category_warp">
-                <span class="category_item1">캔들</span>
-                <span class="category_between">|</span>
-                <span class="category_item2">닉네임</span>
-              </div>
-              <div class="category_bookmark">
-                <button class="category_bookmark_btn">
-                  <i class="far fa-bookmark"></i>
-                </button>
-              </div>
-            </div>
-            <div class="focus_item_title">
-              <span class="focus_item_title_value">프로젝트 타이틀</span>
-            </div>
-            <div class="focus_item_purpose">
-              <span class="purpose_value">달성률% 달성</span>
-            </div>
-            <div class="focus_item_term">
-              <span class="term">2021/08/01 ~ 2021/09/01</span>
-            </div>
+          <div class="d-flex">
+            <div class="form-floating">
+              <input name="word" class="form-control me-2" type="search" placeholder="제목으로 검색" aria-label="Search" />
+              <label for="floatingSelectGrid">제목으로 검색하세요</label>
+            </div>
+            <button class="btn btn-outline-success" id="search_btn" type="submit">
+              Search
+            </button>
           </div>
         </div>
+      </form>
+    </div>
+    <div class="main_project_focus">
+      <div class="focus_item_warp">
       </div>
-    </section>
-  </body>
+    </div>
+</section>
+<script>
+  function logined() {
+    $("span.login_signup_name > a.admin-no").hide();
+    $("span.login_signup_name > a.admin-yes").show();
+  }
+
+  function logouted() {
+    $("span.login_signup_name > a.admin-no").show();
+    $("span.login_signup_name > a.admin-yes").hide();
+  }
+
+  function Logout() {
+    var backurl = "http://kkfd.eastus.cloudapp.azure.com:9999/kkfd/member/logout";
+    $.ajax({
+      url: backurl,
+      method: "get",
+      xhrFields: {
+        withCredentials: true,
+      },
+      success: function () {
+        alert("로그아웃 되었습니다.");
+        logouted();
+        document.location.reload();
+      },
+      error: function (xhr) {
+        alert("로그아웃 에러");
+      },
+    });
+  }
+
+  function checkLogined() {
+    var backurl = "http://kkfd.eastus.cloudapp.azure.com:9999/kkfd/member/logincheck";
+    $.ajax({
+      url: backurl,
+      method: "get",
+      dataType: "json",
+      xhrFields: {
+        withCredentials: true,
+      },
+      statusCode: {
+        204: function () {
+          logouted();
+        },
+      },
+      success: function (result) {
+        logined();
+      },
+      error: function (result) {
+        logouted();
+      },
+    });
+  }
+
+  logouted();
+  checkLogined();
+</script>
+</body>
+
 </html>

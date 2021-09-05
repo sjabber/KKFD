@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kkfd.dto.FundingMapper2">
+<resultMap id="fundingResultMap" type="funding" autoMapping="true">
+	<id column="fun_no" property="funNo"/>
+		<association javaType="member" property="member" autoMapping="true">
+		  <result column="mem_id" property="memId"/> 
+		</association>
+		<association javaType="project" property="project" autoMapping="true">
+		   <result column="proj_no" property="projNo"/>
+		  </association>
+</resultMap>
+<select id="selectFunsById" parameterType="HashMap" resultMap="fundingResultMap">
+SELECT *
+FROM(SELECT ROWNUM AS rn, r.*
+        FROM (SELECT f.fun_no, f.fun_date, f.fun_fm, f.fun_track,
+        			p.proj_no, p.proj_title, p.proj_goals, p.proj_start, p.proj_end,
+                    p.proj_delivery, p.proj_status
+            FROM kk_funding f
+                JOIN kk_project p ON(f.fun_proj = p.proj_no)
+            WHERE f.fun_id =#{loginId}
+				AND (fun_date > ADD_MONTHS(SYSDATE,-#{term}))
+			<choose>
+				<!-- 0:무산(취소+실패)-->
+				<when test="state==0">
+					AND (p.proj_status=0 OR <!--취소-->
+					(p.proj_end<![CDATA[ < ]]>SYSDATE AND p.proj_goals<![CDATA[ < ]]>100))<!--실패-->	 
+				</when>
+				<!-- 1:진행중-->
+				<when test="state==1">
+					AND (p.proj_status!=0 AND (p.proj_start<![CDATA[ < ]]>SYSDATE AND SYSDATE<![CDATA[ < ]]>p.proj_end))   
+				</when>
+				<!-- 2:성사(프로젝트성공)-->
+				<when test="state==2">
+					AND (p.proj_status!=0 AND(p.proj_end<![CDATA[ < ]]>SYSDATE AND p.proj_goals<![CDATA[ >= ]]>100))  
+				</when>             
+			</choose>            
+				ORDER BY f.fun_no DESC) r)
+WHERE rn BETWEEN START_ROW(#{currentPage},#{cntPerPage}) AND END_ROW(#{currentPage},#{cntPerPage})
+</select>
+
+<select id="countMyFunList" parameterType="HashMap" resultType="int">
+SELECT COUNT(fun_no) 
+FROM kk_funding f
+JOIN kk_project p ON (f.fun_proj = p.proj_no)
+WHERE fun_id=#{loginId}
+	AND (fun_date > ADD_MONTHS(SYSDATE,-#{term}))
+<choose>
+	<!-- 0:무산(취소+실패)-->
+	<when test="state==0">
+		AND (p.proj_status=0 OR <!--취소-->
+		(p.proj_end<![CDATA[ < ]]>SYSDATE AND p.proj_goals<![CDATA[ < ]]>100))<!--실패-->	 
+	</when>
+	<!-- 1:진행중-->
+	<when test="state==1">
+		AND (p.proj_status!=0 AND (p.proj_start<![CDATA[ < ]]>SYSDATE AND SYSDATE<![CDATA[ < ]]>p.proj_end))   
+	</when>
+	<!-- 2:성사-->
+	<when test="state==2">
+		AND (p.proj_status!=0 AND(p.proj_end<![CDATA[ < ]]>SYSDATE AND p.proj_goals<![CDATA[ >= ]]>100))  
+	</when>             
+</choose>           
+</select>  
+</mapper>

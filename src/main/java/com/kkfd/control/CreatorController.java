@@ -1,8 +1,10 @@
 package com.kkfd.control;
 
+import java.io.File;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -19,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kkfd.dto.CreatorDTO;
-import com.kkfd.dto.FundingDTO;
+import com.kkfd.dto.MemberDTO;
 import com.kkfd.dto.PageDTO;
 import com.kkfd.dto.ProjectDTO;
 import com.kkfd.exception.AddException;
@@ -34,62 +36,93 @@ public class CreatorController {
 	private Logger log = LoggerFactory.getLogger(this.getClass());
 
 	@Autowired
+	private ServletContext servletContext;
+	
+	@Autowired
 	private CreatorService creatorService;//Creaotor Table에 접근 조회,입력,수정
 
 	@Autowired
 	private ProjectService projetService;//Project Table에 접근 크리에이터 마이 프로젝트 조회
 
 	@GetMapping
-	public ResponseEntity<CreatorDTO> inquiryCr() {
-		//String loginId = (String)session.getAttribute("loginId");
-		String loginId="id12";
-		if(loginId == null) {
+	public ResponseEntity<CreatorDTO> inquiryCr(HttpSession session) {
+		MemberDTO m = (MemberDTO)session.getAttribute("loginInfo");
+		if(m == null) {
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);//401 : 권한없음
 		} 
-		try {
+		String loginId= m.getMemId();
 
+		try {
 			CreatorDTO creator = creatorService.findCrById(loginId);
 			if(creator==null) {
-				return new ResponseEntity<>(HttpStatus.NO_CONTENT);//프로젝트 없음	
-
+				return new ResponseEntity<>(HttpStatus.NO_CONTENT);//204 : 크리에이터 테이블에 없음
 			}
-			return new ResponseEntity<CreatorDTO>(creator,HttpStatus.OK);//참여자 정상정으로 불러오는경우
+			
+			//이미지 확장자 확인(.jpg, .png)후 실제 파일이름.확장자 반환
+			String uploadPath = servletContext.getRealPath("resource/public/img/profile");
+			String[] extension = {"jpg","png"};
+			String path ="/img/blank.png";
+			for(int i=0;i<extension.length ;i++) {
+				File file = new File(uploadPath,loginId+"."+extension[i]);
+				if(file.exists()) {
+					path = "/img/profile/" + loginId+"."+extension[i];
+					creator.setImgPath(path);
+				}
+			}
+			return new ResponseEntity<CreatorDTO>(creator,HttpStatus.OK);//200 : 크리에이터 정보조회
 		}catch(FindException e){
-			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);//SQL   
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);//500 : 서버 내부 문제  
 		}
 	}
 
 	@PostMapping
-	public ResponseEntity<Integer> registerCr(@RequestBody CreatorDTO creator) {
-		//String loginId = (String)session.getAttribute("loginId");
-		String loginId="id12";
-		if(loginId == null) {
+	public ResponseEntity registerCr(HttpSession session, @RequestBody CreatorDTO creator) {
+		MemberDTO m = (MemberDTO)session.getAttribute("loginInfo");
+		if(m == null) {
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);//401 : 권한없음
 		} 
-		creator.setCrId(loginId);
+		String loginId= m.getMemId();
 		try {
-			int rowCnt = creatorService.addCr(creator);
-			if(rowCnt==0) {
-				
-			}
-			return new ResponseEntity<>(rowCnt,HttpStatus.OK);
+			creatorService.addCr(creator);
+			return new ResponseEntity(HttpStatus.OK);				//200 : 크리에이터로 등록 완료
 		} catch (AddException e) {
 			e.printStackTrace();
-			return new ResponseEntity<Integer>(HttpStatus.INTERNAL_SERVER_ERROR);//SQL   
+			if(e.getMessage().equals("0")) {
+				return new ResponseEntity(HttpStatus.NOT_FOUND);	//404 : 등록된 행 수 0   
+			}
+			return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);//500 : 서버 내부 문제  
 		}						    
 	}
 
 	@PutMapping	
-	public ResponseEntity<Integer> changeCr(@RequestBody CreatorDTO creator) {
-		log.error(creator.toString());
-
+	public ResponseEntity changeCr(HttpSession session, @RequestBody CreatorDTO creator) {
+		log.error("여기" + creator.toString());
+		MemberDTO m = (MemberDTO)session.getAttribute("loginInfo");
+		if(m == null) {
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);//401 : 권한없음
+		} 
+		String loginId= m.getMemId();
+		
+		//Creator Table에 id 존재 여부 확인후 update
 		try {
-			int rowCnt = creatorService.modifyCr(creator);
-			if(rowCnt==0) {
-
+			CreatorDTO prevCreator = creatorService.findCrById(loginId);
+			if(!prevCreator.getCrId().equals(creator.getCrId())) {//Creator 테이블에 있는 아이디와 입력한 Creator의 id 일치확인
+				return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);	//401 : 권한없음
 			}
-			return new ResponseEntity<>(rowCnt,HttpStatus.OK);
+		} catch (FindException e1) {
+			e1.printStackTrace();
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR); //500 : 서버 내부오류  
+		}
+		//정보 수정
+		try {
+			creatorService.modifyCr(creator);
+			return new ResponseEntity<>(HttpStatus.OK);				//200 : 크리에이터 정보 수정완료
 		} catch (ModifyException e) {
 			e.printStackTrace();
-			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);//SQL   
+			if(e.getMessage().equals("0")) {
+				return new ResponseEntity<>(HttpStatus.NOT_FOUND);//404 : 수정된 행 수 0   
+			}
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR); //500 : 서버 내부오류  
 		}						    
 	}
 
@@ -97,17 +130,17 @@ public class CreatorController {
 	@GetMapping(value={"/projects/{pageNo}"})
 	public ResponseEntity<PageDTO<ProjectDTO>> myProjects(HttpSession session
 			,@PathVariable(name="pageNo") int currentPage){
-		//String loginId = (String)session.getAttribute("loginId");
-		String loginId="t";
-		if(loginId == null) {
-			return new ResponseEntity<PageDTO<ProjectDTO>>(HttpStatus.UNAUTHORIZED);//권한없음
-		}
+		MemberDTO m = (MemberDTO)session.getAttribute("loginInfo");
+		if(m == null) {
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);//401 : 권한없음
+		} 
+		String loginId= m.getMemId();
 		try {
 			int totalCnt = projetService.countMyProjs(loginId);
 			log.info(String.valueOf(totalCnt));
 
 			if(totalCnt==0) {
-				return new ResponseEntity<PageDTO<ProjectDTO>>(HttpStatus.NO_CONTENT);//프로젝트 없음	
+				return new ResponseEntity<>(HttpStatus.NO_CONTENT);//프로젝트 없음	
 			}
 			int totalPage =  (int) Math.ceil(totalCnt/(double)PageDTO.CNT_PER_PAGE);			
 			List<ProjectDTO> list = projetService.findProjsByCrId(loginId,currentPage);
@@ -125,7 +158,7 @@ public class CreatorController {
 				if(now.before(project.getProjStart())) {		//10:현재가 시작일 전 - 진행예정
 					status=10;
 				}else if(now.before(project.getProjEnd())) {	//<현재가 시작일 후 & 종료일 전> - 진행중
-					if(project.getProjQuantity()==project.getProjTargetcnt()){	//19: 조기마감
+					if(project.getProjQuantity()==project.getProjLimitcnt()){	//19: 조기마감
 						status = 19;
 					}else {														
 						if(project.getProjGoals()<25) {
@@ -150,6 +183,7 @@ public class CreatorController {
 			}
 			String url = "http://kkfd.eastus.cloudapp.azure.com:9999/kkfd/creator/projects/";
 			PageDTO<ProjectDTO> pd = new PageDTO<ProjectDTO>(currentPage,totalPage ,list, url);
+			log.info(String.valueOf("성공"));
 
 			return new ResponseEntity<PageDTO<ProjectDTO>>(pd,HttpStatus.OK);//프로젝트 있는경우
 		}catch(FindException e){

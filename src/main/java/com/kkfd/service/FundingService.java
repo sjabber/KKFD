@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.kkfd.dao.FundingDAO;
 import com.kkfd.dto.FundingDTO;
+import com.kkfd.exception.AddException;
 import com.kkfd.exception.FindException;
 import com.kkfd.exception.ModifyException;
 
@@ -14,12 +15,23 @@ import com.kkfd.exception.ModifyException;
 public class FundingService {
 	@Autowired
 	private FundingDAO dao;
-
-	public List<FundingDTO> findFunsByProjNo(int projNo, String loginId) throws FindException {
-		return dao.selectFunsByProjNo(projNo, loginId);
-	}
 	
+	public int addFunding(FundingDTO funding) throws AddException {
+		return dao.insertFunding(funding);
+	}
+
 	public int modifyFuns(List<FundingDTO> list) throws ModifyException {
 		return dao.updateFuns(list);
 	}
+	
+	public List<FundingDTO> findFunsById(String loginId, int term, int state, int page) throws FindException{
+		return dao.selectFunsById(loginId, term, state, page);
+	
+	}
+	
+	public int countMyFunList(String loginId, int term, int state) throws FindException{
+		return dao.countMyFunList(loginId, term,state);
+	}
+	
+	
 }

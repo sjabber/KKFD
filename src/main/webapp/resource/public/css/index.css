@@ -3,59 +3,135 @@
    License: none (public domain)
 */
 
-html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote,
-pre, a, abbr, acronym, address, big,
-cite, code, del, dfn, em, img, ins,
-kbd, q, s, samp, small, strike, strong,
-sub, sup, tt, var, b, u, i, center, dl,
-dt, dd, ol, ul, li, fieldset,
-form, label, legend, table, caption, tbody, tfoot,
-thead, tr, th, td, article, aside, canvas,
-details, embed, figure, figcaption, footer,
-header, hgroup, menu, nav, output, ruby, section,
-summary, time, mark, audio, video {
-    margin: 0;
-    padding: 0;
-    border: 0;
-    font-size: 100%;
-    font: inherit;
-    vertical-align: baseline;
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
 }
 
 /* HTML5 display-role reset for older browsers */
-article, aside, details,
-figcaption, figure, footer,
-header, hgroup, menu,
-nav, section {
-    display: block;
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  display: block;
 }
 
 body {
-    line-height: 1;
+  line-height: 1;
 }
 
 ol,
 ul {
-    list-style: none;
+  list-style: none;
 }
 
 blockquote,
 q {
-    quotes: none;
+  quotes: none;
 }
 
 blockquote:before,
 blockquote:after,
 q:before,
 q:after {
-    content: "";
-    content: none;
+  content: "";
+  content: none;
 }
 
 table {
-    border-collapse: collapse;
-    border-spacing: 0;
+  border-collapse: collapse;
+  border-spacing: 0;
 }
 
 /* header */
@@ -144,93 +220,102 @@ table {
 
 /* 메인 */
 .main_ad {
-    width: 1032px;
-    height: 400px;
-    background-color: gainsboro;
-    margin: 0 auto;
+  width: 1032px;
+  height: 400px;
+  background-color: gainsboro;
+  margin: 0 auto;
 }
 
 .bp-hs {
-    width: 1032px;
-    height: 400px;
-    background-color: gainsboro;
-    margin: 0 auto;
+  width: 1032px;
+  height: 400px;
+  background-color: gainsboro;
+  margin: 0 auto;
 }
 
 .main_project_focus {
-    width: 1032px;
-    margin: 0 auto;
+  width: 1032px;
+  margin: 0 auto;
 }
 
 .focus_title {
-    margin-top: 20px;
-    margin-bottom: 20px;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 .focus_title_item {
-    font-size: 20px;
-    font-weight: 600;
+  font-size: 20px;
+  font-weight: 600;
 }
 
 .focus_item_img_item {
-    width: 250px;
-    height: 200px;
+  width: 250px;
+  height: 200px;
 }
 
 .focus_item_warp {
-    display: flex;
-    flex-wrap: wrap;
-    width: 1032px;
+  display: flex;
+  flex-wrap: wrap;
+  width: 1032px;
 }
 
 .focus_item {
-    margin-left: 4px;
-    margin-right: 4px;
-    padding-bottom: 36px !important;
+  margin-left: 4px;
+  margin-right: 4px;
+  padding-bottom: 36px !important;
 }
 
 .focus_item_category {
-    width: 250px;
-    display: flex;
-    justify-content: space-between;
-    margin-top: 10px;
-    font-size: 12px;
-    color: gray;
-    align-items: center;
-    margin-bottom: 10px;
+  width: 250px;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  font-size: 12px;
+  color: gray;
+  align-items: center;
+  margin-bottom: 10px;
 }
 
 .category_bookmark {
-    font-size: 16px;
+  font-size: 16px;
 }
 
 .category_bookmark_btn {
-    background-color: white;
-    border: none;
+  background-color: white;
+  border: none;
 }
 
 .focus_item_title {
-    width: 220px;
-    height: 30px;
-    margin-bottom: 10px;
+  width: 220px;
+  height: 30px;
+  margin-bottom: 10px;
 }
 
 .focus_item_purpose {
-    color: red;
-    font-weight: 600;
-    padding-top: 10px;
+  color: red;
+  font-weight: 600;
+  padding-top: 10px;
 }
 
 .term {
-    color: black;
-    float: right;
-    font-size: 13px;
-    font-weight: 600;
-    padding-top: 6px;
+  color: black;
+  float: right;
+  font-size: 13px;
+  font-weight: 600;
+  padding-top: 6px;
 }
 
 .sub_ad_item {
-    width: 1032px;
+  width: 1032px;
+}
+
+.info_btn {
+  color: black;
+  text-decoration: none;
+}
+
+.focus_item_title_value {
+  font-size: 14.5px;
 }
 
 /* footer */

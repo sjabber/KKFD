@@ -1,215 +1,261 @@
 <!DOCTYPE html>
 <html lang="ko">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" type="text/css" href="/css/info.css" />
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We"
-      crossorigin="anonymous"
-    />
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
-      crossorigin="anonymous"
-    ></script>
-    <title>프로젝트 상세</title>
-    <script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script>
-      function searchParam(key) {
-        return new URLSearchParams(location.search).get(key);
-      }
 
-      function numberWithCommas(x) {
-        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-      }
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" type="text/css" href="/css/info.css" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous" />
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
+          crossorigin="anonymous"></script>
+  <title>프로젝트 상세</title>
+  <script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script>
+    function goBack() {
+      window.history.back();
+    }
 
-      function dayBetween(startDay, endDay) {
-        var termMiliSec = endDay.getTime() - startDay.getTime();
-        var term = termMiliSec / (60 * 1000 * 60 * 24);
-        return Math.ceil(term);
-      }
-    </script>
+    function searchParam(key) {
+      return new URLSearchParams(location.search).get(key);
+    }
 
-    <script>
-      $(function () {
-        const URLSearch = new URLSearchParams(location.search);
-        var no = searchParam("no");
-        console.log(no);
-        var backurl = "http://kkfd.eastus.cloudapp.azure.com:9999/kkfd/project/" + no;
-        $.ajax({
-          method: "GET",
-          transformRequest: [null],
-          transformResponse: [null],
-          jsonpCallbackParam: "callback",
-          url: backurl,
-          headers: {
-            Accept: "application/json, text/plain, */*",
+    function numberWithCommas(x) {
+      return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+
+    function dayBetween(startDay, endDay) {
+      var termMiliSec = endDay.getTime() - startDay.getTime();
+      var term = termMiliSec / (60 * 1000 * 60 * 24);
+      return Math.ceil(term);
+    }
+  </script>
+
+  <script>
+    $(function () {
+      const URLSearch = new URLSearchParams(location.search);
+      var no = searchParam("no");
+      console.log(no);
+      var backurl = "http://kkfd.eastus.cloudapp.azure.com:9999/kkfd/project/" + no;
+      $.ajax({
+        method: "GET",
+        transformRequest: [null],
+        transformResponse: [null],
+        jsonpCallbackParam: "callback",
+        xhrFields: { withCredentials: true },
+        url: backurl,
+        headers: {
+          Accept: "application/json, text/plain, */*",
+        },
+        timeout: {},
+        statusCode: {
+          204: function () {
+            alert("없는 프로젝트입니다");
+            goBack();
           },
-          timeout: {},
-          success: function (responseData) {
-            $(responseData).each(function (i, e) {
-              var projNo = e.projNo;
-              var projTitle = e.projTitle;
-              var crId = e.creator.crId;
-              var crNn = e.creator.crNn;
-              var crIntro = e.creator.crIntro;
-              var projIntro = e.projIntro;
-              var projFm = e.projFm;
-              var projTargetcnt = e.projTargetcnt;
-              var projLimitcnt = e.projLimitcnt;
-              var projQuantity = e.projQuantity;
-              var projGoals = e.projGoals;
-              var projStart = e.projStart;
-              var projEnd = e.projEnd;
-              var projBm = e.projBm;
-              var sum = projFm * projQuantity;
-              $("div.proj_title").html(projTitle);
-              $("div.creator_profile_img>img").attr(
-                "src",
-                "/img/creator/" + crId + ".png"
-              );
-              $("div.creator_name>span").html(crNn);
-              $("span.sum").html(numberWithCommas(sum));
-              $("span.pct").html(projGoals + "%");
-              $("span.start").html(projStart);
-              $("span.end").html(projEnd);
-              $("span.quantity").html(projQuantity);
-              $("span.limit").html(projLimitcnt);
-              $("span.fm").html(numberWithCommas(projFm));
-              $("span.target_cnt_fm").html(
-                numberWithCommas(projTargetcnt * projFm)
-              );
-              $("div.represent_img>img.represent_img").attr(
-                "src",
-                "/img/" + no + "_0.png"
-              );
-              $("div.mid_img_1>img.mid_imgss_1").attr(
-                "src",
-                "/img/" + no + "_1.png"
-              );
-              $("div.mid_img_2>img.mid_imgss_2").attr(
-                "src",
-                "/img/" + no + "_2.png"
-              );
-              $("div.mid_img_3>img.mid_imgss_3").attr(
-                "src",
-                "/img/" + no + "_3.png"
-              );
-              $("div.mid_img_4>img.mid_imgss_4").attr(
-                "src",
-                "/img/" + no + "_4.png"
-              );
-              $("textarea.content").html(projIntro);
-              $("div.mid_creator_profile_img>img.mid_creator_profile_img").attr(
-                "src",
-                "/img/creator/" + crId + ".png"
-              );
-              $("div.mid_creator_info span").html(crNn);
-              $("div.mid_creator_intro").html(crIntro);
-
-              var now = new Date();
-              var start = new Date(projStart);
-              var end = new Date(projEnd);
-              if (
-                end.getTime() > now.getTime() &&
-                now.getTime() > start.getTime() &&
-                projQuantity < projLimitcnt
-              ) {
-                $("#go_to_apply_btn")
-                  .html("펀딩 신청")
-                  .attr(
-                    "onclick",
-                    "location.href='/project/apply?no=" + no + "'"
-                  );
-                $("#go_to_apply_btn").attr("disabled", false).show();
-              } else {
-                $("#go_to_apply_btn")
-                  .html("신청 불가")
-                  .attr("disabled", true)
-                  .show();
-              }
-              // else {
-              //   if (projQuantity < projLimitcnt) {
-              //     $("#go_to_apply_btn").attr(
-              //       "onclick",
-              //       "location.href='/project/apply?no=" + no + "'"
-              //     );
-              //   } else {
-              //     $("#go_to_apply_btn")
-              //       .attr("disabled", true)
-              //       .html("신청 불가");
-              //   }
-              // }
-
-              // if(projBm==0) {
-              //   $('#bm_btn').removeClass("btn btn-outline-primary btn-lg");
-              //   $('#bm_btn').addClass("btn btn-primary btn-lg");
-              // }
-
-              if (projBm == 1) {
-                $("#bm_icon").removeClass("far fa-bookmark");
-                $("#bm_icon").addClass("fas fa-bookmark");
-              }
-
-              $("#bm_btn").click(function () {
-                //ajax 북마크 추가/삭제
-                if (projBm == 0) {
-                  $("#bm_icon").removeClass("far fa-bookmark");
-                  $("#bm_icon").addClass("fas fa-bookmark");
-                }
-                if (projBm == 1) {
-                  $("#bm_icon").removeClass("fas fa-bookmark");
-                  $("#bm_icon").addClass("far fa-bookmark");
-                }
-              });
-            });
+          500: function () {
+            alert("서버 에러, 관리자에게 문의해주세요");
+            goBack();
           },
-          error: function (jqXHR, textStatus) {
-            /*에러 처리 더 찾아보기
-            if (jqXHR.status == 401) {
-              window.location.href = "/login/page";
-            } else if (jqXHR.status == 500 && jqXHR.responseText.indexOf("ConstraintViolationException")) {
-              alert("중복된 값(영문약어,단어명or용어명..)이 있습니다. 검색 후 등록하세요.");
-            } else {
-              alert("시스템 오류입니다. 잠시 후 다시 접속하시기 바랍니다. [ message: " + jqXHR.responseText + "\error:" + textStatus + "]");
+        },
+        success: function (responseData) {
+          $(responseData).each(function (i, e) {
+            var projNo = e.projNo;
+            var projTitle = e.projTitle;
+            var crId = e.creator.crId;
+            var crNn = e.creator.crNn;
+            var crIntro = e.creator.crIntro;
+            var projIntro = e.projIntro;
+            var projFm = e.projFm;
+            var projTargetcnt = e.projTargetcnt;
+            var projLimitcnt = e.projLimitcnt;
+            var projQuantity = e.projQuantity;
+            var projGoals = e.projGoals;
+            var projStart = e.projStart;
+            var projEnd = e.projEnd;
+            var projBm = e.projBm;
+            var projStatus = e.projStatus;
+            var sum = projFm * projQuantity;
+            $("div.proj_title").html(projTitle);
+            $("div.creator_profile_img>img")
+                    .attr("src", "/img/profile/" + crId + ".png")
+                    .attr("onerror", "this.src='/img/profile/" + crId + ".jpg';");
+            $("div.creator_name>span").html(crNn);
+            $("span.sum").html(numberWithCommas(sum));
+            $("span.pct").html(projGoals + "%");
+            $("span.start").html(projStart);
+            $("span.end").html(projEnd);
+            $("span.quantity").html(projQuantity);
+            $("span.limit").html(projLimitcnt);
+            $("span.fm").html(numberWithCommas(projFm));
+            $("span.target_cnt_fm").html(
+                    numberWithCommas(projTargetcnt * projFm)
+            );
+            $("div.represent_img>img.represent_img")
+                    .attr("src", "/img/project/" + no + "/" + no + "_t.png")
+                    .attr(
+                            "onerror",
+                            "this.src='/img/project/" + no + "/" + no + "_t.jpg';"
+                    );
+            for (var i = 1; i < 5; i++) {
+              $("div.mid_img_" + i + ">img.mid_imgss_" + i)
+                      .attr(
+                              "src",
+                              "/img/project/" + no + "/" + no + "_" + i + ".png"
+                      )
+                      .attr(
+                              "onerror",
+                              "this.src='/img/project/" +
+                              no +
+                              "/" +
+                              no +
+                              "_" +
+                              i +
+                              ".jpg';"
+                      );
             }
-            */
-          },
-        });
+            $("textarea.content").html(projIntro);
+            $("div.mid_creator_profile_img>img.mid_creator_profile_img")
+                    .attr("src", "/img/profile/" + crId + ".png")
+                    .attr("onerror", "this.src='/img/profile/" + crId + ".jpg';");
+            $("div.mid_creator_info span").html(crNn);
+            $("div.mid_creator_intro").html(crIntro);
 
-        var $divObj = $("div.prev_proj_wrap");
-        var divHtml = "";
-        var backurl2 = "";
-        $.ajax({
-          method: "GET",
-          transformRequest: [null],
-          transformResponse: [null],
-          jsonpCallbackParam: "callback",
-          url: "http://kkfd.eastus.cloudapp.azure.com:9999/kkfd/project/" + no + "/history",
-          headers: {
-            Accept: "application/json, text/plain, */*",
-          },
-          data: "",
-          timeout: {},
-          success: function (responseData) {
+            var now = new Date();
+            var start = new Date(projStart);
+            var end = new Date(projEnd);
+            if (
+                    end.getTime() > now.getTime() &&
+                    now.getTime() > start.getTime() &&
+                    projQuantity < projLimitcnt &&
+                    projStatus == 1
+            ) {
+              $("#go_to_apply_btn")
+                      .html("펀딩 신청")
+                      .attr(
+                              "onclick",
+                              "location.href='/project/apply?no=" + no + "'"
+                      );
+              $("#go_to_apply_btn").attr("disabled", false).show();
+            } else {
+              $("#go_to_apply_btn")
+                      .html("신청 불가")
+                      .attr("disabled", true)
+                      .show();
+            }
+
+            if (projBm == 1) {
+              $("#bm_btn").removeClass("off");
+              $("#bm_icon").removeClass("far fa-bookmark");
+              $("#bm_icon").addClass("fas fa-bookmark");
+            }
+
+            $("#bm_btn").click(function () {
+              if ($(this).hasClass("off")) {
+                console.log("if");
+                $.ajax({
+                  url:
+                          "http://kkfd.eastus.cloudapp.azure.com:9999/kkfd/project/" +
+                          projNo +
+                          "/bookmark",
+                  method: "POST",
+                  transformRequest: [null],
+                  transformResponse: [null],
+                  jsonpCallbackParam: "callback",
+                  xhrFields: { withCredentials: true },
+                  headers: {
+                    Accept: "application/json, text/plain, */*",
+                    "Content-Type": "application/json;charset=utf-8",
+                  },
+                  data: '{ "projNo":"' + projNo + '" }',
+                  timeout: {},
+                  success: function (responseData) {
+                    alert("북마크에 추가되었습니다");
+                    $("#bm_icon").removeClass("far fa-bookmark");
+                    $("#bm_icon").addClass("fas fa-bookmark");
+                  },
+                  error: function (jqXHR) {
+                    alert("로그인하세요");
+                  },
+                });
+              } else {
+                console.log("else");
+                $.ajax({
+                  url:
+                          "http://kkfd.eastus.cloudapp.azure.com:9999/kkfd/project/" +
+                          projNo +
+                          "/bookmark",
+                  method: "DELETE",
+                  transformRequest: [null],
+                  transformResponse: [null],
+                  jsonpCallbackParam: "callback",
+                  xhrFields: { withCredentials: true },
+                  headers: {
+                    Accept: "application/json, text/plain, */*",
+                    "Content-Type": "application/json;charset=utf-8",
+                  },
+                  data: '{ "projNo":"' + projNo + '" }',
+                  timeout: {},
+                  success: function (responseData) {
+                    alert("북마크에서 삭제되었습니다");
+                    $("#bm_icon").removeClass("fas fa-bookmark");
+                    $("#bm_icon").addClass("far fa-bookmark");
+                  },
+                  error: function (jqXHR) {
+                    alert("로그인하세요");
+                  },
+                });
+              }
+              $(this).toggleClass("off");
+            });
+          });
+        },
+        error: function (jqXHR, textStatus) { },
+      });
+
+      var $divObj = $("div.prev_proj_wrap");
+      var $divObj2 = $("div.test");
+      var divHtml = "";
+      var backurl2 = "";
+      $.ajax({
+        method: "GET",
+        transformRequest: [null],
+        transformResponse: [null],
+        jsonpCallbackParam: "callback",
+        url: "http://kkfd.eastus.cloudapp.azure.com:9999/kkfd/project/" + no + "/history",
+        headers: {
+          Accept: "application/json, text/plain, */*",
+        },
+        data: "",
+        timeout: {},
+        success: function (responseData) {
+          if (responseData != "") {
+            divHtml +=
+                    '<div class="mid_creator_top">∴ 크리에이터의 다른 프로젝트</div>';
+            divHtml += '<div class="prev_proj_wrap">';
             $(responseData).each(function (i, e) {
               var prevProjNo = e.projNo;
               var prevProjTitle = e.projTitle;
               var prevProjSummary = e.projSummary;
+
               divHtml += '<div class="prev_proj">';
               divHtml +=
-                '<a class="prev_proj_btn" href="http://kkfd.eastus.cloudapp.azure.com/project/info?no=' +
-                prevProjNo +
-                '">';
+                      '<a class="prev_proj_btn" href="http://localhost/project/info?no=' +
+                      prevProjNo +
+                      '">';
               divHtml += '<div class="prev_proj_img">';
               divHtml +=
-                '<img class="thumbnail_img" src="/img/' +
-                prevProjNo +
-                '_0.PNG" />';
+                      '<img class="thumbnail_img" src="/img/project/' +
+                      prevProjNo +
+                      "/" +
+                      prevProjNo +
+                      '_t.png" onerror="this.src=\'/img/project/' +
+                      prevProjNo +
+                      "/" +
+                      prevProjNo +
+                      "_t.jpg';\" />";
               divHtml += "</div>";
               divHtml += '<div class="prev_proj_info_wrap">';
               divHtml += '<div class="prev_proj_title">';
@@ -222,224 +268,302 @@
               divHtml += "</a>";
               divHtml += "</div>";
             });
-            $divObj.empty();
-            $divObj.html(divHtml);
-          },
-        });
+            divHtml += "</div>";
+            $divObj2.html(divHtml);
+          }
+        },
       });
-    </script>
-  </head>
-  <body>
-    <!-- header -->
-    <header class="main_header">
-      <div class="main_header_warp">
-        <div class="header_menu_warp">
-          <div class="header_projectsearch">
-            <button class="projectsearch_item">
-              <i class="fas fa-align-justify fa-lg"></i>
-              <span class="projectsearch_name">프로젝트 둘러보기</span>
-            </button>
-          </div>
-          <div class="header_projectupload">
-            <a style="text-decoration: none" href="#">
-              <span class="projectupload_name">프로젝트 올리기</span>
-            </a>
-          </div>
-        </div>
-        <div class="header_mainlogo">
-          <a style="text-decoration: none" href="#">
-            <span class="header_mainlogo_item">크크펀딩</span>
+    });
+  </script>
+</head>
+
+<body>
+<!-- header -->
+<header class="main_header">
+  <div class="main_header_warp">
+    <div class="header_menu_warp">
+      <div class="header_projectsearch">
+        <button class="projectsearch_item">
+          <a style="text-decoration: none; color: black" href="/project/list/">
+            <i class="fas fa-align-justify fa-lg"></i>
+            <span class="projectsearch_name">프로젝트 둘러보기</span>
           </a>
-        </div>
-        <div class="header_sub_warp">
-          <div class="header_searchicon">
-            <!-- <i class="fas fa-search fa-lg"></i> -->
+        </button>
+      </div>
+      <div class="header_projectupload">
+        <a style="text-decoration: none" href="/register/registerAgree/">
+          <span class="projectupload_name">프로젝트 올리기</span>
+        </a>
+      </div>
+    </div>
+    <div class="header_mainlogo">
+      <a style="text-decoration: none" href="/">
+        <span class="header_mainlogo_item"><img src="/img/logo.png" alt="" /></span>
+      </a>
+    </div>
+    <div class="header_sub_warp">
+      <div class="header_searchicon">
+        <!-- <i class="fas fa-search fa-lg"></i> -->
+      </div>
+      <div class="header_customer_warp">
+        <button class="header_customer_btn">
+          <div class="header_login&signup">
+              <span class="login_signup_name">
+                <a class="admin-no" href="/member/login">로그인 / 회원가입</a>
+                <a class="admin-yes" href="/member/mypage">마이페이지</a>
+                <a class="admin-yes" href="javascript:Logout()">로그아웃</a>
+              </span>
           </div>
-          <div class="header_customer_warp">
-            <button class="header_customer_btn">
-              <div class="header_login&signup">
-                <span class="login&signup_name">로그인 / 회원가입</span>
-              </div>
-              <div class="header_profile_img">
-                <img class="mid_creator_profile_img" src="" />
-              </div>
+          <!-- <div class="header_profile_img">
+              <img class="mid_creator_profile_img" src="" />
+            </div> -->
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+<!-- section -->
+<section class="main_section">
+  <div class="proj_title_wrap">
+    <div class="proj_title">
+      <!-- 프로젝트 타이틀 -->
+    </div>
+    <div class="creator_profile">
+      <div class="creator_profile_img">
+        <img class="mid_creator_profile_img" src="" />
+        <!-- 크리에이터 프로필 사진 -->
+      </div>
+      <div class="creator_name">
+          <span>
+            <!-- 크리에이터 닉네임 -->
+          </span>
+      </div>
+    </div>
+  </div>
+  <div class="proj_content_wrap">
+    <div class="content_top">
+      <div class="represent_img"><img class="represent_img" src="" /></div>
+      <div class="proj_info">
+        <div class="info_wrap">
+          <div class="first_area">모인금액</div>
+          <div class="second_area">
+              <span class="sum">
+                <!-- 모인금액 -->
+              </span>
+            <span class="unit">원</span>
+            <span class="pct">
+                <!-- 달성률 -->
+              </span>
+          </div>
+        </div>
+        <div class="info_wrap">
+          <div class="first_area">기간</div>
+          <div class="second_area">
+              <span class="start">
+                <!-- 시작일 -->
+              </span>
+            <span>~</span>
+            <span class="end">
+                <!-- 종료일 -->
+              </span>
+          </div>
+        </div>
+        <div class="info_wrap">
+          <div class="first_area">주문수량 / 제한수량</div>
+          <div class="second_area">
+              <span class="quantity">
+                <!-- 주문수량 -->
+              </span><span class="unit"> 개</span> <span>/</span>
+            <span class="limit">
+                <!-- 제한수량 -->
+              </span><span class="unit"> 개</span>
+          </div>
+        </div>
+        <div class="info_wrap">
+          <div class="first_area">펀딩금액</div>
+          <div class="second_area">
+              <span class="fm">
+                <!-- 펀딩금액 -->
+              </span>
+            <span class="unit">원</span>
+          </div>
+        </div>
+        <div class="info_wrap">
+          <div class="pay_info">
+            <div class="pay_info_top">※결제 정보</div>
+            <div>
+              목표 금액인
+              <span class="target_cnt_fm">
+                  <!-- 목표금액 -->
+                </span>원이
+              모여야만 결제됩니다.
+            </div>
+            <div>
+              결제는 <span class="end">
+                  <!-- 종료일 -->
+                </span>에 다함께
+              진행됩니다.
+            </div>
+          </div>
+        </div>
+        <div class="button_area">
+          <div class="funding_btn">
+            <button class="btn btn-danger btn-lg" id="go_to_apply_btn" style="display: none"></button>
+          </div>
+          <div class="bookmark_btn">
+            <button class="btn btn-outline-primary btn-lg off" id="bm_btn">
+              <i class="far fa-bookmark" id="bm_icon"></i>
             </button>
           </div>
         </div>
       </div>
-    </header>
-    <!-- section -->
-    <section class="main_section">
-      <div class="proj_title_wrap">
-        <div class="proj_title">
-          <!-- 프로젝트 타이틀 -->
+    </div>
+    <br />
+    <hr />
+    <div class="content_mid">
+      <div class="imgs_wrap">
+        <div class="mid_img_1">
+          <img class="mid_imgss_1" src="" />
         </div>
-        <div class="creator_profile">
-          <div class="creator_profile_img">
-            <img class="mid_creator_profile_img" src="" />
-            <!-- 크리에이터 프로필 사진 -->
-          </div>
-          <div class="creator_name">
-            <span><!-- 크리에이터 닉네임 --></span>
-          </div>
+        <div class="mid_img_2">
+          <img class="mid_imgss_2" src="" />
+        </div>
+        <div class="mid_img_3">
+          <img class="mid_imgss_3" src="" />
+        </div>
+        <div class="mid_img_4">
+          <img class="mid_imgss_4" src="" />
         </div>
       </div>
-      <div class="proj_content_wrap">
-        <div class="content_top">
-          <div class="represent_img"><img class="represent_img" src="" /></div>
-          <div class="proj_info">
-            <div class="info_wrap">
-              <div class="first_area">모인금액</div>
-              <div class="second_area">
-                <span class="sum"><!-- 모인금액 --></span>
-                <span class="unit">원</span>
-                <span class="pct"><!-- 달성률 --></span>
-              </div>
+      <div class="creator_info">
+        <div class="mid_creator_top">∴ 크리에이터 소개</div>
+        <div class="mid_creator_profile">
+          <!-- <div class="mid_creator_top">∴ 크리에이터 소개</div> -->
+          <div class="mid_creator_info">
+            <div class="mid_creator_profile_img">
+              <img class="mid_creator_profile_img" src="" />
+              <span>
+                  <!-- 크리에이터 닉네임 -->
+                </span>
             </div>
-            <div class="info_wrap">
-              <div class="first_area">기간</div>
-              <div class="second_area">
-                <span class="start"><!-- 시작일 --></span>
-                <span>~</span>
-                <span class="end"><!-- 종료일 --></span>
-              </div>
-            </div>
-            <div class="info_wrap">
-              <div class="first_area">주문수량 / 제한수량</div>
-              <div class="second_area">
-                <span class="quantity"><!-- 주문수량 --></span
-                ><span class="unit"> 개</span> <span>/</span>
-                <span class="limit"><!-- 제한수량 --></span
-                ><span class="unit"> 개</span>
-              </div>
-            </div>
-            <div class="info_wrap">
-              <div class="first_area">펀딩금액</div>
-              <div class="second_area">
-                <span class="fm"><!-- 펀딩금액 --></span>
-                <span class="unit">원</span>
-              </div>
-            </div>
-            <div class="info_wrap">
-              <div class="pay_info">
-                <div class="pay_info_top">※결제 정보</div>
-                <div>
-                  목표 금액인
-                  <span class="target_cnt_fm"><!-- 목표금액 --></span>원이
-                  모여야만 결제됩니다.
-                </div>
-                <div>
-                  결제는 <span class="end"><!-- 종료일 --></span>에 다함께
-                  진행됩니다.
-                </div>
-              </div>
-            </div>
-            <div class="button_area">
-              <div class="funding_btn">
-                <button
-                  class="btn btn-danger btn-lg"
-                  id="go_to_apply_btn"
-                  style="display: none"
-                ></button>
-              </div>
-              <div class="bookmark_btn">
-                <button class="btn btn-outline-primary btn-lg" id="bm_btn">
-                  <i class="far fa-bookmark" id="bm_icon"></i>
-                </button>
-              </div>
-            </div>
+          </div>
+          <div class="mid_creator_intro">
+            <!-- 크리에이터 소개 -->
           </div>
         </div>
-        <br />
-        <hr />
-        <div class="content_mid">
-          <div class="imgs_wrap">
-            <div class="mid_img_1">
-              <img class="mid_imgss_1" src="" />
-            </div>
-            <div class="mid_img_2">
-              <img class="mid_imgss_2" src="" />
-            </div>
-            <div class="mid_img_3">
-              <img class="mid_imgss_3" src="" />
-            </div>
-            <div class="mid_img_4">
-              <img class="mid_imgss_4" src="" />
-            </div>
-          </div>
-          <div class="creator_info">
-            <div class="mid_creator_top">∴ 크리에이터 소개</div>
-            <div class="mid_creator_profile">
-              <!-- <div class="mid_creator_top">∴ 크리에이터 소개</div> -->
-              <div class="mid_creator_info">
-                <div class="mid_creator_profile_img">
-                  <img class="mid_creator_profile_img" src="" />
-                  <span>
-                    <!-- 크리에이터 닉네임 -->
-                  </span>
-                </div>
-              </div>
-              <div class="mid_creator_intro">
-                <!-- 크리에이터 소개 -->
-              </div>
-            </div>
-            <div class="mid_creator_top">∴ 크리에이터의 다른 프로젝트</div>
-            <div class="prev_proj_wrap">
-              <!-- <div class="mid_creator_top">∴ 크리에이터의 다른 프로젝트</div> -->
-            </div>
-          </div>
+        <div class="test">
+          <!-- <div class="mid_creator_top">∴ 크리에이터의 다른 프로젝트</div>
+            <div class="prev_proj_wrap"></div> -->
+          <!-- <div class="mid_creator_top">∴ 크리에이터의 다른 프로젝트</div> -->
         </div>
-        <div class="content_bottom">
-          <textarea class="content" cols="30" rows="10" readonly>
+      </div>
+    </div>
+    <div class="content_bottom">
+        <textarea class="content" cols="30" rows="10" readonly>
             <!-- 프로젝트 내용 -->
           </textarea>
-        </div>
+    </div>
+  </div>
+</section>
+<footer class="main_footer">
+  <div class="footer_second_warp">
+    <div class="footer_info_warp">
+      <div class="info_first_warp">
+        <span class="info_item1">회사명</span>
+        <span class="info_item2">크크펀딩</span>
+        <span class="info_item1">주소</span>
+        <span class="info_item2">경기도 성남시 분당구 성남대로 34 6층(구미동 하나프라자빌딩)</span>
+        <span class="info_item1">대표</span>
+        <span class="info_item2">오문정</span>
+        <span class="info_item1">사업자등록번호</span>
+        <span class="info_item2">105-87-52823</span>
       </div>
-    </section>
-    <footer class="main_footer">
-      <div class="footer_second_warp">
-        <div class="footer_info_warp">
-          <div class="info_first_warp">
-            <span class="info_item1">회사명</span>
-            <span class="info_item2">크크펀딩</span>
-            <span class="info_item1">주소</span>
-            <span class="info_item2"
-              >경기도 성남시 분당구 성남대로 34 6층(구미동 하나프라자빌딩)</span
-            >
-            <span class="info_item1">대표</span>
-            <span class="info_item2">오문정</span>
-            <span class="info_item1">사업자등록번호</span>
-            <span class="info_item2">105-87-52823</span>
-          </div>
-          <div class="info_second_warp">
-            <span class="info_item1">통신판매업 신고번호</span>
-            <span class="info_item2">2019-3010165-30-2-02129</span>
-            <span class="info_item1">대표번호</span>
-            <span class="info_item2">031-606-9319</span>
-          </div>
-          <div class="info_last_warp">
-            <span class="last_warp_item">© 2021 KKPD Inc.</span>
-          </div>
-        </div>
-        <div class="footer_info_icon">
-          <i class="fab fa-java fa-lg"></i>
-          <i class="fab fa-js fa-lg"></i>
-          <i class="fab fa-html5 fa-lg"></i>
-          <i class="fab fa-css3 fa-lg"></i>
-          <i class="fas fa-user-md fa-lg"></i>
-          <i class="fas fa-head-side-mask fa-lg"></i>
-        </div>
+      <div class="info_second_warp">
+        <span class="info_item1">통신판매업 신고번호</span>
+        <span class="info_item2">2019-3010165-30-2-02129</span>
+        <span class="info_item1">대표번호</span>
+        <span class="info_item2">031-606-9319</span>
       </div>
-      <div class="footer_last_info">
-        <div class="footer_last_info_div">
-          <span class="last_info_item">
-            크크펀딩은 플랫폼 제공자로서 프로젝트의 당사자가 아니며, 직접적인
-            통신판매를 진행하지 않습니다. 프로젝트의 완수 및 선물제공의 책임은
-            해당 프로젝트의 창작자에게 있으며, 프로젝트와 관련하여 후원자와
-            발생하는 법적 분쟁에 대한 책임은 해당 창작자가 부담합니다.
-          </span>
-        </div>
+      <div class="info_last_warp">
+        <span class="last_warp_item">© 2021 KKPD Inc.</span>
       </div>
-    </footer>
-  </body>
+    </div>
+    <div class="footer_info_icon">
+      <i class="fab fa-java fa-lg"></i>
+      <i class="fab fa-js fa-lg"></i>
+      <i class="fab fa-html5 fa-lg"></i>
+      <i class="fab fa-css3 fa-lg"></i>
+      <i class="fas fa-user-md fa-lg"></i>
+      <i class="fas fa-head-side-mask fa-lg"></i>
+    </div>
+  </div>
+  <div class="footer_last_info">
+    <div class="footer_last_info_div">
+        <span class="last_info_item">
+          크크펀딩은 플랫폼 제공자로서 프로젝트의 당사자가 아니며, 직접적인
+          통신판매를 진행하지 않습니다. 프로젝트의 완수 및 선물제공의 책임은
+          해당 프로젝트의 창작자에게 있으며, 프로젝트와 관련하여 후원자와
+          발생하는 법적 분쟁에 대한 책임은 해당 창작자가 부담합니다.
+        </span>
+    </div>
+  </div>
+</footer>
+<script>
+  function logined() {
+    $("span.login_signup_name > a.admin-no").hide();
+    $("span.login_signup_name > a.admin-yes").show();
+  }
+
+  function logouted() {
+    $("span.login_signup_name > a.admin-no").show();
+    $("span.login_signup_name > a.admin-yes").hide();
+  }
+
+  function Logout() {
+    var backurl = "http://kkfd.eastus.cloudapp.azure.com:9999/kkfd/member/logout";
+    $.ajax({
+      url: backurl,
+      method: "get",
+      xhrFields: {
+        withCredentials: true,
+      },
+      success: function () {
+        alert("로그아웃 되었습니다.");
+        logouted();
+        document.location.reload();
+      },
+      error: function (xhr) {
+        alert("로그아웃 에러");
+      },
+    });
+  }
+
+  function checkLogined() {
+    var backurl = "http://kkfd.eastus.cloudapp.azure.com:9999/kkfd/member/logincheck";
+    $.ajax({
+      url: backurl,
+      method: "get",
+      dataType: "json",
+      xhrFields: {
+        withCredentials: true,
+      },
+      statusCode: {
+        204: function () {
+          logouted();
+        },
+      },
+      success: function (result) {
+        logined();
+      },
+      error: function (result) {
+        logouted();
+      },
+    });
+  }
+
+  logouted();
+  checkLogined();
+</script>
+</body>
+
 </html>

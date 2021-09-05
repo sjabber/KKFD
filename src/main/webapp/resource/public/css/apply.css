@@ -215,7 +215,6 @@ nav {
 
 .proj_wrap {
   display: flex;
-  justify-content: right;
   height: 100px;
   margin-top: 30px;
   margin-bottom: 10px;
@@ -409,4 +408,10 @@ nav {
 .last_info_item {
   font-size: 11px;
   color: gray;
+}
+
+.login_signup_name > a {
+  margin-left: 10px;
+  text-decoration: none;
+  color: black;
 }

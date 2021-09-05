@@ -30,7 +30,10 @@ public class MemberDAOOracle implements MemberDAO {
         SqlSession session = null;
         try {
             session = sessionFactory.openSession();
-            session.insert("com.kkfd.dto.MemberMapper.insert", m);
+            int rowCnt = session.insert("com.kkfd.dto.MemberMapper.insert", m);
+            if(rowCnt==0) {
+            	throw new AddException("0");
+            }
         } catch (Exception e) {
             e.printStackTrace();
             throw new AddException(e.getMessage());
@@ -58,8 +61,37 @@ public class MemberDAOOracle implements MemberDAO {
         }
     }
 
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     @Override
     public void update(MemberDTO m) throws ModifyException {
-
+        SqlSession session = null;
+        try {
+            session = sessionFactory.openSession();
+            int rowCnt = session.update("com.kkfd.dto.MemberMapper.update", m);
+            if(rowCnt==0) {
+                throw new ModifyException("0");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new ModifyException(e.getMessage());
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
     }
 }

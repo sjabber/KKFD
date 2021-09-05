@@ -235,6 +235,7 @@ nav {
 
 .main_project_focus {
   width: 1032px;
+  min-height: 1200px;
   margin: 0 auto;
 }
 
@@ -317,6 +318,11 @@ nav {
 .info_btn :hover {
   color: black;
   font-weight: bold;
+}
+
+#no_content_img {
+  padding-top: 182px;
+  padding-left: 182px;
 }
 
 /* .focus_item_title_value :hover {

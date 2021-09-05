@@ -19,6 +19,10 @@
     <script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
+      function goBack() {
+        window.history.back();
+      }
+
       function searchParam(key) {
         return new URLSearchParams(location.search).get(key);
       }
@@ -51,6 +55,16 @@
             Accept: "application/json, text/plain, */*",
           },
           timeout: {},
+          statusCode: {
+            204: function () {
+              alert("없는 프로젝트입니다");
+              goBack();
+            },
+            500: function () {
+              alert("서버 에러, 관리자에게 문의해주세요");
+              goBack();
+            },
+          },
           success: function (responseData) {
             $(responseData).each(function (i, e) {
               var projNo = e.projNo;
@@ -90,7 +104,6 @@
                   "onerror",
                   "this.src='/img/project/" + no + "/" + no + "_t.jpg';"
                 );
-              // divHtml += '<img class="focus_item_img_item" src="/img/project/' + projNo + '/' + projNo + '_t.png" onerror="this.src=\'/img/project/' + projNo + '/' + projNo + '_t.jpg\';" />';
               for (var i = 1; i < 5; i++) {
                 $("div.mid_img_" + i + ">img.mid_imgss_" + i)
                   .attr(
@@ -137,23 +150,6 @@
                   .attr("disabled", true)
                   .show();
               }
-              // else {
-              //   if (projQuantity < projLimitcnt) {
-              //     $("#go_to_apply_btn").attr(
-              //       "onclick",
-              //       "location.href='/project/apply?no=" + no + "'"
-              //     );
-              //   } else {
-              //     $("#go_to_apply_btn")
-              //       .attr("disabled", true)
-              //       .html("신청 불가");
-              //   }
-              // }
-
-              // if(projBm==0) {
-              //   $('#bm_btn').removeClass("btn btn-outline-primary btn-lg");
-              //   $('#bm_btn').addClass("btn btn-primary btn-lg");
-              // }
 
               if (projBm == 1) {
                 $("#bm_btn").removeClass("off");
@@ -162,7 +158,6 @@
               }
 
               $("#bm_btn").click(function () {
-                //ajax 북마크 추가/삭제
                 if ($(this).hasClass("off")) {
                   console.log("if");
                   $.ajax({
@@ -187,7 +182,7 @@
                       $("#bm_icon").addClass("fas fa-bookmark");
                     },
                     error: function (jqXHR) {
-                      alert("로그인하세요"); //404, 403, 500
+                      alert("로그인하세요");
                     },
                   });
                 } else {
@@ -214,7 +209,7 @@
                       $("#bm_icon").addClass("far fa-bookmark");
                     },
                     error: function (jqXHR) {
-                      alert("로그인하세요"); //404, 403, 500
+                      alert("로그인하세요");
                     },
                   });
                 }
@@ -222,17 +217,7 @@
               });
             });
           },
-          error: function (jqXHR, textStatus) {
-            /*에러 처리 더 찾아보기
-            if (jqXHR.status == 401) {
-              window.location.href = "/login/page";
-            } else if (jqXHR.status == 500 && jqXHR.responseText.indexOf("ConstraintViolationException")) {
-              alert("중복된 값(영문약어,단어명or용어명..)이 있습니다. 검색 후 등록하세요.");
-            } else {
-              alert("시스템 오류입니다. 잠시 후 다시 접속하시기 바랍니다. [ message: " + jqXHR.responseText + "\error:" + textStatus + "]");
-            }
-            */
-          },
+          error: function (jqXHR, textStatus) {},
         });
 
         var $divObj = $("div.prev_proj_wrap");
@@ -257,7 +242,6 @@
               divHtml += '<div class="prev_proj_wrap">';
               $(responseData).each(function (i, e) {
                 var prevProjNo = e.projNo;
-                //alert(prevProjNo);
                 var prevProjTitle = e.projTitle;
                 var prevProjSummary = e.projSummary;
 
@@ -267,7 +251,6 @@
                   prevProjNo +
                   '">';
                 divHtml += '<div class="prev_proj_img">';
-                // divHtml += '<img class="thumbnail_img" src="/img/project/' + prevProjNo + "/" + prevProjNo + '_t.PNG" />';
                 divHtml +=
                   '<img class="thumbnail_img" src="/img/project/' +
                   prevProjNo +
@@ -291,7 +274,6 @@
                 divHtml += "</div>";
               });
               divHtml += "</div>";
-              //$divObj.empty();
               $divObj2.html(divHtml);
             }
           },

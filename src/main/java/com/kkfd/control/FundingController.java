@@ -48,7 +48,7 @@ public class FundingController {
 	public ResponseEntity<String> insertFunding (HttpSession session, @RequestBody FundingDTO funding) {
 		MemberDTO m = (MemberDTO)session.getAttribute("loginInfo");
 		if(m == null) { //로그인 안된 경우
-			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		} else {
 			try {
 				funding.setMember(m);

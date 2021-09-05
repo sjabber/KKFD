@@ -38,16 +38,8 @@ public class ProjectController {
 	private ServletContext servletContext;
 	
 	Logger log = LoggerFactory.getLogger(this.getClass());
-	/*
-	 * 이벤트1 : 카테고리,정렬기준,상태,달성률 select값이 달라지면
-	 * 이벤트2 : 스크롤을 내리면
-	 * 이벤트3 : 검색버튼을 누르면
-	 *      이벤트 3-1 : 검색버튼을 누른 후 카테고리 바꾸면 검색+카테고리
-	 */
 	@GetMapping(value={"/list/{page}"})
 	public ResponseEntity<List<ProjectDTO>> projList(HttpSession session,SearchDTO search, @PathVariable int page) {
-//		String loginId = (String)session.getAttribute("loginId");
-		
 		MemberDTO m = (MemberDTO)session.getAttribute("loginInfo");
 		if(m == null) {
 			search.setId(null);
@@ -58,7 +50,6 @@ public class ProjectController {
 		try {
 			List<ProjectDTO> list = new ArrayList<ProjectDTO>();
 			list = service.findProjs(search);
-			//이미지 확장자 확인(.jpg, .png)후 실제 파일이름.확장자 반환
 			String imgPath = servletContext.getRealPath("resource/public/img/project");
 			String[] extension = {"jpg","png"};
 			String imgDir =  "";
@@ -83,14 +74,9 @@ public class ProjectController {
 			if(list.size() == 0) {
 				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 			}
-			/* 1.load시 요청  : list/?p=1
-			 * 2.카테고리,진행상태,달성률,정렬 	: /list/?p=1&category=1&state=2&goal=3&order=date>
-			 * 3.카테고리,진행상태,달성률,정렬+단어	: /list?p=1&category=0&state=0&goal=0&order=b&word=word
-			 */
-			return new ResponseEntity<>(list,null,HttpStatus.OK);//응답 변경	
-			//html에서 if(list==null) 목록이 존재하지 않습니다.
+			return new ResponseEntity<>(list,null,HttpStatus.OK);
 		}catch(FindException e){
-			return new ResponseEntity<>(HttpStatus.BAD_GATEWAY);//응답 변경	   
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);	   
 		}
 	}
 
@@ -105,10 +91,14 @@ public class ProjectController {
 		}
 		try {
 			ProjectDTO project = service.findByNo(no, loginId);
-			return new ResponseEntity<ProjectDTO>(project, HttpStatus.OK);
+			if(project == null) {
+				return new ResponseEntity<ProjectDTO>(project, HttpStatus.NO_CONTENT);
+			} else {
+				return new ResponseEntity<ProjectDTO>(project, HttpStatus.OK);
+			}
 		} catch (FindException e) {
 			e.printStackTrace();
-			return new ResponseEntity<>(HttpStatus.BAD_GATEWAY);
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -119,17 +109,16 @@ public class ProjectController {
 			return new ResponseEntity<List<ProjectDTO>>(list, HttpStatus.OK);
 		} catch (FindException e) {
 			e.printStackTrace();
-			return new ResponseEntity<>(HttpStatus.BAD_GATEWAY);
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 	
 	@PostMapping(value={"/{no}/bookmark"})
 	public ResponseEntity<?> addbookmark(HttpSession session, @PathVariable int no) {
-		//String loginId = (String)session.getAttribute("loginId");
 		MemberDTO m = (MemberDTO)session.getAttribute("loginInfo");
 		String loginId;
 		if(m == null) {
-			return new ResponseEntity<>(HttpStatus.BAD_GATEWAY);
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		} else {
 			loginId = m.getMemId();
 			try {
@@ -137,7 +126,7 @@ public class ProjectController {
 				return new ResponseEntity<>(HttpStatus.OK);
 			} catch (AddException e) {
 				e.printStackTrace();
-				return new ResponseEntity<>(HttpStatus.BAD_GATEWAY);
+				return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 			}
 		}
 	}
@@ -147,7 +136,7 @@ public class ProjectController {
 		String loginId;
 		MemberDTO m = (MemberDTO)session.getAttribute("loginInfo");
 		if(m == null) {
-			return new ResponseEntity<>(HttpStatus.BAD_GATEWAY);
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		} else {
 			loginId = m.getMemId();
 			try {
@@ -155,7 +144,7 @@ public class ProjectController {
 				return new ResponseEntity<>(HttpStatus.OK);
 			} catch (RemoveException e) {
 				e.printStackTrace();
-				return new ResponseEntity<>(HttpStatus.BAD_GATEWAY);
+				return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 			}
 		}
 	}
@@ -166,13 +155,12 @@ public class ProjectController {
 		String loginId;
 		MemberDTO m = (MemberDTO)session.getAttribute("loginInfo");
 		if(m == null) {
-			return new ResponseEntity<>(HttpStatus.BAD_GATEWAY);
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		} else {
 			loginId = m.getMemId();
 			try {
 				List<ProjectDTO> list = new ArrayList<ProjectDTO>();
 				list = service.findMyBookmark(loginId, page);
-				//이미지 확장자 확인(.jpg, .png)후 실제 파일이름.확장자 반환
 				String imgPath = servletContext.getRealPath("resource/public/img/project");
 				String[] extension = {"jpg","png"};
 				String imgDir =  "";
@@ -190,10 +178,9 @@ public class ProjectController {
 				}
 				return new ResponseEntity<>(list,null,HttpStatus.OK);
 			}catch(FindException e){
-				return new ResponseEntity<>(HttpStatus.BAD_GATEWAY);  
+				return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);  
 			}
 		}
 	}
-
+	
 }
-

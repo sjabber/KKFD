@@ -23,13 +23,13 @@ public class ProjectDTO {
 	 -펀딩테이블 한 행 추가될때 UPDATE SET 수량 = 수량+신청갯수 / 달성률 = ((수량/목표갯수)*100 반올림
 	*/
 
-	//@JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
+	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
 	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date projStart;
-	//@JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
+	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
 	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date projEnd;
-	//@JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
+	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
 	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date projDelivery;
 	private int projBmcnt;	

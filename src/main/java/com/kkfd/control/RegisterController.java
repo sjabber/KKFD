@@ -78,9 +78,10 @@ public class RegisterController {
                 }
 
                 //Note, 창작자 프로필 사진 갱신 OR 저장
-                String uploadPath = servletContext.getRealPath("resource/public/img/profile/" + m.getMemId());
+//                String uploadPath = servletContext.getRealPath("resource/public/img/profile/" + m.getMemId());
+                String uploadPath = servletContext.getRealPath("resource/public/img/profile/");
                 // 사진이 올바르게 저장되지 않을 경우 에러를 반환한다.
-                if (!SaveImg(uploadPath, profile, m.getMemId())) {
+                if (!SaveImg(uploadPath, profile, m.getMemId(), false)) {
                     File folder = new File(uploadPath);
                     folder.delete(); // 대상폴더 삭제
                     responseEntity = new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -102,7 +103,7 @@ public class RegisterController {
                 uploadPath = servletContext.getRealPath("resource/public/img/project/" + project.getProjNo());
 
                 // 이미지 파일 저장
-                if (SaveImg(uploadPath, thumbnail, String.valueOf(project.getProjNo())) && SaveImgs(uploadPath, details, project.getProjNo())) {
+                if (SaveImg(uploadPath, thumbnail, String.valueOf(project.getProjNo()), true) && SaveImgs(uploadPath, details, project.getProjNo())) {
                     responseEntity = new ResponseEntity(HttpStatus.OK);
                     return responseEntity;
                 } else {
@@ -120,7 +121,7 @@ public class RegisterController {
         }
     }
 
-    public boolean SaveImg(String uploadPath, MultipartFile file, String id) {
+    public boolean SaveImg(String uploadPath, MultipartFile file, String id, boolean choice) {
         // 경로생성
         if (!new File(uploadPath).exists()) {
             log.info("업로드 실제경로 생성");
@@ -133,9 +134,15 @@ public class RegisterController {
 
         // 업로드한 파일 검증 로직
         if (!"".equals(FileName) && file.getSize() != 0) {
-            System.out.println("thumbnail 파일크기 : " + file.getSize() + ", 파일이름 : " + FileName);
-
-            File realfile = new File(uploadPath, id + "." + FileExtention);
+            //System.out.println("thumbnail 파일크기 : " + file.getSize() + ", 파일이름 : " + FileName);
+            File realfile;
+            if (choice == true) {
+                // 섬네일
+                realfile = new File(uploadPath, id + "_t." + FileExtention);
+            } else {
+                // 회원 프로필
+                realfile = new File(uploadPath, id + "." + FileExtention);
+            }
             try {
                 FileCopyUtils.copy(file.getBytes(), realfile); // 파일 내용을 복사하여 file에 붙여넣기
                 return true;

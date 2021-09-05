@@ -12,6 +12,11 @@
     VALUES (#{crId}, #{crNn}, #{crIntro}, #{crBank}, #{crAcno}, #{crAcholder})
   </insert>
 
+  <insert id="insertCr2" parameterType="creator">
+    INSERT INTO kk_creator (cr_id, cr_nn, cr_intro, cr_bank, cr_acno, cr_acholder)
+    VALUES (#{crId}, #{crNn}, #{crIntro}, #{crBank}, #{crAcno}, #{crAcholder})
+  </insert>
+
   <update id="updateCr" parameterType="creator">
     UPDATE kk_creator
     <set>

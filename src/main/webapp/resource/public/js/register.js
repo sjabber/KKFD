@@ -331,9 +331,28 @@ function datePickerSet(sDate, eDate, flag) {
             minDate: new Date(),
             onSelect: function () {
                 datePickerSet(sDate, eDate);
+
+                if (eDate.val() !== '') {
+                    var start = new Date(sDate.val());
+                    var end = new Date(eDate.val());
+
+                    var diff = end.getTime() - start.getTime();
+                    diff = diff / (1000*60*60*24);
+
+                    $('div.FundingTerm').html(
+                        '<p>펀딩기간</p>' +
+                        '최대 ' + diff + '일');
+
+                    let dd7 = end.getTime() + (60*60*24*1000) * 7;
+                    let dd8 = end.getTime() + (60*60*24*1000) * 8;
+                    dd7 = new Date(dd7);
+                    dd8 = new Date(dd8);
+
+                    $('li.FundingPlan2 > p').text(getFormatDate(dd7) + ' 일 오후 12시');
+                    $('li.FundingPlan3 > p').text(getFormatDate(dd8) + ' 일 이내 정산');
+                }
             }
         });
-
 
         if (!isValidStr(sDay)) {
             //isValidStr -> true, 값이 없는것 -> false 처리됨
@@ -365,8 +384,41 @@ function datePickerSet(sDate, eDate, flag) {
             autoClose: true,
             onSelect: function () {
                 datePickerSet(sDate, eDate);
+
+                if (sDate.val() !== '') {
+                    var start = new Date(sDate.val());
+                    var end = new Date(eDate.val());
+
+                    console.log(start);
+                    console.log(end);
+
+                    var diff = end.getTime() - start.getTime();
+                    diff = diff / (1000*60*60*24);
+
+                    $('div.FundingTerm').html(
+                        '<p>펀딩기간</p>' +
+                        '최대 ' + diff + '일');
+
+
+                    let dd7 = end.getTime() + (60*60*24*1000) * 7;
+                    let dd8 = end.getTime() + (60*60*24*1000) * 8;
+                    dd7 = new Date(dd7);
+                    dd8 = new Date(dd8);
+
+                    $('li.FundingPlan2 > p').text(getFormatDate(dd7) + ' 일 오후 12시');
+                    $('li.FundingPlan3 > p').text(getFormatDate(dd8) + ' 일 이내 정산');
+                }
             }
         });
+    }
+
+    function getFormatDate(date){
+        var year = date.getFullYear();
+        var month = (1 + date.getMonth());
+        month = month >= 10 ? month : '0' + month;
+        var day = date.getDate();
+        day = day >= 10 ? day : '0' + day;
+        return year + '-' + month + '-' + day;
     }
 
     function isValidStr(str) {
@@ -510,97 +562,133 @@ function RegistProject() {
         }
     }
 
+    var limit = f_limitcnt.val().replace(',','');
+    var target = f_targetcnt.val().replace(',','');
+    limit = Number(limit);
+    target = Number(target);
+
+    if (limit < target) {
+        alert("수량한도(판매 가능한 최대 개수)는 목표개수 이상이어야 합니다.");
+    }
+
+    // formData, 파일 여러개 업로드
+    var formData = new FormData();
+    for(var i = 0; i < document.forms.length; i++) {
+        var form = document.forms[i];
+        var data = new FormData(form);
+        var formValues = data.entries();
+
+        while (!(ent = formValues.next()).done) {
+            if (String(ent.value[0]) === "projFm" || String(ent.value[0]) === "projLimitcnt"
+                || String(ent.value[0]) === "projTargetcnt") {
+                ent.value[1] = uncomma(ent.value[1]);
+            } 
+            formData.append(`${ent.value[0]}`, ent.value[1]);
+        }
+    }
+
+    // form data 항목 출력.
+    formData.forEach(function (value, key) {
+        console.log(key + ":" + value);
+    });
+
     // todo projDelivery (예상 수령일) 날짜 계산되어서 들어가야한다.
     $.ajax({
         url: 'http://localhost:9999/kkfd/project/register',
         method: 'post',
-        // accept: 'application/json', // 멀티파트로 변경한다.
         xhrFields: {
             withCredentials: true
         },
-        //form데이터 객체가 필요하다.
-        //form input tag의 name 속성 => creator.crId
-        //form.serialize();
-        data: JSON.stringify({
-            'projNo': "",
-            "creator":
-                {
-                    "crId": "",
-                    "crNn": c_name.val(),
-                    "crIntro": c_intro.val(),
-                    "crAcholder": c_acholder.val(),
-                    "crBank": c_bank.val(),
-                    "crAcno": c_acno.val()
-                },
-            "projCategory": p_category.val(),
-            "projTitle": p_title.val(),
-            "projSummary": p_summary.val(),
-            "projIntro": p_intro.val(),
-            "projFm": f_fm.val(),
-            "projTargetcnt": f_targetcnt.val(),
-            "projLimitcnt": f_limitcnt.val(),
-            "projQuantity": "",
-            "projGoals": "",
-            "projStart": f_start.val(),
-            "projEnd": f_end.val(),
-            "projDelivery": "",
-            "projBmcnt": "",
-            "projStatus": "",
-            "projBm": ""
-        }),
-        contentType: 'application/json; charset=utf-8',
+        contentType : false,
+        processData: false,
+        data: formData,
         statusCode: {
             401: function () {
-                alert('로그인이 안되어있는 경우 등록 불가!!');
+                alert('로그인해 주세요.');
             },
             500: function () {
-                alert('서버오류 관리자에게 문의해 주세요.');
+                alert('서버에러, 관리자에게 문의해 주세요.');
             }
         },
         success: function (result) {
-            alert('성공적으로 대입됨');
+            alert('프로젝트 등록이 완료되었습니다.');
+            document.location.href = '/';
         },
         error: function (result) {
-            alert('서버에러 발생, 관리자에게 문의해주세요');
+            alert('예상치 못한 문제가 발생했습니다. 관리자에게 문의해 주세요.');
         }
     });
+    return false;
 }
 
-function fileUpload() {
-    $.ajax({
-        type: "POST",
-        enctype: 'multipart/form-data',
-        url: "http://localhost:9999/kkfd/importTargets",
-        data: data,
-        processData: false,
-        contentType: false,
-        async: false,
-        cache: false,
-        timeout: 600000,
-        xhrFields: {
-            withCredentials: true
-        },
-        success: function (result) {
-            // console.log("SUCCESS : ", result.data);
-            alert('전송이 완료되었습니다.');
-            location.reload();
-        },
-        error: function (result) {
-            if (result.status === 500) {
-                alert('서버에러');
-            } else if (r.status === 403) {
-                Refresh();
-                alert("세션 갱신, 다시 클릭해 주세요.");
-            } else if (result.status === 405) {
-                alert("훈련대상은 최대 300명 까지만 등록이 가능합니다. ");
-            } else {
-                alert('파일을 확인해주세요');
-            }
-            // console.log("ERROR : ", result.status);
+function inputNumberFormat(obj) {
+    obj.value = comma(uncomma(obj.value));
+}
+
+function comma(str) {
+    str = String(str);
+    return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+}
+
+function uncomma(str) {
+    str = String(str);
+    return str.replace(/[^\d]+/g, '');
+}
+
+$(function () {
+    var f_fm = $('input#fm');
+    var f_targetcnt = $('input#targetcnt');
+    var f_start = $('input#start_dates');
+    var f_end = $('input#end_dates');
+
+    f_fm.on('keyup', function () {
+        if (f_fm.val() !== '' && f_targetcnt.val() !== '') {
+            var fm = f_fm.val().replace(',', '');
+            var targetcnt = f_targetcnt.val().replace(',', '');
+            fm = parseInt(fm);
+            targetcnt = parseInt(targetcnt);
+
+            var result = (fm * targetcnt);
+            var fee1 = result * 0.03;
+            var fee2 = result * 0.05;
+            var feeTotal = fee1 + fee2;
+
+            $('div.InputWithGoal_Notice > div.totalAmount > em').text(comma(result - feeTotal) + " 원");
+            $('div.InputWithGoal_Notice > div.feewrap1 > em').text(comma(feeTotal) + " 원");
+            $('div.InputWithGoal_Notice > div.feewrap2 > em').text(comma(fee1) + " 원");
+            $('div.InputWithGoal_Notice > div.feewrap3 > em').text(comma(fee2) + " 원");
+        } else if (f_fm.val() === '' || f_targetcnt.val() === '') {
+            $('div.InputWithGoal_Notice > div.totalAmount > em').text("0 원");
+            $('div.InputWithGoal_Notice > div.feewrap1 > em').text("0 원");
+            $('div.InputWithGoal_Notice > div.feewrap2 > em').text("0 원");
+            $('div.InputWithGoal_Notice > div.feewrap3 > em').text("0 원");
         }
     });
-}
 
+    f_targetcnt.on('keyup', function () {
+        if (f_fm.val() !== '' && f_targetcnt.val() !== '') {
+            var fm = f_fm.val().replace(',', '');
+            var targetcnt = f_targetcnt.val().replace(',', '');
+            fm = parseInt(fm);
+            targetcnt = parseInt(targetcnt);
+
+            var result = (fm * targetcnt);
+            var fee1 = result * 0.03;
+            var fee2 = result * 0.05;
+            var feeTotal = fee1 + fee2;
+
+            $('div.InputWithGoal_Notice > div.totalAmount > em').text(comma(result - feeTotal) + " 원");
+            $('div.InputWithGoal_Notice > div.feewrap1 > em').text(comma(feeTotal) + " 원");
+            $('div.InputWithGoal_Notice > div.feewrap2 > em').text(comma(fee1) + " 원");
+            $('div.InputWithGoal_Notice > div.feewrap3 > em').text(comma(fee2) + " 원");
+        } else if (f_fm.val() === '' || f_targetcnt.val() === '') {
+            $('div.InputWithGoal_Notice > div.totalAmount > em').text("0 원");
+            $('div.InputWithGoal_Notice > div.feewrap1 > em').text("0 원");
+            $('div.InputWithGoal_Notice > div.feewrap2 > em').text("0 원");
+            $('div.InputWithGoal_Notice > div.feewrap3 > em').text("0 원");
+        }
+    });
+});
 
 // 섹션 교체 기능
 /*$(function () {

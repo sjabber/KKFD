@@ -1,8 +1,10 @@
 package com.kkfd.control;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kkfd.dto.MemberDTO;
+import com.kkfd.dto.ProjectDTO;
 import com.kkfd.dto.ProjectMainDTO;
 import com.kkfd.exception.FindException;
 import com.kkfd.service.ProjectMainService;
@@ -26,6 +29,9 @@ public class ProjectMainController {
 	private ProjectMainService service;
 	Logger log = LoggerFactory.getLogger(this.getClass());
 	
+	@Autowired
+	private ServletContext servletContext;
+	
 	@GetMapping
 	public ResponseEntity<List<ProjectMainDTO>> mainProjList(HttpSession session) {
 		MemberDTO m = (MemberDTO)session.getAttribute("loginInfo");
@@ -33,6 +39,18 @@ public class ProjectMainController {
 			List<ProjectMainDTO> list = new ArrayList<ProjectMainDTO>();
 			if(m == null) {
 				list = service.findMainProjs();
+				String imgPath = servletContext.getRealPath("resource/public/img/project");
+				String[] extension = {"jpg","png"};
+				String imgDir =  "";
+				for(ProjectMainDTO projectMain : list) {
+					imgDir = imgPath + "/" + projectMain.getProject().getProjNo();
+					for(int i=0;i<extension.length ;i++) {
+						File file = new File(imgDir , projectMain.getProject().getProjNo() + "_t." + extension[i]);
+						if(file.exists()) {
+							projectMain.getProject().setExt(extension[i]);
+						}
+					}
+				}
 				if(list.size() == 0) {
 					return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 				}
@@ -40,6 +58,18 @@ public class ProjectMainController {
 			} else {
 				String id = m.getMemId();
 				list = service.findMainProjs(id);
+				String imgPath = servletContext.getRealPath("resource/public/img/project");
+				String[] extension = {"jpg","png"};
+				String imgDir =  "";
+				for(ProjectMainDTO projectMain : list) {
+					imgDir = imgPath + "/" + projectMain.getProject().getProjNo();
+					for(int i=0;i<extension.length ;i++) {
+						File file = new File(imgDir , projectMain.getProject().getProjNo() + "_t." + extension[i]);
+						if(file.exists()) {
+							projectMain.getProject().setExt(extension[i]);
+						}
+					}
+				}
 				if(list.size() == 0) {
 					return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 				}

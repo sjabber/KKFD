@@ -88,7 +88,7 @@ public class CreatorController {
 		} catch (AddException e) {
 			e.printStackTrace();
 			if(e.getMessage().equals("0")) {
-				return new ResponseEntity(HttpStatus.NOT_FOUND);	//403 : 등록된 행 수 0   
+				return new ResponseEntity(HttpStatus.NOT_FOUND);	//404 : 등록된 행 수 0   
 			}
 			return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);//500 : 서버 내부 문제  
 		}						    
@@ -120,7 +120,7 @@ public class CreatorController {
 		} catch (ModifyException e) {
 			e.printStackTrace();
 			if(e.getMessage().equals("0")) {
-				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);//204 : 수정된 행 수 0   
+				return new ResponseEntity<>(HttpStatus.NOT_FOUND);//404 : 수정된 행 수 0   
 			}
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR); //500 : 서버 내부오류  
 		}						    
@@ -158,7 +158,7 @@ public class CreatorController {
 				if(now.before(project.getProjStart())) {		//10:현재가 시작일 전 - 진행예정
 					status=10;
 				}else if(now.before(project.getProjEnd())) {	//<현재가 시작일 후 & 종료일 전> - 진행중
-					if(project.getProjQuantity()==project.getProjTargetcnt()){	//19: 조기마감
+					if(project.getProjQuantity()==project.getProjLimitcnt()){	//19: 조기마감
 						status = 19;
 					}else {														
 						if(project.getProjGoals()<25) {

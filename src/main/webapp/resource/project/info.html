@@ -19,6 +19,10 @@
     <script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
+      function goBack() {
+        window.history.back();
+      }
+
       function searchParam(key) {
         return new URLSearchParams(location.search).get(key);
       }
@@ -51,6 +55,16 @@
             Accept: "application/json, text/plain, */*",
           },
           timeout: {},
+          statusCode: {
+            204: function () {
+              alert("없는 프로젝트입니다");
+              goBack();
+            },
+            500: function () {
+              alert("서버 에러, 관리자에게 문의해주세요");
+              goBack();
+            },
+          },
           success: function (responseData) {
             $(responseData).each(function (i, e) {
               var projNo = e.projNo;
@@ -70,10 +84,9 @@
               var projStatus = e.projStatus;
               var sum = projFm * projQuantity;
               $("div.proj_title").html(projTitle);
-              $("div.creator_profile_img>img").attr(
-                "src",
-                "/img/profile/" + crId + ".png"
-              );
+              $("div.creator_profile_img>img")
+                .attr("src", "/img/profile/" + crId + ".png")
+                .attr("onerror", "this.src='/img/profile/" + crId + ".jpg';");
               $("div.creator_name>span").html(crNn);
               $("span.sum").html(numberWithCommas(sum));
               $("span.pct").html(projGoals + "%");
@@ -85,31 +98,33 @@
               $("span.target_cnt_fm").html(
                 numberWithCommas(projTargetcnt * projFm)
               );
-              $("div.represent_img>img.represent_img").attr(
-                "src",
-                "/img/project/" + no + "/" + no + "_t.png"
-              );
-              $("div.mid_img_1>img.mid_imgss_1").attr(
-                "src",
-                "/img/project/" + no + "/" + no + "_1.png"
-              );
-              $("div.mid_img_2>img.mid_imgss_2").attr(
-                "src",
-                "/img/project/" + no + "/" + no + "_2.png"
-              );
-              $("div.mid_img_3>img.mid_imgss_3").attr(
-                "src",
-                "/img/project/" + no + "/" + no + "_3.png"
-              );
-              $("div.mid_img_4>img.mid_imgss_4").attr(
-                "src",
-                "/img/project/" + no + "/" + no + "_4.png"
-              );
+              $("div.represent_img>img.represent_img")
+                .attr("src", "/img/project/" + no + "/" + no + "_t.png")
+                .attr(
+                  "onerror",
+                  "this.src='/img/project/" + no + "/" + no + "_t.jpg';"
+                );
+              for (var i = 1; i < 5; i++) {
+                $("div.mid_img_" + i + ">img.mid_imgss_" + i)
+                  .attr(
+                    "src",
+                    "/img/project/" + no + "/" + no + "_" + i + ".png"
+                  )
+                  .attr(
+                    "onerror",
+                    "this.src='/img/project/" +
+                      no +
+                      "/" +
+                      no +
+                      "_" +
+                      i +
+                      ".jpg';"
+                  );
+              }
               $("textarea.content").html(projIntro);
-              $("div.mid_creator_profile_img>img.mid_creator_profile_img").attr(
-                "src",
-                "/img/profile/" + crId + ".png"
-              );
+              $("div.mid_creator_profile_img>img.mid_creator_profile_img")
+                .attr("src", "/img/profile/" + crId + ".png")
+                .attr("onerror", "this.src='/img/profile/" + crId + ".jpg';");
               $("div.mid_creator_info span").html(crNn);
               $("div.mid_creator_intro").html(crIntro);
 
@@ -135,23 +150,6 @@
                   .attr("disabled", true)
                   .show();
               }
-              // else {
-              //   if (projQuantity < projLimitcnt) {
-              //     $("#go_to_apply_btn").attr(
-              //       "onclick",
-              //       "location.href='/project/apply?no=" + no + "'"
-              //     );
-              //   } else {
-              //     $("#go_to_apply_btn")
-              //       .attr("disabled", true)
-              //       .html("신청 불가");
-              //   }
-              // }
-
-              // if(projBm==0) {
-              //   $('#bm_btn').removeClass("btn btn-outline-primary btn-lg");
-              //   $('#bm_btn').addClass("btn btn-primary btn-lg");
-              // }
 
               if (projBm == 1) {
                 $("#bm_btn").removeClass("off");
@@ -160,7 +158,6 @@
               }
 
               $("#bm_btn").click(function () {
-                //ajax 북마크 추가/삭제
                 if ($(this).hasClass("off")) {
                   console.log("if");
                   $.ajax({
@@ -185,7 +182,7 @@
                       $("#bm_icon").addClass("fas fa-bookmark");
                     },
                     error: function (jqXHR) {
-                      alert("로그인하세요"); //404, 403, 500
+                      alert("로그인하세요");
                     },
                   });
                 } else {
@@ -212,7 +209,7 @@
                       $("#bm_icon").addClass("far fa-bookmark");
                     },
                     error: function (jqXHR) {
-                      alert("로그인하세요"); //404, 403, 500
+                      alert("로그인하세요");
                     },
                   });
                 }
@@ -220,17 +217,7 @@
               });
             });
           },
-          error: function (jqXHR, textStatus) {
-            /*에러 처리 더 찾아보기
-            if (jqXHR.status == 401) {
-              window.location.href = "/login/page";
-            } else if (jqXHR.status == 500 && jqXHR.responseText.indexOf("ConstraintViolationException")) {
-              alert("중복된 값(영문약어,단어명or용어명..)이 있습니다. 검색 후 등록하세요.");
-            } else {
-              alert("시스템 오류입니다. 잠시 후 다시 접속하시기 바랍니다. [ message: " + jqXHR.responseText + "\error:" + textStatus + "]");
-            }
-            */
-          },
+          error: function (jqXHR, textStatus) {},
         });
 
         var $divObj = $("div.prev_proj_wrap");
@@ -255,7 +242,6 @@
               divHtml += '<div class="prev_proj_wrap">';
               $(responseData).each(function (i, e) {
                 var prevProjNo = e.projNo;
-                //alert(prevProjNo);
                 var prevProjTitle = e.projTitle;
                 var prevProjSummary = e.projSummary;
 
@@ -270,7 +256,11 @@
                   prevProjNo +
                   "/" +
                   prevProjNo +
-                  '_t.PNG" />';
+                  '_t.png" onerror="this.src=\'/img/project/' +
+                  prevProjNo +
+                  "/" +
+                  prevProjNo +
+                  "_t.jpg';\" />";
                 divHtml += "</div>";
                 divHtml += '<div class="prev_proj_info_wrap">';
                 divHtml += '<div class="prev_proj_title">';
@@ -284,7 +274,6 @@
                 divHtml += "</div>";
               });
               divHtml += "</div>";
-              //$divObj.empty();
               $divObj2.html(divHtml);
             }
           },
@@ -316,7 +305,9 @@
         </div>
         <div class="header_mainlogo">
           <a style="text-decoration: none" href="/">
-            <span class="header_mainlogo_item">크크펀딩</span>
+            <span class="header_mainlogo_item"
+              ><img src="/img/logo.png" alt=""
+            /></span>
           </a>
         </div>
         <div class="header_sub_warp">
@@ -552,6 +543,11 @@
           dataType: "json",
           xhrFields: {
             withCredentials: true,
+          },
+          statusCode: {
+            204: function () {
+              logouted();
+            },
           },
           success: function (result) {
             logined();

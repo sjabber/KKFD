@@ -29,22 +29,25 @@ public class ProjectMainController {
 	@GetMapping
 	public ResponseEntity<List<ProjectMainDTO>> mainProjList(HttpSession session) {
 		MemberDTO m = (MemberDTO)session.getAttribute("loginInfo");
-//		MemberDTO m = new MemberDTO();
-		//m.setMemId("id1");
-//		log.error(m.toString());
 		try {
 			List<ProjectMainDTO> list = new ArrayList<ProjectMainDTO>();
 			if(m == null) {
 				list = service.findMainProjs();
+				if(list.size() == 0) {
+					return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+				}
 				return new ResponseEntity<>(list, HttpStatus.OK);
 			} else {
 				String id = m.getMemId();
 				list = service.findMainProjs(id);
+				if(list.size() == 0) {
+					return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+				}
 				return new ResponseEntity<>(list, HttpStatus.OK);
 			}
 		} catch (FindException e) {
 			e.printStackTrace();
-			return new ResponseEntity<>(HttpStatus.BAD_GATEWAY);
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		
 	}

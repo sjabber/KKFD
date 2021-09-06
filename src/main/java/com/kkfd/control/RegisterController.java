@@ -37,16 +37,15 @@ public class RegisterController {
 
     @PostMapping("/register")
     public ResponseEntity register(@RequestPart MultipartFile thumbnail,
-                         @RequestPart List<MultipartFile> details,
-                         @RequestPart MultipartFile profile,
-                         ProjectDTO project, HttpSession session) {
+                                   @RequestPart List<MultipartFile> details,
+                                   @RequestPart MultipartFile profile,
+                                   ProjectDTO project, HttpSession session) {
         MemberDTO m = (MemberDTO) session.getAttribute("loginInfo");
         ResponseEntity responseEntity;
 
         if (m == null) {
             // 로그인 X
             responseEntity = new ResponseEntity(HttpStatus.UNAUTHORIZED);
-            System.out.println("로그인이 안되어있다.");
             return responseEntity = new ResponseEntity(HttpStatus.UNAUTHORIZED);
 
         } else {
@@ -81,13 +80,18 @@ public class RegisterController {
                 String uploadPath = servletContext.getRealPath("resource/public/img/profile/" + m.getMemId());
 //                String uploadPath = servletContext.getRealPath("resource/public/img/profile/");
                 // 사진이 올바르게 저장되지 않을 경우 에러를 반환한다.
-                if (!SaveImg(uploadPath, profile, m.getMemId(), false)) {
+                if (profile.isEmpty()) {
+                    File f = new File(uploadPath + "/" + m.getMemId() + ".png");
+                    if (!f.exists()) {
+                        responseEntity = new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+                        return responseEntity;
+                    }
+                } else if (!SaveImg(uploadPath, profile, m.getMemId(), false)) {
                     File folder = new File(uploadPath);
                     folder.delete(); // 대상폴더 삭제
                     responseEntity = new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
                     return responseEntity;
                 }
-
                 //Note, 프로젝트 등록
                 creator = project.getCreator();
                 creator.setCrId(m.getMemId());
@@ -100,8 +104,8 @@ public class RegisterController {
                     return responseEntity;
                 }
 
-//                uploadPath = servletContext.getRealPath("resource/public/img/project/" + project.getProjNo());
-                uploadPath = servletContext.getRealPath("img/project/1/");
+                uploadPath = servletContext.getRealPath("resource/public/img/project/" + project.getProjNo());
+//                uploadPath = servletContext.getRealPath("resource/public/img/project/1/");
 
                 // 이미지 파일 저장
                 if (SaveImg(uploadPath, thumbnail, String.valueOf(project.getProjNo()), true) && SaveImgs(uploadPath, details, project.getProjNo())) {

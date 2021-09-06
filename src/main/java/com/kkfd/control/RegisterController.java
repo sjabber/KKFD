@@ -35,26 +35,19 @@ public class RegisterController {
     @Autowired
     private ServletContext servletContext;
 
-    @RestController
-    @RequestMapping("/customers")
-    public class CustomerController {
+    @GetMapping("/test")
+    public void test() {
+        String omjRealPath = servletContext.getRealPath("resource/public/img/profile/");
+        File dir = new File(omjRealPath);
 
-        @GetMapping("/{customerId}")
-        public String getCustomerDetail(@PathVariable String customerId) {
-//		throw new RuntimeException("I/O Exception");
-
-            long milli = 3*1000;
-            try {
-                Thread.sleep(milli);
-            } catch (InterruptedException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-
-            System.out.println("request customerId :" + customerId);
-            return "[Customer id = " + customerId + " at " + System.currentTimeMillis() + "]";
+        System.out.println("=====");
+        File[] list = dir.listFiles();
+        for(File f:list ) {
+            System.out.println(f.getName());
         }
+        System.out.println("=====");
     }
+
 
     @PostMapping("/register")
     public ResponseEntity register(@RequestPart MultipartFile thumbnail,

@@ -1260,3 +1260,5 @@ commit;
 
 
 DELETE FROM kk_project where (28 < proj_no) AND (proj_no < 51);
+DELETE FROM kk_funding where (28 < fun_proj) And (fun_proj < 51);
+DELETE FROM kk_bookmark where (28 < book_proj) AND (book_proj < 51);

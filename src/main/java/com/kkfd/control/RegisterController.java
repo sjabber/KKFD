@@ -35,6 +35,27 @@ public class RegisterController {
     @Autowired
     private ServletContext servletContext;
 
+    @RestController
+    @RequestMapping("/customers")
+    public class CustomerController {
+
+        @GetMapping("/{customerId}")
+        public String getCustomerDetail(@PathVariable String customerId) {
+//		throw new RuntimeException("I/O Exception");
+
+            long milli = 3*1000;
+            try {
+                Thread.sleep(milli);
+            } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+
+            System.out.println("request customerId :" + customerId);
+            return "[Customer id = " + customerId + " at " + System.currentTimeMillis() + "]";
+        }
+    }
+
     @PostMapping("/register")
     public ResponseEntity register(@RequestPart MultipartFile thumbnail,
                          @RequestPart List<MultipartFile> details,

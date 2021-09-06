@@ -98,7 +98,7 @@ public class RegisterController {
                 }
 
                 //Note, 창작자 프로필 사진 갱신 OR 저장
-                String uploadPath = servletContext.getRealPath("/home/KKFD/src/main/webapp/resource/public/img/profile/" + m.getMemId());
+                String uploadPath = servletContext.getRealPath("img/profile/" + m.getMemId());
 //                String uploadPath = servletContext.getRealPath("resource/public/img/profile/");
                 // 사진이 올바르게 저장되지 않을 경우 에러를 반환한다.
                 if (!SaveImg(uploadPath, profile, m.getMemId(), false)) {

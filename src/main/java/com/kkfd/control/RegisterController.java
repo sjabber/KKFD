@@ -100,7 +100,8 @@ public class RegisterController {
                     return responseEntity;
                 }
 
-                uploadPath = servletContext.getRealPath("resource/public/img/project/" + project.getProjNo());
+//                uploadPath = servletContext.getRealPath("resource/public/img/project/" + project.getProjNo());
+                uploadPath = servletContext.getRealPath("img/project/1/");
 
                 // 이미지 파일 저장
                 if (SaveImg(uploadPath, thumbnail, String.valueOf(project.getProjNo()), true) && SaveImgs(uploadPath, details, project.getProjNo())) {

@@ -62,7 +62,7 @@ $(function () {
         var sum = projFm * projQuantity;
         $("div.proj_title").html(projTitle);
         $("div.creator_profile_img>img")
-          .attr("src", "http://kkfd.eastus.cloudapp.azure.com:9999/kkfdhttp://kkfd.eastus.cloudapp.azure.com:9999/kkfd/img/profile/" + crId + "/" + crId + ".png")
+          .attr("src", "http://kkfd.eastus.cloudapp.azure.com:9999/kkfd/img/profile/" + crId + "/" + crId + ".png")
           .attr(
             "onerror",
             "this.src='/img/profile/" + crId + "/" + crId + ".jpg';"

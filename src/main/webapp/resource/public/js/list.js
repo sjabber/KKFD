@@ -33,7 +33,7 @@ $(function () {
           '<a class="info_btn" href="/project/info?no=' + projNo + '">';
         divHtml += '<div class="focus_item_img">';
         divHtml +=
-          '<img class="focus_item_img_item" src="/img/project/' +
+          '<img class="focus_item_img_item" src="http://kkfd.eastus.cloudapp.azure.com:9999/kkfd/img/project/' +
           projNo +
           "/" +
           projNo +
@@ -123,7 +123,7 @@ $(function () {
             '<a class="info_btn" href="/project/info?no=' + projNo + '">';
           divHtml += '<div class="focus_item_img">';
           divHtml +=
-            '<img class="focus_item_img_item" src="/img/project/' +
+            '<img class="focus_item_img_item" src="http://kkfd.eastus.cloudapp.azure.com:9999/kkfd/img/project/' +
             projNo +
             "/" +
             projNo +
@@ -225,7 +225,7 @@ $(function () {
               '<a class="info_btn" href="/project/info?no=' + projNo + '">';
             divHtml += '<div class="focus_item_img">';
             divHtml +=
-              '<img class="focus_item_img_item" src="/img/project/' +
+              '<img class="focus_item_img_item" src="http://kkfd.eastus.cloudapp.azure.com:9999/kkfd/img/project/' +
               projNo +
               "/" +
               projNo +

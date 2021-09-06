@@ -137,35 +137,14 @@ $(document).ready(function () {
     });
 });
 
-//프로필 이미지 미리보기
-$(function () {
-    $('div.profile_upload > input[type=file]').change(function () {
-        /*if ($('img.profile_circle_img').css("display") === "none") {
-            $('div.profile_circle_inner').hide();
-            $('img.profile_circle_img').show();
-        }*/
-
-        if (this.files && this.files[0]) {
-            //이미지 파일 타입인지 검증한다.
-            var f = Array.prototype.slice.call(this.files);
-            if (!f[0].type.match("image.*")) {
-                alert("이미지 파일만 업로드 가능합니다.");
-                return;
-            }
-
-            var reader = new FileReader();
-            reader.onload = function (e) {
-                $('img.profile_circle_img').attr("src", e.target.result);
-            }
-            reader.readAsDataURL(this.files[0]);
-        }
-    });
-});
 
 //프로젝트 대표 이미지 미리보기
 var titleImg = false;
+var detailImg = false;
+var profileImg = false;
 
 $(function () {
+    // Note 대표이미지
     $('#ImageUploader1 > input[type=file]').change(function () {
 
         if (this.files && this.files[0]) {
@@ -187,6 +166,32 @@ $(function () {
     });
 });
 
+//프로필 이미지 미리보기
+$(function () {
+    $('div.profile_upload > input[type=file]').change(function () {
+        /*if ($('img.profile_circle_img').css("display") === "none") {
+            $('div.profile_circle_inner').hide();
+            $('img.profile_circle_img').show();
+        }*/
+
+        if (this.files && this.files[0]) {
+            //이미지 파일 타입인지 검증한다.
+            var f = Array.prototype.slice.call(this.files);
+            if (!f[0].type.match("image.*")) {
+                alert("이미지 파일만 업로드 가능합니다.");
+                return;
+            }
+
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('img.profile_circle_img').attr("src", e.target.result);
+            }
+            reader.readAsDataURL(this.files[0]);
+            profileImg = true;
+        }
+    });
+});
+
 // 프로젝트 보조 이미지 미리보기 (다중 이미지 미리보기)
 var sel_files = [];
 
@@ -201,6 +206,12 @@ function handleImgsFileSelect(e) {
 
     $('#subImg').show();
     var files = e.target.files;
+
+    if (files.length !== 4) {
+        alert("상세 이미지 개수는 4개여야 합니다.");
+        return;
+    }
+
     var filesArr = Array.prototype.slice.call(files);
 
     filesArr.forEach(function (f) {
@@ -219,6 +230,8 @@ function handleImgsFileSelect(e) {
         }
         reader.readAsDataURL(f);
     });
+
+    detailImg = true;
 }
 
 // 버튼 색상 변경 및 섹션 보이기&숨기기
@@ -459,6 +472,7 @@ function checkCreator() {
             var bank = result.crBank;
             var acno = result.crAcno;
             var acholder = result.crAcholder;
+            var imgPath = result.imgPath;
 
             if (nickName != null) {
                 $('#text4').val(nickName);
@@ -474,6 +488,10 @@ function checkCreator() {
             }
             if (acholder != null) {
                 $('#acholder').val(acholder);
+            }
+            if (imgPath != null) {
+                $('img.profile_circle_img').attr("src", imgPath);
+                profileImg = true;
             }
         },
         /*error: function (result) {
@@ -493,6 +511,7 @@ function RegistProject() {
     var p_summary = $('textarea#text2');
     var p_intro = $('textarea#text3');
     var p_image = $('input#fileUpload1');
+    var p_image_detail = $('input#fileUpload2');
 
     var projectInfo = [p_category, p_title, p_summary, p_intro];
 
@@ -503,6 +522,7 @@ function RegistProject() {
         var c_acno = $('input#acno').val();
         var c_acholder = $('input#acholder').val();*/
     var c_name = $('input#text4');
+    var c_image = $('input#fileUpload3');
     var c_intro = $('textarea#text5');
     var c_bank = $('select#bank option:selected');
     var c_acno = $('input#acno');
@@ -535,9 +555,19 @@ function RegistProject() {
         }
     }
     if (titleImg === false) {
-        alert('대표 이미지를 업로드해 주세요.')
+        alert('프로젝트 대표 이미지를 업로드해 주세요.');
         section1();
         p_image.focus()
+        return;
+    } else if (detailImg === false) {
+        alert('프로젝트 상세 이미지를 업로드해 주세요.');
+        section1();
+        p_image_detail.focus()
+        return;
+    } else if (profileImg === false) {
+        alert('프로필 이미지를 업로드해 주세요.');
+        section2();
+        c_image.focus()
         return;
     }
 
@@ -568,6 +598,7 @@ function RegistProject() {
 
     if (limit < target) {
         alert("수량한도(판매 가능한 최대 개수)는 목표개수 이상이어야 합니다.");
+        return;
     }
 
     // formData, 파일 여러개 업로드

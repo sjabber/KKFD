@@ -110,11 +110,11 @@ $(document).ready(function () {
     });
 
     $('#text3').keyup(function () {
-        $('#text_cnt3').html("" + $(this).val().length + "/32");
+        $('#text_cnt3').html("" + $(this).val().length + "/2000");
 
-        if ($(this).val().length > 32) {
-            $(this).val($(this).val().substring(0, 32));
-            $('#text_cnt3').html("32/32");
+        if ($(this).val().length > 2000) {
+            $(this).val($(this).val().substring(0, 2000));
+            $('#text_cnt3').html("2000/2000");
         }
     });
 

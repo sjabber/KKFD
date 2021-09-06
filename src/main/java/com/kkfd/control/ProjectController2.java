@@ -74,6 +74,7 @@ public class ProjectController2 {
 			
 			String imgDir = servletContext.getRealPath("resource/public/img/project") +  "/" + projNo;
 			File[] files = new File(imgDir).listFiles();
+			if(files!=null) {
 			for(File file: files) {
 				String fileName = file.getName();
 				int indexOfExtension = fileName.lastIndexOf("_t.");
@@ -81,6 +82,7 @@ public class ProjectController2 {
 					project.setExt(fileName.substring(indexOfExtension+3)); //확장자 
 					break;
 				}
+			}
 			}
 			result.put("project", project);//확장자 확인후 다시 map에 넣는다.
 			log.error(result.toString());

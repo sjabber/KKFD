@@ -35,31 +35,11 @@ public class RegisterController {
     @Autowired
     private ServletContext servletContext;
 
-    @GetMapping("/test")
-    public void test() {
-        String omjRealPath = servletContext.getRealPath("img/project/1");
-        File dir = new File(omjRealPath);
-
-        System.out.println("==============================");
-        System.out.println(omjRealPath);
-        System.out.println("=====");
-        System.out.println(dir);
-        System.out.println("=====");
-        File[] list = dir.listFiles();
-        System.out.println(list.length);
-
-        for(File f:list ) {
-            System.out.println(f.getName());
-        }
-        System.out.println("=====");
-    }
-
-
     @PostMapping("/register")
     public ResponseEntity register(@RequestPart MultipartFile thumbnail,
-                         @RequestPart List<MultipartFile> details,
-                         @RequestPart MultipartFile profile,
-                         ProjectDTO project, HttpSession session) {
+                                   @RequestPart List<MultipartFile> details,
+                                   @RequestPart MultipartFile profile,
+                                   ProjectDTO project, HttpSession session) {
         MemberDTO m = (MemberDTO) session.getAttribute("loginInfo");
         ResponseEntity responseEntity;
 
@@ -98,7 +78,7 @@ public class RegisterController {
                 }
 
                 //Note, 창작자 프로필 사진 갱신 OR 저장
-                String uploadPath = servletContext.getRealPath("img/profile/" + m.getMemId());
+                String uploadPath = servletContext.getRealPath("resource/public/img/profile/" + m.getMemId());
 //                String uploadPath = servletContext.getRealPath("resource/public/img/profile/");
                 // 사진이 올바르게 저장되지 않을 경우 에러를 반환한다.
                 if (!SaveImg(uploadPath, profile, m.getMemId(), false)) {
@@ -120,7 +100,7 @@ public class RegisterController {
                     return responseEntity;
                 }
 
-                //uploadPath = servletContext.getRealPath("/home/KKFD/src/main/webapp/resource/public/img/project/" + project.getProjNo());
+//                uploadPath = servletContext.getRealPath("resource/public/img/project/" + project.getProjNo());
                 uploadPath = servletContext.getRealPath("img/project/1/");
 
                 // 이미지 파일 저장
@@ -151,24 +131,19 @@ public class RegisterController {
             new File(uploadPath).mkdirs();
         }
 
-        System.out.println("uploadPath : " + uploadPath);
-
         // 업로드한 파일의 본래 확장자를 알아낸다.
         String FileName = file.getOriginalFilename();
         String FileExtention = StringUtils.getFilenameExtension(FileName);
 
         // 업로드한 파일 검증 로직
         if (!"".equals(FileName) && file.getSize() != 0) {
+            //System.out.println("thumbnail 파일크기 : " + file.getSize() + ", 파일이름 : " + FileName);
             File realfile;
-            if (choice) {
+            if (choice == true) {
                 // 섬네일
-                System.out.println("thumbnail 파일크기 : " + file.getSize() + ", 파일이름 : " + FileName);
-                System.out.println("파일 확장자 : " + FileExtention);
                 realfile = new File(uploadPath, id + "_t." + FileExtention);
             } else {
                 // 회원 프로필
-                System.out.println("회원 프로필 파일크기 : " + file.getSize() + ", 파일이름 : " + FileName);
-                System.out.println("파일 확장자 : " + FileExtention);
                 realfile = new File(uploadPath, id + "." + FileExtention);
             }
             try {
@@ -187,8 +162,6 @@ public class RegisterController {
         // return 체크
         boolean check = true;
 
-        System.out.println("Imgs의 uploadPath : " + uploadPath);
-
         // 경로생성
         if (!new File(uploadPath).exists()) {
             log.info("업로드 실제경로 생성");
@@ -203,7 +176,7 @@ public class RegisterController {
 
             // 업로드한 파일 검증 로직
             if (!"".equals(FileName) && file.getSize() != 0) {
-                System.out.println("details 파일크기 : " + file.getSize() + ", 파일이름 : " + FileName);
+                System.out.println("thumbnail 파일크기 : " + file.getSize() + ", 파일이름 : " + FileName);
 
                 File realfile = new File(uploadPath, id + "_" + i + "." + FileExtention);
                 try {

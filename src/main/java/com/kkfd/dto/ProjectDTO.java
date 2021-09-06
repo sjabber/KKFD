@@ -175,9 +175,6 @@ public class ProjectDTO {
 				+ projFm + ", projTargetcnt=" + projTargetcnt + ", projLimitcnt=" + projLimitcnt + ", projQuantity="
 				+ projQuantity + ", projGoals=" + projGoals + ", projStart=" + projStart + ", projEnd=" + projEnd
 				+ ", projDelivery=" + projDelivery + ", projBmcnt=" + projBmcnt + ", projStatus=" + projStatus
-				+ ", projBm=" + projBm + "]";
+				+ ", projBm=" + projBm + ", ext=" + ext + "]";
 	}
-	
-	
-
 }

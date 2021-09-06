@@ -207,12 +207,12 @@ $(function () {
 
           divHtml += '<div class="prev_proj">';
           divHtml +=
-            '<a class="prev_proj_btn" href="http://localhost/project/info?no=' +
+            '<a class="prev_proj_btn" href="http://kkfd.eastus.cloudapp.azure.com/project/info?no=' +
             prevProjNo +
             '">';
           divHtml += '<div class="prev_proj_img">';
           divHtml +=
-            '<img class="thumbnail_img" src="/img/project/' +
+            '<img class="thumbnail_img" src="http://kkfd.eastus.cloudapp.azure.com:9999/kkfd/img/project/' +
             prevProjNo +
             "/" +
             prevProjNo +

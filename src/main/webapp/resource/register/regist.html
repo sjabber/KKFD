@@ -52,7 +52,7 @@
         <div class="header_mainlogo">
             <a style="text-decoration: none" href="/">
           <span class="header_mainlogo_item"
-          ><img src="http://kkfd.eastus.cloudapp.azure.com:9999/kkfd/img/logo.png" alt=""
+          ><img src="/img/logo.png" alt=""
           /></span>
             </a>
         </div>
@@ -63,13 +63,15 @@
             <div class="header_customer_warp">
                 <button class="header_customer_btn">
                     <div class="header_login&signup">
-              <span class="login_signup_name">
-                <a href="/member/login">로그인 / 회원가입</a>
-              </span>
+                <span class="login_signup_name">
+                  <a class="admin-no" href="/member/login">로그인 / 회원가입</a>
+                  <a class="admin-yes" href="/member/mypage">마이페이지</a>
+                  <a class="admin-yes" href="javascript:Logout()">로그아웃</a>
+                </span>
                     </div>
-                    <div class="header_profile_img">
+                    <!--<div class="header_profile_img">
                         <img class="profile" src="/img/blank.png"/>
-                    </div>
+                    </div>-->
                 </button>
             </div>
         </div>
@@ -80,8 +82,8 @@
                 <button type="button" class="btn-head1" onclick="section1()">
                     1.기본정보
                 </button>
-                <button type="button" class="btn-head2" onclick="section2()">
-                    2.창작자 정보
+                <button type="button" class="btn-head2" onclick="section2()" style="width: 180px">
+                    2.크리에이터 정보
                 </button>
                 <button type="button" class="btn-head3" onclick="section3()">
                     3.펀딩계획
@@ -180,7 +182,7 @@
                                         어디에 쓰이나요?
                                     </div>
                                     <div class="image">
-                                        <img src="http://kkfd.eastus.cloudapp.azure.com:9999/kkfd/img/project_title.png"/>
+                                        <img src="/img/project_title.png"/>
                                     </div>
                                 </div>
                                 <em class="close" onclick="$.contentHide($(this))">
@@ -271,7 +273,7 @@
                                         어디에 표시되나요?
                                     </div>
                                     <div class="image">
-                                        <img src="http://kkfd.eastus.cloudapp.azure.com:9999/kkfd/img/project_sum.png"/>
+                                        <img src="/img/project_sum.png"/>
                                     </div>
                                 </div>
                                 <em class="close" onclick="$.contentHide($(this))">
@@ -360,7 +362,7 @@
                                         어디에 표시되나요?
                                     </div>
                                     <div class="image">
-                                        <img src="http://kkfd.eastus.cloudapp.azure.com:9999/kkfd/img/project_sum.png"/>
+                                        <img src="/img/project_sum.png"/>
                                     </div>
                                 </div>
                                 <em class="close" onclick="$.contentHide($(this))">
@@ -414,7 +416,7 @@
                 </dd>
                 <div class="project_title_img" id="titleImg" style="display: none">
                     <div class="project_title_img_box">
-                        <img src="http://kkfd.eastus.cloudapp.azure.com:9999/kkfd/img/blank.png" class="project_title_img_box_img"/>
+                        <img src="/img/blank.png" class="project_title_img_box_img"/>
                     </div>
                 </div>
             </dl>
@@ -451,7 +453,7 @@
                                 <div class="LabelWithTooltip_image">
                                     <div class="imageWrapper">
                                         <div class="image">
-                                            <img src="http://kkfd.eastus.cloudapp.azure.com:9999/kkfd/img/project_upload.png"/>
+                                            <img src="/img/project_upload.png"/>
                                         </div>
                                     </div>
                                 </div>
@@ -530,7 +532,7 @@
                             </div>
                             <input
                                     type="file"
-                                    id="fileUpload1"ㄹ
+                                    id="fileUpload1" ㄹ
                                     name="thumbnail"
                                     accept=".jpg, .png"
                             />
@@ -539,7 +541,6 @@
                 </div>
             </div>
         </div>
-
         <div class="projectItem">
             <dl class="projectItem_title">
                 <dt class="projectItem_title_dt">
@@ -548,10 +549,9 @@
                         <i class="fas fa-star-of-life iicon"></i>
                     </div>
                 </dt>
-
                 <dd class="projectItem_title_dd">
-                    후원자분들이 프로젝트의 내용을 쉽게 파악하고 좋은<br/>
-                    인상을 받을 수 있도록 이미지 가이드라인을 따라주세요.
+                    후원자분들이 프로젝트의 내용을 자세하게 파악할 수<br/>
+                    있도록 상세 이미지를 업로드해 주세요. (최대 4개)
                 </dd>
                 <div
                         class="project_detail_img"
@@ -636,7 +636,7 @@
         <div class="projectItem">
             <dl class="projectItem_title">
                 <dt class="projectItem_title_dt">
-                    창작자 이름
+                    닉네임
                     <div class="Icon">
                         <i class="fas fa-star-of-life iicon"></i>
                     </div>
@@ -671,13 +671,13 @@
         <div class="projectItem">
             <dl class="projectItem_title">
                 <dt class="projectItem_title_dt">
-                    창작자 이미지
-                    <!--<div class="Icon">
-                              <i class="fas fa-star-of-life iicon"></i>
-                          </div>-->
+                    크리에이터 이미지
+                    <div class="Icon">
+                        <i class="fas fa-star-of-life iicon"></i>
+                    </div>
                 </dt>
                 <dd class="projectItem_title_dd">
-                    창작자 개인이나 팀의 사진을 올려주세요.
+                    크리에이터 개인이나 팀의 사진을 올려주세요.
                 </dd>
             </dl>
             <div class="projectItem_title_form">
@@ -685,8 +685,8 @@
                     <div class="projectItem_profile">
                         <div class="projectItem_profile_circle">
                             <div class="profile_circle">
-                                <img src="http://kkfd.eastus.cloudapp.azure.com:9999/kkfd/img/blank.png" class="profile_circle_img"/>
-                                <!--<img src="http://kkfd.eastus.cloudapp.azure.com:9999/kkfd/img/blank.png" class="profile_circle_img" style="display: none"/>
+                                <img src="/img/blank.png" class="profile_circle_img"/>
+                                <!--<img src="/img/blank.png" class="profile_circle_img" style="display: none"/>
                                             <div class="profile_circle_inner">
                                                 프
                                             </div>-->
@@ -696,9 +696,10 @@
                             <div>
                                 <div class="profile_upload">
                                     <input
+                                            id="fileUpload3"
                                             type="file"
                                             name="profile"
-                                            accept=".jpg, .png, .jpeg"
+                                            accept=".png"
                                     />
                                     <div class="profileUploadIcon">
                                         <svg
@@ -721,9 +722,9 @@
                                 </div>
                             </div>
                             <p>
-                                파일 형식은 jpg 또는 png 로,
+                                파일 형식은 png 로, 사이즈는
                                 <br/>
-                                사이즈는 가로 200px, 세로 200px 이상으로 올려주세요.
+                                가로 200px, 세로 200px 이상으로 올려주세요.
                             </p>
                         </div>
                     </div>
@@ -734,13 +735,13 @@
         <div class="projectItem">
             <dl class="projectItem_title">
                 <dt class="projectItem_title_dt">
-                    창작자 소개
+                    크리에이터 소개
                     <div class="Icon">
                         <i class="fas fa-star-of-life iicon"></i>
                     </div>
                 </dt>
                 <dd class="projectItem_title_dd">
-                    2~3문장으로 창작자님의 이력과 간단한 소개를<br/>
+                    2~3문장으로 크리에이터님의 이력과 간단한 소개를<br/>
                     써주세요.
                 </dd>
             </dl>
@@ -752,7 +753,7 @@
                           class="textAreaInner2"
                           id="text5"
                           name="creator.crIntro"
-                          placeholder="창작자 소개를 입력해주세요."
+                          placeholder="크리에이터 소개를 입력해주세요."
                   ></textarea>
                         </div>
                     </div>

@@ -36,12 +36,43 @@ function DaumPostcode() {
 }
 */
 
+function removehypen (phone) {
+    var phoneDate = "";
+    var $phone = phone;
+    if ($phone.length < 12) {
+        //case : 02-xxx-xxxx
+        phoneDate += $phone.substr(0, 2);
+        phoneDate += $phone.substr(3, 3);
+        phoneDate += $phone.substr(7, 4);
+    } else if ($phone.substr(1, 1) === "2" && $phone.length === 12) {
+        //case : 02-xxxx-xxxx
+        phoneDate += $phone.substr(0, 2);
+        phoneDate += $phone.substr(3, 4);
+        phoneDate += $phone.substr(8, 4);
+    } else if ($phone.val().length === 12) {
+        phoneDate += $phone.substr(0, 3);
+        phoneDate += $phone.substr(4, 3);
+        phoneDate += $phone.substr(8, 4);
+    } else if ($phone.val().length === 13) {
+        phoneDate += $phone.substr(0, 3);
+        phoneDate += $phone.substr(4, 4);
+        phoneDate += $phone.substr(9, 4);
+    }
+
+    return phoneDate;
+}
+
 function clientSignUp() {
     var backurl = 'http://kkfd.eastus.cloudapp.azure.com:9999/kkfd/member/signup';
     var name = $('div.join_form > ul > li > div.renew_input > input[name=mem_userName]').val();
     var phone = $('div.join_form > ul > li > div.renew_input > input[name=mem_userPhone]').val();
     var email1 = $('div.join_form > ul > li > div.input_box_m > input[name=mem_userEmail]').val();
     var email2 = $('div.join_form > ul > li >  div.input_box_m > input[name=mem_userEmail2]').val();
+
+    alert('phone의 하이픈 안뺀 값 : ' + phone);
+    phone = removehypen(phone);
+    alert('phone의 하이픈 뺀 값 : ' + phone);
+
     if (idCheck === true && pwdEqualCheck === true && pwdRegexCheck === true && name !== "" && phone !== ""
         && email1 !== "" && email2 !== "") {
         $.ajax({
@@ -197,4 +228,43 @@ function selectEmail(ele) {
         $email2.attr('readonly', true);
         $email2.val($ele.val());
     }
+}
+
+function inputPhoneNumber(obj) {
+    let number = obj.value.replace(/[^0-9]/g, "");
+    let phone = "";
+    if (number.length < 4) {
+        return number;
+    } else if (number.length < 7) {
+        phone += number.substr(0, 3);
+        phone += "-";
+        phone += number.substr(3);
+    } else if (number.substr(1, 1) === "2" && number.length < 10) {
+        //case 02-xxx-xxxx
+        phone += number.substr(0, 2);
+        phone += "-";
+        phone += number.substr(2, 3);
+        phone += "-";
+        phone += number.substr(5, 4);
+    } else if (number.substr(1, 1) === "2" && number.length < 11) {
+        phone += number.substr(0, 2);
+        phone += "-";
+        phone += number.substr(2, 4);
+        phone += "-";
+        phone += number.substr(6, 4);
+    } else if (number.length < 11) {
+        //case 010-xxx-xxxx, 031-xxx-xxxx
+        phone += number.substr(0, 3);
+        phone += "-";
+        phone += number.substr(3, 3);
+        phone += "-";
+        phone += number.substr(6);
+    } else { //010-xxxx-xxxx, 031-xxxx-xxxx
+        phone += number.substr(0, 3);
+        phone += "-";
+        phone += number.substr(3, 4);
+        phone += "-";
+        phone += number.substr(7);
+    }
+    obj.value = phone;
 }

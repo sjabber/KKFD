@@ -70,8 +70,7 @@ function clientSignUp() {
     var email2 = $('div.join_form > ul > li >  div.input_box_m > input[name=mem_userEmail2]').val();
 
     alert('phone의 하이픈 안뺀 값 : ' + phone);
-    phone = removehypen(phone);
-    alert('phone의 하이픈 뺀 값 : ' + phone);
+    alert('phone의 하이픈 뺀 값 : ' + removehypen(phone));
 
     if (idCheck === true && pwdEqualCheck === true && pwdRegexCheck === true && name !== "" && phone !== ""
         && email1 !== "" && email2 !== "") {

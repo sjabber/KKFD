@@ -72,7 +72,8 @@ public class ProjectController2 {
 			ProjectDTO project = (ProjectDTO)(result.get("project"));
 			//List<FundingDTO> fundingList = (List)(result.get("fundingList"));
 			
-			String imgDir = servletContext.getRealPath("resource/public/img/project") +  "/" + projNo;
+//			String imgDir = servletContext.getRealPath("resource/public/img/project") +  "/" + projNo;
+			String imgDir = servletContext.getRealPath("img/project") +  "/" + projNo;
 			File[] files = new File(imgDir).listFiles();
 			if(files!=null) {
 			for(File file: files) {

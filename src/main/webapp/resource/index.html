@@ -263,7 +263,7 @@ console.warn = console.error = () => {};
     }
 
     function Logout() {
-        var backurl = "http://localhost:9999/kkfd/member/logout";
+        var backurl = "http://kkfd.eastus.cloudapp.azure.com:9999/kkfd/member/logout";
         $.ajax({
             url: backurl,
             method: "get",
@@ -282,7 +282,7 @@ console.warn = console.error = () => {};
     }
 
     function checkLogined() {
-        var backurl = "http://localhost:9999/kkfd/member/logincheck";
+        var backurl = "http://kkfd.eastus.cloudapp.azure.com:9999/kkfd/member/logincheck";
         $.ajax({
             url: backurl,
             method: "get",

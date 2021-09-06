@@ -1,6 +1,6 @@
 $(function () {
   var page = 1;
-  var url = "http://localhost:9999/kkfd/project/bmlist/" + page;
+  var url = "http://kkfd.eastus.cloudapp.azure.com:9999/kkfd/project/bmlist/" + page;
   var $divObj = $("div.focus_item_warp");
   var divHtml = "";
   $.ajax({
@@ -99,7 +99,7 @@ $(function () {
     var scrolltop = parseInt($(window).scrollTop());
     if ($(window).scrollTop() == $(document).height() - $(window).height()) {
       page++;
-      var url = "http://localhost:9999/kkfd/project/bmlist/" + page;
+      var url = "http://kkfd.eastus.cloudapp.azure.com:9999/kkfd/project/bmlist/" + page;
       var method = "GET";
       $.ajax({
         url: url,
@@ -200,7 +200,7 @@ $(function () {
       if ($(this).hasClass("off")) {
         $.ajax({
           url:
-            "http://localhost:9999/kkfd/project/" + $(this).val() + "/bookmark",
+            "http://kkfd.eastus.cloudapp.azure.com:9999/kkfd/project/" + $(this).val() + "/bookmark",
           method: "POST",
           transformRequest: [null],
           transformResponse: [null],
@@ -221,7 +221,7 @@ $(function () {
       } else {
         $.ajax({
           url:
-            "http://localhost:9999/kkfd/project/" + $(this).val() + "/bookmark",
+            "http://kkfd.eastus.cloudapp.azure.com:9999/kkfd/project/" + $(this).val() + "/bookmark",
           method: "DELETE",
           transformRequest: [null],
           transformResponse: [null],

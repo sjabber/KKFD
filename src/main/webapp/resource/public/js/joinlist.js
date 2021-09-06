@@ -13,7 +13,7 @@ $(function () {
     const URLSearch = new URLSearchParams(location.search);
     var projNo = searchParam("no");
     var trHtml = '';
-    var backurl = "http://localhost:9999/kkfd/project/" + projNo + "/fundings";
+    var backurl = "http://kkfd.eastus.cloudapp.azure.com:9999/kkfd/project/" + projNo + "/fundings";
     $.ajax({
         "method": "GET",
         "url": backurl,
@@ -137,7 +137,7 @@ $(function () {
         if (pass) {
             var data = JSON.stringify(jsonArr);
             console.log(data);
-            var backurl = "http://localhost:9999/kkfd/fundings";
+            var backurl = "http://kkfd.eastus.cloudapp.azure.com:9999/kkfd/fundings";
             $.ajax({
                 "method": "PUT",
                 "url": backurl,

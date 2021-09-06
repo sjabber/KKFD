@@ -20,7 +20,7 @@ $(function () {
   const URLSearch = new URLSearchParams(location.search);
   var no = searchParam("no");
   console.log(no);
-  var backurl = "http://localhost:9999/kkfd/project/" + no;
+  var backurl = "http://kkfd.eastus.cloudapp.azure.com:9999/kkfd/project/" + no;
   $.ajax({
     method: "GET",
     transformRequest: [null],
@@ -127,7 +127,7 @@ $(function () {
           if ($(this).hasClass("off")) {
             console.log("if");
             $.ajax({
-              url: "http://localhost:9999/kkfd/project/" + projNo + "/bookmark",
+              url: "http://kkfd.eastus.cloudapp.azure.com:9999/kkfd/project/" + projNo + "/bookmark",
               method: "POST",
               transformRequest: [null],
               transformResponse: [null],
@@ -151,7 +151,7 @@ $(function () {
           } else {
             console.log("else");
             $.ajax({
-              url: "http://localhost:9999/kkfd/project/" + projNo + "/bookmark",
+              url: "http://kkfd.eastus.cloudapp.azure.com:9999/kkfd/project/" + projNo + "/bookmark",
               method: "DELETE",
               transformRequest: [null],
               transformResponse: [null],
@@ -189,7 +189,7 @@ $(function () {
     transformRequest: [null],
     transformResponse: [null],
     jsonpCallbackParam: "callback",
-    url: "http://localhost:9999/kkfd/project/" + no + "/history",
+    url: "http://kkfd.eastus.cloudapp.azure.com:9999/kkfd/project/" + no + "/history",
     headers: {
       Accept: "application/json, text/plain, */*",
     },

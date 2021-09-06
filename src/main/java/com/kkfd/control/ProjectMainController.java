@@ -39,8 +39,10 @@ public class ProjectMainController {
 			List<ProjectMainDTO> list = new ArrayList<ProjectMainDTO>();
 			if(m == null) {
 				list = service.findMainProjs();
-				String imgPath = servletContext.getRealPath("resource/public/img/project");
-				String[] extension = {"jpg","png"};
+//				String imgPath = servletContext.getRealPath("resource/public/img/project");
+				String imgPath = servletContext.getRealPath("img/project");
+//				String[] extension = {"jpg","png"};
+				String[] extension = {"png","jpg"};
 				String imgDir =  "";
 				for(ProjectMainDTO projectMain : list) {
 					imgDir = imgPath + "/" + projectMain.getProject().getProjNo();
@@ -58,8 +60,10 @@ public class ProjectMainController {
 			} else {
 				String id = m.getMemId();
 				list = service.findMainProjs(id);
-				String imgPath = servletContext.getRealPath("resource/public/img/project");
-				String[] extension = {"jpg","png"};
+//				String imgPath = servletContext.getRealPath("resource/public/img/project");
+				String imgPath = servletContext.getRealPath("img/project");
+//				String[] extension = {"jpg","png"};
+				String[] extension = {"png","jpg"};
 				String imgDir =  "";
 				for(ProjectMainDTO projectMain : list) {
 					imgDir = imgPath + "/" + projectMain.getProject().getProjNo();

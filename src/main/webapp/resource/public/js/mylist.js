@@ -131,7 +131,7 @@ function mylist(responseObj) {
 } //end of function
 
 $(function () {
-    var backurl = "http://localhost:9999/kkfd/creator/projects/1";
+    var backurl = "http://kkfd.eastus.cloudapp.azure.com:9999/kkfd/creator/projects/1";
     $.ajax({
         url: backurl,
         method: "GET",
@@ -307,7 +307,7 @@ $(function () {
             "취소확인) 약관에 따라 위약금 모집금액의 10%를 지불해야 합니다.그래도 취소하시겠습니다."
         );
         if (result) {
-            var backurl = "http://localhost:9999/kkfd/project/" + $(this).val();
+            var backurl = "http://kkfd.eastus.cloudapp.azure.com:9999/kkfd/project/" + $(this).val();
             $.ajax({
                 method: "PUT",
                 url: backurl,

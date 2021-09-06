@@ -59,7 +59,8 @@ public class CreatorController {
 			}
 
 			//이미지 확인("/img/(id)/(id).png)후 없으면 기본이미지 출력
-			String dir = servletContext.getRealPath("resource/public/img/profile")+"/"+loginId;
+//			String dir = servletContext.getRealPath("resource/public/img/profile")+"/"+loginId;
+			String dir = servletContext.getRealPath("img/profile")+"/"+loginId;
 			String path = null;
 			File file = new File(dir,loginId+".png");
 			if(file.exists()) {

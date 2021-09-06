@@ -2,7 +2,7 @@ $(function () {
     var $form = $("form#criteria");
     $form.submit(function () {
         var data = $form.serialize();
-        var backurl = "http://localhost:9999/kkfd/fundings";
+        var backurl = "http://kkfd.eastus.cloudapp.azure.com:9999/kkfd/fundings";
         $.ajax({
             url: backurl,
             method: "GET",

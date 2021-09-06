@@ -69,7 +69,7 @@ function divPhoneNumber(num) {
     return phone;
 }
 function update(jsonData) {
-    var backurl = "http://localhost:9999/kkfd/member/";
+    var backurl = "http://kkfd.eastus.cloudapp.azure.com:9999/kkfd/member/";
     $.ajax({
         "method": "PUT",
         "url": backurl,
@@ -106,7 +106,7 @@ function update(jsonData) {
 }//end of function
 
 $(function () {
-    var backurl = "http://localhost:9999/kkfd/member/";
+    var backurl = "http://kkfd.eastus.cloudapp.azure.com:9999/kkfd/member/";
     $.ajax({
         "method": "GET",
         "url": backurl,

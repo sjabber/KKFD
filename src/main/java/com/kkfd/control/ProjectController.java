@@ -50,8 +50,10 @@ public class ProjectController {
 		try {
 			List<ProjectDTO> list = new ArrayList<ProjectDTO>();
 			list = service.findProjs(search);
-			String imgPath = servletContext.getRealPath("resource/public/img/project");
-			String[] extension = {"jpg","png"};
+//			String imgPath = servletContext.getRealPath("resource/public/img/project");
+			String imgPath = servletContext.getRealPath("img/project");
+//			String[] extension = {"jpg","png"};
+			String[] extension = {"png","jpg"};
 			String imgDir =  "";
 			for(ProjectDTO project : list) {
 				imgDir = imgPath + "/" + project.getProjNo();
@@ -161,8 +163,10 @@ public class ProjectController {
 			try {
 				List<ProjectDTO> list = new ArrayList<ProjectDTO>();
 				list = service.findMyBookmark(loginId, page);
-				String imgPath = servletContext.getRealPath("resource/public/img/project");
-				String[] extension = {"jpg","png"};
+//				String imgPath = servletContext.getRealPath("resource/public/img/project");
+				String imgPath = servletContext.getRealPath("img/project");
+//				String[] extension = {"jpg","png"};
+				String[] extension = {"png","jpg"};
 				String imgDir =  "";
 				for(ProjectDTO project : list) {
 					imgDir = imgPath + "/" + project.getProjNo() ;

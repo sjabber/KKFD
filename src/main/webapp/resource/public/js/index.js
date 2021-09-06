@@ -1,5 +1,5 @@
 $(function () {
-  var url = "http://localhost:9999/kkfd/main";
+  var url = "http://kkfd.eastus.cloudapp.azure.com:9999/kkfd/main";
   var projArea;
   var $divObj1 = $("div#area1");
   var $divObj2 = $("div#area2");
@@ -123,7 +123,7 @@ $(function () {
       if ($(this).hasClass("off")) {
         $.ajax({
           url:
-            "http://localhost:9999/kkfd/project/" + $(this).val() + "/bookmark",
+            "http://kkfd.eastus.cloudapp.azure.com:9999/kkfd/project/" + $(this).val() + "/bookmark",
           method: "POST",
           transformRequest: [null],
           transformResponse: [null],
@@ -147,7 +147,7 @@ $(function () {
       } else {
         $.ajax({
           url:
-            "http://localhost:9999/kkfd/project/" + $(this).val() + "/bookmark",
+            "http://kkfd.eastus.cloudapp.azure.com:9999/kkfd/project/" + $(this).val() + "/bookmark",
           method: "DELETE",
           transformRequest: [null],
           transformResponse: [null],

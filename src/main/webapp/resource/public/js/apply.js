@@ -52,7 +52,7 @@ $(function () {
   const URLSearch = new URLSearchParams(location.search);
   var no = searchParam("no");
   console.log(no);
-  var backurl = "http://localhost:9999/kkfd/project/" + no;
+  var backurl = "http://kkfd.eastus.cloudapp.azure.com:9999/kkfd/project/" + no;
   $.ajax({
     method: "GET",
     transformRequest: [null],
@@ -129,7 +129,7 @@ $(function () {
             transformResponse: [null],
             jsonpCallbackParam: "callback",
             xhrFields: { withCredentials: true },
-            url: "http://localhost:9999/kkfd/funding",
+            url: "http://kkfd.eastus.cloudapp.azure.com:9999/kkfd/funding",
             headers: {
               Accept: "application/json, text/plain, */*",
               "Content-Type": "application/json;charset=utf-8",
@@ -185,7 +185,7 @@ $(function () {
     transformResponse: [null],
     jsonpCallbackParam: "callback",
     xhrFields: { withCredentials: true },
-    url: "http://localhost:9999/kkfd/member/",
+    url: "http://kkfd.eastus.cloudapp.azure.com:9999/kkfd/member/",
     headers: {
       Accept: "application/json, text/plain, */*",
     },

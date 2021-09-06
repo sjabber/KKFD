@@ -1,5 +1,5 @@
 $(function () {
-    var backurl = "http://localhost:9999/kkfd/creator/";
+    var backurl = "http://kkfd.eastus.cloudapp.azure.com:9999/kkfd/creator/";
     $.ajax({
         method: "GET",
         url: backurl,
@@ -61,7 +61,7 @@ $(function () {
     }); //end of Ajax
 
     $("form.creatorIn").submit(function () {
-        var backurl = "http://localhost:9999/kkfd/creator/";
+        var backurl = "http://kkfd.eastus.cloudapp.azure.com:9999/kkfd/creator/";
         var formSerializeArray = $(this).serializeArray();
         var object = {};
         for (let i = 0; i < formSerializeArray.length; i++) {
@@ -144,7 +144,7 @@ $(function () {
     });
     $("button#upload").click(function () {
         var formData = new FormData($("form.imgIn")[0]);
-        var backurl = "http://localhost:9999/kkfd/creator/profile";
+        var backurl = "http://kkfd.eastus.cloudapp.azure.com:9999/kkfd/creator/profile";
         $.ajax({
             url: backurl,
             method: "POST",

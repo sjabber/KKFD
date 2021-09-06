@@ -51,7 +51,8 @@ public class CreatorUploadController {
 		}
 
 		//경로 생성
-		String uploadPath = servletContext.getRealPath("resource/public/img/profile") +"/"+loginId;
+//		String uploadPath = servletContext.getRealPath("resource/public/img/profile") +"/"+loginId;
+		String uploadPath = servletContext.getRealPath("img/profile") +"/"+loginId;
 		if ( ! new File(uploadPath).exists()) {
 			new File(uploadPath).mkdirs();
 		}

@@ -24,7 +24,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/project")
 public class RegisterController {
-    private Logger log = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private ProjectService projectService;
@@ -46,7 +45,6 @@ public class RegisterController {
         if (m == null) {
             // 로그인 X
             responseEntity = new ResponseEntity(HttpStatus.UNAUTHORIZED);
-            System.out.println("로그인이 안되어있다.");
             return responseEntity = new ResponseEntity(HttpStatus.UNAUTHORIZED);
 
         } else {
@@ -77,9 +75,9 @@ public class RegisterController {
                     creatorService.modifyCr(creator);
                 }
 
-                //Note, 창작자 프로필 사진 갱신 OR 저장
+                //창작자 프로필 사진 갱신 OR 저장
                 String uploadPath = servletContext.getRealPath("img/profile/" + m.getMemId());
-//                String uploadPath = servletContext.getRealPath("resource/public/img/profile/");
+
                 // 사진이 올바르게 저장되지 않을 경우 에러를 반환한다.
                 if (profile.isEmpty()) {
                     File f = new File(uploadPath + "/" + m.getMemId() + ".png");
@@ -93,7 +91,7 @@ public class RegisterController {
                     responseEntity = new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
                     return responseEntity;
                 }
-                //Note, 프로젝트 등록
+                //프로젝트 등록
                 creator = project.getCreator();
                 creator.setCrId(m.getMemId());
                 project.setCreator(creator);
@@ -104,9 +102,7 @@ public class RegisterController {
                     responseEntity = new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
                     return responseEntity;
                 }
-
                 uploadPath = servletContext.getRealPath("img/project/" + project.getProjNo());
-//                uploadPath = servletContext.getRealPath("resource/public/img/project/1/");
 
                 // 이미지 파일 저장
                 if (SaveImg(uploadPath, thumbnail, String.valueOf(project.getProjNo()), true) && SaveImgs(uploadPath, details, project.getProjNo())) {
@@ -132,7 +128,6 @@ public class RegisterController {
     public boolean SaveImg(String uploadPath, MultipartFile file, String id, boolean choice) {
         // 경로생성
         if (!new File(uploadPath).exists()) {
-            log.info("업로드 실제경로 생성");
             new File(uploadPath).mkdirs();
         }
 
@@ -142,7 +137,6 @@ public class RegisterController {
 
         // 업로드한 파일 검증 로직
         if (!"".equals(FileName) && file.getSize() != 0) {
-            //System.out.println("thumbnail 파일크기 : " + file.getSize() + ", 파일이름 : " + FileName);
             File realfile;
             if (choice == true) {
                 // 섬네일
@@ -169,7 +163,6 @@ public class RegisterController {
 
         // 경로생성
         if (!new File(uploadPath).exists()) {
-            log.info("업로드 실제경로 생성");
             new File(uploadPath).mkdirs();
         }
 
@@ -181,8 +174,6 @@ public class RegisterController {
 
             // 업로드한 파일 검증 로직
             if (!"".equals(FileName) && file.getSize() != 0) {
-                System.out.println("thumbnail 파일크기 : " + file.getSize() + ", 파일이름 : " + FileName);
-
                 File realfile = new File(uploadPath, id + "_" + i + "." + FileExtention);
                 try {
                     FileCopyUtils.copy(file.getBytes(), realfile); // 파일 내용을 복사하여 file에 붙여넣기

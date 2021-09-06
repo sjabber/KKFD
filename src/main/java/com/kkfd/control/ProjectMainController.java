@@ -27,7 +27,6 @@ import com.kkfd.service.ProjectMainService;
 public class ProjectMainController {
 	@Autowired
 	private ProjectMainService service;
-	Logger log = LoggerFactory.getLogger(this.getClass());
 	
 	@Autowired
 	private ServletContext servletContext;
@@ -39,9 +38,7 @@ public class ProjectMainController {
 			List<ProjectMainDTO> list = new ArrayList<ProjectMainDTO>();
 			if(m == null) {
 				list = service.findMainProjs();
-//				String imgPath = servletContext.getRealPath("resource/public/img/project");
 				String imgPath = servletContext.getRealPath("img/project");
-//				String[] extension = {"jpg","png"};
 				String[] extension = {"png","jpg"};
 				String imgDir =  "";
 				for(ProjectMainDTO projectMain : list) {
@@ -60,9 +57,7 @@ public class ProjectMainController {
 			} else {
 				String id = m.getMemId();
 				list = service.findMainProjs(id);
-//				String imgPath = servletContext.getRealPath("resource/public/img/project");
 				String imgPath = servletContext.getRealPath("img/project");
-//				String[] extension = {"jpg","png"};
 				String[] extension = {"png","jpg"};
 				String imgDir =  "";
 				for(ProjectMainDTO projectMain : list) {

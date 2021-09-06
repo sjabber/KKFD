@@ -36,8 +36,7 @@ public class ProjectController {
 	
 	@Autowired
 	private ServletContext servletContext;
-	
-	Logger log = LoggerFactory.getLogger(this.getClass());
+
 	@GetMapping(value={"/list/{page}"})
 	public ResponseEntity<List<ProjectDTO>> projList(HttpSession session,SearchDTO search, @PathVariable int page) {
 		MemberDTO m = (MemberDTO)session.getAttribute("loginInfo");
@@ -50,22 +49,11 @@ public class ProjectController {
 		try {
 			List<ProjectDTO> list = new ArrayList<ProjectDTO>();
 			list = service.findProjs(search);
-//			String imgPath = servletContext.getRealPath("resource/public/img/project");
 			String imgPath = servletContext.getRealPath("img/project");
-//			String[] extension = {"jpg","png"};
 			String[] extension = {"png","jpg"};
 			String imgDir =  "";
 			for(ProjectDTO project : list) {
 				imgDir = imgPath + "/" + project.getProjNo();
-//				File[] files = new File(imgDir).listFiles();
-//				for(File file: files) {
-//					String fileName = file.getName();
-//					int indexOfExtension = fileName.lastIndexOf("_t.");
-//					if(indexOfExtension > -1) { //"_t."를 포함하는 이름의 파일이 있는 경우
-//						project.setExt(fileName.substring(indexOfExtension+3)); //확장자 
-//						break;
-//					}
-//				}
 				for(int i=0;i<extension.length ;i++) {
 					File file = new File(imgDir , project.getProjNo() + "_t." + extension[i]);
 					if(file.exists()) {
@@ -163,9 +151,7 @@ public class ProjectController {
 			try {
 				List<ProjectDTO> list = new ArrayList<ProjectDTO>();
 				list = service.findMyBookmark(loginId, page);
-//				String imgPath = servletContext.getRealPath("resource/public/img/project");
 				String imgPath = servletContext.getRealPath("img/project");
-//				String[] extension = {"jpg","png"};
 				String[] extension = {"png","jpg"};
 				String imgDir =  "";
 				for(ProjectDTO project : list) {

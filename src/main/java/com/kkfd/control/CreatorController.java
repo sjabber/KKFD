@@ -58,8 +58,6 @@ public class CreatorController {
 				return new ResponseEntity<>(HttpStatus.NO_CONTENT);//204 : 크리에이터 테이블에 없음
 			}
 
-			//이미지 확인("/img/(id)/(id).png)후 없으면 기본이미지 출력
-//			String dir = servletContext.getRealPath("resource/public/img/profile")+"/"+loginId;
 			String dir = servletContext.getRealPath("img/profile")+"/"+loginId;
 			String path = null;
 			File file = new File(dir,loginId+".png");
@@ -146,7 +144,7 @@ public class CreatorController {
 			List<ProjectDTO> list = projetService.findProjsByCrId(loginId,currentPage);
 
 			Date now = new Date();//서버 기준시간이 한국시간?
-			//project.getProjStatus() 
+			//project.getProjStatus()
 			//0:취소
 			//1:정상(10:진행예정 / 11:달성률<25 / 12: 25<=달성률<75 / 13: 75<=달성률<100 / 15:100<=달성률<제한수량 /  19:제한수량도달)
 			//2:마감(20:실패, 21:성공)

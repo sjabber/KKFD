@@ -42,8 +42,6 @@ public class FundingController {
 	@Autowired
 	private FundingService service;
 
-	Logger log = LoggerFactory.getLogger(this.getClass());
-
 	@PostMapping(value= {"/funding"})
 	public ResponseEntity<String> insertFunding (HttpSession session, @RequestBody FundingDTO funding) {
 		MemberDTO m = (MemberDTO)session.getAttribute("loginInfo");

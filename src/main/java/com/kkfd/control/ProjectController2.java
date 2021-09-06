@@ -32,7 +32,6 @@ import com.kkfd.service.ProjectService;
 @RestController
 @RequestMapping("/project/*")
 public class ProjectController2 {
-	private Logger log = LoggerFactory.getLogger(this.getClass());
 
 	@Autowired
 	private ProjectService service;
@@ -70,9 +69,6 @@ public class ProjectController2 {
 		try {
 			Map<String,Object> result = service.findFunsByProjNo(projNo,loginId);
 			ProjectDTO project = (ProjectDTO)(result.get("project"));
-			//List<FundingDTO> fundingList = (List)(result.get("fundingList"));
-			
-//			String imgDir = servletContext.getRealPath("resource/public/img/project") +  "/" + projNo;
 			String imgDir = servletContext.getRealPath("img/project") +  "/" + projNo;
 			File[] files = new File(imgDir).listFiles();
 			if(files!=null) {
@@ -86,7 +82,6 @@ public class ProjectController2 {
 			}
 			}
 			result.put("project", project);//확장자 확인후 다시 map에 넣는다.
-			log.error(result.toString());
 			if(result.size()==0) {//로그인한 아이디가 펀딩참여자 볼 권한이 없을 때 WHERE p.proj_id=#{loginId}
 				return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 			}

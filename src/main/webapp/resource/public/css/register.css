@@ -568,6 +568,7 @@ div.LabelWithTooltip2 {
 }
 
 .login_signup_name > a {
+    margin-left: 15px;
     text-decoration: none;
     color: black;
 }

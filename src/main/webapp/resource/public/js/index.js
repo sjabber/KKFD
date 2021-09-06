@@ -19,7 +19,7 @@ $(function () {
     statusCode: {
       204: function () {
         divHtml +=
-          '<div id="no_content_img"><img src="/img/no_project.png" /></div>';
+          '<div id="no_content_img"><img src="http://kkfd.eastus.cloudapp.azure.com:9999/kkfd/img/no_project.png" /></div>';
         $divObj1.html(divHtml);
         $divObj2.html(divHtml);
         $divObj3.html(divHtml);

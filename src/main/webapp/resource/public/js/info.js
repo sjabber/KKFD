@@ -62,7 +62,7 @@ $(function () {
         var sum = projFm * projQuantity;
         $("div.proj_title").html(projTitle);
         $("div.creator_profile_img>img")
-          .attr("src", "/img/profile/" + crId + "/" + crId + ".png")
+          .attr("src", "http://kkfd.eastus.cloudapp.azure.com:9999/kkfdhttp://kkfd.eastus.cloudapp.azure.com:9999/kkfd/img/profile/" + crId + "/" + crId + ".png")
           .attr(
             "onerror",
             "this.src='/img/profile/" + crId + "/" + crId + ".jpg';"
@@ -77,14 +77,14 @@ $(function () {
         $("span.fm").html(numberWithCommas(projFm));
         $("span.target_cnt_fm").html(numberWithCommas(projTargetcnt * projFm));
         $("div.represent_img>img.represent_img")
-          .attr("src", "/img/project/" + no + "/" + no + "_t.png")
+          .attr("src", "http://kkfd.eastus.cloudapp.azure.com:9999/kkfd/img/project/" + no + "/" + no + "_t.png")
           .attr(
             "onerror",
             "this.src='/img/project/" + no + "/" + no + "_t.jpg';"
           );
         for (var i = 1; i < 5; i++) {
           $("div.mid_img_" + i + ">img.mid_imgss_" + i)
-            .attr("src", "/img/project/" + no + "/" + no + "_" + i + ".png")
+            .attr("src", "http://kkfd.eastus.cloudapp.azure.com:9999/kkfd/img/project/" + no + "/" + no + "_" + i + ".png")
             .attr(
               "onerror",
               "this.src='/img/project/" + no + "/" + no + "_" + i + ".jpg';"
@@ -92,7 +92,7 @@ $(function () {
         }
         $("textarea.content").html(projIntro);
         $("div.mid_creator_profile_img>img.mid_creator_profile_img")
-          .attr("src", "/img/profile/" + crId + "/" + crId + ".png")
+          .attr("src", "http://kkfd.eastus.cloudapp.azure.com:9999/kkfd/img/profile/" + crId + "/" + crId + ".png")
           .attr(
             "onerror",
             "this.src='/img/profile/" + crId + "/" + crId + ".jpg';"

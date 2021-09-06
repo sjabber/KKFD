@@ -64,9 +64,9 @@ public class CreatorController {
 			String path = null;
 			File file = new File(dir,loginId+".png");
 			if(file.exists()) {
-				path = "/img/profile/" +loginId +"/"+loginId+".png";
+				path = "http://kkfd.eastus.cloudapp.azure.com:9999/kkfd/img/profile/" +loginId +"/"+loginId+".png";
 			}else{
-				path = "/img/blank.png";
+				path = "http://kkfd.eastus.cloudapp.azure.com:9999/kkfd/img/blank.png";
 			}
 			creator.setImgPath(path);
 			return new ResponseEntity<CreatorDTO>(creator,HttpStatus.OK);//200 : 크리에이터 정보조회

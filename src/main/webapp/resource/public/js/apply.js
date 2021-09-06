@@ -90,7 +90,7 @@ $(function () {
         $("div.category_nickname>span.cr_nn").html(crNn);
         $("div.proj_title").html(projTitle);
         $("div.represent_img>img.thumbnail_img")
-          .attr("src", "/img/project/" + no + "/" + no + "_t.png")
+          .attr("src", "http://kkfd.eastus.cloudapp.azure.com:9999/kkfd/img/project/" + no + "/" + no + "_t.png")
           .attr(
             "onerror",
             "this.src='/img/project/" + no + "/" + no + "_t.jpg';"

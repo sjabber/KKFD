@@ -10,7 +10,7 @@ $(function () {
     statusCode: {
       204: function () {
         divHtml +=
-          '<div id="no_content_img"><img src="/img/no_bookmark.png" /></div>';
+          '<div id="no_content_img"><img src="http://kkfd.eastus.cloudapp.azure.com:9999/kkfd/img/no_bookmark.png" /></div>';
         $divObj.html(divHtml);
       },
       502: function () {

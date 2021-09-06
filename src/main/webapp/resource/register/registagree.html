@@ -1,379 +1,434 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" type="text/css" href="/css/index.css" />
-    <link rel="stylesheet" type="text/css" href="/css/public.css" />
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" type="text/css" href="/css/index.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/public.css"/>
     <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We"
-      crossorigin="anonymous"
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We"
+            crossorigin="anonymous"
     />
     <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
-      crossorigin="anonymous"
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
+            crossorigin="anonymous"
     ></script>
     <title>크크펀딩 | 등록</title>
     <script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  </head>
-  <style>
+</head>
+<style>
     body {
-      background-color: #f7f7f7;
+        background-color: #f7f7f7;
     }
 
     button.projectsearch_item {
-      background-color: #f7f7f7;
+        background-color: #f7f7f7;
     }
 
     button.header_customer_btn {
-      background-color: #f7f7f7;
+        background-color: #f7f7f7;
     }
 
     ul > li {
-      list-style: none;
+        list-style: none;
     }
 
     a {
-      text-decoration: none;
-      color: black;
+        text-decoration: none;
+        color: black;
     }
 
     .clearfix::after {
-      content: "";
-      display: block;
-      clear: both;
+        content: "";
+        display: block;
+        clear: both;
     }
 
     #joinForm {
-      width: 1032px;
-      margin: 0 auto;
+        width: 1032px;
+        margin: 0 auto;
     }
 
     ul.join_box {
-      border: 1px solid #ddd;
-      background-color: #fff;
+        border: 1px solid #ddd;
+        background-color: #fff;
     }
 
     .checkBox,
     .checkBox > ul {
-      padding-left: 0px;
-      position: relative;
+        padding-left: 0px;
+        position: relative;
     }
 
     .checkBox > ul > li {
-      float: left;
+        float: left;
     }
 
     .checkBox > ul > li:first-child {
-      width: 95%;
-      padding: 15px 0 15px 15px;
-      font-weight: 600;
-      color: #888;
+        width: 95%;
+        padding: 15px 0 15px 15px;
+        font-weight: 600;
+        color: #888;
     }
 
     .checkBox > ul > li:nth-child(2) {
-      position: absolute;
-      top: 50%;
-      right: 30px;
-      margin-top: -12px;
+        position: absolute;
+        top: 50%;
+        right: 30px;
+        margin-top: -12px;
     }
 
     .checkBox textarea {
-      width: 96%;
-      height: 100px;
-      margin: 0 2%;
-      margin-bottom: 10px;
-      background-color: #f7f7f7;
-      color: #888;
-      border: none;
+        width: 96%;
+        height: 100px;
+        margin: 0 2%;
+        margin-bottom: 10px;
+        background-color: #f7f7f7;
+        color: #888;
+        border: none;
     }
 
     .footBtwrap {
-      margin-top: 15px;
+        margin-top: 15px;
     }
 
     .footBtwrap > li {
-      float: right;
-      width: 50%;
-      height: 60px;
+        float: right;
+        width: 50%;
+        height: 60px;
     }
 
     .footBtwrap > li > button {
-      display: block;
-      float: right;
-      background-color: #ff5757;
-      width: 20%;
-      height: 70%;
+        display: block;
+        float: right;
+        background-color: #ff5757;
+        width: 20%;
+        height: 70%;
     }
+
     .allAgree {
-      width: 100%;
-      text-align: right;
+        width: 100%;
+        text-align: right;
     }
-  </style>
-  <body>
-    <!-- header -->
-    <header class="main_header">
-      <div class="main_header_warp">
+</style>
+<body>
+<!-- header -->
+<header class="main_header">
+    <div class="main_header_warp">
         <div class="header_menu_warp">
-          <div class="header_projectsearch">
-            <button class="projectsearch_item">
-              <a
-                style="text-decoration: none; color: black"
-                href="/project/list/"
-              >
-                <i class="fas fa-align-justify fa-lg"></i>
-                <span class="projectsearch_name">프로젝트 둘러보기</span>
-              </a>
-            </button>
-          </div>
-          <div class="header_projectupload">
-            <a style="text-decoration: none" href="/register/registerAgree/">
-              <span class="projectupload_name">프로젝트 올리기</span>
-            </a>
-          </div>
+            <div class="header_projectsearch">
+                <button class="projectsearch_item">
+                    <a
+                            style="text-decoration: none; color: black"
+                            href="/project/list/"
+                    >
+                        <i class="fas fa-align-justify fa-lg"></i>
+                        <span class="projectsearch_name">프로젝트 둘러보기</span>
+                    </a>
+                </button>
+            </div>
+            <div class="header_projectupload">
+                <a style="text-decoration: none" href="/register/registerAgree/">
+                    <span class="projectupload_name">프로젝트 올리기</span>
+                </a>
+            </div>
         </div>
         <div class="header_mainlogo">
-          <a style="text-decoration: none" href="/">
+            <a style="text-decoration: none" href="/">
             <span class="header_mainlogo_item"
-              ><img src="/img/logo2.png" alt=""
+            ><img src="http://kkfd.eastus.cloudapp.azure.com:9999/kkfd/img/logo2.png" alt=""
             /></span>
-          </a>
+            </a>
         </div>
         <div class="header_sub_warp">
-          <div class="header_searchicon">
-            <!-- <i class="fas fa-search fa-lg"></i> -->
-          </div>
-          <div class="header_customer_warp">
-            <button class="header_customer_btn">
-              <div class="header_login&signup">
+            <div class="header_searchicon">
+                <!-- <i class="fas fa-search fa-lg"></i> -->
+            </div>
+            <div class="header_customer_warp">
+                <button class="header_customer_btn">
+                    <div class="header_login&signup">
                  <span class="login_signup_name">
                   <a class="admin-no" href="/member/login">로그인 / 회원가입</a>
                   <a class="admin-yes" href="/member/mypage">마이페이지</a>
                   <a class="admin-yes" href="javascript:Logout()">로그아웃</a>
                 </span>
-              </div>
-<!--              <div class="header_profile_img">
-                <img class="profile" src="/img/blank.png" />
-              </div>-->
-            </button>
-          </div>
+                    </div>
+                    <!--              <div class="header_profile_img">
+                                    <img class="profile" src="/img/blank.png" />
+                                  </div>-->
+                </button>
+            </div>
         </div>
-      </div>
-    </header>
-    <!-- 메인섹션 -->
-    <form action="" id="joinForm">
-      <ul class="join_box">
+    </div>
+</header>
+<!-- 메인섹션 -->
+<form action="" id="joinForm">
+    <ul class="join_box">
         <li class="checkBox check02">
-          <ul class="clearfix">
-            <li>
-              창작자의 의무와 책임, 프로젝트 생성 및 이용에 관한 약관을
-              확인하였습니다.
-            </li>
-            <li class="checkBtn">
-              <input
-                type="checkbox"
-                name="check2"
-                class="chekALL chk2All chkAll"
-                required=""
-              />
-            </li>
-          </ul>
+            <ul class="clearfix">
+                <li>
+                    창작자의 의무와 책임, 프로젝트 생성 및 이용에 관한 약관을
+                    확인하였습니다.
+                </li>
+                <li class="checkBtn">
+                    <input
+                            type="checkbox"
+                            name="check2"
+                            class="chekALL chk2All chkAll"
+                            required=""
+                    />
+                </li>
+            </ul>
 
-          <textarea readonly>
-창작자의 의무와 책임, 프로젝트 생성 및 이용에 관한 약관 내용 기입.</textarea
-          >
+            <textarea readonly>
+창작자는 수령한 기금액을 프로젝트 창작의 목적 달성 및 완료 및 선물 제작 및 발송을 위한 경비로만 사용해야 합니다.
+창작자가 이를 이행하지 않거나, 고의로 게시한 내용과 다르게 혹은 일부만 이행하는 경우 후원자로부터 법적 청구를 받을 수 있습니다.
+ 이 경우, 창작자의 의무불이행 등으로 인한 분쟁에 관한한 모든 책임은 창작자에게 있습니다.
+
+창작자는 프로젝트 진행중에 장애 혹은 연기 사유가 발생한 경우 즉시 후원자에게 알려야 합니다.
+창작자는 프로젝트 및 후원자 선물과 관련한 후원자들의 문의사항에 성실하게 답변 및 응대할 의무가 있습니다
+
+창작자는 후원자와의 후원 관련 분쟁이 발생하면 분쟁의 해결을 위하여 성실히 임해야 하며, 불성실한 분쟁해결로 인해 후원자와 회사에 손실과 손해가 발생하면 그에 대한 책임을 부담합니다.
+
+회사가 본 약관에 따라 프로젝트의 생성, 등록을 제한하거나 프로젝트를 중단시키는 경우 및/또는 후원금 결제를 유보하거나 환불시키는 경우, 회사는 이로 인하여 발생한 회원의 손해에 대하여 책임을 지지 않습니다.
+
+ 회사는 창작자와 후원자의 연결을 매개하는 중개플랫폼을 제공하는 주체이므로 직접 프로젝트를 생성 및 운영하지 않으며 후원 및 선물 전달 계약의 당사자에 해당하지 않습니다. 따라서 회사는 회원의 서비스 이용과 관련하여 회원간 또는 회원과 제3자 사이에 발생한 분쟁에 개입할 의무가 없습니다.
+
+ 회사는 회원간 또는 회원과 제3자간에 서비스를 매개로 하여 서비스에서 정하는 프로젝트 후원 외의 방식으로 물품거래 혹은 금전적 거래를 하는 것을 금지하며, 회사는 이와 관련하여 어떠한 책임도 부담하지 않습니다.
+            </textarea>
         </li>
         <li class="checkBox check03">
-          <ul class="clearfix">
-            <li>프로젝트 배송에 대한 이용약관을 확인하였습니다.</li>
-            <li class="checkBtn">
-              <input
-                type="checkbox"
-                name="check2"
-                class="chekALL chk3All chkAll"
-                required=""
-              />
-            </li>
-          </ul>
+            <ul class="clearfix">
+                <li>프로젝트 배송에 대한 이용약관을 확인하였습니다.</li>
+                <li class="checkBtn">
+                    <input
+                            type="checkbox"
+                            name="check2"
+                            class="chekALL chk3All chkAll"
+                            required=""
+                    />
+                </li>
+            </ul>
 
-          <textarea readonly>프로젝트 배송에 대한 이용약관 내용 기입.</textarea>
+            <textarea readonly>
+창작자는 프로젝트 페이지 생성 시 후원자 선물의 내용, 수량, 제공 일정 등을 사이트에 게시하고, 프로젝트가 "성사"된 경우 게시한 내용대로 이행하기 위해 최선을 다하여야 하는 의무가 있습니다. 
+
+창작자는 프로젝트의 후원자에게 프로젝트 생성 시 선물을 전달하기로 약정한 "예상 전달일"에 약속된 선물을 전달하여야 할 의무가
+ 있습니다.
+창작자는 후원자에게 예상 전달일 내에 선물을 전달하기 곤란하다는 것을 알았을 경우에는 즉시 해당 사실을 커뮤니티 기능을 통해 후원자에게 통보해야 합니다.
+창작자는 선물의 전달 및 배송을 직접 처리하여야 할 의무가 있으므로 선물 전달 및 배송 과정에서 발생하는 제반 문제에 대한 책임은 창작자가 전적으로 부담하며, 창작자는 후원자가 받아볼 선물을 정상적으로 수령할 수 있도록 조치해야 합니다.
+
+창작자는 전달/배송이 잘 이뤄졌는지 확인하고 해당 사항을 프로젝트 페이지에 반영할 의무가 있으며 후원자가 귀책사유 없이 선물을 정상적으로 수령하지 못했을 때에 이에 대한 모든 책임을 집니다.
+
+회원이 다음 각 사유에 해당될 때에는 회원의 탈퇴신청이 제한될 수 있습니다.
+창작자로서 자신이 진행한 프로젝트의 선물 전달이 끝나지 않은 경우와 같이 회사가 제공하는 서비스를 통해 진행 중인 거래 또는 절차가 있는 경우
+
+            </textarea>
         </li>
         <li class="checkBox check04">
-          <ul class="clearfix">
-            <li>
-              프로젝트 이용수수료와 세금, 환불에 대한 이용약관을 확인하였습니다.
-            </li>
-            <li class="checkBtn">
-              <input
-                type="checkbox"
-                name="check2"
-                class="chekALL chk4All chkAll"
-              />
-            </li>
-          </ul>
+            <ul class="clearfix">
+                <li>
+                    프로젝트 이용수수료와 세금, 환불에 대한 이용약관을 확인하였습니다.
+                </li>
+                <li class="checkBtn">
+                    <input
+                            type="checkbox"
+                            name="check2"
+                            class="chekALL chk4All chkAll"
+                    />
+                </li>
+            </ul>
 
-          <textarea readonly>
-프로젝트 이용수수료와 세금, 환불에 대한 이용약관 내용 기입.</textarea
-          >
+            <textarea readonly>
+제31조 이용 수수료와 세금
+① 프로젝트가 "성사"로 처리된 경우 회사는 플랫폼 수수료 및 결제 등 대행수수료를 제한 금액을 창작자에게 전달합니다. 이용 수수료는 회사가 별도로 고지하는 텀블벅 수수료 및 정산 정책에 따릅니다.
+
+② 창작자는 모집한 금액에 대한 세금을 성실하게 신고하고 납부할 의무와 책임이 있습니다. 또한 부가가치세법 등 관련법상 요구되는 경우, 창작자는 후원자에게 후원금액에 대한 세금계산서 및 영수증을 발행할 의무와 책임이 있습니다.
+
+③ 관련 법령이 회사로 하여금 창작자에게 전달할 후원금에서 세금을 보류하도록 요구하는 경우, 회사에 창작자의 납세 관련 정보를 요구하는 경우 등 관련 법령 혹은 관계 정부기관의 요청에 따라 회사에게 창작자의 납세의무와 관련한 의무가 부과되는 경우, 회사는 관련 문제가 해소될 때까지 창작자에게 지급할 후원금의 일부 혹은 전부의 지급을 유보하거나 지급하지 않을 수 있습니다.
+
+제34조 후원금 환불 및 선물의 교환
+① 창작자는 개별 프로젝트에 따라 교환 및 환불 규정을 다르게 정할 수 있으며 이를 사이트상 해당 프로젝트의 페이지에 게시합니다. 이 경우 게시된 교환 및 환불 규정이 본 약관(단, 위 제30조 제2항 내지 제3항에 따라 회사가 직접 환불하는 경우는 제외)에 우선합니다. 창작자는 프로젝트 생성 시 게시한 환불 및 교환 방침대로 후원자의 환불 및 교환 요청을 처리할 의무가 있으며 후원자는 프로젝트에 게시된 환불 및 교환 정책을 확인하고 프로젝트에 후원해야 하고 정책을 확인하지 않아 생긴 손실에 대해서는 후원자 본인이 책임을 부담합니다.
+
+② 후원자가 이미 결제된 후원금에 대한 환불이나 수령한 선물의 교환을 원할 경우 창작자와 직접 소통하여 환불 및 교환 절차를 진행해야 합니다. 회사는 프로젝트에 모인 후원금을 전달하는 시스템을 관리 및 제공할 뿐이므로 창작자와 후원자 사이에 발생한 환불 및 교환 사유에 대해 회사는 책임지지 않습니다.
+
+③ 창작자는 후원자의 고의 및 과실로 야기되지 않은 선물 자체의 하자와 결함에 대해서는 해당 선물의 환불, 교환 혹은 수리 등을 진행하고 이에 대한 비용을 부담하여야 합니다. 후원자의 과실로 수령한 제품에 교환 사유가 발생할 경우 이에 따른 책임과 처리 비용은 후원자가 부담합니다. 회사는 프로젝트에 모인 후원금을 전달하는 시스템을 관리 및 제공할 뿐이므로 창작자와 후원자 사이에 발생한 환불 및 교환 사유에 대해 회사는 책임지지 않습니다.
+
+④ 후원자의 단순 변심에 의한 취소일 경우 환불처리에 발생하는 수수료는 후원자가 부담합니다.
+
+⑤ 만일 창작자에 의해 게시된 정한 환불 및 교환 정책이 규정하고 있지 않은 범위에서 해결할 수 없는 문제가 발생하는 경우 회사는 문제 해결을 위해 권고사항을 제시할 수 있습니다.
+            </textarea>
         </li>
 
         <li class="checkBox check05">
-          <ul class="clearfix">
-            <li>프로젝트 취소에 대한 이용약관을 확인하였습니다.</li>
-            <li class="checkBtn">
-              <input
-                type="checkbox"
-                name="check2"
-                class="chekALL chk5All chkAll"
-              />
-            </li>
-          </ul>
-          <textarea readonly>프로젝트 취소에 대한 이용약관 내용 기입.</textarea>
+            <ul class="clearfix">
+                <li>프로젝트 취소에 대한 이용약관을 확인하였습니다.</li>
+                <li class="checkBtn">
+                    <input
+                            type="checkbox"
+                            name="check2"
+                            class="chekALL chk5All chkAll"
+                    />
+                </li>
+            </ul>
+            <textarea readonly>
+제24조 프로젝트의 중단
+① 프로젝트가 특정한 사유로 사전에 정한 모집 기간을 모두 채우지 못하고 중단되거나 취소되는 것을 "프로젝트 중단"이라 합니다. 회사가 프로젝트를 중단시키는 것을 "프로젝트 중단 처리"라 합니다.
+② 창작자는 프로젝트 중단을 원하는 경우 반드시 회사와 협의 후, 회사의 안내에 따라 중단 절차를 밟아 프로젝트가 회사에 의해서 중단되도록 해야 합니다. 창작자의 요청에 의해 프로젝트가 중단되는 경우 이로 인해 발생하는 비용은 창작자가 부담합니다. 만일 창작자가 위와 같은 절차를 거치지 않고 임의로 프로젝트를 중단하거나 모집기간 중 창작자에 의하여 프로젝트가 정상적으로 진행되지 못하여 프로젝트가 중단 처리되는 경우, 창작자는 회사의 요구가 있는 경우 창작자가 목표한 모집금액의 10% 혹은 100만원 중 낮은 금액을 위약벌로 회사에 지급해야 합니다. 다만, 천재지변 국가비상사태 등 불가항력적 사유로 인하여 프로젝트를 중단하게 된 경우는 예외로 합니다.
+③ 창작자가 위 제2항 제1문의 절차를 거치지 않고 임의로 프로젝트를 중단하는 경우 또는 창작자에 의해 프로젝트가 정상적으로 진행되지 못한 경우 회사는 그 창작자의 다음 프로젝트 생성 시 창작자에게 불이익을 가할 수 있으며, 회사의 요구가 있을 경우 창작자는 다음 프로젝트가 목표한 모집금액의 10% 혹은 100만원 중 낮은 금액을 회사에 지급해야 합니다. 다만, 천재지변 국가비상사태 등 불가항력적 사유로 인하여 프로젝트를 중단하게 된 경우는 예외로 합니다.
+④ 회사는 창작자가 등록한 프로젝트의 내용이 다음 각 항에 해당한다고 판단되는 경우 사전 통지 없이 프로젝트를 중단 처리할 수 있고 이에 대해 회사는 어떠한 책임도 지지 않습니다.
+회원이 제공한 회원정보 또는 프로젝트 정보가 허위임이 판명된 경우
+회사로부터 사전승인 받지 아니한 프로젝트 내용을 게시한 경우
+사전승인 받은 콘텐츠(내용, 선물)를 임의로 삭제한 경우
+회원이 프로젝트 정보를 불법적으로 변경 또는 조작한 경우
+프로젝트의 내용 및 관련되는 게시물이 본 약관 제14조 제2항 각호에 해당되는 경우
+기타 관련 법령 및 본 약관, 회사의 커뮤니티 운영원칙 등 운영원칙에 위반된다고 판단되는 경우
+            </textarea>
         </li>
         <li class="checkBox check01">
-          <ul class="clearfix">
-            <li class="allAgree">모두 동의</li>
-            <li class="checkBtn">
-              <input
-                type="checkbox"
-                name="check1"
-                id="chk"
-                class="chekALL chkid chkAll"
-              />
-            </li>
-          </ul>
+            <ul class="clearfix">
+                <li class="allAgree">모두 동의</li>
+                <li class="checkBtn">
+                    <input
+                            type="checkbox"
+                            name="check1"
+                            id="chk"
+                            class="chekALL chkid chkAll"
+                    />
+                </li>
+            </ul>
         </li>
-      </ul>
-      <ul class="footBtwrap clearfix">
+    </ul>
+    <ul class="footBtwrap clearfix">
         <li>
-          <button
-            type="button"
-            class="btn btn-danger"
-            onclick="startRegister()"
-          >
-            시작하기
-          </button>
+            <button
+                    type="button"
+                    class="btn btn-danger"
+                    onclick="startRegister()"
+            >
+                시작하기
+            </button>
         </li>
-      </ul>
-    </form>
-  </body>
-  <script>
+    </ul>
+</form>
+</body>
+<script>
     function logined() {
-      $("span.login_signup_name > a.admin-no").hide();
-      $("span.login_signup_name > a.admin-yes").show();
+        $("span.login_signup_name > a.admin-no").hide();
+        $("span.login_signup_name > a.admin-yes").show();
     }
 
     function logouted() {
-      $("span.login_signup_name > a.admin-no").show();
-      $("span.login_signup_name > a.admin-yes").hide();
+        $("span.login_signup_name > a.admin-no").show();
+        $("span.login_signup_name > a.admin-yes").hide();
     }
 
     function Logout() {
-      var backurl = "http://kkfd.eastus.cloudapp.azure.com:9999/kkfd/member/logout";
-      $.ajax({
-        url: backurl,
-        method: "get",
-        xhrFields: {
-          withCredentials: true,
-        },
-        success: function () {
-          alert("로그아웃 되었습니다.");
-          logouted();
-          document.location.href = "/";
-        },
-        error: function (xhr) {
-          alert("로그아웃 에러");
-        },
-      });
+        var backurl = "http://kkfd.eastus.cloudapp.azure.com:9999/kkfd/member/logout";
+        $.ajax({
+            url: backurl,
+            method: "get",
+            xhrFields: {
+                withCredentials: true,
+            },
+            success: function () {
+                alert("로그아웃 되었습니다.");
+                logouted();
+                document.location.href = "/";
+            },
+            error: function (xhr) {
+                alert("로그아웃 에러");
+            },
+        });
     }
 
     function checkLogin() {
-      var check;
-      var backurl = "http://kkfd.eastus.cloudapp.azure.com:9999/kkfd/member/logincheck";
-      $.ajax({
-        url: backurl,
-        method: "get",
-        dataType: "json",
-        async: false,
-        xhrFields: {
-          withCredentials: true,
-        },
-        statusCode: {
-          204: function () {
-            check = false;
-            logouted();
-          },
-        },
-        success: function (result) {
-          check = true;
-          logined();
-        },
-        error: function (result) {
-          check = false;
-          logouted();
-        },
-      });
-      return check;
+        var check;
+        var backurl = "http://kkfd.eastus.cloudapp.azure.com:9999/kkfd/member/logincheck";
+        $.ajax({
+            url: backurl,
+            method: "get",
+            dataType: "json",
+            async: false,
+            xhrFields: {
+                withCredentials: true,
+            },
+            statusCode: {
+                204: function () {
+                    check = false;
+                    logouted();
+                },
+            },
+            success: function (result) {
+                check = true;
+                logined();
+            },
+            error: function (result) {
+                check = false;
+                logouted();
+            },
+        });
+        return check;
     }
 
     function startRegister() {
-      var checked_All = $("input.chkid");
-      if ($("input.chkid").is(":checked")) {
-        if (checkLogin() === true) {
-          location.href = "/register/regist/basicInfo";
+        var checked_All = $("input.chkid");
+        if ($("input.chkid").is(":checked")) {
+            if (checkLogin() === true) {
+                location.href = "/register/regist/basicInfo";
+            } else {
+                alert("로그인해 주세요");
+                location.href = "/member/login";
+            }
         } else {
-          alert("로그인해 주세요");
-          location.href = "/member/login";
+            alert("프로젝트 약관에 동의해 주세요.");
         }
-      } else {
-        alert("프로젝트 약관에 동의해 주세요.");
-      }
     }
 
     function allCheck() {
-      $("[name=check2]").prop("checked", true); // 모두 체크하기
-      if ($("[name=check1]").prop("checked") === false) {
-        $("[name=check2]").prop("checked", false); // 모두 체크해제하기
-      }
+        $("[name=check2]").prop("checked", true); // 모두 체크하기
+        if ($("[name=check1]").prop("checked") === false) {
+            $("[name=check2]").prop("checked", false); // 모두 체크해제하기
+        }
     }
 
     function oneCheck(a) {
-      var allChkBox = $("[name=check1]");
-      var chkBoxName = $(a).attr("name");
+        var allChkBox = $("[name=check1]");
+        var chkBoxName = $(a).attr("name");
 
-      if ($(a).prop("checked")) {
-        checkBoxLength = $("[name=" + chkBoxName + "]").length;
-        //전체체크박스 수(모두동의하기 체크박스 제외)
-        checkedLength = $("[name=" + chkBoxName + "]:checked").length;
-        //체크된 체크박스 수
-        if (checkBoxLength == checkedLength) {
-          allChkBox.prop("checked", true);
-          //전체체크박스수 == 체크된 체크박스 수 같다면 모두체크
+        if ($(a).prop("checked")) {
+            checkBoxLength = $("[name=" + chkBoxName + "]").length;
+            //전체체크박스 수(모두동의하기 체크박스 제외)
+            checkedLength = $("[name=" + chkBoxName + "]:checked").length;
+            //체크된 체크박스 수
+            if (checkBoxLength == checkedLength) {
+                allChkBox.prop("checked", true);
+                //전체체크박스수 == 체크된 체크박스 수 같다면 모두체크
+            } else {
+                allChkBox.prop("checked", false);
+            }
         } else {
-          allChkBox.prop("checked", false);
+            allChkBox.prop("checked", false);
         }
-      } else {
-        allChkBox.prop("checked", false);
-      }
     }
 
     $(function () {
-      $("[name=check1]").click(function () {
-        allCheck(this);
-        //모두동의하기 체크박스 클릭시
-      });
-      $("[name=check2]").each(function () {
-        $(this).click(function () {
-          oneCheck(this);
+        $("[name=check1]").click(function () {
+            allCheck(this);
+            //모두동의하기 체크박스 클릭시
         });
-      });
+        $("[name=check2]").each(function () {
+            $(this).click(function () {
+                oneCheck(this);
+            });
+        });
     });
 
     logouted();
     checkLogin();
-  </script>
+</script>
 </html>

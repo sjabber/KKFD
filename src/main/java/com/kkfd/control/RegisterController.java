@@ -37,7 +37,7 @@ public class RegisterController {
 
     @GetMapping("/test")
     public void test() {
-        String omjRealPath = servletContext.getRealPath("img/profile/");
+        String omjRealPath = servletContext.getRealPath("img/project/1");
         File dir = new File(omjRealPath);
 
         System.out.println("==============================");

@@ -40,8 +40,14 @@ public class RegisterController {
         String omjRealPath = servletContext.getRealPath("img/profile/");
         File dir = new File(omjRealPath);
 
+        System.out.println("==============================");
+        System.out.println(omjRealPath);
+        System.out.println("=====");
+        System.out.println(dir);
         System.out.println("=====");
         File[] list = dir.listFiles();
+        System.out.println(list.length);
+
         for(File f:list ) {
             System.out.println(f.getName());
         }

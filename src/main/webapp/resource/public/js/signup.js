@@ -36,41 +36,61 @@ function DaumPostcode() {
 }
 */
 
-function removehypen (phone) {
-    var phoneDate = "";
-    var $phone = phone;
-    if ($phone.length < 12) {
-        //case : 02-xxx-xxxx
-        phoneDate += $phone.substr(0, 2);
-        phoneDate += $phone.substr(3, 3);
-        phoneDate += $phone.substr(7, 4);
-    } else if ($phone.substr(1, 1) === "2" && $phone.length === 12) {
-        //case : 02-xxxx-xxxx
-        phoneDate += $phone.substr(0, 2);
-        phoneDate += $phone.substr(3, 4);
-        phoneDate += $phone.substr(8, 4);
-    } else if ($phone.val().length === 12) {
-        phoneDate += $phone.substr(0, 3);
-        phoneDate += $phone.substr(4, 3);
-        phoneDate += $phone.substr(8, 4);
-    } else if ($phone.val().length === 13) {
-        phoneDate += $phone.substr(0, 3);
-        phoneDate += $phone.substr(4, 4);
-        phoneDate += $phone.substr(9, 4);
-    }
+$('button.btn_submit').click(function () {
 
-    return phoneDate;
-}
+    var phone = "";
+
+    if ($('#target_phone').val().length < 12) {
+        //case : 02-xxx-xxxx
+        phone += $('#target_phone').val().substr(0, 2);
+        phone += $('#target_phone').val().substr(3, 3);
+        phone += $('#target_phone').val().substr(7, 4);
+    } else if ($('#target_phone').val().substr(1, 1) === "2" && $('#target_phone').val().length === 12) {
+        //case : 02-xxxx-xxxx
+        phone += $('#target_phone').val().substr(0, 2);
+        phone += $('#target_phone').val().substr(3, 4);
+        phone += $('#target_phone').val().substr(8, 4);
+    } else if ($('#target_phone').val().length === 12) {
+        phone += $('#target_phone').val().substr(0, 3);
+        phone += $('#target_phone').val().substr(4, 3);
+        phone += $('#target_phone').val().substr(8, 4);
+    } else if ($('#target_phone').val().length === 13) {
+        phone += $('#target_phone').val().substr(0, 3);
+        phone += $('#target_phone').val().substr(4, 4);
+        phone += $('#target_phone').val().substr(9, 4);
+    }
+});
+
 
 function clientSignUp() {
     var backurl = 'http://kkfd.eastus.cloudapp.azure.com:9999/kkfd/member/signup';
     var name = $('div.join_form > ul > li > div.renew_input > input[name=mem_userName]').val();
-    var phone = $('div.join_form > ul > li > div.renew_input > input[name=mem_userPhone]').val();
+    var phones = $('div.join_form > ul > li > div.renew_input > input[name=mem_userPhone]').val();
     var email1 = $('div.join_form > ul > li > div.input_box_m > input[name=mem_userEmail]').val();
     var email2 = $('div.join_form > ul > li >  div.input_box_m > input[name=mem_userEmail2]').val();
 
-    alert('phone의 하이픈 안뺀 값 : ' + phone);
-    alert('phone의 하이픈 뺀 값 : ' + removehypen(phone));
+    var phone = "";
+
+    if (phones.length < 12) {
+        //case : 02-xxx-xxxx
+        phone += phones.substr(0, 2);
+        phone += phones.substr(3, 3);
+        phone += phones.substr(7, 4);
+    } else if (phones.substr(1, 1) === "2" && phones.length === 12) {
+        //case : 02-xxxx-xxxx
+        phone += phones.substr(0, 2);
+        phone += phones.substr(3, 4);
+        phone += phones.substr(8, 4);
+    } else if (phones.length === 12) {
+        phone += phones.substr(0, 3);
+        phone += phones.substr(4, 3);
+        phone += phones.substr(8, 4);
+    } else if (phones.length === 13) {
+        phone += phones.substr(0, 3);
+        phone += phones.substr(4, 4);
+        phone += phones.substr(9, 4);
+    }
+    
 
     if (idCheck === true && pwdEqualCheck === true && pwdRegexCheck === true && name !== "" && phone !== ""
         && email1 !== "" && email2 !== "") {

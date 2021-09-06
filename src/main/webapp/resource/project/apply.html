@@ -79,7 +79,10 @@
             $('div.category_nickname>span.category').html(categoryNoChange[projCategory]);
             $('div.category_nickname>span.cr_nn').html(crNn);
             $('div.proj_title').html(projTitle);
-            $('div.represent_img>img.thumbnail_img').attr("src", "/img/project/" + no + '/' + no + "_t.png");
+            $('div.represent_img>img.thumbnail_img').attr("src", "/img/project/" + no + '/' + no + "_t.png").attr(
+                "onerror",
+                "this.src='/img/project/" + no + "/" + no + "_t.jpg';"
+              );
             $('span.fm').html(numberWithCommas(sum) + "원");
             $('span.goal_pct').html(numberWithCommas(projGoals) + "%");
             $('div.box_row>span.fm').html(numberWithCommas(projFm) + "원");

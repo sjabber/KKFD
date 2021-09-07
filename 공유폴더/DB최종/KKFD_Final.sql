@@ -1262,3 +1262,23 @@ commit;
 DELETE FROM kk_project where (28 < proj_no) AND (proj_no < 51);
 DELETE FROM kk_funding where (28 < fun_proj) And (fun_proj < 51);
 DELETE FROM kk_bookmark where (28 < book_proj) AND (book_proj < 51);
+
+DELETE FROM kk_project where proj_no = 111;
+DELETE FROM KK_BOOKMARK WHERE BOOK_PROJ = 111;
+DELETE FROM KK_FUNDING WHERE FUN_PROJ = 77;
+
+UPDATE kk_project set proj_quantity = 499 where proj_no = 72;
+UPDATE kk_project set proj_goals = 499 where proj_no = 72;
+
+UPDATE kk_project set proj_quantity = 0 where proj_no = 66;
+UPDATE kk_project set proj_goals = 0 where proj_no = 66;
+UPDATE kk_project set proj_quantity = 0 where proj_no = 68;
+UPDATE kk_project set proj_goals = 0 where proj_no = 68;
+UPDATE kk_project set proj_quantity = 0 where proj_no = 71;
+UPDATE kk_project set proj_goals = 0 where proj_no = 71;
+UPDATE kk_project set proj_quantity = 0 where proj_no = 73;
+UPDATE kk_project set proj_goals = 0 where proj_no = 73;
+
+select * from kk_creator;
+
+delete from kk_creator where cr_id='sysy0907';
